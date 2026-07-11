@@ -44,7 +44,7 @@ The planned platform treats all user-authored projects, imported SPICE models, H
 
 Large results, malformed circuits, non-convergent models, and unbounded waveform retention are recognized resource-exhaustion risks in the source study. [Source PDF, pp. 12, 25-26, 36, 39-40]
 
-Detailed controls are specified in [Security, Privacy, and Sandboxing](docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md), [Local, Cloud, and Worker Architecture](docs/architecture/LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md), and [ADR-0008](docs/decisions/ADR-0008-external-engine-process-isolation.md).
+Detailed controls are specified in [Security, Privacy, and Sandboxing](docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md), [Local, Cloud, and Worker Architecture](docs/architecture/LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md), and [ADR-0008](docs/decisions/ADR-0008.md).
 
 ## Safe harbor
 

@@ -6,7 +6,7 @@ The platform is intentionally not a promise to simulate every transistor in a mo
 
 ## Product direction
 
-The first production target is the **Realistic Electronics MVP**: a visual schematic editor with voltage/current measurement, transient waveforms, non-ideal component behavior, heating, tolerance, leakage, failure indication, basic logic, reusable subcircuits, a WebAssembly simulation engine, and Worker-based execution. CPU, GPU, and full-computer capabilities follow only after this gate succeeds. [Source PDF, pp. 32-37]
+The first production target is the **Realistic Electronics MVP**: a visual schematic editor with voltage/current measurement, transient waveforms, non-ideal component behavior, heating, tolerance, leakage, failure indication, basic logic, reusable subcircuits, a WebAssembly simulation engine, and Worker-based execution. Released basic components also receive recognizable physical representations, and ICs use reusable, independently customizable package definitions with explicit pin mappings. CPU, GPU, and full-computer capabilities follow only after this gate succeeds. [Source basis: PDF, pp. 22-23, 26-27, 30-37; the representation and package contracts are repository decisions.]
 
 The long-term learning path is:
 
@@ -25,13 +25,14 @@ This staged path is the source study's recommended response to numerical scale, 
 - A deterministic, timestamped scheduler coordinates analog, digital, thermal, RTL, and external engines. [Source PDF, pp. 27-28, 40]
 - Apache-2.0 for the open-source core. GPL or mixed-license engines remain behind executable or process boundaries pending distribution review.
 
-These decisions are recorded in [ADR-0001 through ADR-0010](docs/decisions/ADR-0001-multi-fidelity-product-vision.md).
+These decisions are recorded in [ADR-0001 through ADR-0010](docs/decisions/ADR-0001.md).
 
 ## Documentation map
 
 Start with [docs/START_HERE.md](docs/START_HERE.md). The most important contracts are:
 
 - [Product requirements](docs/PRODUCT_REQUIREMENTS.md)
+- [Physical representation and IC package requirements](docs/PRODUCT_REQUIREMENTS.md#physical-representation-and-integrated-circuit-packages)
 - [System architecture](docs/architecture/SYSTEM_ARCHITECTURE.md)
 - [Component registry](docs/catalog/component-registry.yaml)
 - [Component model contract](docs/catalog/COMPONENT_MODEL_CONTRACT.md)

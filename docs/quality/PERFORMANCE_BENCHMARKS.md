@@ -24,6 +24,8 @@ Exact hardware, OS, browser, power mode, engine build, and dataset commit are st
 | Local autosave acknowledgment | <= 250 ms p95 |
 | Waveform interaction with 100,000 points | >= 45 FPS p95 |
 | Project archive round trip | <= 3 s and exact semantic equality |
+| Render 500 realistic physical component bodies | >= 45 FPS p95 during pan/zoom |
+| Toggle schematic/physical view for 500 components | <= 500 ms p95 without changing topology |
 
 ## Scale tiers
 
@@ -38,7 +40,7 @@ Scale figures are routing thresholds, not unconditional performance promises. Th
 
 ## Required benchmark suites
 
-- Editor: sparse, dense, hierarchical, long-wire, high-selection-count, and large-waveform scenes.
+- Editor: sparse, dense, hierarchical, long-wire, high-selection-count, realistic physical/package, dual-view switching, and large-waveform scenes.
 - Analog: linear sparse solve, stiff RC, oscillator startup, nonlinear diode/MOSFET sweep, and convergence failure.
 - Digital: low activity, high fan-out, clock-heavy, contention, and burst-event circuits.
 - Mixed signal: frequent analog/digital crossings and synchronized thermal steps.
@@ -59,4 +61,3 @@ Scale figures are routing thresholds, not unconditional performance promises. Th
 The latest two stable desktop releases of Chrome, Edge, Firefox, and Safari are supported. Both single-threaded and threaded WASM builds are tested. Lack of cross-origin isolation must select the single-threaded build with a visible capability status, not break the application.
 
 Mobile editing is outside the MVP. Mobile may open read-only shared projects and static result summaries after a separate release gate.
-

@@ -15,7 +15,7 @@ Each phase has four parallel tracks:
 
 **Outcome:** A decision-complete source of truth suitable for contributors and small AI agents.
 
-- Freeze product scope, architecture, public contracts, 162-family/502-variant registry, fidelity policy, accuracy targets, and open-source boundary.
+- Freeze product scope, architecture, public contracts, 162-family/502-variant registry, separate package registry, realistic physical-appearance contract, fidelity policy, accuracy targets, and open-source boundary.
 - Create requirement, epic, atomic task, validation, risk, dependency, and release traceability.
 - Exit only when the R0 checklist has no missing required document, family, variant, task, or traceability link.
 
@@ -25,7 +25,8 @@ Each phase has four parallel tracks:
 
 - Establish the open-source repository, quality gates, release/version policy, and documentation checks.
 - Build the React/TypeScript application shell, Canvas editor, selection, placement, rotation, deletion, undo/redo, keyboard navigation, and accessible property editing.
-- Implement original symbol definitions, wire/junction/net rules, hierarchy, and subcircuits.
+- Implement original schematic symbols, recognizable physical/breadboard component views, reusable IC packages, symbol-to-package pin mapping, wire/junction/net rules, hierarchy, and subcircuits.
+- Define axial/radial, LED, transistor/power and IC package primitives plus a constrained parametric custom-package designer.
 - Implement `.eesim` manifest, local IndexedDB storage, autosave, import/export, schema validation, and migrations.
 
 ## R2 - Linear analog foundation
@@ -76,7 +77,7 @@ Each phase has four parallel tracks:
 
 **Outcome:** All 157 production families and 494 production variants are covered.
 
-- Complete passives/magnetics, protection/isolation, power electronics, sensors, actuators, connectors/cables, instruments, digital logic, memory, MCU/FPGA peripherals, and RF/communications.
+- Complete passives/magnetics, protection/isolation, power electronics, sensors, actuators, connectors/cables, instruments, digital logic, memory, MCU/FPGA peripherals, and RF/communications, including their required physical/package representations.
 - Complete SPICE, Verilog/SystemVerilog, Verilog-A/AMS, IBIS, Touchstone, CSV/PWL, VCD/FST, and HEX/ELF format work scheduled for this phase.
 - Validate GRC-036 through GRC-040 plus every family-specific fixture.
 
@@ -129,4 +130,3 @@ Each phase has four parallel tracks:
 ## Completion definition
 
 The project is complete only when every non-deferred requirement is released, all 157 production families and 494 production variants meet their required fidelity, every release checklist passes, and every deferred item remains visible with a reason and entry criterion.
-

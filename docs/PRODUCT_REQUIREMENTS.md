@@ -4,7 +4,7 @@
 
 This document defines the stable product requirements for the documentation baseline. The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-- Requirement IDs `REQ-001` through `REQ-036` are permanent and must not be renumbered or reused.
+- Requirement IDs `REQ-001` through `REQ-038` are permanent and must not be renumbered or reused.
 - Each requirement includes its source basis. `[Source PDF, p. N]` refers to *Web-based Electronics and Computer Simulation Platform*, 44 pages.
 - Architecture details are delegated to linked contracts and accepted ADRs.
 - Verification links are maintained in [Requirements Traceability Matrix](quality/REQUIREMENTS_TRACEABILITY_MATRIX.md).
@@ -170,6 +170,16 @@ The public core MUST be Apache-2.0. Every external engine, model, dataset, and s
 ### REQ-036 - Realistic Electronics MVP release gate
 
 The first production gate MUST demonstrate the LED, RC charging, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half-adder, and full-adder circuits with the required measurement, waveform, non-ideal, thermal, failure, reusable-subcircuit, WebAssembly, and Worker behaviors. CPU, GPU, and complete-computer release work MUST remain gated until this acceptance suite passes. [Source PDF, p. 37]
+
+## Physical representation and integrated-circuit packages
+
+### REQ-037 - Realistic physical component appearance
+
+Every released basic component variant MUST provide an original, scalable physical representation that is recognizably similar to the corresponding real component while retaining an electrically unambiguous schematic symbol. The same component instance MUST be switchable between schematic and physical views without changing its stable identity, connectivity, parameters, model binding, or simulation state. Physical representations MUST show applicable body shape, lead or terminal geometry, polarity, pin-one orientation, value or color coding, and safety markings; they MUST provide zoom-level simplification, non-color-only identification, and a clear statement that visual realism does not establish dimensional, manufacturing, or simulation accuracy. [Source basis for drag-and-drop components, visual interaction, beginner components, and educational visualization: PDF, pp. 22-23, 30-31; the linked schematic/physical representation contract is a repository decision.]
+
+### REQ-038 - Reusable IC package library and parametric package designer
+
+Integrated-circuit function, schematic symbol, electrical model, physical package, and optional PCB-footprint metadata MUST be separate, versioned definitions joined by stable bindings. The platform MUST provide a reusable package library and a parametric package designer capable of defining a distinct visual package for each IC variant, including body dimensions and style, lead or pad geometry, pin count and numbering, pin names, spacing or pitch, orientation marker, notch or pin-one dot, exposed or thermal pad, labels, colors, and package-specific limits. A device MAY bind to several packages and a package MAY be reused by several devices; changing appearance MUST NOT silently alter electrical pin mapping. Package validation MUST diagnose duplicate, missing, out-of-range, or unmapped pins, and the initial package taxonomy MUST cover through-hole, gull-wing, leadless, grid-array, and transistor or power-package forms without claiming a PCB-layout editor. [Source basis for component records, custom models, hierarchy, and reusable component libraries: PDF, pp. 26-27, 29-32; the package-definition separation, parametric designer, and validation rules are repository decisions.]
 
 ## Change control
 

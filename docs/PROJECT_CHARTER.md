@@ -19,6 +19,8 @@ Users should be able to begin with a power source, resistor, LED, and ground; ob
 5. **Results must teach and explain.** Waveforms are complemented by voltage/current overlays, heat maps, logic state, timing, failure, memory, CPU, cache, and GPU views with honest educational labeling. [Source PDF, pp. 30-31]
 6. **Determinism and evidence beat appearance.** A realistic-looking result is not acceptable without deterministic scheduling, validated models, diagnostics, and reference comparisons. [Source PDF, pp. 27-29, 39-40]
 7. **Open core, explicit boundaries.** The core remains Apache-2.0; external engines and imported models retain their own licenses and run across documented isolation boundaries.
+8. **Physical appearance and electrical meaning stay linked but separate.** Basic components should be recognizable from real-world body shapes and markings, while schematic symbols remain electrically unambiguous and visual realism never substitutes for validated behavior. [Source basis: PDF, pp. 22-23, 30-31; representation separation is a repository decision.]
+9. **IC packages are reusable definitions.** Device function, symbol, electrical model, package appearance, and optional footprint metadata evolve independently through explicit pin mappings so each IC can have a distinct package design without duplicating its behavior. [Source basis: PDF, pp. 26-27, 31-32; package separation is a repository decision.]
 
 ## Initial success outcome
 
@@ -40,7 +42,7 @@ Their responsibilities and workflows are defined in [User Roles and Use Cases](U
 ## Governance and authority
 
 - Accepted ADRs lock architectural and policy decisions.
-- `REQ-001` through `REQ-036` are the stable product requirement identifiers.
+- `REQ-001` through `REQ-038` are the stable product requirement identifiers.
 - The component registry is the canonical catalog inventory.
 - Release gates decide whether capability may advance to the next stage.
 - Atomic tasks are the only executable planning units.

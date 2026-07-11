@@ -89,7 +89,17 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 | GRC-047 | Full-system boot | Functional ISA execution and checkpoint/restart | R12 |
 | GRC-048 | GPU compute kernel | Functional output, cycle counters and bandwidth limits | R13 |
 
+## Physical appearance and package fixtures
+
+| ID | Fixture | Required assertions | Primary release |
+|---|---|---|---|
+| GRC-049 | Axial resistor physical view | Body proportions, lead style, color-band value/tolerance mapping, rotation and scale | R1 |
+| GRC-050 | Capacitor, diode, LED and transistor physical set | Polarity/orientation marks, recognizable bodies, lead count and pin labels | R1 |
+| GRC-051 | DIP and SOIC IC packages | Pin-1 mark, counter-clockwise numbering, dimensions, label placement and symbol/package pin equivalence | R1 |
+| GRC-052 | QFP, QFN and BGA packages | Multi-side/grid numbering, thermal pad/ball-map semantics, orientation and zoom behavior | R7 |
+| GRC-053 | Custom package designer | Parameter constraints, deterministic geometry, reusable package ID and valid pin mapping | R7 |
+| GRC-054 | Dual schematic/physical project | Same component/model identity, nets and simulation results in both views | R1 |
+
 ## Expansion rule
 
-The 48 fixtures above are the minimum cross-platform suite. Every component family specification adds at least one family-specific fixture or explicitly links to an existing fixture with additional assertions. No family may use a generic fixture without naming the variant-specific expected result.
-
+The 54 fixtures above are the minimum cross-platform suite. Every component family specification adds at least one family-specific fixture or explicitly links to an existing fixture with additional assertions. No family may use a generic fixture without naming the variant-specific expected result.

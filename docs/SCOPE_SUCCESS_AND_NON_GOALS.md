@@ -9,6 +9,8 @@
 - Ideal, non-ideal, nonlinear, parasitic, tolerance, leakage, thermal, rating, and failure behavior at declared fidelity. [Source PDF, pp. 3, 5-9, 33]
 - Analog, event-driven digital, and mixed-signal co-simulation with deterministic boundary exchange. [Source PDF, pp. 14-15, 27-28, 33-34, 40]
 - A versioned catalog baseline of 162 families and 502 built-in variants or presets, plus safely imported vendor models. The counts are a repository baseline; the source brief supplies the required component domains and progression. [Source PDF, pp. 1-8, 13-15, 18-21, 30, 32-36]
+- Original, scalable physical representations for released basic components, linked to but distinct from their schematic symbols and electrical models. Recognizable body geometry, polarity, orientation, leads, and value markings are required where applicable. [Source basis: PDF, pp. 22-23, 30-31; physical-view specifics are a repository decision.]
+- A reusable, versioned IC package library and parametric package designer that separates package appearance and pin geometry from device function, model, symbol, and optional footprint metadata. [Source basis: PDF, pp. 26-27, 31-32; package-system specifics are a repository decision.]
 
 ### Staged computer systems
 
@@ -45,7 +47,7 @@ The exact ordering and entry/exit criteria are defined in [Master Roadmap](plann
 ### Documentation foundation
 
 - All planned canonical documents exist and cross-links resolve.
-- `REQ-001` through `REQ-036` trace to at least one ADR, epic, atomic task, test, and release gate as applicable.
+- `REQ-001` through `REQ-038` trace to at least one ADR, epic, atomic task, test, and release gate as applicable.
 - The registry validates at exactly 162 families and 502 variants, with no missing required contract field.
 - Every external dependency has source, version policy, license, isolation decision, and distribution status.
 
@@ -57,6 +59,8 @@ The exact ordering and entry/exit criteria are defined in [Master Roadmap](plann
 - Schematic pan and zoom target 50 FPS, and simulation causes no main-thread stall longer than 100 ms.
 - Latest two stable desktop Chrome, Edge, Firefox, and Safari releases pass the supported capability matrix.
 - WCAG 2.2 AA checks pass, including keyboard operation, focus behavior, non-color-only diagnostics, and accessible waveform summaries.
+- Every released basic component in the MVP has a validated schematic-to-physical representation binding; switching views preserves identity, pin connectivity, parameter values, and simulation state.
+- Every released MVP IC has a validated device-to-package pin map, and at least one through-hole and one surface-mount package demonstrate safe package reuse and per-device customization.
 
 The numeric performance and accessibility thresholds are repository acceptance decisions. They implement the source study's requirements for Worker execution, bounded waveform memory, culling/level of detail, and responsive Canvas/WebGL rendering. [Source PDF, pp. 23-25, 29-31, 39-40]
 
@@ -79,6 +83,8 @@ Detailed criteria and exceptions belong in [Numerical Accuracy Targets](quality/
 - Bundling every manufacturer SKU. The built-in promise is the canonical family and preset baseline; vendor parts enter through imported models.
 - Copying IEC 60617 artwork or redistributing proprietary models without permission.
 - Treating visual animation as measured physical truth when it is an explanatory abstraction. [Source PDF, p. 31]
+- Treating a realistic component body or IC package rendering as proof of electrical, dimensional, thermal, manufacturing, or regulatory accuracy.
+- Delivering a complete PCB layout, manufacturing, or mechanical-CAD suite as part of the initial package designer; optional footprint metadata is an interoperability contract, not a PCB-editor commitment.
 - Requiring cloud connectivity for supported small projects or basic editing. [Source PDF, pp. 25-26, 31-32]
 - Mobile schematic editing in the first MVP; mobile viewing MAY be added later.
 - Allowing arbitrary user HDL, model code, firmware, or external tools to execute without isolation and resource limits.

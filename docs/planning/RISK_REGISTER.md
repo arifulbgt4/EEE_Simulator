@@ -36,10 +36,12 @@ Likelihood and impact use `Low`, `Medium`, `High`, and `Critical`. Owners are wo
 | RSK-028 | RF/TCAD fidelity is overclaimed | Medium | High | Research-only classification, external datasets, visible limitations |
 | RSK-029 | Security headers break embedding/integrations | Medium | Medium | Document cross-origin policy, fallback build, integration tests |
 | RSK-030 | Team lacks multidisciplinary review capacity | High | High | Required reviewer roles, staged scope, explicit evidence and external review |
+| RSK-031 | Realistic-looking component uses the wrong electrical pin map | Medium | Critical | Separate package from model, stable pin IDs, symbol/package equivalence tests, golden fixtures |
+| RSK-032 | Photorealistic detail harms editor performance or accessibility | Medium | High | Parametric vector/Canvas bodies, level of detail, nonvisual labels, performance gates |
+| RSK-033 | Package drawing or vendor marking is copied without rights | Medium | High | Original parametric geometry, generic markings, provenance review and no copied protected artwork |
 
 ## Review cadence
 
 - Review at every release gate and after a security, accuracy, data-loss, or cost incident.
 - High/Critical risks must link to active tasks and test evidence.
 - A new component domain or external engine requires a new risk review before tasks become `Ready`.
-

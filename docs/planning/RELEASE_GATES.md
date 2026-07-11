@@ -17,7 +17,7 @@ No phase is considered released because its feature list appears complete. Relea
 | Gate | Required predecessor | Required evidence | Product milestone |
 |---|---|---|---|
 | G0 Documentation | None | Complete documents, registry, tasks, traceability | Implementation may begin |
-| G1 Editor foundation | G0 | Accessible editing and `.eesim` round trip | Internal alpha |
+| G1 Editor foundation | G0 | Accessible editing, dual schematic/physical views, reusable package pin mapping, and `.eesim` round trip | Internal alpha |
 | G2 Linear analog | G1 | GRC-001..010 applicable subset and performance | Engineering preview |
 | G3 Nonlinear analog | G2 | GRC-011..020 and convergence diagnostics | Closed alpha |
 | G4 Realism | G3 | GRC-021..026, thermal/failure evidence | Closed beta |
@@ -37,4 +37,3 @@ No phase is considered released because its feature list appears complete. Relea
 - Scope, public contracts, fidelity semantics, accuracy relaxation, license boundary, or compatibility changes require an ADR.
 - A removed requirement or component remains in history with replacement/deprecation rationale; it is never silently deleted from traceability.
 - Emergency security releases may bypass feature completeness but never security validation, authorization, or rollback evidence.
-

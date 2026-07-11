@@ -20,6 +20,7 @@
 - [ ] The baseline contains exactly 162 families and 502 variants.
 - [ ] Every variant has an atomic task card.
 - [ ] Every production family has a family specification and applicable model/validation tasks.
+- [ ] REQ-037/REQ-038 are traced to physical-appearance, package-registry, package-designer, pin-map and visual-regression tasks.
 - [ ] Requirement traceability has no orphan row.
 - [ ] All source-brief-derived requirements cite PDF pages.
 - [ ] No executable application code or runtime configuration is introduced by the documentation-only milestone.
@@ -28,6 +29,7 @@
 
 - [ ] Guest users can create, save offline, export, import, and reopen a project.
 - [ ] Core connectivity, sources, RLC, diode/LED, BJT, MOSFET, op-amp, basic gates, and instruments are released.
+- [ ] Basic components have recognizable physical views, and released ICs have reusable package definitions with verified symbol/package pin equivalence.
 - [ ] DC and transient analyses pass; AC, tolerance/Monte Carlo, power, temperature, leakage, and failure behavior meet the MVP scope.
 - [ ] LED, RC, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half adder, full adder, and thermal-failure demonstrations pass.
 - [ ] Invalid circuits produce actionable diagnostics.
@@ -70,4 +72,3 @@
 - [ ] Full-transistor claims are not made for modern CPUs, GPUs, or full memory systems.
 - [ ] Research model accuracy is bounded by a declared validation dataset and operating envelope.
 - [ ] HPC results retain configuration, workload, model, engine, checkpoint, and environment provenance.
-

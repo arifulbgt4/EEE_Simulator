@@ -8,6 +8,7 @@ Terms in this glossary are normative where they define project-specific semantic
 | AC analysis | Small-signal frequency-domain analysis of gain, phase, impedance, bandwidth, and resonance. [Source PDF, pp. 10-11] |
 | Accuracy envelope | The declared analyses, parameter range, reference, and maximum error within which a model is validated. |
 | Analog/digital adapter | A boundary model that maps analog voltage to digital logic using thresholds/hysteresis or maps a digital output to non-ideal analog drive. [Source PDF, p. 28] |
+| Basic component | A production component variant explicitly classified in the registry for the beginner or Realistic Electronics MVP experience. Every released basic component requires both an electrically clear schematic symbol and a recognizable physical representation. |
 | Canonical family | A stable component concept in the registry, independent of manufacturer SKU or visual preset. |
 | Checkpoint | A versioned, engine-specific state from which a supported simulation job may resume. [Source PDF, pp. 27-28, 36] |
 | Component variant | A built-in preset or structural variation of a canonical family with a stable ID and shared or specialized models. |
@@ -40,6 +41,9 @@ Terms in this glossary are normative where they define project-specific semantic
 | Monte Carlo analysis | Repeated seeded simulation using declared parameter distributions to estimate variation or yield. [Source PDF, p. 11] |
 | Non-ideal behavior | Real effects such as tolerance, leakage, parasitics, noise, saturation, breakdown, delay, and temperature dependence. [Source PDF, pp. 1, 3, 5-8] |
 | Offline-capable | Editing and supported local simulation that do not require network connectivity after the required client assets are available. [Source PDF, pp. 25-26, 31-32] |
+| Package definition | A reusable, versioned description of an IC or discrete-device body, leads or pads, pin numbering, pitch, orientation marks, labels, dimensions, and optional footprint metadata; it is separate from device function and electrical behavior. |
+| Package designer | The parametric editor for creating and validating package definitions and explicit device-to-package pin mappings. |
+| Physical representation | An original, scalable rendering that resembles a real component body and its observable markings while remaining separate from the schematic symbol, electrical model, and dimensional-accuracy claims. [Source basis: PDF, pp. 22-23, 30-31] |
 | Project revision | An immutable content identity against which a simulation job, comment, comparison, or release result is bound. |
 | Realistic Electronics MVP | The first production gate containing realistic browser electronics and ten canonical demonstrations; CPU and GPU stages remain blocked until it passes. [Source PDF, p. 37] |
 | Release gate | A mandatory, evidence-based entry/exit checkpoint that prevents later product stages from beginning prematurely. |
@@ -56,6 +60,7 @@ Terms in this glossary are normative where they define project-specific semantic
 
 - Use `component family` for the stable concept and `component variant` for a preset or variation.
 - Use `model` for an executable behavior and `symbol` for its schematic representation.
+- Use `physical representation` for the recognizable component body and `package definition` for reusable body and pin geometry; neither term means an electrical model.
 - Use `project revision` for immutable content and `workspace` for a mutable collaboration context.
 - Use `simulation result` only for a terminal, versioned output; in-progress data are events or waveform chunks.
 - Do not use `realistic` without naming the fidelity, accuracy envelope, and known limitations.

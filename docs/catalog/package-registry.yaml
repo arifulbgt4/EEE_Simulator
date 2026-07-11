@@ -1,0 +1,1847 @@
+schema_version: "1.0.0"
+registry_id: "eesim-package-registry"
+title: "Reusable physical package and appearance registry"
+scope: "Physical/package metadata is independent of electrical component family and variant counts."
+normative_units: "SI base units; all dimensions below are metres"
+package_count: 38
+requirements: ["REQ-037", "REQ-038"]
+identity_rules:
+  view_switch_preserves: ["instance_id", "connectivity", "parameters", "model_binding", "simulation_state", "selection", "undo_history"]
+  electrical_package_separation: true
+  footprint_metadata_optional: true
+  explicit_pin_map_required: true
+  physical_accuracy_claim: "illustrative unless dimensions and source are verified"
+designer_contract:
+  id: "package-designer-v1"
+  supports: ["body shape", "body dimensions", "lead form", "lead rows", "pitch", "pin count", "pin numbering", "pin names", "excluded pins", "thermal pads", "value, rating, and applicable safety markings", "materials and colors", "orientation", "custom pin map", "package-specific limits"]
+  validation: ["finite positive dimensions", "integer pin count in package range", "no duplicate or out-of-range package pins", "no missing or unmapped required logical pins", "all required logical pins mapped exactly once", "explicit NC and exposed pads", "visible pin-one or polarity cue", "collision-free lead placement", "creepage and footprint claims remain unverified unless separately sourced"]
+  output: "immutable PackageDefinition revision referenced by ComponentVariant or project-local custom package"
+marking_policy:
+  required_when_applicable: ["polarity", "pin one or A1", "value or device code", "voltage, current, temperature, and safety rating"]
+  protected_marks: "Do not reproduce vendor logos, certification marks, or trade dress without documented permission."
+  accessibility: "Every visual marking has a text equivalent and no meaning depends on color alone."
+packages:
+  - id: "pkg-virtual"
+    name: "Virtual or schematic-only"
+    classification: "virtual"
+    mounting: "none"
+    lead_form: "none"
+    lifecycle: "Template"
+    pin_count:
+      default: 0
+      minimum: 0
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0
+      body_width_m: 0
+      body_height_m: 0
+      pitch_m: 0
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "symbol-space"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "none"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-axial-2"
+    name: "Axial two-lead body"
+    classification: "passive"
+    mounting: "through-hole"
+    lead_form: "axial-wire"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 2
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0068
+      body_width_m: 0.0025
+      body_height_m: 0.0025
+      pitch_m: 0
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "cylinder"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "end-band-or-polarity"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-radial-2"
+    name: "Radial two-lead body"
+    classification: "passive"
+    mounting: "through-hole"
+    lead_form: "radial-wire"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 2
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.005
+      body_height_m: 0.007
+      pitch_m: 0.0025
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "disc-or-can"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "polarity-stripe-when-applicable"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-smd-chip"
+    name: "SMD chip passive"
+    classification: "passive"
+    mounting: "surface-mount"
+    lead_form: "metallized-end"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 2
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.002
+      body_width_m: 0.00125
+      body_height_m: 0.0008
+      pitch_m: 0
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-chip"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "value-code"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-smd-diode"
+    name: "SMD diode"
+    classification: "semiconductor"
+    mounting: "surface-mount"
+    lead_form: "metallized-end"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 2
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0035
+      body_width_m: 0.0018
+      body_height_m: 0.0014
+      pitch_m: 0
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "molded-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "cathode-band"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-led-round"
+    name: "Round through-hole LED"
+    classification: "optoelectronic"
+    mounting: "through-hole"
+    lead_form: "radial-wire"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 4
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.005
+      body_height_m: 0.0087
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "domed-round"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "flat-edge-and-short-cathode"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-led-rectangular"
+    name: "Rectangular through-hole LED"
+    classification: "optoelectronic"
+    mounting: "through-hole"
+    lead_form: "radial-wire"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 4
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.0025
+      body_height_m: 0.007
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-lens"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "cathode-notch"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-led-smd"
+    name: "SMD LED"
+    classification: "optoelectronic"
+    mounting: "surface-mount"
+    lead_form: "metallized-end"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 6
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0032
+      body_width_m: 0.0028
+      body_height_m: 0.0019
+      pitch_m: 0
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-lens"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "cathode-mark"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-sot-23"
+    name: "SOT-23 family"
+    classification: "transistor-small-outline"
+    mounting: "surface-mount"
+    lead_form: "gull-wing"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 8
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0029
+      body_width_m: 0.0013
+      body_height_m: 0.0011
+      pitch_m: 0.00095
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "molded-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-sot-89"
+    name: "SOT-89 family"
+    classification: "transistor-small-outline"
+    mounting: "surface-mount"
+    lead_form: "gull-wing-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 5
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0045
+      body_width_m: 0.0025
+      body_height_m: 0.0015
+      pitch_m: 0.0015
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "molded-tabbed"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-bevel"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-sot-223"
+    name: "SOT-223 family"
+    classification: "transistor-power"
+    mounting: "surface-mount"
+    lead_form: "gull-wing-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 4
+      minimum: 3
+      maximum: 6
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0065
+      body_width_m: 0.0035
+      body_height_m: 0.0018
+      pitch_m: 0.0023
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "molded-tabbed"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-bevel"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-to-92"
+    name: "TO-92 family"
+    classification: "transistor-through-hole"
+    mounting: "through-hole"
+    lead_form: "formed-wire"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 4
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.004
+      body_height_m: 0.005
+      pitch_m: 0.00127
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "semicylindrical"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "flat-face"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-to-126"
+    name: "TO-126 family"
+    classification: "transistor-power"
+    mounting: "through-hole"
+    lead_form: "flat-lead-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 3
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0108
+      body_width_m: 0.0078
+      body_height_m: 0.003
+      pitch_m: 0.00228
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "tabbed-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "front-face"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-to-220"
+    name: "TO-220 family"
+    classification: "transistor-power"
+    mounting: "through-hole"
+    lead_form: "flat-lead-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 7
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.010199999999999999
+      body_width_m: 0.0046
+      body_height_m: 0.0154
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "tabbed-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "front-face-and-tab"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-to-247"
+    name: "TO-247 family"
+    classification: "transistor-power"
+    mounting: "through-hole"
+    lead_form: "flat-lead-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 5
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0159
+      body_width_m: 0.005
+      body_height_m: 0.0208
+      pitch_m: 0.00545
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "large-tabbed-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "front-face-and-tab"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-dpak"
+    name: "DPAK or TO-252"
+    classification: "transistor-power"
+    mounting: "surface-mount"
+    lead_form: "gull-wing-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 5
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0066
+      body_width_m: 0.0060999999999999995
+      body_height_m: 0.0023
+      pitch_m: 0.00228
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "molded-tabbed"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-bevel"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-d2pak"
+    name: "D2PAK or TO-263"
+    classification: "transistor-power"
+    mounting: "surface-mount"
+    lead_form: "gull-wing-tab"
+    lifecycle: "Template"
+    pin_count:
+      default: 3
+      minimum: 3
+      maximum: 7
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.01
+      body_width_m: 0.009
+      body_height_m: 0.0045
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "large-molded-tabbed"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-bevel"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-power-module"
+    name: "Power module"
+    classification: "power-module"
+    mounting: "mixed"
+    lead_form: "screw-or-flat-lead"
+    lifecycle: "Template"
+    pin_count:
+      default: 6
+      minimum: 2
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.04
+      body_width_m: 0.03
+      body_height_m: 0.012
+      pitch_m: 0.00508
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-module"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "terminal-labels"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-dip"
+    name: "Dual in-line package"
+    classification: "ic-through-hole"
+    mounting: "through-hole"
+    lead_form: "dual-in-line"
+    lifecycle: "Template"
+    pin_count:
+      default: 14
+      minimum: 4
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0193
+      body_width_m: 0.0076
+      body_height_m: 0.0045
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-molded"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "notch-and-pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-sip"
+    name: "Single in-line package"
+    classification: "ic-through-hole"
+    mounting: "through-hole"
+    lead_form: "single-in-line"
+    lifecycle: "Template"
+    pin_count:
+      default: 9
+      minimum: 2
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.024
+      body_width_m: 0.003
+      body_height_m: 0.007
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "narrow-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-zip"
+    name: "Zig-zag in-line package"
+    classification: "ic-through-hole"
+    mounting: "through-hole"
+    lead_form: "zig-zag-inline"
+    lifecycle: "Template"
+    pin_count:
+      default: 20
+      minimum: 4
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.03
+      body_width_m: 0.004
+      body_height_m: 0.008
+      pitch_m: 0.00127
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "narrow-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-notch"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-soic"
+    name: "Small-outline IC"
+    classification: "ic-gull-wing"
+    mounting: "surface-mount"
+    lead_form: "dual-gull-wing"
+    lifecycle: "Template"
+    pin_count:
+      default: 8
+      minimum: 4
+      maximum: 56
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.0039
+      body_height_m: 0.0015
+      pitch_m: 0.00127
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-molded"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "notch-and-pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-ssop"
+    name: "Shrink small-outline package"
+    classification: "ic-gull-wing"
+    mounting: "surface-mount"
+    lead_form: "dual-gull-wing"
+    lifecycle: "Template"
+    pin_count:
+      default: 16
+      minimum: 8
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0062
+      body_width_m: 0.0053
+      body_height_m: 0.0018
+      pitch_m: 0.000635
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-molded"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-tssop"
+    name: "Thin shrink small-outline package"
+    classification: "ic-gull-wing"
+    mounting: "surface-mount"
+    lead_form: "dual-gull-wing"
+    lifecycle: "Template"
+    pin_count:
+      default: 16
+      minimum: 8
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.0044
+      body_height_m: 0.001
+      pitch_m: 0.00065
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "thin-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-qfp"
+    name: "Quad flat package"
+    classification: "ic-gull-wing"
+    mounting: "surface-mount"
+    lead_form: "quad-gull-wing"
+    lifecycle: "Template"
+    pin_count:
+      default: 64
+      minimum: 16
+      maximum: 256
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.012
+      body_width_m: 0.012
+      body_height_m: 0.0014
+      pitch_m: 0.0005
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "square-or-rectangular"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "chamfer-and-pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-qfn"
+    name: "Quad flat no-lead"
+    classification: "ic-leadless"
+    mounting: "surface-mount"
+    lead_form: "perimeter-land"
+    lifecycle: "Template"
+    pin_count:
+      default: 32
+      minimum: 6
+      maximum: 256
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.005
+      body_height_m: 0.0009
+      pitch_m: 0.0005
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "square-leadless"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "chamfer-and-pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-dfn"
+    name: "Dual flat no-lead"
+    classification: "ic-leadless"
+    mounting: "surface-mount"
+    lead_form: "dual-land"
+    lifecycle: "Template"
+    pin_count:
+      default: 8
+      minimum: 4
+      maximum: 64
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.003
+      body_width_m: 0.003
+      body_height_m: 0.0008
+      pitch_m: 0.0005
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "rectangular-leadless"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-plcc"
+    name: "Plastic leaded chip carrier"
+    classification: "ic-carrier"
+    mounting: "surface-mount-or-socket"
+    lead_form: "j-lead"
+    lifecycle: "Template"
+    pin_count:
+      default: 44
+      minimum: 20
+      maximum: 84
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.0166
+      body_width_m: 0.0166
+      body_height_m: 0.0046
+      pitch_m: 0.00127
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "square-j-leaded"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "corner-chamfer-and-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-lga"
+    name: "Land grid array"
+    classification: "ic-grid-array"
+    mounting: "surface-mount"
+    lead_form: "bottom-land-grid"
+    lifecycle: "Template"
+    pin_count:
+      default: 100
+      minimum: 4
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.014
+      body_width_m: 0.014
+      body_height_m: 0.001
+      pitch_m: 0.0008
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "square-grid-array"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "corner-triangle"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-bga"
+    name: "Ball grid array"
+    classification: "ic-grid-array"
+    mounting: "surface-mount"
+    lead_form: "solder-ball-grid"
+    lifecycle: "Template"
+    pin_count:
+      default: 256
+      minimum: 4
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.017
+      body_width_m: 0.017
+      body_height_m: 0.0014
+      pitch_m: 0.0008
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "square-grid-array"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "a1-corner-dot"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-csp"
+    name: "Chip-scale package"
+    classification: "ic-grid-array"
+    mounting: "surface-mount"
+    lead_form: "micro-ball-or-land-grid"
+    lifecycle: "Template"
+    pin_count:
+      default: 49
+      minimum: 4
+      maximum: 1600
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.004
+      body_width_m: 0.004
+      body_height_m: 0.0008
+      pitch_m: 0.0004
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "chip-scale-square"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "a1-corner-mark"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-sensor-module"
+    name: "Sensor module"
+    classification: "module"
+    mounting: "mixed"
+    lead_form: "header-or-castellated"
+    lifecycle: "Template"
+    pin_count:
+      default: 4
+      minimum: 2
+      maximum: 128
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.02
+      body_width_m: 0.015
+      body_height_m: 0.004
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "module-board"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-and-port-labels"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-rf-module"
+    name: "RF module"
+    classification: "module"
+    mounting: "surface-mount"
+    lead_form: "castellated-or-lga"
+    lifecycle: "Template"
+    pin_count:
+      default: 24
+      minimum: 2
+      maximum: 256
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.016
+      body_width_m: 0.012
+      body_height_m: 0.0025
+      pitch_m: 0.00127
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "shielded-module"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-and-antenna-zone"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-electromechanical"
+    name: "Electromechanical body"
+    classification: "electromechanical"
+    mounting: "panel-or-board"
+    lead_form: "wire-lug-or-header"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 2
+      maximum: 128
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.02
+      body_width_m: 0.02
+      body_height_m: 0.02
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "profile-specific"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "terminal-and-motion-cues"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-display-module"
+    name: "Display module"
+    classification: "display"
+    mounting: "panel-or-board"
+    lead_form: "header-or-flex"
+    lifecycle: "Template"
+    pin_count:
+      default: 8
+      minimum: 2
+      maximum: 256
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.03
+      body_width_m: 0.02
+      body_height_m: 0.003
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "display-window"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-and-viewing-direction"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-connector-parametric"
+    name: "Parametric connector"
+    classification: "connector"
+    mounting: "mixed"
+    lead_form: "contact-array"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 1
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.005
+      body_width_m: 0.005
+      body_height_m: 0.005
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "connector-profile"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "pin-one-and-keying"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-cable-parametric"
+    name: "Parametric cable"
+    classification: "cable"
+    mounting: "free"
+    lead_form: "wire-or-contact-array"
+    lifecycle: "Template"
+    pin_count:
+      default: 2
+      minimum: 1
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.1
+      body_width_m: 0.005
+      body_height_m: 0.005
+      pitch_m: 0.00254
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "swept-cable"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "end-one-and-conductor-index"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."
+  - id: "pkg-custom-parametric"
+    name: "Custom parametric package"
+    classification: "custom"
+    mounting: "mixed"
+    lead_form: "user-defined"
+    lifecycle: "Template"
+    pin_count:
+      default: 8
+      minimum: 1
+      maximum: 4096
+      rule: "parameterized count; selected count is immutable within a package revision"
+    dimensions:
+      body_length_m: 0.01
+      body_width_m: 0.01
+      body_height_m: 0.002
+      pitch_m: 0.001
+      tolerance_policy: "nominal generic template; manufacturer tolerances require sourced overrides"
+    appearance:
+      body_shape: "user-defined"
+      representation: "original scalable vector or procedural geometry"
+      required_details: ["body", "contacts or leads", "polarity or pin-one cue", "value or part marking area", "material regions"]
+      lod_levels: ["silhouette", "orientation-and-pins", "markings-and-material-detail"]
+      orientation_marking: "required-user-defined-orientation"
+      non_color_cues: true
+    markings:
+      fields: ["reference designator", "value or device code", "polarity or pin-one", "optional user label"]
+      text_policy: "scalable, legible, non-overlapping, user-editable; do not reproduce protected vendor marks"
+    materials:
+      body: "generic polymer, ceramic, metal, glass, board, or profile-specific material"
+      contacts: "generic plated copper alloy unless a sourced override is attached"
+      lens_or_window: "profile-specific and optional"
+      color_policy: "realistic defaults are hints; meaning is never color-only"
+    orientation:
+      origin: "package body center unless a sourced footprint defines another origin"
+      zero_rotation: "pin one or positive terminal at the documented canonical corner/end"
+      rotation_step_deg: 90
+      mirror_policy: "mirror changes view only; electrical pin map remains stable"
+    pin_mapping:
+      logical_to_package: "explicit map stored on the component instance or reusable device-package binding"
+      required_checks: ["unique physical pin", "logical-pin existence", "power and ground labels retained", "NC pins explicit", "thermal pad explicit", "orientation round-trip"]
+    footprint_relation:
+      footprint_id: null
+      authority: "optional metadata; visual package is not a manufacturable footprint by itself"
+    provenance:
+      geometry_source: "project-authored generic dimensional template"
+      license: "Apache-2.0 original metadata and artwork"
+      verification: "illustrative defaults; verify manufacturer package drawing before dimensional claims"
+    limitations: "This record does not certify PCB land pattern, enclosure fit, creepage, clearance, thermal resistance, or manufacturability."

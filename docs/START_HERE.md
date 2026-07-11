@@ -37,22 +37,22 @@ The delivery order follows the source study: establish the editor and basic solv
 
 | ADR | Locked decision |
 |---|---|
-| [ADR-0001](decisions/ADR-0001-multi-fidelity-product-vision.md) | Hierarchical multi-fidelity product vision |
-| [ADR-0002](decisions/ADR-0002-web-stack-and-rust-wasm-core.md) | Next.js/React, TypeScript, and Rust/WebAssembly core |
-| [ADR-0003](decisions/ADR-0003-local-first-and-cloud-workers.md) | Local-first execution and cloud worker split |
-| [ADR-0004](decisions/ADR-0004-eesim-project-format.md) | Versioned `.eesim` project format |
-| [ADR-0005](decisions/ADR-0005-fidelity-levels-f0-through-f5.md) | Fidelity levels F0 through F5 |
-| [ADR-0006](decisions/ADR-0006-deterministic-co-simulation-scheduler.md) | Deterministic timestamped scheduler |
-| [ADR-0007](decisions/ADR-0007-rendering-and-webgpu-policy.md) | Canvas/WebGL2 rendering and benchmark-gated WebGPU |
-| [ADR-0008](decisions/ADR-0008-external-engine-process-isolation.md) | External engine process isolation |
-| [ADR-0009](decisions/ADR-0009-crdt-collaboration.md) | CRDT-based collaboration |
-| [ADR-0010](decisions/ADR-0010-apache-2-open-source-core.md) | Apache-2.0 open-source core |
+| [ADR-0001](decisions/ADR-0001.md) | Hierarchical multi-fidelity product vision |
+| [ADR-0002](decisions/ADR-0002.md) | Next.js/React, TypeScript, and Rust/WebAssembly core |
+| [ADR-0003](decisions/ADR-0003.md) | Local-first execution and cloud worker split |
+| [ADR-0004](decisions/ADR-0004.md) | Versioned `.eesim` project format |
+| [ADR-0005](decisions/ADR-0005.md) | Fidelity levels F0 through F5 |
+| [ADR-0006](decisions/ADR-0006.md) | Deterministic timestamped scheduler |
+| [ADR-0007](decisions/ADR-0007.md) | Canvas/WebGL2 rendering and benchmark-gated WebGPU |
+| [ADR-0008](decisions/ADR-0008.md) | External engine process isolation |
+| [ADR-0009](decisions/ADR-0009.md) | CRDT-based collaboration |
+| [ADR-0010](decisions/ADR-0010.md) | Apache-2.0 open-source core |
 
 ## Contract index
 
 - Architecture: [system](architecture/SYSTEM_ARCHITECTURE.md), [simulation engine](architecture/SIMULATION_ENGINE.md), [co-simulation](architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md), [workers](architecture/LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md)
 - Public data: [project format](architecture/PROJECT_FILE_FORMAT.md), [API and worker protocols](architecture/API_AND_WORKER_PROTOCOLS.md), [storage and collaboration](architecture/STORAGE_VERSIONING_AND_COLLABORATION.md)
-- Components: [registry](catalog/component-registry.yaml), [coverage matrix](catalog/COMPONENT_COVERAGE_MATRIX.md), [model contract](catalog/COMPONENT_MODEL_CONTRACT.md), [import/export](catalog/MODEL_IMPORT_EXPORT_FORMATS.md)
+- Components: [registry](catalog/component-registry.yaml), [coverage matrix](catalog/COMPONENT_COVERAGE_MATRIX.md), [model contract](catalog/COMPONENT_MODEL_CONTRACT.md), [import/export](catalog/MODEL_IMPORT_EXPORT_FORMATS.md), and [physical representation and package requirements](PRODUCT_REQUIREMENTS.md#physical-representation-and-integrated-circuit-packages)
 - Quality: [validation](quality/TEST_AND_VALIDATION_STRATEGY.md), [golden circuits](quality/GOLDEN_REFERENCE_CIRCUITS.md), [accuracy](quality/NUMERICAL_ACCURACY_TARGETS.md), [performance](quality/PERFORMANCE_BENCHMARKS.md), [traceability](quality/REQUIREMENTS_TRACEABILITY_MATRIX.md)
 - Governance: [contributing](../CONTRIBUTING.md), [agent contract](../AGENTS.md), [security](../SECURITY.md), [license policy](architecture/OPEN_SOURCE_AND_THIRD_PARTY_LICENSES.md)
 

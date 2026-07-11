@@ -14,6 +14,7 @@ Primary use cases:
 
 - Build a guided battery/resistor/LED circuit and understand that a resistor dissipates energy rather than consuming current. [Source PDF, pp. 2, 4-5]
 - Observe voltage, current, power, temperature, waveform, and failure risk with explanations appropriate to the selected fidelity. [Source PDF, p. 2]
+- Switch between an electrically clear schematic symbol and a recognizable physical component view, using body shape, polarity, pin-one, and value markings to connect the diagram with real hardware. [Source basis: PDF, pp. 22-23, 30-31; dual representation is a repository decision.]
 - Progress from MOSFETs to inverters, gates, latches, registers, ALUs, and an educational CPU. [Source PDF, pp. 2, 13-18]
 - Inject an open, short, leakage, or thermal failure and compare the result. [Source PDF, pp. 8-9]
 - Use animated overlays without confusing current direction with literal electron motion. [Source PDF, pp. 30-31]
@@ -41,6 +42,7 @@ Primary use cases:
 - Run DC, transient, AC, noise, tolerance, Monte Carlo, and thermal analyses supported by selected models. [Source PDF, pp. 10-11]
 - Inspect ESR, ESL, leakage, parasitics, breakdown, saturation, delay, and temperature dependencies. [Source PDF, pp. 5-8]
 - Evaluate sensor, power-supply, motor-driver, MCU GPIO, PWM, ADC, and DAC interactions. [Source PDF, pp. 13, 28, 34]
+- Select the actual package variant of an IC, inspect its pin map and orientation, and confirm that package customization does not change the electrical model.
 - Import a model, inspect provenance and supported analyses, and compare it with a reference circuit.
 - Diagnose non-convergence and invalid circuits instead of receiving a plausible but unsupported result. [Source PDF, pp. 9-10, 39-40]
 
@@ -73,6 +75,7 @@ Primary use cases:
 Primary use cases:
 
 - Define pins, parameters, units, symbol, domains, supported analyses, fidelity tiers, temperature and failure behavior, import mappings, provenance, and limits.
+- Create or reuse a parametric IC package, bind device pins explicitly, and validate body geometry, numbering, orientation marks, exposed pads, labels, and package-specific limits. [Source basis for component records and reusable libraries: PDF, pp. 26-27, 31-32; package fields are a repository decision.]
 - Implement one model tier and concern at a time under an atomic task.
 - Compare the model against analytical results, source data, an accepted external engine, or a measured reference.
 - Publish accuracy limits and prevent release when the model has no golden validation. [Source PDF, p. 40]

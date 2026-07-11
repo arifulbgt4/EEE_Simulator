@@ -28,6 +28,7 @@ This document defines the evidence required before any component, solver, interf
 | Performance testing | Enforce budgets | Latency, throughput, memory, frame rate, and main-thread responsiveness |
 | Security testing | Contain untrusted content | Sandbox, quotas, parser abuse, authorization, and tenant isolation |
 | Accessibility testing | Make the laboratory operable without pointer/color dependence | Keyboard, focus, screen-reader, contrast, and nonvisual waveform summaries |
+| Visual/package conformance | Keep physical views recognizable and electrically correct | Golden renders, dimensions, orientation marks, color/label rules, and symbol-to-package pin equivalence |
 
 ## Component release workflow
 
@@ -86,6 +87,7 @@ Each test case records:
 
 - Numerical-model changes require electronics/numerical review and regenerated golden evidence.
 - Public contract changes require schema compatibility review and migration documentation.
+- Physical appearance or package changes require golden visual review at fixed scales and pin-map equivalence tests; appearance alone may never change electrical identity.
 - Third-party model updates require provenance and license review.
 - Security-boundary changes require threat-model and sandbox review.
 - Release candidates require the checklist in [Release Acceptance Checklists](./RELEASE_ACCEPTANCE_CHECKLISTS.md).
@@ -96,4 +98,3 @@ Each test case records:
 - Hybrid fidelity and abstraction switching: PDF pp. 13-28.
 - Performance and validation risks: PDF pp. 29-30 and 39-40.
 - Staged demonstrations and roadmap: PDF pp. 32-37.
-
