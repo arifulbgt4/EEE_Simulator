@@ -1,12 +1,12 @@
-# CMP-CONNECTIVITY-NET-LABEL-GLOBAL-LABEL-F0-CAT - Specify Global Label catalog preset
+# CMP-CONNECTIVITY-GROUND-DIGITAL-F0-CAT - Specify Digital catalog preset
 
 ## Metadata
 
 | Field | Value |
 |---|---|
 | Status | Planned |
-| Family | `fam-connectivity-net-label` - Net label |
-| Variant | `var-connectivity-net-label-global-label` - Global Label |
+| Family | `fam-connectivity-ground` - Ground reference |
+| Variant | `var-connectivity-ground-digital` - Digital |
 | Fidelity | F0 |
 | Concern | CAT |
 | Release | R1 |
@@ -15,11 +15,11 @@
 
 ## Single outcome
 
-Create the complete, immutable catalog definition for **Global Label** without implementing a different fidelity or sibling preset.
+Create the complete, immutable catalog definition for **Digital** without implementing a different fidelity or sibling preset.
 
 ## Context to read
 
-- [Family specification](../../catalog/families/fam-connectivity-net-label.md)
+- [Family specification](../../catalog/families/fam-connectivity-ground.md)
 - [Component registry](../../catalog/component-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
@@ -27,12 +27,12 @@ Create the complete, immutable catalog definition for **Global Label** without i
 
 ## Normative inputs
 
-- Aliases: Net label, Net Label, net-label
+- Aliases: Ground reference, Ground, ground
 - Pins: 1:NET(power)
 - Parameters: nominal [SI], temperature [K], tolerance [1]
 - Supported analyses: connectivity, erc
 - Package mappings: pkg-virtual
-- Golden references: GOLD-CON-NET_LABEL-NOMINAL, GOLD-CON-NET_LABEL-BOUNDARY, GOLD-CON-NET_LABEL-FAILURE
+- Golden references: GOLD-CON-GROUND-NOMINAL, GOLD-CON-GROUND-BOUNDARY, GOLD-CON-GROUND-FAILURE
 - Provenance basis: Project-defined canonical family; Source PDF, pp. 6-8
 
 ## Deliverables

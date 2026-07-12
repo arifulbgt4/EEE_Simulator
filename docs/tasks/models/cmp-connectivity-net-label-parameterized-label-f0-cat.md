@@ -1,4 +1,4 @@
-# CMP-CONNECTIVITY-NET-LABEL-LOCAL-LABEL-F0-CAT - Specify Local Label catalog preset
+# CMP-CONNECTIVITY-NET-LABEL-PARAMETERIZED-LABEL-F0-CAT - Specify Parameterized Local or Global Label catalog preset
 
 ## Metadata
 
@@ -6,7 +6,7 @@
 |---|---|
 | Status | Planned |
 | Family | `fam-connectivity-net-label` - Net label |
-| Variant | `var-connectivity-net-label-local-label` - Local Label |
+| Variant | `var-connectivity-net-label-parameterized-label` - Parameterized Local or Global Label |
 | Fidelity | F0 |
 | Concern | CAT |
 | Release | R1 |
@@ -15,7 +15,7 @@
 
 ## Single outcome
 
-Create the complete, immutable catalog definition for **Local Label** without implementing a different fidelity or sibling preset.
+Create the complete, immutable catalog definition for **Parameterized Local or Global Label** without implementing a different fidelity or sibling preset.
 
 ## Context to read
 

@@ -1,12 +1,12 @@
-# CMP-CONNECTIVITY-WIRE-SHIELDED-WIRE-F0-CAT - Specify Shielded Wire catalog preset
+# CMP-CONNECTIVITY-GROUND-POWER-F0-CAT - Specify Power catalog preset
 
 ## Metadata
 
 | Field | Value |
 |---|---|
 | Status | Planned |
-| Family | `fam-connectivity-wire` - Wire and conductor |
-| Variant | `var-connectivity-wire-shielded-wire` - Shielded Wire |
+| Family | `fam-connectivity-ground` - Ground reference |
+| Variant | `var-connectivity-ground-power` - Power |
 | Fidelity | F0 |
 | Concern | CAT |
 | Release | R1 |
@@ -15,11 +15,11 @@
 
 ## Single outcome
 
-Create the complete, immutable catalog definition for **Shielded Wire** without implementing a different fidelity or sibling preset.
+Create the complete, immutable catalog definition for **Power** without implementing a different fidelity or sibling preset.
 
 ## Context to read
 
-- [Family specification](../../catalog/families/fam-connectivity-wire.md)
+- [Family specification](../../catalog/families/fam-connectivity-ground.md)
 - [Component registry](../../catalog/component-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
@@ -27,12 +27,12 @@ Create the complete, immutable catalog definition for **Shielded Wire** without 
 
 ## Normative inputs
 
-- Aliases: Wire and conductor, Wire, wire
-- Pins: 1:P(passive), 2:N(passive)
+- Aliases: Ground reference, Ground, ground
+- Pins: 1:NET(power)
 - Parameters: nominal [SI], temperature [K], tolerance [1]
 - Supported analyses: connectivity, erc
 - Package mappings: pkg-virtual
-- Golden references: GOLD-CON-WIRE-NOMINAL, GOLD-CON-WIRE-BOUNDARY, GOLD-CON-WIRE-FAILURE
+- Golden references: GOLD-CON-GROUND-NOMINAL, GOLD-CON-GROUND-BOUNDARY, GOLD-CON-GROUND-FAILURE
 - Provenance basis: Project-defined canonical family; Source PDF, pp. 6-8
 
 ## Deliverables

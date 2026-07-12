@@ -16,15 +16,6 @@ tasks:
   tier: F0
   concern: CAT
   file: cmp-connectivity-wire-conductor-f0-cat.md
-- id: CMP-CONNECTIVITY-WIRE-SHIELDED-WIRE-F0-CAT
-  title: Specify Shielded Wire catalog preset
-  status: Planned
-  release: R1
-  family: fam-connectivity-wire
-  variant: var-connectivity-wire-shielded-wire
-  tier: F0
-  concern: CAT
-  file: cmp-connectivity-wire-shielded-wire-f0-cat.md
 - id: CMP-CONNECTIVITY-WIRE-SHARED-F0-SYM
   title: Create symbol and physical representation for Wire and conductor
   status: Planned
@@ -304,24 +295,15 @@ tasks:
   tier: F1
   concern: VALIDATION
   file: cmp-connectivity-bus-shared-f1-validation.md
-- id: CMP-CONNECTIVITY-NET-LABEL-LOCAL-LABEL-F0-CAT
-  title: Specify Local Label catalog preset
+- id: CMP-CONNECTIVITY-NET-LABEL-PARAMETERIZED-LABEL-F0-CAT
+  title: Specify Parameterized Local or Global Label catalog preset
   status: Planned
   release: R1
   family: fam-connectivity-net-label
-  variant: var-connectivity-net-label-local-label
+  variant: var-connectivity-net-label-parameterized-label
   tier: F0
   concern: CAT
-  file: cmp-connectivity-net-label-local-label-f0-cat.md
-- id: CMP-CONNECTIVITY-NET-LABEL-GLOBAL-LABEL-F0-CAT
-  title: Specify Global Label catalog preset
-  status: Planned
-  release: R1
-  family: fam-connectivity-net-label
-  variant: var-connectivity-net-label-global-label
-  tier: F0
-  concern: CAT
-  file: cmp-connectivity-net-label-global-label-f0-cat.md
+  file: cmp-connectivity-net-label-parameterized-label-f0-cat.md
 - id: CMP-CONNECTIVITY-NET-LABEL-SHARED-F0-SYM
   title: Create symbol and physical representation for Net label
   status: Planned
@@ -421,6 +403,24 @@ tasks:
   tier: F0
   concern: CAT
   file: cmp-connectivity-ground-analog-f0-cat.md
+- id: CMP-CONNECTIVITY-GROUND-DIGITAL-F0-CAT
+  title: Specify Digital catalog preset
+  status: Planned
+  release: R1
+  family: fam-connectivity-ground
+  variant: var-connectivity-ground-digital
+  tier: F0
+  concern: CAT
+  file: cmp-connectivity-ground-digital-f0-cat.md
+- id: CMP-CONNECTIVITY-GROUND-POWER-F0-CAT
+  title: Specify Power catalog preset
+  status: Planned
+  release: R1
+  family: fam-connectivity-ground
+  variant: var-connectivity-ground-power
+  tier: F0
+  concern: CAT
+  file: cmp-connectivity-ground-power-f0-cat.md
 - id: CMP-CONNECTIVITY-GROUND-SHARED-F0-SYM
   title: Create symbol and physical representation for Ground reference
   status: Planned
