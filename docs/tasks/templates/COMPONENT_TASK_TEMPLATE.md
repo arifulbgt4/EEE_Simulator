@@ -12,6 +12,14 @@
 | Release | `<R#>` |
 | Depends on | `<task IDs>` |
 
+## Exact prerequisites
+
+- Exact task and gate IDs only.
+
+## Public contracts
+
+- Exact named entities and contract documents.
+
 ## Single outcome
 
 Describe one component/model variant, one fidelity tier, and one concern. Do not combine independent model, symbol, import, validation, or documentation work.
@@ -23,9 +31,21 @@ Describe one component/model variant, one fidelity tier, and one concern. Do not
 - Equations, reference model/data, operating envelope, and license/provenance.
 - Linked golden fixture and numerical tolerance.
 
+## Equations and reference data
+
+- Exact equations, event rules, reference IDs/data, limits, and provenance.
+
+## Allowed files
+
+- Exact documentation paths; exact source/test paths are mandatory before `Ready`.
+
 ## Deliverables
 
 - Exact model/symbol/metadata/test/documentation artifact owned by this concern.
+
+## Documentation updates
+
+- Exact registry, coverage, traceability, test, risk, and release records.
 
 ## Edge and failure cases
 
@@ -33,6 +53,12 @@ Describe one component/model variant, one fidelity tier, and one concern. Do not
 - Unsupported analyses or fidelity requests.
 - Temperature, parasitic, breakdown, saturation, state, or timing behavior where applicable.
 - Structured diagnostic requirements.
+
+## Acceptance test IDs
+
+- `TEST-<TASK-ID>-NOMINAL`
+- `TEST-<TASK-ID>-BOUNDARY`
+- `TEST-<TASK-ID>-FAILURE`
 
 ## Acceptance
 

@@ -4,7 +4,7 @@
 - **Category:** Measurement instruments
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 20-23
 
 ## Purpose and scope
@@ -19,9 +19,9 @@ Search aliases are **Impedance and RF instrument**, **Impedance Rf Instrument**,
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-instruments-impedance-rf-instrument-lcr-meter` | Lcr Meter | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-instruments-impedance-rf-instrument-spectrum-analyzer` | Spectrum Analyzer | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-instruments-impedance-rf-instrument-network-analyzer` | Network Analyzer | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
+| `var-instruments-impedance-rf-instrument-lcr-meter` | Lcr Meter | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
+| `var-instruments-impedance-rf-instrument-spectrum-analyzer` | Spectrum Analyzer | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
+| `var-instruments-impedance-rf-instrument-network-analyzer` | Network Analyzer | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -36,21 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `CHANNEL+` | input | Positive measurement terminal | measurement, electrical |
-| `CHANNEL-` | input | Negative measurement terminal | measurement, electrical |
-| `COMMON` | reference | Optional common reference | measurement, electrical |
+| `CH+` | CHANNEL+ | input | measurement, electrical |
+| `CH-` | CHANNEL- | input | measurement, electrical |
+| `COM` | COMMON | reference | measurement, electrical |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `port_count` | Measurement port count | 1 | 2 | 1..64 |
+| `start_frequency` | Sweep start frequency | Hz | 10 | >=0 |
+| `stop_frequency` | Sweep stop frequency | Hz | 1e9 | >start_frequency |
+| `point_count` | Sweep point count | 1 | 201 | 2..1000000 |
+| `reference_impedance` | Port reference impedance | ohm | 50 | >0 |
+| `stimulus_level` | Stimulus RMS voltage | V | 0.1 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,19 @@ Supported fidelity tiers: **F0, F1, F2**. Supported analysis capabilities: **mea
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected LCR/spectrum/network measurement computes impedance, spectrum, or S-parameters over the declared stimulus, port, window, and calibration contract.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected LCR/spectrum/network measurement computes impedance, spectrum, or S-parameters over the declared stimulus, port, window, and calibration contract.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected LCR/spectrum/network measurement computes impedance, spectrum, or S-parameters over the declared stimulus, port, window, and calibration contract.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected LCR/spectrum/network measurement computes impedance, spectrum, or S-parameters over the declared stimulus, port, window, and calibration contract.
+- **Exact nominal vector:** pins `CH+:CHANNEL+`/input, `CH-:CHANNEL-`/input, `COM:COMMON`/reference; parameters `port_count`=2 1 (1..64); `start_frequency`=10 Hz (>=0); `stop_frequency`=1e9 Hz (>start_frequency); `point_count`=201 1 (2..1000000); `reference_impedance`=50 ohm (>0); `stimulus_level`=0.1 V (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-INS-IMPEDANCE_RF_INSTRUMENT-NOMINAL`, `GOLD-INS-IMPEDANCE_RF_INSTRUMENT-BOUNDARY`, `GOLD-INS-IMPEDANCE_RF_INSTRUMENT-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

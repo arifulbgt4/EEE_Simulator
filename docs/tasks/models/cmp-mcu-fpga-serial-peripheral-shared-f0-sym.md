@@ -11,35 +11,92 @@
 | Concern | SYM |
 | Release | R7 |
 | Requirements | REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Create original, electrically unambiguous schematic and recognizable physical representations for **Serial peripheral**, including accessible orientation/polarity cues and reusable package mapping.
 
+## Exact prerequisites
+
+- `CMP-MCU-FPGA-SERIAL-PERIPHERAL-UART-F0-CAT`
+- `CMP-MCU-FPGA-SERIAL-PERIPHERAL-I2C-F0-CAT`
+- `CMP-MCU-FPGA-SERIAL-PERIPHERAL-SPI-F0-CAT`
+- `CMP-MCU-FPGA-SERIAL-PERIPHERAL-CAN-F0-CAT`
+- `CMP-MCU-FPGA-SERIAL-PERIPHERAL-USB-F0-CAT`
+- `PLAT-SYM-007`
+- `CMP-PACKAGE-DIP-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-SOIC-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-TSSOP-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-QFP-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-QFN-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-BGA-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-CUSTOM-PARAMETRIC-TEMPLATE-F0-VALIDATION`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-mcu-fpga-serial-peripheral.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Serial peripheral, Serial Peripheral, serial-peripheral
-- Pins: IO:GPIO(bidirectional), RST:RESET(input), CLK:CLOCK(input), VDD:VDD(power), VSS:VSS(power)
-- Parameters: width [bit], propagation_delay [s], logic_family [1]
-- Supported analyses: digital-event, firmware, rtl, timing
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-MCU-SERIAL_PERIPHERAL-NOMINAL, GOLD-MCU-SERIAL_PERIPHERAL-BOUNDARY, GOLD-MCU-SERIAL_PERIPHERAL-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 25-30
+- Stable family: `fam-mcu-fpga-serial-peripheral` (Serial peripheral); task scope: shared family scope across `var-mcu-fpga-serial-peripheral-uart`, `var-mcu-fpga-serial-peripheral-i2c`, `var-mcu-fpga-serial-peripheral-spi`, `var-mcu-fpga-serial-peripheral-can`, `var-mcu-fpga-serial-peripheral-usb`; fidelity `F0`; concern `SYM`.
+- Exact pins: `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power).
+- Exact parameters/defaults/limits: `protocol`=uart 1 with limits uart, i2c, spi, can, or usb; `bit_rate`=115200 bit/s with limits >0; `data_width`=8 bit with limits 1..64; `buffer_depth`=16 1 with limits 0..1048576; `clock_polarity`=0 1 with limits 0 or 1; `clock_phase`=0 1 with limits 0 or 1.
+- Supported analyses: `digital-event`, `firmware`, `rtl`, `timing`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-MCU-SERIAL_PERIPHERAL-NOMINAL`, `GOLD-MCU-SERIAL_PERIPHERAL-BOUNDARY`, `GOLD-MCU-SERIAL_PERIPHERAL-FAILURE`.
+- Import mappings applicable to this family: `Verilog/SystemVerilog`, `VCD/FST`, `HEX/ELF`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 25-30; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Serial peripheral family-specific implementation reference](../../catalog/families/fam-mcu-fpga-serial-peripheral.md#family-specific-implementation-reference), registry row `fam-mcu-fpga-serial-peripheral`, and shared family scope across `var-mcu-fpga-serial-peripheral-uart`, `var-mcu-fpga-serial-peripheral-i2c`, `var-mcu-fpga-serial-peripheral-spi`, `var-mcu-fpga-serial-peripheral-can`, `var-mcu-fpga-serial-peripheral-usb`.
+- Exact pin vector: `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power).
+- Exact parameter vector: `protocol`=uart 1 with limits uart, i2c, spi, can, or usb; `bit_rate`=115200 bit/s with limits >0; `data_width`=8 bit with limits 1..64; `buffer_depth`=16 1 with limits 0..1048576; `clock_polarity`=0 1 with limits 0 or 1; `clock_phase`=0 1 with limits 0 or 1.
+- Declared analyses: `digital-event`, `firmware`, `rtl`, `timing`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- This symbol/appearance concern has no electrical equation. It preserves the exact pin vector and family rule while implementing original scalable geometry and explicit package maps.
+- Exact reference vectors: `GOLD-MCU-SERIAL_PERIPHERAL-NOMINAL`, `GOLD-MCU-SERIAL_PERIPHERAL-BOUNDARY`, `GOLD-MCU-SERIAL_PERIPHERAL-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-mcu-fpga-serial-peripheral-shared-f0-sym.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-mcu-fpga-serial-peripheral.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Original scalable schematic geometry and pin anchors.
-- Procedural/scalable physical body, leads, markings, materials, scale and level-of-detail rules.
-- Symbol-to-package pin equivalence evidence.
+- One original `sym-mcu-fpga-serial-peripheral` schematic definition with anchors for `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power).
+- One scalable physical-view binding for every declared package `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`, including non-color orientation/polarity/pin-one cues, accessible text, and logical-to-package pin-equivalence evidence.
+- Scope is limited to `CMP-MCU-FPGA-SERIAL-PERIPHERAL-SHARED-F0-SYM`: shared family scope across `var-mcu-fpga-serial-peripheral-uart`, `var-mcu-fpga-serial-peripheral-i2c`, `var-mcu-fpga-serial-peripheral-spi`, `var-mcu-fpga-serial-peripheral-can`, `var-mcu-fpga-serial-peripheral-usb`, fidelity `F0`, concern `SYM`, and requirements REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +109,25 @@ Create original, electrically unambiguous schematic and recognizable physical re
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `protocol`=uart 1 with limits uart, i2c, spi, can, or usb; `bit_rate`=115200 bit/s with limits >0; `data_width`=8 bit with limits 1..64; `buffer_depth`=16 1 with limits 0..1048576; `clock_polarity`=0 1 with limits 0 or 1; `clock_phase`=0 1 with limits 0 or 1.
+- Support only `digital-event`, `firmware`, `rtl`, `timing`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Rotation, mirroring, LOD, high contrast, and view switching must preserve pin identity and selection; invisible orientation/polarity or color-only meaning fails validation.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-MCU-FPGA-SERIAL-PERIPHERAL-SHARED-F0-SYM-NOMINAL`
+- `TEST-CMP-MCU-FPGA-SERIAL-PERIPHERAL-SHARED-F0-SYM-BOUNDARY`
+- `TEST-CMP-MCU-FPGA-SERIAL-PERIPHERAL-SHARED-F0-SYM-FAILURE`
 
 ## Acceptance
 
-1. All pins, polarity and orientation remain unambiguous without color alone.
-2. Schematic/physical view switching preserves identity, connectivity and simulation state.
-3. Golden visual renders and package equivalence checks pass.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-MCU-FPGA-SERIAL-PERIPHERAL-SHARED-F0-SYM` exists and is limited to shared family scope across `var-mcu-fpga-serial-peripheral-uart`, `var-mcu-fpga-serial-peripheral-i2c`, `var-mcu-fpga-serial-peripheral-spi`, `var-mcu-fpga-serial-peripheral-can`, `var-mcu-fpga-serial-peripheral-usb`, `F0`, and `SYM`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-mcu-fpga-serial-peripheral` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

@@ -8,13 +8,13 @@ Deliver the complete **Collaboration versioning and public library** capability 
 
 - Requirements: REQ-031
 - Release: R10
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-COL-001](../platform/plat-col-001-define-crdt-operation-schema.md) | Define CRDT operation schema | Gate G0 documentation baseline | Planned |
+| [PLAT-COL-001](../platform/plat-col-001-define-crdt-operation-schema.md) | Define CRDT operation schema | Gate G6 Electronics MVP | Planned |
 | [PLAT-COL-002](../platform/plat-col-002-implement-collaboration-websocket-protocol.md) | Implement collaboration WebSocket protocol | PLAT-COL-001 | Planned |
 | [PLAT-COL-003](../platform/plat-col-003-implement-presence-cursor-and-selection-state.md) | Implement presence cursor and selection state | PLAT-COL-002 | Planned |
 | [PLAT-COL-004](../platform/plat-col-004-implement-concurrent-schematic-edit-merge.md) | Implement concurrent schematic edit merge | PLAT-COL-003 | Planned |

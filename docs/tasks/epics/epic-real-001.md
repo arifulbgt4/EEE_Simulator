@@ -8,13 +8,13 @@ Deliver the complete **Non-ideal thermal and failure behavior** capability for r
 
 - Requirements: REQ-014, REQ-015, REQ-016
 - Release: R4
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G3 nonlinear analog.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-REAL-001](../platform/plat-real-001-define-tolerance-distribution-metadata.md) | Define tolerance distribution metadata | Gate G0 documentation baseline | Planned |
+| [PLAT-REAL-001](../platform/plat-real-001-define-tolerance-distribution-metadata.md) | Define tolerance distribution metadata | Gate G3 nonlinear analog | Planned |
 | [PLAT-REAL-002](../platform/plat-real-002-define-parasitic-r-c-and-l-composition.md) | Define parasitic R C and L composition | PLAT-REAL-001 | Planned |
 | [PLAT-REAL-003](../platform/plat-real-003-implement-leakage-behavior-contract.md) | Implement leakage behavior contract | PLAT-REAL-002 | Planned |
 | [PLAT-REAL-004](../platform/plat-real-004-implement-component-power-calculation.md) | Implement component power calculation | PLAT-REAL-003 | Planned |

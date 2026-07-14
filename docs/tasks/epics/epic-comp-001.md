@@ -8,13 +8,13 @@ Deliver the complete **Educational full computer** capability for release R9, in
 
 - Requirements: REQ-027
 - Release: R9
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G8 educational CPU.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-COMP-001](../platform/plat-comp-001-define-reference-8-bit-computer-architecture.md) | Define reference 8-bit computer architecture | Gate G0 documentation baseline | Planned |
+| [PLAT-COMP-001](../platform/plat-comp-001-define-reference-8-bit-computer-architecture.md) | Define reference 8-bit computer architecture | Gate G8 educational CPU | Planned |
 | [PLAT-COMP-002](../platform/plat-comp-002-define-optional-16-bit-computer-architecture.md) | Define optional 16-bit computer architecture | PLAT-COMP-001 | Planned |
 | [PLAT-COMP-003](../platform/plat-comp-003-implement-system-bus-and-address-map.md) | Implement system bus and address map | PLAT-COMP-002 | Planned |
 | [PLAT-COMP-004](../platform/plat-comp-004-implement-boot-rom-and-ram-integration.md) | Implement boot ROM and RAM integration | PLAT-COMP-003 | Planned |

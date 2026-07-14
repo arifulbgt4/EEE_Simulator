@@ -20,11 +20,11 @@ No phase is considered released because its feature list appears complete. Relea
 | G1 Editor foundation | G0 | Accessible editing, dual schematic/physical views, reusable package pin mapping, and `.eesim` round trip | Internal alpha |
 | G2 Linear analog | G1 | GRC-001..010 applicable subset and performance | Engineering preview |
 | G3 Nonlinear analog | G2 | GRC-011..020 and convergence diagnostics | Closed alpha |
-| G4 Realism | G3 | GRC-021..026, thermal/failure evidence | Closed beta |
-| G5 Digital/mixed | G4 | GRC-027..035 and deterministic scheduler | Public beta candidate |
+| G4 Realism | G3 | GRC-021, GRC-022, GRC-026, and thermal/failure evidence | Closed beta |
+| G5 Digital/mixed | G4 | GRC-027..034 and deterministic scheduler | Public beta candidate |
 | G6 Electronics MVP | G5 | Full MVP checklist | First production release |
-| G7 Complete catalog | G6 | 157/494 production coverage | Electronics 1.0 |
-| G8 Educational CPU | G7 | GRC-041..043 and ISA suite | Computer education preview |
+| G7 Complete catalog | G6 | GRC-023..025, GRC-036..040, family fixtures, and 157/494 production coverage | Electronics 1.0 |
+| G8 Educational CPU | G7 | GRC-035, GRC-041..043, and ISA suite | Computer education preview |
 | G9 RTL/full computer | G8 | GRC-044..045 and sandbox evidence | Computer education 1.0 |
 | G10 Cloud/collaboration | G6 | Security, tenancy, operations and recovery | Hosted service GA |
 | G11 HPC | G10 | Isolation, reproducibility, license review | Research compute GA |

@@ -7,7 +7,7 @@
 | Status | Planned |
 | Epic | [EPIC-QA-001](../epics/epic-qa-001.md) |
 | Release | R0 |
-| Requirements | REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038 |
+| Requirements | REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038 |
 | Concern | `create_accessibility_review_suite` |
 | Effort | S |
 | Depends on | PLAT-QA-009 |
@@ -23,16 +23,58 @@ Create accessibility review suite. Deliver one reviewable outcome that satisfies
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-QA-009`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/quality/TEST_AND_VALIDATION_STRATEGY.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/quality/TEST_AND_VALIDATION_STRATEGY.md` clauses governing **accessibility review suite**, together with every acceptance obligation in REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038.
+- Prerequisite input: the completion evidence for `PLAT-QA-009`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_QA_010_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `create_accessibility_review_suite`: stable requirement, task, test and gate IDs, registry records, fixtures, expected envelopes, evidence manifests, and release policies; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-QA-010.
+- Evidence input: `TEST-PLAT-QA-010-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-QA-010-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-qa-010-create-accessibility-review-suite.md`
+- `docs/tasks/epics/epic-qa-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/quality/TEST_AND_VALIDATION_STRATEGY.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+This documentation-only R0 task may be promoted to `Ready` after its exact predecessor is `Done`, using the paths above as its complete documentation/evidence allowlist; no application source or runtime-test path and no completed `PLAT-GOV-001` are required before G0. It does not authorize application code, package configuration, migrations, or deployment assets.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/quality/TEST_AND_VALIDATION_STRATEGY.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-QA-010-ACCEPTANCE`
+- `TEST-PLAT-QA-010-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Create accessibility review suite**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- A versioned test, corpus, or workflow artifact named `create_accessibility_review_suite` for **accessibility review suite**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-QA-010` fixture loads every declared case and resolves it to an explicit expected result, limit, and evidence owner; the published outcome is machine-auditable test evidence and release disposition.
+- Failure outcome: `PLAT_QA_010_CASE_INVALID` and `PLAT_QA_010_EVIDENCE_INCOMPLETE` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-QA-010-ACCEPTANCE` and `TEST-PLAT-QA-010-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-qa-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/quality/TEST_AND_VALIDATION_STRATEGY.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Create accessibility review suite. Deliver one reviewable outcome that satisfies
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_QA_010_NOMINAL`: processing a minimal valid **accessibility review suite** fixture loads every declared case and resolves it to an explicit expected result, limit, and evidence owner; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_QA_010_BOUNDARY`: the **accessibility review suite** fixture matrix covers empty corpus, first/last registry entry, tolerance edge, expected failure, deferred model, and release-blocking severity boundary; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_QA_010_CASE_INVALID`: reject a duplicate or orphan ID, missing expected result, stale digest, undocumented tolerance, absent provenance, or ambiguous pass criterion before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_QA_010_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-QA-009`; no implicit migration or downgrade is allowed.
+- `PLAT_QA_010_EVIDENCE_INCOMPLETE`: contain false pass, untested released model, traceability gap, reference-engine divergence, evidence tampering, or incomplete release bundle with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-QA-010-ACCEPTANCE` proves that **Create accessibility review suite** loads every declared case and resolves it to an explicit expected result, limit, and evidence owner, produces machine-auditable test evidence and release disposition, and satisfies every metadata requirement: REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038.
+2. `TEST-PLAT-QA-010-FAILURE` executes `PLAT_QA_010_CASE_INVALID`, `PLAT_QA_010_PREREQUISITE_MISMATCH`, and `PLAT_QA_010_EVIDENCE_INCOMPLETE` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/quality/TEST_AND_VALIDATION_STRATEGY.md`, prerequisite `PLAT-QA-009`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-QA-010 card, its epic, test registry entries `TEST-PLAT-QA-010-ACCEPTANCE` and `TEST-PLAT-QA-010-FAILURE`, requirement links REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

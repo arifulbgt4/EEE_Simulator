@@ -8,7 +8,7 @@ Deliver the complete **Application shell and user modes** capability for release
 
 - Requirements: REQ-003, REQ-034
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

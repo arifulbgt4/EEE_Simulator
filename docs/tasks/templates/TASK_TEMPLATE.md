@@ -22,13 +22,33 @@ One sentence describing the observable outcome. The task must not contain more t
 - No more than five canonical documents or interfaces.
 - Include exact sections, component IDs, or contract names.
 
+## Exact prerequisites
+
+- Exact task or predecessor gate IDs.
+
+## Public contracts
+
+- Exact named entities and contract documents.
+
 ## Inputs
 
 - Exact existing artifacts, reference fixtures, equations, schemas, and decisions.
 
+## Allowed files
+
+- Exact documentation paths and, before `Ready`, exact source/test paths.
+
+## Reference data and test IDs
+
+- Exact reference IDs and `TEST-<TASK-ID>-*` identifiers.
+
 ## Deliverables
 
 - Exact files/interfaces/behaviors to add or change.
+
+## Documentation updates
+
+- Exact task, architecture, traceability, test, risk, and release records.
 
 ## Allowed scope
 

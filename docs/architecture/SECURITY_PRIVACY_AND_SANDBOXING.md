@@ -5,7 +5,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [API and Worker Protoc
 
 ## 1. Security objectives
 
-The platform accepts schematics, archives, custom component/package definitions, SPICE models, HDL, firmware, media, and external-engine inputs. All are untrusted even when uploaded by an authenticated user. The source brief requires browser and server execution across resource-intensive engines and identifies browser memory, numerical failure, UI performance, and excessive workloads as core risks. [Source brief, pp. 25-26, 36, 39-40]
+The platform accepts schematics, archives, custom component/package definitions, SPICE models, HDL, firmware, media, and external-engine inputs. All are untrusted even when uploaded by an authenticated user. The source PDF requires browser and server execution across resource-intensive engines and identifies browser memory, numerical failure, UI performance, and excessive workloads as core risks. [Source PDF, pp. 25-26, 36, 39-40]
 
 Security objectives are:
 
@@ -215,4 +215,4 @@ Incident response MUST support:
 
 ## 16. Source record
 
-The browser/server split, external engines, distributed workers, and resource-heavy workloads are grounded in the source brief, pp. 23-26 and 36. Browser-memory, convergence, synchronization, model-accuracy, and UI risks are grounded in pp. 39-40. Exact sandbox, authorization, privacy, package-safety, supply-chain, and incident controls are repository security decisions supporting REQ-032, REQ-033, REQ-035, REQ-037, and REQ-038.
+The browser/server split, external engines, distributed Workers, and resource-heavy workloads are grounded in the feasibility source. [Source PDF, pp. 23-26, 36] Browser-memory, convergence, synchronization, model-accuracy, and UI controls address its recorded risks. [Source PDF, pp. 39-40] Exact sandbox, authorization, privacy, package-safety, supply-chain, and incident controls are repository security decisions supporting REQ-032, REQ-033, REQ-035, REQ-037, and REQ-038.

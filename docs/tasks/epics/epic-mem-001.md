@@ -8,13 +8,13 @@ Deliver the complete **Memory hierarchy** capability for release R8, including n
 
 - Requirements: REQ-025
 - Release: R8
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G7 complete catalog.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-MEM-001](../platform/plat-mem-001-define-bit-cell-and-array-abstraction-levels.md) | Define bit-cell and array abstraction levels | Gate G0 documentation baseline | Planned |
+| [PLAT-MEM-001](../platform/plat-mem-001-define-bit-cell-and-array-abstraction-levels.md) | Define bit-cell and array abstraction levels | Gate G7 complete catalog | Planned |
 | [PLAT-MEM-002](../platform/plat-mem-002-implement-latch-and-register-file-memory.md) | Implement latch and register-file memory | PLAT-MEM-001 | Planned |
 | [PLAT-MEM-003](../platform/plat-mem-003-implement-rom-prom-eprom-eeprom-and-flash-behavior.md) | Implement ROM PROM EPROM EEPROM and Flash behavior | PLAT-MEM-002 | Planned |
 | [PLAT-MEM-004](../platform/plat-mem-004-implement-sram-behavioral-and-timing-models.md) | Implement SRAM behavioral and timing models | PLAT-MEM-003 | Planned |

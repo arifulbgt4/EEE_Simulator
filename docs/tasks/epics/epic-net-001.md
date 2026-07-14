@@ -8,13 +8,13 @@ Deliver the complete **Units topology and netlist** capability for release R2, i
 
 - Requirements: REQ-008, REQ-023
 - Release: R2
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G1 editor foundation.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-NET-001](../platform/plat-net-001-define-si-quantity-and-unit-parser.md) | Define SI quantity and unit parser | Gate G0 documentation baseline | Planned |
+| [PLAT-NET-001](../platform/plat-net-001-define-si-quantity-and-unit-parser.md) | Define SI quantity and unit parser | Gate G1 editor foundation | Planned |
 | [PLAT-NET-002](../platform/plat-net-002-define-parameter-dimensional-validation.md) | Define parameter dimensional validation | PLAT-NET-001 | Planned |
 | [PLAT-NET-003](../platform/plat-net-003-implement-electrical-net-extraction.md) | Implement electrical net extraction | PLAT-NET-002 | Planned |
 | [PLAT-NET-004](../platform/plat-net-004-implement-branch-and-reference-node-identification.md) | Implement branch and reference-node identification | PLAT-NET-003 | Planned |

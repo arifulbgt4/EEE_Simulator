@@ -5,7 +5,7 @@ Related: [Project File Format](./PROJECT_FILE_FORMAT.md), [Local, Cloud, and Wor
 
 ## 1. Purpose
 
-This document defines local persistence, cloud ownership, immutable versions, draft collaboration, offline synchronization, reusable libraries, retention, and conflict behavior. The source brief explicitly calls for browser IndexedDB, PostgreSQL, object storage, project versioning, team collaboration, public sharing, reusable component libraries, comments, documentation, and version history. [Source brief, pp. 31-32, 41-42]
+This document defines local persistence, cloud ownership, immutable versions, draft collaboration, offline synchronization, reusable libraries, retention, and conflict behavior. The source PDF explicitly calls for browser IndexedDB, PostgreSQL, object storage, project versioning, team collaboration, public sharing, reusable component libraries, comments, documentation, and version history. [Source PDF, pp. 31-32, 41-42]
 
 ## 2. Storage ownership
 
@@ -233,5 +233,5 @@ Consumers pin exact versions/digests. Deprecation never removes an asset from an
 
 ## 16. Source record
 
-Project contents, IndexedDB, cloud databases/object storage, versioning, collaboration, public sharing, reusable libraries, comments, and documentation are required or proposed by the source brief. [Source brief, pp. 31-32, 41-42] CRDT selection, immutable version mechanics, exact conflict policy, package-version independence, optional footprint boundary, and retention workflow are repository decisions supporting REQ-006, REQ-031, REQ-037, and REQ-038.
+Project contents, IndexedDB, cloud databases/object storage, versioning, collaboration, public sharing, reusable libraries, comments, and documentation are required or proposed by the source PDF. [Source PDF, pp. 31-32, 41-42] CRDT selection, immutable version mechanics, exact conflict policy, package-version independence, optional footprint boundary, and retention workflow are repository decisions supporting REQ-006, REQ-031, REQ-037, and REQ-038.
 

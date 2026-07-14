@@ -36,21 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `RF_IN` | passive | Input port | rf, electrical, communications |
-| `RF_OUT` | passive | Output port | rf, electrical, communications |
-| `GROUND` | reference | Reference plane | rf, electrical, communications |
+| `IN` | RF_IN | passive | rf, electrical, communications |
+| `OUT` | RF_OUT | passive | rf, electrical, communications |
+| `GND` | GROUND | reference | rf, electrical, communications |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `reference_impedance` | ohm | 50 | > 0 |
-| `center_frequency` | Hz | 1000000 | >= 0 |
-| `bandwidth` | Hz | 100000 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `port_count` | RF signal port count | 1 | 2 | 2..64 |
+| `gain` | Power/voltage gain ratio | 1 | 10 | >=0 |
+| `noise_figure` | Noise factor | 1 | 2 | >=1 |
+| `compression_power` | One-decibel compression power | W | 1 | >0 |
+| `isolation` | Off-path isolation ratio | 1 | 1e-3 | 0..1 |
+| `center_frequency` | Center frequency | Hz | 1e9 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,19 @@ Supported fidelity tiers: **F1, F2, F3**. Supported analysis capabilities: **AC,
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected state maps ports through declared gain/loss, match, noise, compression, isolation, and switching behavior over frequency and bias.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected state maps ports through declared gain/loss, match, noise, compression, isolation, and switching behavior over frequency and bias.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected state maps ports through declared gain/loss, match, noise, compression, isolation, and switching behavior over frequency and bias.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected state maps ports through declared gain/loss, match, noise, compression, isolation, and switching behavior over frequency and bias.
+- **Exact nominal vector:** pins `IN:RF_IN`/passive, `OUT:RF_OUT`/passive, `GND:GROUND`/reference; parameters `port_count`=2 1 (2..64); `gain`=10 1 (>=0); `noise_figure`=2 1 (>=1); `compression_power`=1 W (>0); `isolation`=1e-3 1 (0..1); `center_frequency`=1e9 Hz (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-RFC-RF_SWITCH_AMPLIFIER-NOMINAL`, `GOLD-RFC-RF_SWITCH_AMPLIFIER-BOUNDARY`, `GOLD-RFC-RF_SWITCH_AMPLIFIER-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

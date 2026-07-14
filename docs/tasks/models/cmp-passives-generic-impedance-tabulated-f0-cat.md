@@ -11,35 +11,81 @@
 | Concern | CAT |
 | Release | R2 |
 | Requirements | REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Create the complete, immutable catalog definition for **Tabulated** without implementing a different fidelity or sibling preset.
 
+## Exact prerequisites
+
+- `PLAT-GOV-001`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-passives-generic-impedance.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Generic impedance, Generic Impedance, generic-impedance
-- Pins: 1:P(passive), 2:N(passive)
-- Parameters: nominal [SI], tolerance [1], temperature_coefficient [1/K]
-- Supported analyses: dc, ac, transient, noise, monte-carlo
-- Package mappings: pkg-axial-2, pkg-smd-chip, pkg-radial-2
-- Golden references: GOLD-PAS-GENERIC_IMPEDANCE-NOMINAL, GOLD-PAS-GENERIC_IMPEDANCE-BOUNDARY, GOLD-PAS-GENERIC_IMPEDANCE-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13
+- Stable family: `fam-passives-generic-impedance` (Generic impedance); task scope: variant `var-passives-generic-impedance-tabulated` (Tabulated); fidelity `F0`; concern `CAT`.
+- Exact pins: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameters/defaults/limits: `representation`=series-rlc 1 with limits series-rlc, parallel-rlc, laplace, or table; `resistance`=1000 ohm with limits >=0; `inductance`=0 H with limits >=0; `capacitance`=0 F with limits >=0; `reference_frequency`=1000 Hz with limits >=0.
+- Supported analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`.
+- Valid package mappings: `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- Golden references: `GOLD-PAS-GENERIC_IMPEDANCE-NOMINAL`, `GOLD-PAS-GENERIC_IMPEDANCE-BOUNDARY`, `GOLD-PAS-GENERIC_IMPEDANCE-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+- Selected variant tiers: `F0`, `F1`, `F2`, `F3`, `F4`; release target: Post-MVP catalog; package references: `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Generic impedance family-specific implementation reference](../../catalog/families/fam-passives-generic-impedance.md#family-specific-implementation-reference), registry row `fam-passives-generic-impedance`, and variant `var-passives-generic-impedance-tabulated` (Tabulated).
+- Exact pin vector: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameter vector: `representation`=series-rlc 1 with limits series-rlc, parallel-rlc, laplace, or table; `resistance`=1000 ohm with limits >=0; `inductance`=0 H with limits >=0; `capacitance`=0 F with limits >=0; `reference_frequency`=1000 Hz with limits >=0.
+- Declared analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`; declared package bindings: `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- This catalog concern has no numerical equation. It freezes the selected variant's inherited/overridden fields against the governing family rule: The branch obeys V(f)=Z(f)*I(f); time-domain use is allowed only for a declared causal, stable realization of the impedance data.
+- Exact reference vectors: `GOLD-PAS-GENERIC_IMPEDANCE-NOMINAL`, `GOLD-PAS-GENERIC_IMPEDANCE-BOUNDARY`, `GOLD-PAS-GENERIC_IMPEDANCE-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-passives-generic-impedance-tabulated-f0-cat.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-passives-generic-impedance.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Stable variant identity, aliases, defaults, limits, supported tiers, analyses, and lifecycle state.
-- Explicit schematic-symbol, physical-appearance, and package references: pkg-axial-2, pkg-smd-chip, pkg-radial-2.
-- Variant-specific provenance, accuracy/usage limits, and golden assertions.
+- One normalized `ComponentVariant` record for variant `var-passives-generic-impedance-tabulated` (Tabulated), retaining stable ID, aliases, inherited pins/parameters, declared tier list, package candidates, release target, provenance, and limitations.
+- A field-by-field registry/family consistency result and structured rejection evidence for duplicate ID, invalid override, missing package, or unsupported tier.
+- Scope is limited to `CMP-PASSIVES-GENERIC-IMPEDANCE-TABULATED-F0-CAT`: variant `var-passives-generic-impedance-tabulated` (Tabulated), fidelity `F0`, concern `CAT`, and requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Create the complete, immutable catalog definition for **Tabulated** without impl
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal); reject any package map outside `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- Reject non-finite values and any value outside this exact parameter contract: `representation`=series-rlc 1 with limits series-rlc, parallel-rlc, laplace, or table; `resistance`=1000 ohm with limits >=0; `inductance`=0 H with limits >=0; `capacitance`=0 F with limits >=0; `reference_frequency`=1000 Hz with limits >=0.
+- Support only `dc`, `ac`, `transient`, `noise`, `monte-carlo`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Duplicate stable IDs, incompatible inherited overrides, undeclared package/tier references, or absent provenance block publication of the variant record.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-PASSIVES-GENERIC-IMPEDANCE-TABULATED-F0-CAT-NOMINAL`
+- `TEST-CMP-PASSIVES-GENERIC-IMPEDANCE-TABULATED-F0-CAT-BOUNDARY`
+- `TEST-CMP-PASSIVES-GENERIC-IMPEDANCE-TABULATED-F0-CAT-FAILURE`
 
 ## Acceptance
 
-1. The variant ID is unique and its defaults stay inside the family parameter limits.
-2. Every required logical pin maps exactly once to each supported physical package; NC and thermal pads remain explicit.
-3. The preset selects only declared model tiers (F0, F1, F2, F3, F4) and never implies manufacturer certification.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-PASSIVES-GENERIC-IMPEDANCE-TABULATED-F0-CAT` exists and is limited to variant `var-passives-generic-impedance-tabulated` (Tabulated), `F0`, and `CAT`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-passives-generic-impedance` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

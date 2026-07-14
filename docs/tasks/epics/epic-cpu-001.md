@@ -6,15 +6,15 @@ Deliver the complete **Educational CPU hierarchy** capability for release R8, in
 
 ## Requirements and release
 
-- Requirements: REQ-025
+- Requirements: REQ-002, REQ-025
 - Release: R8
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G7 complete catalog.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-CPU-001](../platform/plat-cpu-001-define-educational-cpu-abstraction-levels.md) | Define educational CPU abstraction levels | Gate G0 documentation baseline | Planned |
+| [PLAT-CPU-001](../platform/plat-cpu-001-define-educational-cpu-abstraction-levels.md) | Define educational CPU abstraction levels | Gate G7 complete catalog | Planned |
 | [PLAT-CPU-002](../platform/plat-cpu-002-implement-register-and-register-file-blocks.md) | Implement register and register-file blocks | PLAT-CPU-001 | Planned |
 | [PLAT-CPU-003](../platform/plat-cpu-003-implement-alu-and-flag-behavior.md) | Implement ALU and flag behavior | PLAT-CPU-002 | Planned |
 | [PLAT-CPU-004](../platform/plat-cpu-004-implement-program-counter-and-instruction-register.md) | Implement program counter and instruction register | PLAT-CPU-003 | Planned |

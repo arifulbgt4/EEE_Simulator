@@ -6,15 +6,15 @@ Deliver the complete **Computer architecture and functional emulation** capabili
 
 ## Requirements and release
 
-- Requirements: REQ-028
+- Requirements: REQ-001, REQ-028
 - Release: R12
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gates G9 RTL/full computer and G10 cloud/collaboration.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-ARCH-001](../platform/plat-arch-001-define-architecture-engine-adapter-contract.md) | Define architecture-engine adapter contract | Gate G0 documentation baseline | Planned |
+| [PLAT-ARCH-001](../platform/plat-arch-001-define-architecture-engine-adapter-contract.md) | Define architecture-engine adapter contract | Gates G9 RTL/full computer and G10 cloud/collaboration | Planned |
 | [PLAT-ARCH-002](../platform/plat-arch-002-implement-gem5-worker-adapter.md) | Implement gem5 worker adapter | PLAT-ARCH-001 | Planned |
 | [PLAT-ARCH-003](../platform/plat-arch-003-implement-qemu-functional-worker-adapter.md) | Implement QEMU functional worker adapter | PLAT-ARCH-002 | Planned |
 | [PLAT-ARCH-004](../platform/plat-arch-004-define-workload-and-disk-image-provenance.md) | Define workload and disk-image provenance | PLAT-ARCH-003 | Planned |

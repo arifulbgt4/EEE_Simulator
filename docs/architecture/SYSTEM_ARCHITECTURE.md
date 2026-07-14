@@ -7,15 +7,15 @@ Audience: product, frontend, simulation, backend, security, infrastructure, and 
 
 This document defines the system boundaries, major runtime processes, ownership of data, and allowed dependency directions for the Web-Based Electronics and Computer Simulation Platform. `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are normative.
 
-The platform is a browser-based, hierarchical, multi-fidelity environment. It combines circuit-level physics, switch-level transistor behavior, event-driven digital logic, RTL execution, microarchitecture simulation, and full-system emulation without claiming that a modern computer can be simulated transistor-by-transistor in a browser. That scope boundary is taken directly from the feasibility brief. [Source brief, pp. 13-21, 43-44]
+The platform is a browser-based, hierarchical, multi-fidelity environment. It combines circuit-level physics, switch-level transistor behavior, event-driven digital logic, RTL execution, microarchitecture simulation, and full-system emulation without claiming that a modern computer can be simulated transistor-by-transistor in a browser. That scope boundary is taken directly from the feasibility brief. [Source PDF, pp. 13-21, 43-44]
 
 ## 2. Architectural drivers
 
-1. **Realistic electronics first.** The first production gate is a non-ideal electronics simulator with a visual editor, measurement, waveforms, heating, tolerance, leakage, failure indication, basic logic, reusable subcircuits, WebAssembly, and Worker execution. CPU, GPU, and full-system work is gated behind that foundation. [Source brief, pp. 32-37]
-2. **Local-first interaction.** Editing and eligible small simulations MUST work without a cloud round trip. Heavy or untrusted workloads MUST use isolated server workers. [Source brief, pp. 25-26, 31-32]
-3. **Deterministic multi-engine execution.** Analog, digital, thermal, RTL, and architecture engines MUST exchange timestamped events through a scheduler with an integer timebase. [Source brief, pp. 27-28, 40]
-4. **Main-thread responsiveness.** Simulation, layout, and waveform processing MUST NOT block the browser UI thread. [Source brief, pp. 23-24]
-5. **Explicit fidelity.** Every model and result MUST declare its fidelity, analysis capability, provenance, limitations, and deterministic seed when stochastic behavior is used. [Source brief, pp. 3-4, 13-20, 27, 40]
+1. **Realistic electronics first.** The first production gate is a non-ideal electronics simulator with a visual editor, measurement, waveforms, heating, tolerance, leakage, failure indication, basic logic, reusable subcircuits, WebAssembly, and Worker execution. CPU, GPU, and full-system work is gated behind that foundation. [Source PDF, pp. 32-37]
+2. **Local-first interaction.** Editing and eligible small simulations MUST work without a cloud round trip. Heavy or untrusted workloads MUST use isolated server workers. [Source PDF, pp. 25-26, 31-32]
+3. **Deterministic multi-engine execution.** Analog, digital, thermal, RTL, and architecture engines MUST exchange timestamped events through a scheduler with an integer timebase. [Source PDF, pp. 27-28, 40]
+4. **Main-thread responsiveness.** Simulation, layout, and waveform processing MUST NOT block the browser UI thread. [Source PDF, pp. 23-24]
+5. **Explicit fidelity.** Every model and result MUST declare its fidelity, analysis capability, provenance, limitations, and deterministic seed when stochastic behavior is used. [Source PDF, pp. 3-4, 13-20, 27, 40]
 6. **Open-core license safety.** Apache-2.0 core code MUST remain separable from GPL or mixed-license engines. Such engines MUST execute behind a process or service boundary unless legal review explicitly approves another distribution pattern.
 
 ## 3. Context and topology
@@ -55,7 +55,7 @@ flowchart TB
     Workers --> Observability
 ```
 
-The frontend stack is Next.js, React, and TypeScript. The schematic surface uses Canvas 2D or WebGL2; SVG is an export and accessibility representation, not the primary renderer for large designs. WebGPU is optional and MUST be enabled only for benchmark-proven workloads. The simulation core is Rust compiled to WebAssembly. [Source brief, pp. 22-24, 29-31, 38-40]
+The frontend stack is Next.js, React, and TypeScript. The schematic surface uses Canvas 2D or WebGL2; SVG is an export and accessibility representation, not the primary renderer for large designs. WebGPU is optional and MUST be enabled only for benchmark-proven workloads. The simulation core is Rust compiled to WebAssembly. [Source PDF, pp. 22-24, 29-31, 38-40]
 
 ## 4. System decomposition
 
@@ -89,7 +89,7 @@ Infrastructure adapters -------------------------------> Engine ports
 - The canonical project model MUST be engine-neutral. Engine adapters create private derived netlists or binaries.
 - External engines MUST implement the `EngineAdapter` contract defined in [API and Worker Protocols](./API_AND_WORKER_PROTOCOLS.md).
 - Storage identifiers MUST be opaque. S3 keys and database primary keys MUST NOT be embedded as portable project identity.
-- A cloud deployment MAY replace PostgreSQL, S3, or Redis implementations only if the same documented durability, ordering, and security semantics are preserved.
+- PostgreSQL, S3-compatible object storage, and Redis Streams are the canonical hosted implementations. Replacing any of them requires a superseding ADR, a compatibility analysis, and a migration plan; preserving similar semantics alone is not sufficient authorization.
 
 ## 6. Primary data flow
 
@@ -143,7 +143,7 @@ Fidelity is defined consistently across the platform:
 | F4 | electrothermal, tolerance, parasitic, and failure behavior | browser for bounded cases; otherwise server |
 | F5 | physical device or TCAD research | server/HPC only |
 
-The project may mix levels at explicit boundaries. It MUST NOT silently substitute a lower-fidelity model. Any substitution requires a diagnostic, a recorded execution plan, and user consent unless an already selected policy explicitly permits it. [Source brief, pp. 13-20, 27-28, 43-44]
+The project may mix levels at explicit boundaries. It MUST NOT silently substitute a lower-fidelity model. Any substitution requires a diagnostic, a recorded execution plan, and user consent unless an already selected policy explicitly permits it. [Source PDF, pp. 13-20, 27-28, 43-44]
 
 ## 8. Failure domains and degradation
 
@@ -160,7 +160,7 @@ The project may mix levels at explicit boundaries. It MUST NOT silently substitu
 | PostgreSQL outage | cloud control plane | local work continues; cloud writes fail closed; no queue dispatch without durable job record |
 | Collaboration conflict | one project branch | preserve both edits, surface conflict, never overwrite silently |
 
-The source brief explicitly identifies convergence, browser memory, UI performance, synchronization, model accuracy, and excess scope as primary risks. [Source brief, pp. 39-41]
+The source PDF explicitly identifies convergence, browser memory, UI performance, synchronization, model accuracy, and excess scope as primary risks. [Source PDF, pp. 39-41]
 
 ## 9. Quality attribute budgets
 
@@ -203,12 +203,12 @@ The following are release-blocking invariants:
 
 | Decision | Basis |
 |---|---|
-| Hierarchical multi-fidelity architecture | Source brief, pp. 13-21, 43-44 |
-| Rust/WASM core and separate Workers | Source brief, pp. 22-24; project decision selects Rust |
-| Local/browser and server/HPC split | Source brief, pp. 25-26, 36, 44 |
-| PostgreSQL and object storage for cloud projects | Source brief, pp. 31-32 |
+| Hierarchical multi-fidelity architecture | [Source PDF, pp. 13-21, 43-44] |
+| Rust/WASM core and separate Workers | [Source PDF, pp. 22-24]; project decision selects Rust |
+| Local/browser and server/HPC split | [Source PDF, pp. 25-26, 36, 44] |
+| PostgreSQL and object storage for cloud projects | [Source PDF, pp. 31-32] |
 | Redis Streams for dispatch | Project decision; persistent job truth remains in PostgreSQL |
-| Canvas/WebGL primary rendering and benchmark-gated WebGPU | Source brief, pp. 22-24, 39-40 |
+| Canvas/WebGL primary rendering and benchmark-gated WebGPU | [Source PDF, pp. 22-24, 39-40] |
 | Apache-2.0 core and process-isolated external engines | Project distribution decision; see licensing document |
 
 Official implementation constraints are maintained in the linked architecture documents. In particular, threaded WebAssembly depends on cross-origin isolation as documented by [Emscripten's pthreads guide](https://emscripten.org/docs/porting/pthreads.html).

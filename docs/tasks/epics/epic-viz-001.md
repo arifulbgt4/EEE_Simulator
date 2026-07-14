@@ -8,13 +8,13 @@ Deliver the complete **Visualization and virtual instruments** capability for re
 
 - Requirements: REQ-007, REQ-021, REQ-034, REQ-037
 - Release: R2
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G1 editor foundation.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-VIZ-001](../platform/plat-viz-001-define-probe-and-measurement-contract.md) | Define probe and measurement contract | Gate G0 documentation baseline | Planned |
+| [PLAT-VIZ-001](../platform/plat-viz-001-define-probe-and-measurement-contract.md) | Define probe and measurement contract | Gate G1 editor foundation | Planned |
 | [PLAT-VIZ-002](../platform/plat-viz-002-implement-scalar-voltage-current-and-power-indicators.md) | Implement scalar voltage current and power indicators | PLAT-VIZ-001 | Planned |
 | [PLAT-VIZ-003](../platform/plat-viz-003-implement-multichannel-waveform-viewer.md) | Implement multichannel waveform viewer | PLAT-VIZ-002 | Planned |
 | [PLAT-VIZ-004](../platform/plat-viz-004-implement-cursors-measurements-and-annotations.md) | Implement cursors measurements and annotations | PLAT-VIZ-003 | Planned |

@@ -36,21 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `DRIVE+` | input | Positive drive | electrical, mechanical, optical, acoustic |
-| `DRIVE-` | input | Negative drive or return | electrical, mechanical, optical, acoustic |
-| `PHYSICAL` | physical | Mechanical, optical, acoustic, or display state | electrical, mechanical, optical, acoustic |
+| `1` | DRIVE+ | input | electrical, mechanical, optical, acoustic |
+| `2` | DRIVE- | input | electrical, mechanical, optical, acoustic |
+| `M` | MECHANICAL_OR_DISPLAY | physical | electrical, mechanical, optical, acoustic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `armature_resistance` | Armature resistance | ohm | 1 | >0 |
+| `armature_inductance` | Armature inductance | H | 1e-3 | >=0 |
+| `torque_constant` | Torque constant | N*m/A | 0.1 | >0 |
+| `back_emf_constant` | Back-EMF constant | V*s/rad | 0.1 | >0 |
+| `rotor_inertia` | Rotor inertia | kg*m^2 | 1e-4 | >0 |
+| `viscous_friction` | Viscous friction | N*m*s/rad | 1e-4 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Electrical and mechanical states satisfy v=R*i+L*di/dt+Ke*omega, torque=Kt*i, and J*domega/dt=torque-load-B*omega.
+- **Exact nominal vector:** pins `1:DRIVE+`/input, `2:DRIVE-`/input, `M:MECHANICAL_OR_DISPLAY`/physical; parameters `armature_resistance`=1 ohm (>0); `armature_inductance`=1e-3 H (>=0); `torque_constant`=0.1 N*m/A (>0); `back_emf_constant`=0.1 V*s/rad (>0); `rotor_inertia`=1e-4 kg*m^2 (>0); `viscous_friction`=1e-4 N*m*s/rad (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-ACT-DC_MOTOR-NOMINAL`, `GOLD-ACT-DC_MOTOR-BOUNDARY`, `GOLD-ACT-DC_MOTOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

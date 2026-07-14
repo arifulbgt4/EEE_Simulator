@@ -34,17 +34,20 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `TERMINALS[1..N]` | multiphysics | Research-model terminals | research, multiphysics |
+| `1..N` | TERMINALS | multiphysics | research, multiphysics |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `research_model` | 1 | unset | explicit model required |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `research_model_id` | Approved research model identifier | 1 | unassigned | registered identifier before Ready |
+| `engine_digest` | Pinned external-engine digest | 1 | unset | valid reviewed digest before Ready |
+| `configuration_digest` | Pinned model/configuration digest | 1 | unset | valid digest before Ready |
+| `resource_limit` | Maximum execution time | s | 60 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -58,6 +61,17 @@ Supported fidelity tiers: **F5**. Supported analysis capabilities: **research on
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** F5 behavior uses a pinned Josephson phase/current/voltage relation and external research solver with units, initialization, limits, and provenance.
+- **F5:** Research tier: execute only through the declared isolated, pinned research adapter and retain its full configuration/provenance; baseline: F5 behavior uses a pinned Josephson phase/current/voltage relation and external research solver with units, initialization, limits, and provenance.
+- **Exact nominal vector:** pins `1..N:TERMINALS`/multiphysics; parameters `research_model_id`=unassigned 1 (registered identifier before Ready); `engine_digest`=unset 1 (valid reviewed digest before Ready); `configuration_digest`=unset 1 (valid digest before Ready); `resource_limit`=60 s (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-RSH-JOSEPHSON_DEVICE-NOMINAL`, `GOLD-RSH-JOSEPHSON_DEVICE-BOUNDARY`, `GOLD-RSH-JOSEPHSON_DEVICE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

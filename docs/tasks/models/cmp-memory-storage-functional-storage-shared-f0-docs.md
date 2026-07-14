@@ -11,35 +11,89 @@
 | Concern | DOCS |
 | Release | R8 |
 | Requirements | REQ-018, REQ-021, REQ-025, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Publish user and contributor documentation for **Functional storage** without changing its model, symbol, package, or validation behavior.
 
+## Exact prerequisites
+
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-BLOCK-DEVICE-F0-CAT`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-FILE-IMAGE-F0-CAT`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-REMOVABLE-MEDIA-F0-CAT`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-SYM`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-MODEL`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-VALIDATION`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F2-MODEL`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F2-VALIDATION`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F3-MODEL`
+- `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F3-VALIDATION`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-memory-storage-functional-storage.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Functional storage, Functional Storage, functional-storage
-- Pins: A:ADDRESS(input), D:DATA(bidirectional), C:CONTROL(input), VDD:VDD(power), VSS:VSS(power)
-- Parameters: width [bit], propagation_delay [s], logic_family [1]
-- Supported analyses: digital-event, timing, firmware
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-MEM-FUNCTIONAL_STORAGE-NOMINAL, GOLD-MEM-FUNCTIONAL_STORAGE-BOUNDARY, GOLD-MEM-FUNCTIONAL_STORAGE-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 24-28
+- Stable family: `fam-memory-storage-functional-storage` (Functional storage); task scope: shared family scope across `var-memory-storage-functional-storage-block-device`, `var-memory-storage-functional-storage-file-image`, `var-memory-storage-functional-storage-removable-media`; fidelity `F0`; concern `DOCS`.
+- Exact pins: `A:ADDRESS` (input; digital/storage/power), `D:DATA` (bidirectional; digital/storage/power), `C:CONTROL` (input; digital/storage/power), `VDD:VDD` (power; digital/storage/power), `VSS:VSS` (power; digital/storage/power).
+- Exact parameters/defaults/limits: `capacity`=1048576 byte with limits >0; `block_size`=512 byte with limits >0; `read_latency`=1 tick with limits >=0; `write_latency`=1 tick with limits >=0; `initial_image`=zero-filled 1 with limits capacity-matched image.
+- Supported analyses: `digital-event`, `timing`, `firmware`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-MEM-FUNCTIONAL_STORAGE-NOMINAL`, `GOLD-MEM-FUNCTIONAL_STORAGE-BOUNDARY`, `GOLD-MEM-FUNCTIONAL_STORAGE-FAILURE`.
+- Import mappings applicable to this family: `Verilog/SystemVerilog`, `VCD/FST`, `HEX/ELF`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 24-28; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Functional storage family-specific implementation reference](../../catalog/families/fam-memory-storage-functional-storage.md#family-specific-implementation-reference), registry row `fam-memory-storage-functional-storage`, and shared family scope across `var-memory-storage-functional-storage-block-device`, `var-memory-storage-functional-storage-file-image`, `var-memory-storage-functional-storage-removable-media`.
+- Exact pin vector: `A:ADDRESS` (input; digital/storage/power), `D:DATA` (bidirectional; digital/storage/power), `C:CONTROL` (input; digital/storage/power), `VDD:VDD` (power; digital/storage/power), `VSS:VSS` (power; digital/storage/power).
+- Exact parameter vector: `capacity`=1048576 byte with limits >0; `block_size`=512 byte with limits >0; `read_latency`=1 tick with limits >=0; `write_latency`=1 tick with limits >=0; `initial_image`=zero-filled 1 with limits capacity-matched image.
+- Declared analyses: `digital-event`, `timing`, `firmware`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- This documentation concern introduces no equation. It publishes the core behavior supported by completed catalog, symbol, model, validation, thermal, and failure evidence for `fam-memory-storage-functional-storage`. Import mappings are planned extensions and remain explicitly unavailable/unclaimable until the separate IMPORT card is `Done`.
+- Exact reference vectors: `GOLD-MEM-FUNCTIONAL_STORAGE-NOMINAL`, `GOLD-MEM-FUNCTIONAL_STORAGE-BOUNDARY`, `GOLD-MEM-FUNCTIONAL_STORAGE-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-memory-storage-functional-storage-shared-f0-docs.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-memory-storage-functional-storage.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Purpose, variants, pins, parameters, fidelity/analysis matrix and examples.
-- Physical/package selection, limitations, provenance and troubleshooting.
-- Links to every golden test and atomic task.
+- One evidence-backed final capability section in `families/fam-memory-storage-functional-storage.md` for `fam-memory-storage-functional-storage`, listing exact variants, tiers, analyses, packages, provenance, limitations, and task/test links.
+- Synchronized registry, coverage, traceability, task-index, risk, and release-checklist records with no claim beyond completed evidence; each unfinished optional import mapping is labelled planned and unsupported rather than blocking the core documentation release.
+- Scope is limited to `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-DOCS`: shared family scope across `var-memory-storage-functional-storage-block-device`, `var-memory-storage-functional-storage-file-image`, `var-memory-storage-functional-storage-removable-media`, fidelity `F0`, concern `DOCS`, and requirements REQ-018, REQ-021, REQ-025, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +106,25 @@ Publish user and contributor documentation for **Functional storage** without ch
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `A:ADDRESS` (input; digital/storage/power), `D:DATA` (bidirectional; digital/storage/power), `C:CONTROL` (input; digital/storage/power), `VDD:VDD` (power; digital/storage/power), `VSS:VSS` (power; digital/storage/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `capacity`=1048576 byte with limits >0; `block_size`=512 byte with limits >0; `read_latency`=1 tick with limits >=0; `write_latency`=1 tick with limits >=0; `initial_image`=zero-filled 1 with limits capacity-matched image.
+- Support only `digital-event`, `timing`, `firmware`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- A missing required concern/test/result/provenance/limitation link, contradictory capability claim, orphan ID, or premature `Released` state blocks documentation completion. An unfinished optional IMPORT card does not block the core release, but claiming its format does.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-DOCS-NOMINAL`
+- `TEST-CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-DOCS-BOUNDARY`
+- `TEST-CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-DOCS-FAILURE`
 
 ## Acceptance
 
-1. A beginner can select and wire the component without guessing.
-2. An advanced user can identify the exact model/accuracy envelope.
-3. All links, IDs and examples agree with the registry.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-MEMORY-STORAGE-FUNCTIONAL-STORAGE-SHARED-F0-DOCS` exists and is limited to shared family scope across `var-memory-storage-functional-storage-block-device`, `var-memory-storage-functional-storage-file-image`, `var-memory-storage-functional-storage-removable-media`, `F0`, and `DOCS`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-memory-storage-functional-storage` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-018, REQ-021, REQ-025, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

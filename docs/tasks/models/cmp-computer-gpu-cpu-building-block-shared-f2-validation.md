@@ -11,35 +11,81 @@
 | Concern | VALIDATION |
 | Release | R8 |
 | Requirements | REQ-025, REQ-027, REQ-028, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Produce independent validation evidence for **CPU building block** at **F2** without modifying the model under test.
 
+## Exact prerequisites
+
+- `CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-MODEL`
+- `PLAT-QA-001`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-computer-gpu-cpu-building-block.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: CPU building block, Cpu Building Block, cpu-building-block
-- Pins: ADDR:ADDRESS(bidirectional), DATA:DATA(bidirectional), CTRL:CONTROL(bidirectional), CLK:CLOCK(input), PWR:POWER(power)
-- Parameters: word_width [bit], clock_frequency [Hz], abstraction [1]
-- Supported analyses: functional, cycle, isa, architecture
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-CPU-CPU_BUILDING_BLOCK-NOMINAL, GOLD-CPU-CPU_BUILDING_BLOCK-BOUNDARY, GOLD-CPU-CPU_BUILDING_BLOCK-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 27-35
+- Stable family: `fam-computer-gpu-cpu-building-block` (CPU building block); task scope: shared family scope across `var-computer-gpu-cpu-building-block-alu`, `var-computer-gpu-cpu-building-block-register-file`, `var-computer-gpu-cpu-building-block-control-unit`, `var-computer-gpu-cpu-building-block-datapath`, `var-computer-gpu-cpu-building-block-pipeline`, `var-computer-gpu-cpu-building-block-cache`, `var-computer-gpu-cpu-building-block-mmu`; fidelity `F2`; concern `VALIDATION`.
+- Exact pins: `ADDR:ADDRESS` (bidirectional; digital/architecture/power), `DATA:DATA` (bidirectional; digital/architecture/power), `CTRL:CONTROL` (bidirectional; digital/architecture/power), `CLK:CLOCK` (input; digital/architecture/power), `PWR:POWER` (power; digital/architecture/power).
+- Exact parameters/defaults/limits: `word_width`=8 bit with limits 1..4096; `clock_frequency`=1e6 Hz with limits >0; `pipeline_depth`=1 1 with limits 1..1024; `operation_profile`=alu 1 with limits registered profile; `latency`=1 tick with limits >=0.
+- Supported analyses: `functional`, `cycle`, `isa`, `architecture`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-CPU-CPU_BUILDING_BLOCK-NOMINAL`, `GOLD-CPU-CPU_BUILDING_BLOCK-BOUNDARY`, `GOLD-CPU-CPU_BUILDING_BLOCK-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 27-35; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [CPU building block family-specific implementation reference](../../catalog/families/fam-computer-gpu-cpu-building-block.md#family-specific-implementation-reference), registry row `fam-computer-gpu-cpu-building-block`, and shared family scope across `var-computer-gpu-cpu-building-block-alu`, `var-computer-gpu-cpu-building-block-register-file`, `var-computer-gpu-cpu-building-block-control-unit`, `var-computer-gpu-cpu-building-block-datapath`, `var-computer-gpu-cpu-building-block-pipeline`, `var-computer-gpu-cpu-building-block-cache`, `var-computer-gpu-cpu-building-block-mmu`.
+- Exact pin vector: `ADDR:ADDRESS` (bidirectional; digital/architecture/power), `DATA:DATA` (bidirectional; digital/architecture/power), `CTRL:CONTROL` (bidirectional; digital/architecture/power), `CLK:CLOCK` (input; digital/architecture/power), `PWR:POWER` (power; digital/architecture/power).
+- Exact parameter vector: `word_width`=8 bit with limits 1..4096; `clock_frequency`=1e6 Hz with limits >0; `pipeline_depth`=1 1 with limits 1..1024; `operation_profile`=alu 1 with limits registered profile; `latency`=1 tick with limits >=0.
+- Declared analyses: `functional`, `cycle`, `isa`, `architecture`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Candidate and independent reference must evaluate the same F2 rule: Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected datapath/control/pipeline/cache/MMU block advances a versioned cycle-state transition with fixed-width data, control, timing, and exception rules.
+- Exact reference vectors: `GOLD-CPU-CPU_BUILDING_BLOCK-NOMINAL`, `GOLD-CPU-CPU_BUILDING_BLOCK-BOUNDARY`, `GOLD-CPU-CPU_BUILDING_BLOCK-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-computer-gpu-cpu-building-block-shared-f2-validation.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-computer-gpu-cpu-building-block.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Analytical or independent reference vectors.
-- Nominal, boundary, invalid, temperature and applicable failure comparisons.
-- Versioned evidence with environment, settings and tolerances.
+- One immutable candidate/reference evidence bundle for `GOLD-CPU-CPU_BUILDING_BLOCK-NOMINAL`, `GOLD-CPU-CPU_BUILDING_BLOCK-BOUNDARY`, `GOLD-CPU-CPU_BUILDING_BLOCK-FAILURE` at `F2`, containing exact inputs, expected outputs, tolerance, versions, seed, and raw-result digests.
+- Nominal, every declared boundary class, and every applicable failure/diagnostic vector linked to this task's three stable acceptance-test IDs.
+- Scope is limited to `CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-VALIDATION`: shared family scope across `var-computer-gpu-cpu-building-block-alu`, `var-computer-gpu-cpu-building-block-register-file`, `var-computer-gpu-cpu-building-block-control-unit`, `var-computer-gpu-cpu-building-block-datapath`, `var-computer-gpu-cpu-building-block-pipeline`, `var-computer-gpu-cpu-building-block-cache`, `var-computer-gpu-cpu-building-block-mmu`, fidelity `F2`, concern `VALIDATION`, and requirements REQ-025, REQ-027, REQ-028, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Produce independent validation evidence for **CPU building block** at **F2** wit
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `ADDR:ADDRESS` (bidirectional; digital/architecture/power), `DATA:DATA` (bidirectional; digital/architecture/power), `CTRL:CONTROL` (bidirectional; digital/architecture/power), `CLK:CLOCK` (input; digital/architecture/power), `PWR:POWER` (power; digital/architecture/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `word_width`=8 bit with limits 1..4096; `clock_frequency`=1e6 Hz with limits >0; `pipeline_depth`=1 1 with limits 1..1024; `operation_profile`=alu 1 with limits registered profile; `latency`=1 tick with limits >=0.
+- Support only `functional`, `cycle`, `isa`, `architecture`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Missing independent reference, wrong seed/version, tolerance breach, nondeterminism, absent raw data, or a silent diagnostic mismatch fails the evidence bundle.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-VALIDATION-NOMINAL`
+- `TEST-CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-VALIDATION-BOUNDARY`
+- `TEST-CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-VALIDATION-FAILURE`
 
 ## Acceptance
 
-1. Every declared golden assertion for the tier passes.
-2. The reference is independent and reproducible.
-3. Failure results are structured and never silently approximated.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-COMPUTER-GPU-CPU-BUILDING-BLOCK-SHARED-F2-VALIDATION` exists and is limited to shared family scope across `var-computer-gpu-cpu-building-block-alu`, `var-computer-gpu-cpu-building-block-register-file`, `var-computer-gpu-cpu-building-block-control-unit`, `var-computer-gpu-cpu-building-block-datapath`, `var-computer-gpu-cpu-building-block-pipeline`, `var-computer-gpu-cpu-building-block-cache`, `var-computer-gpu-cpu-building-block-mmu`, `F2`, and `VALIDATION`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-computer-gpu-cpu-building-block` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-025, REQ-027, REQ-028, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

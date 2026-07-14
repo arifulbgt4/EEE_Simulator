@@ -11,35 +11,90 @@
 | Concern | DOCS |
 | Release | R5 |
 | Requirements | REQ-018, REQ-021, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Publish user and contributor documentation for **Clock and timing** without changing its model, symbol, package, or validation behavior.
 
+## Exact prerequisites
+
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-CLOCK-F0-CAT`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-DIVIDER-F0-CAT`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-DELAY-F0-CAT`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-ONE-SHOT-F0-CAT`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-SYM`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-MODEL`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-VALIDATION`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F2-MODEL`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F2-VALIDATION`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F3-MODEL`
+- `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F3-VALIDATION`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-digital-logic-clock-timing.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Clock and timing, Clock Timing, clock-timing
-- Pins: 1..N:INPUTS(input), N+1..M:OUTPUTS(output), VDD:VDD(power), VSS:VSS(power)
-- Parameters: width [bit], propagation_delay [s], logic_family [1]
-- Supported analyses: digital-event, timing, truth-table
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-DIG-CLOCK_TIMING-NOMINAL, GOLD-DIG-CLOCK_TIMING-BOUNDARY, GOLD-DIG-CLOCK_TIMING-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 21-26
+- Stable family: `fam-digital-logic-clock-timing` (Clock and timing); task scope: shared family scope across `var-digital-logic-clock-timing-clock`, `var-digital-logic-clock-timing-divider`, `var-digital-logic-clock-timing-delay`, `var-digital-logic-clock-timing-one-shot`; fidelity `F0`; concern `DOCS`.
+- Exact pins: `1..N:INPUTS` (input; digital/power), `N+1..M:OUTPUTS` (output; digital/power), `VDD:VDD` (power; digital/power), `VSS:VSS` (power; digital/power).
+- Exact parameters/defaults/limits: `frequency`=1e6 Hz with limits >0; `duty_cycle`=0.5 1 with limits 0..1; `phase`=0 rad with limits finite; `division_ratio`=2 1 with limits 1..4294967296; `delay`=0 s with limits >=0.
+- Supported analyses: `digital-event`, `timing`, `truth-table`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-DIG-CLOCK_TIMING-NOMINAL`, `GOLD-DIG-CLOCK_TIMING-BOUNDARY`, `GOLD-DIG-CLOCK_TIMING-FAILURE`.
+- Import mappings applicable to this family: `Verilog/SystemVerilog`, `VCD/FST`, `HEX/ELF`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 21-26; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Clock and timing family-specific implementation reference](../../catalog/families/fam-digital-logic-clock-timing.md#family-specific-implementation-reference), registry row `fam-digital-logic-clock-timing`, and shared family scope across `var-digital-logic-clock-timing-clock`, `var-digital-logic-clock-timing-divider`, `var-digital-logic-clock-timing-delay`, `var-digital-logic-clock-timing-one-shot`.
+- Exact pin vector: `1..N:INPUTS` (input; digital/power), `N+1..M:OUTPUTS` (output; digital/power), `VDD:VDD` (power; digital/power), `VSS:VSS` (power; digital/power).
+- Exact parameter vector: `frequency`=1e6 Hz with limits >0; `duty_cycle`=0.5 1 with limits 0..1; `phase`=0 rad with limits finite; `division_ratio`=2 1 with limits 1..4294967296; `delay`=0 s with limits >=0.
+- Declared analyses: `digital-event`, `timing`, `truth-table`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- This documentation concern introduces no equation. It publishes the core behavior supported by completed catalog, symbol, model, validation, thermal, and failure evidence for `fam-digital-logic-clock-timing`. Import mappings are planned extensions and remain explicitly unavailable/unclaimable until the separate IMPORT card is `Done`.
+- Exact reference vectors: `GOLD-DIG-CLOCK_TIMING-NOMINAL`, `GOLD-DIG-CLOCK_TIMING-BOUNDARY`, `GOLD-DIG-CLOCK_TIMING-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-digital-logic-clock-timing-shared-f0-docs.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-digital-logic-clock-timing.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Purpose, variants, pins, parameters, fidelity/analysis matrix and examples.
-- Physical/package selection, limitations, provenance and troubleshooting.
-- Links to every golden test and atomic task.
+- One evidence-backed final capability section in `families/fam-digital-logic-clock-timing.md` for `fam-digital-logic-clock-timing`, listing exact variants, tiers, analyses, packages, provenance, limitations, and task/test links.
+- Synchronized registry, coverage, traceability, task-index, risk, and release-checklist records with no claim beyond completed evidence; each unfinished optional import mapping is labelled planned and unsupported rather than blocking the core documentation release.
+- Scope is limited to `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-DOCS`: shared family scope across `var-digital-logic-clock-timing-clock`, `var-digital-logic-clock-timing-divider`, `var-digital-logic-clock-timing-delay`, `var-digital-logic-clock-timing-one-shot`, fidelity `F0`, concern `DOCS`, and requirements REQ-018, REQ-021, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +107,25 @@ Publish user and contributor documentation for **Clock and timing** without chan
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1..N:INPUTS` (input; digital/power), `N+1..M:OUTPUTS` (output; digital/power), `VDD:VDD` (power; digital/power), `VSS:VSS` (power; digital/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `frequency`=1e6 Hz with limits >0; `duty_cycle`=0.5 1 with limits 0..1; `phase`=0 rad with limits finite; `division_ratio`=2 1 with limits 1..4294967296; `delay`=0 s with limits >=0.
+- Support only `digital-event`, `timing`, `truth-table`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- A missing required concern/test/result/provenance/limitation link, contradictory capability claim, orphan ID, or premature `Released` state blocks documentation completion. An unfinished optional IMPORT card does not block the core release, but claiming its format does.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-DOCS-NOMINAL`
+- `TEST-CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-DOCS-BOUNDARY`
+- `TEST-CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-DOCS-FAILURE`
 
 ## Acceptance
 
-1. A beginner can select and wire the component without guessing.
-2. An advanced user can identify the exact model/accuracy envelope.
-3. All links, IDs and examples agree with the registry.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-DIGITAL-LOGIC-CLOCK-TIMING-SHARED-F0-DOCS` exists and is limited to shared family scope across `var-digital-logic-clock-timing-clock`, `var-digital-logic-clock-timing-divider`, `var-digital-logic-clock-timing-delay`, `var-digital-logic-clock-timing-one-shot`, `F0`, and `DOCS`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-digital-logic-clock-timing` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-018, REQ-021, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

@@ -45,20 +45,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `CONTACTS[1..N]` | passive | Parameterized contact array | electrical, mechanical |
-| `SHIELD` | passive | Optional shield or chassis | electrical, mechanical |
+| `1..N` | CONTACTS | passive | electrical, mechanical |
+| `S` | SHIELD | passive | electrical, mechanical |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `contact_count` | 1 | 2 | 1..4096 |
-| `contact_resistance` | ohm | 0.01 | >= 0 |
-| `pitch` | m | 0.00254 | > 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `contact_count` | Contact count | 1 | 2 | 1..4096 |
+| `contact_resistance` | Per-contact resistance | ohm | 0.01 | >=0 |
+| `pitch` | Contact pitch | m | 0.00254 | >0 |
+| `current_rating` | Per-contact current rating | A | 1 | >0 |
+| `voltage_rating` | Contact voltage rating | V | 50 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -72,6 +74,19 @@ Supported fidelity tiers: **F0, F1, F3**. Supported analysis capabilities: **con
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Logical pins map bijectively to connector contacts; F1/F3 may add only declared contact RLC, shielding, coupling, and rating constraints.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Logical pins map bijectively to connector contacts; F1/F3 may add only declared contact RLC, shielding, coupling, and rating constraints.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Logical pins map bijectively to connector contacts; F1/F3 may add only declared contact RLC, shielding, coupling, and rating constraints.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Logical pins map bijectively to connector contacts; F1/F3 may add only declared contact RLC, shielding, coupling, and rating constraints.
+- **Exact nominal vector:** pins `1..N:CONTACTS`/passive, `S:SHIELD`/passive; parameters `contact_count`=2 1 (1..4096); `contact_resistance`=0.01 ohm (>=0); `pitch`=0.00254 m (>0); `current_rating`=1 A (>0); `voltage_rating`=50 V (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-CAB-CONNECTOR-NOMINAL`, `GOLD-CAB-CONNECTOR-BOUNDARY`, `GOLD-CAB-CONNECTOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

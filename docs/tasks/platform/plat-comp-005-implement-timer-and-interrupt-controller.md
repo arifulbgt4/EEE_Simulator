@@ -23,16 +23,58 @@ Implement timer and interrupt controller. Deliver one reviewable outcome that sa
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-COMP-004`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` clauses governing **timer and interrupt controller**, together with every acceptance obligation in REQ-027.
+- Prerequisite input: the completion evidence for `PLAT-COMP-004`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_COMP_005_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `implement_timer_and_interrupt_controller`: CPU and peripheral contracts, address maps, bus transactions, ROM/RAM images, interrupt state, device I/O, and checkpoints; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-COMP-005.
+- Evidence input: `TEST-PLAT-COMP-005-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-COMP-005-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-comp-005-implement-timer-and-interrupt-controller.md`
+- `docs/tasks/epics/epic-comp-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-COMP-005-ACCEPTANCE`
+- `TEST-PLAT-COMP-005-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Implement timer and interrupt controller**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- An implementation behavior and public-interface record named `implement_timer_and_interrupt_controller` for **timer and interrupt controller**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-COMP-005` fixture accepts the minimal valid input and produces the documented deterministic state transition or output; the published outcome is deterministic educational-computer state and boot or application evidence.
+- Failure outcome: `PLAT_COMP_005_INVALID_INPUT` and `PLAT_COMP_005_EXECUTION_FAILURE` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-COMP-005-ACCEPTANCE` and `TEST-PLAT-COMP-005-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-027, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-comp-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Implement timer and interrupt controller. Deliver one reviewable outcome that sa
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_COMP_005_NOMINAL`: processing a minimal valid **timer and interrupt controller** fixture accepts the minimal valid input and produces the documented deterministic state transition or output; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_COMP_005_BOUNDARY`: the **timer and interrupt controller** fixture matrix covers reset vector, lowest and highest address, empty image, simultaneous interrupt, full device buffer, and restore boundary; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_COMP_005_INVALID_INPUT`: reject an overlapping address range, unsupported image format, unmapped device, illegal bus width, or incompatible checkpoint before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_COMP_005_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-COMP-004`; no implicit migration or downgrade is allowed.
+- `PLAT_COMP_005_EXECUTION_FAILURE`: contain boot failure, bus fault, interrupt deadlock, peripheral timeout, storage error, or hardware/software state divergence with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-027 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-COMP-005-ACCEPTANCE` proves that **Implement timer and interrupt controller** accepts the minimal valid input and produces the documented deterministic state transition or output, produces deterministic educational-computer state and boot or application evidence, and satisfies every metadata requirement: REQ-027.
+2. `TEST-PLAT-COMP-005-FAILURE` executes `PLAT_COMP_005_INVALID_INPUT`, `PLAT_COMP_005_PREREQUISITE_MISMATCH`, and `PLAT_COMP_005_EXECUTION_FAILURE` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `PLAT-COMP-004`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-COMP-005 card, its epic, test registry entries `TEST-PLAT-COMP-005-ACCEPTANCE` and `TEST-PLAT-COMP-005-FAILURE`, requirement links REQ-027, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

@@ -4,7 +4,7 @@
 - **Category:** Passives, magnetics and transmission
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 8-13
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Resistor array**, **Resistor Array**, and `resistor-array`.
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-passives-resistor-array-isolated` | Isolated | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2` |
-| `var-passives-resistor-array-bussed` | Bussed | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2` |
+| `var-passives-resistor-array-isolated` | Isolated | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2` |
+| `var-passives-resistor-array-bussed` | Bussed | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,20 +35,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, thermal |
-| `N` | passive | Negative or second terminal | electrical, thermal |
+| `1` | P | passive | electrical, thermal |
+| `2` | N | passive | electrical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | finite and positive unless stated |
-| `tolerance` | 1 | 0.05 | 0..1 |
-| `temperature_coefficient` | 1/K | 0 | variant-defined |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `element_count` | Resistor element count | 1 | 4 | 2..1024 |
+| `element_resistance` | Element resistance | ohm | 10000 | >0 |
+| `tolerance` | Element tolerance | 1 | 0.05 | 0..1 |
+| `matching_tolerance` | Within-array matching | 1 | 0.01 | 0..1 |
+| `topology` | Array topology | 1 | isolated | isolated or bussed |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +64,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Each declared resistor branch obeys v_k = R_k*i_k; shared-terminal and matching/correlation rules come only from the selected array topology.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `element_count`=4 1 (2..1024); `element_resistance`=10000 ohm (>0); `tolerance`=0.05 1 (0..1); `matching_tolerance`=0.01 1 (0..1); `topology`=isolated 1 (isolated or bussed).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-PAS-RESISTOR_ARRAY-NOMINAL`, `GOLD-PAS-RESISTOR_ARRAY-BOUNDARY`, `GOLD-PAS-RESISTOR_ARRAY-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

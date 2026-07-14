@@ -39,23 +39,26 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `INPUT+` | power | Input positive | electrical, control, thermal |
-| `INPUT-` | power | Input return | electrical, control, thermal |
-| `OUTPUT+` | power | Output positive | electrical, control, thermal |
-| `OUTPUT-` | power | Output return | electrical, control, thermal |
-| `CONTROL` | input | Control port | electrical, control, thermal |
+| `IN+` | INPUT+ | power | electrical, control, thermal |
+| `IN-` | INPUT- | power | electrical, control, thermal |
+| `OUT+` | OUTPUT+ | power | electrical, control, thermal |
+| `OUT-` | OUTPUT- | power | electrical, control, thermal |
+| `CTRL` | CONTROL | input | electrical, control, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `input_voltage` | Nominal input voltage | V | 12 | >0 |
+| `output_voltage` | Target output voltage | V | 5 | >0 |
+| `switching_frequency` | Switching frequency | Hz | 100e3 | >0 |
+| `inductance` | Energy-storage inductance | H | 100e-6 | >0 |
+| `capacitance` | Output capacitance | F | 100e-6 | >0 |
+| `efficiency` | Nominal efficiency | 1 | 0.9 | 0..1 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -69,6 +72,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The selected buck/boost/buck-boost/flyback/forward/charge-pump profile uses either an explicit switching topology or declared averaged state-space equations.
+- **Exact nominal vector:** pins `IN+:INPUT+`/power, `IN-:INPUT-`/power, `OUT+:OUTPUT+`/power, `OUT-:OUTPUT-`/power, `CTRL:CONTROL`/input; parameters `input_voltage`=12 V (>0); `output_voltage`=5 V (>0); `switching_frequency`=100e3 Hz (>0); `inductance`=100e-6 H (>0); `capacitance`=100e-6 F (>0); `efficiency`=0.9 1 (0..1).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-PWR-DC_CONVERTER-NOMINAL`, `GOLD-PWR-DC_CONVERTER-BOUNDARY`, `GOLD-PWR-DC_CONVERTER-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

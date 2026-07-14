@@ -8,13 +8,13 @@ Deliver the complete **Cloud simulation jobs** capability for release R10, inclu
 
 - Requirements: REQ-029, REQ-030
 - Release: R10
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-API-001](../platform/plat-api-001-define-simulation-job-rest-resources.md) | Define simulation job REST resources | Gate G0 documentation baseline | Planned |
+| [PLAT-API-001](../platform/plat-api-001-define-simulation-job-rest-resources.md) | Define simulation job REST resources | Gate G6 Electronics MVP | Planned |
 | [PLAT-API-002](../platform/plat-api-002-implement-request-validation-and-capability-routing.md) | Implement request validation and capability routing | PLAT-API-001 | Planned |
 | [PLAT-API-003](../platform/plat-api-003-implement-redis-streams-job-dispatch.md) | Implement Redis Streams job dispatch | PLAT-API-002 | Planned |
 | [PLAT-API-004](../platform/plat-api-004-implement-worker-lease-heartbeat-and-expiry.md) | Implement worker lease heartbeat and expiry | PLAT-API-003 | Planned |

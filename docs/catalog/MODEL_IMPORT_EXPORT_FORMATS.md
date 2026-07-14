@@ -1,7 +1,7 @@
 # Model Import and Export Formats
 
 Status: **Normative interchange plan 1.0**  
-Related contracts: [COMPONENT_MODEL_CONTRACT.md](COMPONENT_MODEL_CONTRACT.md), [package-registry.yaml](package-registry.yaml)
+Related contracts: [COMPONENT_MODEL_CONTRACT.md](COMPONENT_MODEL_CONTRACT.md), [variant-pin-profiles.yaml](variant-pin-profiles.yaml), [package-registry.yaml](package-registry.yaml)
 
 ## Supported targets
 
@@ -18,6 +18,8 @@ Related contracts: [COMPONENT_MODEL_CONTRACT.md](COMPONENT_MODEL_CONTRACT.md), [
 
 Format support is capability-scoped. Listing a format does not imply full language or dialect coverage. Each importer publishes its accepted subset and rejects or diagnoses unsupported constructs.
 
+Unless an applicable release gate explicitly requires a format, import support is an independently versioned component extension under the lifecycle rules in `COMPONENT_MODEL_CONTRACT.md`. A core component release may precede that extension, but the UI, API, registry normalization, and documentation must report the format as unavailable until its import task and evidence are complete. A required gate format is never optional.
+
 ## Import pipeline
 
 1. **Acquire:** read a user-selected artifact without executing it; compute a cryptographic digest.
@@ -25,13 +27,15 @@ Format support is capability-scoped. Listing a format does not imply full langua
 3. **License review:** capture source, authors/organization, SPDX expression, redistribution permission, and modifications.
 4. **Parse in isolation:** apply size, depth, token, time, CPU, and memory limits; no outbound network.
 5. **Normalize:** convert units to SI, preserve original text/artifact, and create stable internal names.
-6. **Map:** require explicit logical pins, buses/endianness, package contacts where present, parameters, domains, and supported analyses.
+6. **Map:** select or create a reviewed variant `PinProfile`; require explicit logical pins, buses/endianness, parameterized group resolution, package contacts where present, parameters, domains, and supported analyses.
 7. **Validate:** run syntax, semantic, nominal, boundary, failure, and determinism checks against declared references.
 8. **Quarantine or publish:** unreviewed artifacts remain project-local and cannot enter the public catalog.
 
 ## Pin and package mapping
 
-Original ordered pins are immutable provenance. Normalized logical pins map explicitly to them. If an imported model includes package data, that data becomes a separate package revision or package-parasitic profile; it does not rewrite the component family. Every physical pin map validates pin existence, uniqueness, NC/reserved/exposed pads, orientation, and round-trip export.
+Original ordered pins are immutable provenance. Normalized logical pins map explicitly to the selected variant `PinProfile`, never to the family's compact preview. The importer records profile ID/revision, resolved bus widths and group cardinalities, and a complete model-pin-to-logical-pin map. An incompatible topology requires a new reviewed variant/profile or a project-local custom profile; it cannot silently mutate a published profile.
+
+If an imported model includes package data, that data becomes a separate package revision or package-parasitic profile; it does not rewrite the component family or `PinProfile`. Every physical pin map validates pin existence, uniqueness, NC/reserved/exposed pads, orientation, and round-trip export.
 
 ## Units, time, and logic
 
@@ -64,7 +68,7 @@ Firmware images bind to an architecture/profile, address space, endianness, memo
 - Export only information representable by the target format; emit a loss report for omitted fidelity, failures, package metadata, or state.
 - Include registry IDs, schema versions, engine/version provenance, seeds, and source digests in a sidecar manifest when the format cannot hold them.
 - Never export third-party models when redistribution is not allowed.
-- Preserve explicit pin order and units; do not guess a vendor pinout.
+- Preserve explicit profile ID/revision, resolved logical pin order, bus/group shape, model pin order, and units; do not guess a vendor pinout.
 - Waveform export states sampling/decimation and whether values are raw or display-derived.
 
 ## Security and resource limits
@@ -83,4 +87,3 @@ Imports use content-size, expanded-size, nesting, symbol-count, pin-count, wavef
 ## Limitations
 
 Format standards evolve. Exact supported versions are pinned by adapter releases and dependency/license review. Source-preserving export is not a promise of semantic portability across engines.
-

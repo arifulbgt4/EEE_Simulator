@@ -4,7 +4,7 @@
 - **Category:** Measurement instruments
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 20-23
 
 ## Purpose and scope
@@ -20,8 +20,8 @@ Search aliases are **Oscilloscope**, **Oscilloscope**, and `oscilloscope`. Varia
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
 | `var-instruments-oscilloscope-two-channel` | Two Channel | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-instruments-oscilloscope-four-channel` | Four Channel | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-instruments-oscilloscope-mixed-signal` | Mixed Signal | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
+| `var-instruments-oscilloscope-four-channel` | Four Channel | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
+| `var-instruments-oscilloscope-mixed-signal` | Mixed Signal | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -36,21 +36,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `CHANNEL+` | input | Positive measurement terminal | measurement, electrical |
-| `CHANNEL-` | input | Negative measurement terminal | measurement, electrical |
-| `COMMON` | reference | Optional common reference | measurement, electrical |
+| `CH+` | CHANNEL+ | input | measurement, electrical |
+| `CH-` | CHANNEL- | input | measurement, electrical |
+| `COM` | COMMON | reference | measurement, electrical |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `channel_count` | Analog channel count | 1 | 2 | 1..1024 |
+| `sample_rate` | Sample rate | Hz | 1e9 | >0 |
+| `bandwidth` | Analog bandwidth | Hz | 100e6 | >0 |
+| `input_resistance` | Channel input resistance | ohm | 1e6 | >0 |
+| `memory_depth` | Samples per channel | 1 | 100000 | 1..1000000000 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +66,19 @@ Supported fidelity tiers: **F0, F1, F2**. Supported analysis capabilities: **mea
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Channels sample the declared probe quantities at deterministic times with bandwidth, coupling, trigger, scale, memory, and clipping rules.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Channels sample the declared probe quantities at deterministic times with bandwidth, coupling, trigger, scale, memory, and clipping rules.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Channels sample the declared probe quantities at deterministic times with bandwidth, coupling, trigger, scale, memory, and clipping rules.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Channels sample the declared probe quantities at deterministic times with bandwidth, coupling, trigger, scale, memory, and clipping rules.
+- **Exact nominal vector:** pins `CH+:CHANNEL+`/input, `CH-:CHANNEL-`/input, `COM:COMMON`/reference; parameters `channel_count`=2 1 (1..1024); `sample_rate`=1e9 Hz (>0); `bandwidth`=100e6 Hz (>0); `input_resistance`=1e6 ohm (>0); `memory_depth`=100000 1 (1..1000000000).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-INS-OSCILLOSCOPE-NOMINAL`, `GOLD-INS-OSCILLOSCOPE-BOUNDARY`, `GOLD-INS-OSCILLOSCOPE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -6,21 +6,28 @@
 |---|---|
 | Status | Planned |
 | Family | `pkg-display-module` - Display module |
-| Variant | `shared` |
+| Variant | `template` |
 | Fidelity | F0 |
 | Concern | SYM |
-| Release | R1/R7 |
+| Release | R1 |
 | Requirements | REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Create recognizable original procedural geometry at all required levels of detail with non-color orientation cues.
 
+## Exact prerequisites
+
+- `CMP-PACKAGE-DISPLAY-MODULE-TEMPLATE-F0-CAT`
+- `PLAT-SYM-007`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
-- [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
@@ -32,14 +39,47 @@ Create recognizable original procedural geometry at all required levels of detai
 - Parameters: none
 - Supported analyses: physical-view, pin-map-validation
 - Package mappings: pkg-display-module
-- Golden references: GRC-051, GRC-052, GRC-053, GRC-054
+- Golden references: GRC-054
 - Provenance basis: Registry-defined source required
+
+## Public contracts
+
+- Named entities: `PackageDefinition`, `DevicePackageBinding`, `PhysicalRepresentation`, `PinMap`, `.eesim package revision record`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Package registry entry `pkg-display-module` revision `1.0.0` is the only geometry/default source for this task.
+- Concern-specific golden references: GRC-054. `NUMERICAL_ACCURACY_TARGETS.md` defines comparison and evidence rules.
+- This concern has no electrical model equation; geometry and numbering use the declarative package constraints only.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-package-display-module-template-f0-sym.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/package-registry.yaml`
+- `docs/catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
 - Create recognizable original procedural geometry at all required levels of detail with non-color orientation cues.
 - Package-registry and custom-designer compatibility evidence.
 - Explicit logical-to-physical pin-map behavior and limitations.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -55,6 +95,12 @@ Create recognizable original procedural geometry at all required levels of detai
 - Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
 - Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
 - Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+
+## Acceptance test IDs
+
+- `TEST-CMP-PACKAGE-DISPLAY-MODULE-TEMPLATE-F0-SYM-NOMINAL`
+- `TEST-CMP-PACKAGE-DISPLAY-MODULE-TEMPLATE-F0-SYM-BOUNDARY`
+- `TEST-CMP-PACKAGE-DISPLAY-MODULE-TEMPLATE-F0-SYM-FAILURE`
 
 ## Acceptance
 

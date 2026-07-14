@@ -38,22 +38,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `STIMULUS` | physical | Physical/environmental input | electrical, physical, environmental |
-| `OUTPUT` | output | Electrical or digital output | electrical, physical, environmental |
-| `VDD` | power | Supply | electrical, physical, environmental |
-| `GND` | power | Reference | electrical, physical, environmental |
+| `S` | STIMULUS | physical | electrical, physical, environmental |
+| `O` | OUTPUT | output | electrical, physical, environmental |
+| `VDD` | VDD | power | electrical, physical, environmental |
+| `GND` | GND | power | electrical, physical, environmental |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `sensitivity` | SI | 1 | finite |
-| `offset` | SI | 0 | finite |
-| `response_time` | s | 0.01 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `normalized_stimulus` | Normalized stimulus level | 1 | 0 | 0..1 |
+| `trip_threshold` | Detection threshold | 1 | 0.5 | 0..1 |
+| `hysteresis` | Detection hysteresis | 1 | 0.05 | 0..1 |
+| `response_time` | Response time | s | 1 | >=0 |
+| `fault_level` | Fault output level | 1 | 1 | 0..1 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -67,6 +69,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Output follows the selected smoke/moisture/agriculture stimulus transfer with calibrated thresholds, hysteresis, contamination, and fault behavior.
+- **Exact nominal vector:** pins `S:STIMULUS`/physical, `O:OUTPUT`/output, `VDD:VDD`/power, `GND:GND`/power; parameters `normalized_stimulus`=0 1 (0..1); `trip_threshold`=0.5 1 (0..1); `hysteresis`=0.05 1 (0..1); `response_time`=1 s (>=0); `fault_level`=1 1 (0..1).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEN-SAFETY_AGRICULTURE_SENSOR-NOMINAL`, `GOLD-SEN-SAFETY_AGRICULTURE_SENSOR-BOUNDARY`, `GOLD-SEN-SAFETY_AGRICULTURE_SENSOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

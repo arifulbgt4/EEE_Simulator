@@ -45,7 +45,7 @@ Terms in this glossary are normative where they define project-specific semantic
 | Package designer | The parametric editor for creating and validating package definitions and explicit device-to-package pin mappings. |
 | Physical representation | An original, scalable rendering that resembles a real component body and its observable markings while remaining separate from the schematic symbol, electrical model, and dimensional-accuracy claims. [Source basis: PDF, pp. 22-23, 30-31] |
 | Project revision | An immutable content identity against which a simulation job, comment, comparison, or release result is bound. |
-| Realistic Electronics MVP | The first production gate containing realistic browser electronics and ten canonical demonstrations; CPU and GPU stages remain blocked until it passes. [Source PDF, p. 37] |
+| Realistic Electronics MVP | The first production gate containing realistic browser electronics and eleven canonical demonstrations; CPU and GPU stages remain blocked until it passes. [Source PDF, p. 37] |
 | Release gate | A mandatory, evidence-based entry/exit checkpoint that prevents later product stages from beginning prematurely. |
 | SI base units | Canonical internal quantities represented in unprefixed SI units; display prefixes are a presentation concern. |
 | SPICE | A family of circuit simulation formats and engines used for detailed analog and transistor-level analysis. [Source PDF, pp. 3, 14, 21-22] |

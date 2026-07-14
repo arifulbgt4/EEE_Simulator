@@ -8,13 +8,13 @@ Deliver the complete **Analysis modes and parameter studies** capability for rel
 
 - Requirements: REQ-011, REQ-012, REQ-013
 - Release: R3
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G2 linear analog.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-ANL-001](../platform/plat-anl-001-implement-dc-sweep-analysis.md) | Implement DC sweep analysis | Gate G0 documentation baseline | Planned |
+| [PLAT-ANL-001](../platform/plat-anl-001-implement-dc-sweep-analysis.md) | Implement DC sweep analysis | Gate G2 linear analog | Planned |
 | [PLAT-ANL-002](../platform/plat-anl-002-implement-ac-small-signal-analysis.md) | Implement AC small-signal analysis | PLAT-ANL-001 | Planned |
 | [PLAT-ANL-003](../platform/plat-anl-003-implement-frequency-grid-policies.md) | Implement frequency-grid policies | PLAT-ANL-002 | Planned |
 | [PLAT-ANL-004](../platform/plat-anl-004-implement-noise-source-aggregation-contract.md) | Implement noise-source aggregation contract | PLAT-ANL-003 | Planned |

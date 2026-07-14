@@ -5,7 +5,7 @@ Related: [Simulation Engine](./SIMULATION_ENGINE.md), [API and Worker Protocols]
 
 ## 1. Architectural intent
 
-No single solver can economically represent a complete computer with full device physics. The platform therefore composes multiple fidelity levels and makes every boundary explicit. Small electrical circuits may use SPICE-level models; selected transistor networks may use detailed or switch-level models; large digital circuits use event-driven or RTL models; CPUs/GPUs use RTL or cycle models; complete computers use architecture or ISA models; and large jobs move to cloud/HPC workers. [Source brief, pp. 12-21, 43-44]
+No single solver can economically represent a complete computer with full device physics. The platform therefore composes multiple fidelity levels and makes every boundary explicit. Small electrical circuits may use SPICE-level models; selected transistor networks may use detailed or switch-level models; large digital circuits use event-driven or RTL models; CPUs/GPUs use RTL or cycle models; complete computers use architecture or ISA models; and large jobs move to cloud/HPC workers. [Source PDF, pp. 12-21, 43-44]
 
 The platform MUST never describe a functional or behavioral result as transistor-accurate. Fidelity is part of the project, execution plan, diagnostics, and result provenance.
 
@@ -20,7 +20,7 @@ The platform MUST never describe a functional or behavioral result as transistor
 | F4 | electrothermal/failure | tolerance, parasitics, leakage, heat, stress, degradation, failure | realistic electronics validation | browser when bounded; server otherwise |
 | F5 | physical/research | semiconductor, field, material, detailed EM/MEMS or TCAD | individual research devices | server/HPC only |
 
-The brief describes comparable physical-device, SPICE, switch, gate-event, RTL, microarchitecture, and ISA tiers. This project collapses them into the registry-wide F0-F5 contract while preserving an engine-specific `modelKind`. [Source brief, pp. 13-16]
+The brief describes comparable physical-device, SPICE, switch, gate-event, RTL, microarchitecture, and ISA tiers. This project collapses them into the registry-wide F0-F5 contract while preserving an engine-specific `modelKind`. [Source PDF, pp. 13-16]
 
 ## 3. Fidelity selection and execution plan
 
@@ -65,7 +65,7 @@ flowchart LR
 - If exact state transfer is impossible, the operation MUST restart from a declared checkpoint or be refused. Silent state reset is forbidden.
 - A zoom action in the UI is not automatically a simulation fidelity change.
 
-The brief proposes zooming from an ALU functional view through gate and transistor representations while the surrounding system remains abstract. [Source brief, pp. 16-17]
+The brief proposes zooming from an ALU functional view through gate and transistor representations while the surrounding system remains abstract. [Source PDF, pp. 16-17]
 
 ## 5. Partition contract
 
@@ -105,7 +105,7 @@ sequenceDiagram
     S->>W: publish committed samples and diagnostics
 ```
 
-The scheduler MUST use conservative synchronization for the baseline. It never advances a partition beyond the earliest known boundary that could affect it. Optimistic execution and rollback MAY be researched later but MUST use a separate compatibility capability. [Source brief, pp. 27-28, 40]
+The scheduler MUST use conservative synchronization for the baseline. It never advances a partition beyond the earliest known boundary that could affect it. Optimistic execution and rollback MAY be researched later but MUST use a separate compatibility capability. [Source PDF, pp. 27-28, 40]
 
 ### 6.1 Deterministic event order
 
@@ -134,7 +134,7 @@ The minimum logic alphabet is `0`, `1`, `X`, and `Z`.
 - Metastability MAY be represented as deterministic `X` duration or seeded stochastic behavior, but the chosen policy MUST be explicit.
 - Inertial versus transport delay is declared per model.
 
-This satisfies the brief's requirements for event queues, propagation delay, setup/hold violations, unknown/high-impedance states, buses, and logic analysis. [Source brief, pp. 33-35]
+This satisfies the brief's requirements for event queues, propagation delay, setup/hold violations, unknown/high-impedance states, buses, and logic analysis. [Source PDF, pp. 33-35]
 
 ## 8. Analog-to-digital boundary
 
@@ -148,7 +148,7 @@ An `AnalogToDigitalAdapter` declares:
 - aperture, delay, and output strength;
 - behavior for non-finite input and missing reference.
 
-For a common example, voltage below 0.8 V may resolve to `0`, above 2.0 V to `1`, and the interval between to `X`; these values are illustrative, never universal defaults. [Source brief, p. 28]
+For a common example, voltage below 0.8 V may resolve to `0`, above 2.0 V to `1`, and the interval between to `X`; these values are illustrative, never universal defaults. [Source PDF, p. 28]
 
 Continuous mode requires the analog engine to locate a threshold crossing within its declared time tolerance. The crossing becomes a timestamped boundary event. An adapter MUST use hysteresis or an equivalent stabilization policy to prevent infinite chatter.
 
@@ -164,7 +164,7 @@ A `DigitalToAnalogDriver` MUST represent more than an ideal voltage source when 
 - state mapping for `X`, `Z`, and contention;
 - temperature and failure dependencies where supported.
 
-`Z` becomes a high-impedance electrical model. `X` MUST use an explicit pessimistic, interval, midpoint, or disconnect policy; the choice is recorded. [Source brief, p. 28]
+`Z` becomes a high-impedance electrical model. `X` MUST use an explicit pessimistic, interval, midpoint, or disconnect policy; the choice is recorded. [Source PDF, p. 28]
 
 ## 10. Other domain coupling
 
@@ -176,9 +176,9 @@ A `DigitalToAnalogDriver` MUST represent more than an ideal voltage source when 
 
 ## 11. RTL, architecture, and emulation adapters
 
-- Verilator compiles Verilog/SystemVerilog into executable C++ or SystemC models; it is the planned RTL adapter for CPU, pipeline, cache-controller, bus, and accelerator blocks. See the [official Verilator overview](https://verilator.org/guide/latest/overview.html). [Source brief, pp. 15, 18, 35]
-- gem5 is the planned modular microarchitecture/full-system research adapter for pipelines, caches, DRAM, and system timing. See the [official gem5 documentation](https://www.gem5.org/documentation/). [Source brief, pp. 15-18, 36]
-- QEMU is a functional machine emulator, not a transistor simulator. It may provide fast ISA/system execution behind an isolated adapter. See [QEMU licensing](https://www.qemu.org/docs/master/about/license.html). [Source brief, pp. 16, 21, 36]
+- Verilator compiles Verilog/SystemVerilog into executable C++ or SystemC models; it is the planned RTL adapter for CPU, pipeline, cache-controller, bus, and accelerator blocks. See the [official Verilator overview](https://verilator.org/guide/latest/overview.html). [Source PDF, pp. 15, 18, 35]
+- gem5 is the planned modular microarchitecture/full-system research adapter for pipelines, caches, DRAM, and system timing. See the [official gem5 documentation](https://www.gem5.org/documentation/). [Source PDF, pp. 15-18, 36]
+- QEMU is a functional machine emulator, not a transistor simulator. It may provide fast ISA/system execution behind an isolated adapter. See [QEMU licensing](https://www.qemu.org/docs/master/about/license.html). [Source PDF, pp. 16, 21, 36]
 
 Server-side RTL compilation MUST treat source and generated artifacts as untrusted. Compiled artifacts are content-addressed by source, toolchain image, flags, target, and declared dependencies.
 
@@ -237,4 +237,4 @@ The co-simulation corpus MUST include:
 
 ## 16. Source record
 
-The model hierarchy and abstraction-switching requirements come from the brief, pp. 13-21. Scheduling and electrical/digital adapters come from pp. 27-28. Digital and mixed-signal roadmap behavior comes from pp. 33-35. Synchronization risk and deterministic boundary events come from p. 40. The F0-F5 names, integer timebase, exact tie order, state-transfer contract, and conservative baseline are project decisions required to make those requirements executable.
+The model hierarchy and abstraction-switching requirements come from the feasibility source. [Source PDF, pp. 13-21] Scheduling and electrical/digital adapters follow its co-simulation design. [Source PDF, pp. 27-28] Digital and mixed-signal roadmap behavior follows its staged-delivery plan. [Source PDF, pp. 33-35] Deterministic boundary-event rules address the identified synchronization risk. [Source PDF, p. 40] The F0-F5 names, integer timebase, exact tie order, state-transfer contract, and conservative baseline are project decisions required to make those requirements executable.

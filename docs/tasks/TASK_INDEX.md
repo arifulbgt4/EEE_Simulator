@@ -4,9 +4,11 @@
 
 Select exactly one task whose card status is `Ready`, verify every dependency, and keep the work inside that card. `Planned` tasks are not authorized for implementation. Component/package tasks remain `Planned` until their platform dependencies and release gate are complete.
 
+Every card and promotion decision MUST conform to the [Atomic Task Contract](ATOMIC_TASK_CONTRACT.md), including exact dependencies, public contracts, allowed files, reference data, and stable test IDs.
+
 ## Current ready queue
 
-- [`PLAT-GOV-001`](platform/plat-gov-001-define-repository-layout-and-ownership-boundaries.md) - define repository layout and ownership boundaries. This is the only initial `Ready` task after the documentation baseline is accepted.
+- [`PLAT-QA-001`](platform/plat-qa-001-define-test-identifier-and-evidence-schema.md) - define the test identifier and evidence schema. This documentation-only R0 root is the sole initial `Ready` task and does not authorize application source files.
 
 ## Baseline proof
 
@@ -14,6 +16,7 @@ Select exactly one task whose card status is `Ready`, verify every dependency, a
 |---|---:|---|
 | Product requirements | 38 | `REQ-001` through `REQ-038` in `docs/PRODUCT_REQUIREMENTS.md` |
 | Accepted ADRs | 10 | `ADR-0001` through `ADR-0010` |
+| Enumerated stable acceptance tests | 92 | `TEST-REQ-001..038` and `TEST-GRC-001..054` in `docs/quality/test-registry.yaml` |
 | Component families | 162 | `docs/catalog/component-registry.yaml` and model task manifest |
 | Component variants with individual CAT cards | 502 | `docs/tasks/models/task-manifest.yaml` |
 | Reusable package templates | 38 | `docs/catalog/package-registry.yaml` |
@@ -33,11 +36,11 @@ The baseline count distinguishes reusable physical packages from electrical comp
 | [EPIC-ANA-001](epics/epic-ana-001.md) | Linear analog simulation | R2 | REQ-008, REQ-009, REQ-010, REQ-029, REQ-033 | 15 |
 | [EPIC-ANL-001](epics/epic-anl-001.md) | Analysis modes and parameter studies | R3 | REQ-011, REQ-012, REQ-013 | 12 |
 | [EPIC-API-001](epics/epic-api-001.md) | Cloud simulation jobs | R10 | REQ-029, REQ-030 | 14 |
-| [EPIC-ARCH-001](epics/epic-arch-001.md) | Computer architecture and functional emulation | R12 | REQ-028 | 14 |
+| [EPIC-ARCH-001](epics/epic-arch-001.md) | Computer architecture and functional emulation | R12 | REQ-001, REQ-028 | 14 |
 | [EPIC-AUTH-001](epics/epic-auth-001.md) | Identity organizations and authorization | R10 | REQ-031, REQ-032 | 10 |
 | [EPIC-COL-001](epics/epic-col-001.md) | Collaboration versioning and public library | R10 | REQ-031 | 12 |
 | [EPIC-COMP-001](epics/epic-comp-001.md) | Educational full computer | R9 | REQ-027 | 16 |
-| [EPIC-CPU-001](epics/epic-cpu-001.md) | Educational CPU hierarchy | R8 | REQ-025 | 16 |
+| [EPIC-CPU-001](epics/epic-cpu-001.md) | Educational CPU hierarchy | R8 | REQ-002, REQ-025 | 16 |
 | [EPIC-DIG-001](epics/epic-dig-001.md) | Event-driven digital simulation | R5 | REQ-018, REQ-021 | 15 |
 | [EPIC-EDT-001](epics/epic-edt-001.md) | Schematic editor | R1 | REQ-004, REQ-005, REQ-037, REQ-038 | 20 |
 | [EPIC-GOV-001](epics/epic-gov-001.md) | Open-source repository and governance | R1 | REQ-034, REQ-035 | 8 |
@@ -45,14 +48,14 @@ The baseline count distinguishes reusable physical packages from electrical comp
 | [EPIC-HDL-001](epics/epic-hdl-001.md) | RTL FPGA and Verilator integration | R9 | REQ-026 | 14 |
 | [EPIC-IMP-001](epics/epic-imp-001.md) | Model data and firmware interchange | R7 | REQ-024, REQ-032 | 12 |
 | [EPIC-MEM-001](epics/epic-mem-001.md) | Memory hierarchy | R8 | REQ-025 | 12 |
-| [EPIC-MIX-001](epics/epic-mix-001.md) | Mixed-signal scheduler and boundaries | R5 | REQ-019, REQ-020 | 12 |
+| [EPIC-MIX-001](epics/epic-mix-001.md) | Mixed-signal scheduler and boundaries | R5 | REQ-001, REQ-002, REQ-019, REQ-020 | 12 |
 | [EPIC-NET-001](epics/epic-net-001.md) | Units topology and netlist | R2 | REQ-008, REQ-023 | 10 |
 | [EPIC-NON-001](epics/epic-non-001.md) | Nonlinear simulation and convergence | R3 | REQ-008, REQ-017 | 12 |
-| [EPIC-OFF-001](epics/epic-off-001.md) | Offline storage and PWA behavior | R1 | REQ-006 | 8 |
+| [EPIC-OFF-001](epics/epic-off-001.md) | Offline storage and PWA behavior | R1 | REQ-006, REQ-029 | 8 |
 | [EPIC-OPS-001](epics/epic-ops-001.md) | Deployment operations and observability | R10 | REQ-030 | 14 |
 | [EPIC-PERF-001](epics/epic-perf-001.md) | Performance and scale engineering | R2 | REQ-033 | 12 |
-| [EPIC-PROJ-001](epics/epic-proj-001.md) | Project format and lifecycle | R1 | REQ-006, REQ-023, REQ-038 | 14 |
-| [EPIC-QA-001](epics/epic-qa-001.md) | Quality traceability and release evidence | R0 | REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038 | 16 |
+| [EPIC-PROJ-001](epics/epic-proj-001.md) | Project format and lifecycle | R1 | REQ-005, REQ-006, REQ-023, REQ-038 | 14 |
+| [EPIC-QA-001](epics/epic-qa-001.md) | Quality traceability and release evidence | R0 | REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038 | 16 |
 | [EPIC-REAL-001](epics/epic-real-001.md) | Non-ideal thermal and failure behavior | R4 | REQ-014, REQ-015, REQ-016 | 14 |
 | [EPIC-RF-001](epics/epic-rf-001.md) | RF communications and distributed models | R7 | REQ-024, REQ-028 | 12 |
 | [EPIC-SEC-001](epics/epic-sec-001.md) | Security privacy and sandboxing | R1 | REQ-032, REQ-035 | 15 |
@@ -73,7 +76,7 @@ The baseline count distinguishes reusable physical packages from electrical comp
 
 ## Promotion to Ready
 
-A maintainer may promote one task only when its requirement and ADRs are accepted, every dependency is `Done`, inputs and allowed files exist, acceptance tests are executable, and no unresolved design choice is delegated to the implementer. Promote the card, its epic table row, and this ready queue in the same change.
+A maintainer may promote one task only when its requirement and ADRs are accepted, every dependency is `Done`, inputs and allowed files exist, acceptance tests are executable, and no unresolved design choice is delegated to the implementer. The documentation-only R0 exception in the Atomic Task Contract uses exact documentation/evidence paths instead of nonexistent application source paths. Promote the card, its epic table row, and this ready queue in the same change.
 
 ## Completion synchronization
 

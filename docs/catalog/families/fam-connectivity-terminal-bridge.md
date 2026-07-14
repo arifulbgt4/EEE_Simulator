@@ -37,20 +37,21 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | First endpoint | electrical, schematic |
-| `N` | passive | Second endpoint | electrical, schematic |
+| `1` | P | passive | electrical, schematic |
+| `2` | N | passive | electrical, schematic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `connection_state` | Initial connection state | 1 | closed | open or closed |
+| `on_resistance` | Closed resistance | ohm | 0.001 | >=0 |
+| `off_resistance` | Open resistance | ohm | 1e12 | >0 |
+| `adapter_policy` | Domain conversion policy | 1 | explicit | explicit registered policy |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +65,18 @@ Supported fidelity tiers: **F0, F1**. Supported analysis capabilities: **connect
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Terminal, net-tie, jumper, and domain-adapter variants use an explicit connection matrix; only matrix entries declared closed may share current or potential.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Terminal, net-tie, jumper, and domain-adapter variants use an explicit connection matrix; only matrix entries declared closed may share current or potential.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Terminal, net-tie, jumper, and domain-adapter variants use an explicit connection matrix; only matrix entries declared closed may share current or potential.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `connection_state`=closed 1 (open or closed); `on_resistance`=0.001 ohm (>=0); `off_resistance`=1e12 ohm (>0); `adapter_policy`=explicit 1 (explicit registered policy).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-CON-TERMINAL_BRIDGE-NOMINAL`, `GOLD-CON-TERMINAL_BRIDGE-BOUNDARY`, `GOLD-CON-TERMINAL_BRIDGE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

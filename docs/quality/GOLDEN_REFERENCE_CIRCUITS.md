@@ -15,14 +15,14 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-001 | DC source and resistor | Ohm's law, branch current, resistor power | R1 |
-| GRC-002 | Two-resistor divider | Node voltage, source power, load effect | R1 |
-| GRC-003 | Current source and resistor | Compliance behavior and node voltage | R1 |
+| GRC-001 | DC source and resistor | Ohm's law, branch current, resistor power | R2 |
+| GRC-002 | Two-resistor divider | Node voltage, source power, load effect | R2 |
+| GRC-003 | Current source and resistor | Compliance behavior and node voltage | R2 |
 | GRC-004 | VCVS/VCCS/CCVS/CCCS set | Gain/transresistance/transconductance and control polarity | R2 |
 | GRC-005 | Battery with internal resistance | Open-circuit voltage, loaded voltage, power split | R2 |
-| GRC-006 | RC charge/discharge | Time constant and sampled waveform | R1 |
-| GRC-007 | RL step | Current rise, inductor voltage, stored energy | R1 |
-| GRC-008 | Series and parallel RLC | Resonance, damping, gain, phase | R3 |
+| GRC-006 | RC charge/discharge | Time constant and sampled waveform | R2 |
+| GRC-007 | RL step | Current rise, inductor voltage, stored energy | R2 |
+| GRC-008 | Series and parallel RLC | Resonance, damping, gain, phase | R2 |
 | GRC-009 | Transformer | Turns ratio, polarity, reflected impedance | R3 |
 | GRC-010 | Transmission-line termination | Delay and reflection coefficient | R7 |
 
@@ -30,41 +30,41 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-011 | Forward and reverse diode sweep | I-V curve, leakage, temperature trend | R2 |
-| GRC-012 | Zener regulator | Breakdown voltage, dynamic resistance, power | R2 |
-| GRC-013 | Half-wave and bridge rectifier | Conduction intervals, ripple, diode stress | R2 |
-| GRC-014 | LED resistor circuit | Current, optical indicator state, thermal power | MVP |
-| GRC-015 | BJT common-emitter stage | Bias point, gain, cutoff, saturation | R2 |
-| GRC-016 | MOSFET low-side switch | Threshold region, on loss, switching transient | R2 |
-| GRC-017 | CMOS inverter | Transfer curve, noise margins, delay, short-circuit power | MVP |
-| GRC-018 | Op-amp buffer and inverting amplifier | Gain, clipping, slew rate, input/output limits | R2 |
+| GRC-011 | Forward and reverse diode sweep | I-V curve, leakage, temperature trend | R3 |
+| GRC-012 | Zener regulator | Breakdown voltage, dynamic resistance, power | R3 |
+| GRC-013 | Half-wave and bridge rectifier | Conduction intervals, ripple, diode stress | R3 |
+| GRC-014 | LED resistor circuit | Current, optical indicator state, thermal power | R3 |
+| GRC-015 | BJT common-emitter stage | Bias point, gain, cutoff, saturation | R3 |
+| GRC-016 | MOSFET low-side switch | Threshold region, on loss, switching transient | R3 |
+| GRC-017 | CMOS inverter | Transfer curve, noise margins, delay, short-circuit power | R3 |
+| GRC-018 | Op-amp buffer and inverting amplifier | Gain, clipping, slew rate, input/output limits | R3 |
 | GRC-019 | Comparator with hysteresis | Thresholds, state memory, propagation delay | R3 |
-| GRC-020 | 555 astable | Frequency, duty cycle, startup | R7 |
+| GRC-020 | 555 astable | Frequency, duty cycle, startup | R3 |
 
 ## Power, thermal, and failure fixtures
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-021 | Overrated resistor | Temperature rise, derating warning, open/short injection | MVP |
-| GRC-022 | MOSFET thermal runaway | Rds(on), leakage, junction temperature feedback | R3 |
+| GRC-021 | Overrated resistor | Temperature rise, derating warning, open/short injection | R4 |
+| GRC-022 | MOSFET thermal runaway | Rds(on), leakage, junction temperature feedback | R4 |
 | GRC-023 | Buck converter | Regulation, ripple, switching loss, efficiency | R7 |
 | GRC-024 | H-bridge motor drive | Dead time, shoot-through prevention, current and back-EMF | R7 |
 | GRC-025 | Fuse and TVS surge protection | Trip/clamp behavior and post-failure state | R7 |
-| GRC-026 | Monte Carlo divider | Distribution, deterministic seed, pass yield | R3 |
+| GRC-026 | Monte Carlo divider | Distribution, deterministic seed, pass yield | R4 |
 
 ## Digital and mixed-signal fixtures
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-027 | Primitive gate truth tables | 0/1/X/Z, delay, drive strength | R4 |
-| GRC-028 | NAND ring oscillator | Event order, oscillation, delay accumulation | MVP |
-| GRC-029 | SR latch | Set/reset/hold and invalid state | MVP |
-| GRC-030 | D flip-flop | Edge capture, setup/hold violation | R4 |
-| GRC-031 | Counter and shift register | Sequential state and reset behavior | R4 |
-| GRC-032 | Half and full adder | Exhaustive truth table and carry propagation | MVP |
+| GRC-027 | Primitive gate truth tables | 0/1/X/Z, delay, drive strength | R5 |
+| GRC-028 | NAND ring oscillator | Event order, oscillation, delay accumulation | R5 |
+| GRC-029 | SR latch | Set/reset/hold and invalid state | R5 |
+| GRC-030 | D flip-flop | Edge capture, setup/hold violation | R5 |
+| GRC-031 | Counter and shift register | Sequential state and reset behavior | R5 |
+| GRC-032 | Half and full adder | Exhaustive truth table and carry propagation | R5 |
 | GRC-033 | ADC/DAC loop | Quantization, reference scaling, latency | R5 |
 | GRC-034 | Analog/digital threshold adapter | Threshold band, hysteresis, loading, simultaneous event | R5 |
-| GRC-035 | 6T SRAM cell | Read, write, hold, noise margin | R6 |
+| GRC-035 | 6T SRAM cell | Read, write, hold, noise margin | R8 |
 
 ## Sensors, actuators, and communication fixtures
 
@@ -74,13 +74,13 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 | GRC-037 | Load-cell bridge and amplifier | Force transfer, offset, saturation | R7 |
 | GRC-038 | DC motor startup | Inrush, acceleration, back-EMF, stall | R7 |
 | GRC-039 | I2C sensor transaction | Electrical thresholds and protocol decode | R7 |
-| GRC-040 | Touchstone two-port | S-parameter import and frequency response | R11 |
+| GRC-040 | Touchstone two-port | S-parameter import and frequency response | R7 |
 
 ## Computer-system fixtures
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-041 | One-bit memory and register | Store, retain, read and reset | MVP |
+| GRC-041 | One-bit memory and register | Store, retain, read and reset | R6 |
 | GRC-042 | Four-bit ALU | Arithmetic, flags, logic, exhaustive vectors | R8 |
 | GRC-043 | Four-bit CPU | Fetch/decode/execute and branching | R8 |
 | GRC-044 | Eight-bit computer | Program, bus, RAM/ROM, timer, UART and display | R9 |
@@ -93,12 +93,12 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 
 | ID | Fixture | Required assertions | Primary release |
 |---|---|---|---|
-| GRC-049 | Axial resistor physical view | Body proportions, lead style, color-band value/tolerance mapping, rotation and scale | R1 |
-| GRC-050 | Capacitor, diode, LED and transistor physical set | Polarity/orientation marks, recognizable bodies, lead count and pin labels | R1 |
-| GRC-051 | DIP and SOIC IC packages | Pin-1 mark, counter-clockwise numbering, dimensions, label placement and symbol/package pin equivalence | R1 |
-| GRC-052 | QFP, QFN and BGA packages | Multi-side/grid numbering, thermal pad/ball-map semantics, orientation and zoom behavior | R7 |
-| GRC-053 | Custom package designer | Parameter constraints, deterministic geometry, reusable package ID and valid pin mapping | R7 |
-| GRC-054 | Dual schematic/physical project | Same component/model identity, nets and simulation results in both views | R1 |
+| GRC-049 | Resistor package physical set | Axial and SMD recognizable geometry, lead/contact style, value/tolerance cues, exact PinProfile-to-contact binding, rotation and scale; candidate-only input is rejected | R1 |
+| GRC-050 | Discrete, optoelectronic and power package physical set | Radial passive, diode, LED, SOT/TO/DPAK and power-module recognition; polarity/orientation, exact contact map and pin labels through a concrete binding | R1 |
+| GRC-051 | Through-hole and perimeter-leaded IC package set | DIP/SIP/ZIP and SOIC/SSOP/TSSOP/PLCC pin-one cues, numbering, resolved dimensions, labels and exact PinProfile/package-contact equivalence through a concrete binding | R1 |
+| GRC-052 | Quad, leadless and grid-array IC package set | QFP/QFN/DFN and LGA/BGA/CSP multi-side/grid numbering, thermal-pad/ball semantics, complete contact disposition, orientation and zoom behavior | R1 |
+| GRC-053 | Custom package designer | Parameter constraints, immutable deterministic package revision, unbound-state handling and valid reviewed DevicePackageBinding creation without implicit pin inference | R1 |
+| GRC-054 | Dual-view and interface-package project | Same component/model/binding identity, nets and results across views; virtual, module, connector and cable state/anchor preservation and binding-revision round trip | R1 |
 
 ## Expansion rule
 

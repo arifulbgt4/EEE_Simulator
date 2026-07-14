@@ -8,13 +8,13 @@ Deliver the complete **Identity organizations and authorization** capability for
 
 - Requirements: REQ-031, REQ-032
 - Release: R10
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-AUTH-001](../platform/plat-auth-001-define-oidc-compatible-identity-contract.md) | Define OIDC-compatible identity contract | Gate G0 documentation baseline | Planned |
+| [PLAT-AUTH-001](../platform/plat-auth-001-define-oidc-compatible-identity-contract.md) | Define OIDC-compatible identity contract | Gate G6 Electronics MVP | Planned |
 | [PLAT-AUTH-002](../platform/plat-auth-002-implement-user-profile-and-account-lifecycle.md) | Implement user profile and account lifecycle | PLAT-AUTH-001 | Planned |
 | [PLAT-AUTH-003](../platform/plat-auth-003-implement-organization-and-membership-lifecycle.md) | Implement organization and membership lifecycle | PLAT-AUTH-002 | Planned |
 | [PLAT-AUTH-004](../platform/plat-auth-004-define-project-roles-and-permission-matrix.md) | Define project roles and permission matrix | PLAT-AUTH-003 | Planned |

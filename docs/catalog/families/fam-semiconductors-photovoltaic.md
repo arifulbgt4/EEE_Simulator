@@ -4,7 +4,7 @@
 - **Category:** Semiconductor and optoelectronics
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-15
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Photovoltaic device**, **Photovoltaic**, and `photovoltaic`
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-semiconductors-photovoltaic-cell` | Cell | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-axial-2`, `pkg-smd-diode`, `pkg-custom-parametric` |
-| `var-semiconductors-photovoltaic-module` | Module | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-axial-2`, `pkg-smd-diode`, `pkg-custom-parametric` |
+| `var-semiconductors-photovoltaic-cell` | Cell | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-axial-2`, `pkg-smd-diode`, `pkg-custom-parametric` |
+| `var-semiconductors-photovoltaic-module` | Module | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-axial-2`, `pkg-smd-diode`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,20 +35,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `A` | passive | Anode | electrical, optical, thermal |
-| `K` | passive | Cathode | electrical, optical, thermal |
+| `1` | A | passive | electrical, optical, thermal |
+| `2` | K | passive | electrical, optical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `photocurrent` | Reference photocurrent | A | 5 | >=0 |
+| `saturation_current` | Diode saturation current | A | 1e-10 | >0 |
+| `series_resistance` | Series resistance | ohm | 0.1 | >=0 |
+| `shunt_resistance` | Shunt resistance | ohm | 1000 | >0 |
+| `irradiance` | Incident irradiance | W/m^2 | 1000 | >=0 |
+| `temperature` | Cell temperature | K | 298.15 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +65,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The I-V baseline is a declared photocurrent plus diode/shunt/series network parameterized by irradiance and temperature.
+- **Exact nominal vector:** pins `1:A`/passive, `2:K`/passive; parameters `photocurrent`=5 A (>=0); `saturation_current`=1e-10 A (>0); `series_resistance`=0.1 ohm (>=0); `shunt_resistance`=1000 ohm (>0); `irradiance`=1000 W/m^2 (>=0); `temperature`=298.15 K (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEM-PHOTOVOLTAIC-NOMINAL`, `GOLD-SEM-PHOTOVOLTAIC-BOUNDARY`, `GOLD-SEM-PHOTOVOLTAIC-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

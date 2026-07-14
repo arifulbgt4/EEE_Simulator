@@ -8,13 +8,13 @@ Deliver the complete **GPU and accelerator simulation** capability for release R
 
 - Requirements: REQ-028
 - Release: R13
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gates G11 HPC and G12 architecture.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-GPU-001](../platform/plat-gpu-001-define-gpu-fidelity-and-capability-levels.md) | Define GPU fidelity and capability levels | Gate G0 documentation baseline | Planned |
+| [PLAT-GPU-001](../platform/plat-gpu-001-define-gpu-fidelity-and-capability-levels.md) | Define GPU fidelity and capability levels | Gates G11 HPC and G12 architecture | Planned |
 | [PLAT-GPU-002](../platform/plat-gpu-002-implement-simple-raster-pipeline-model.md) | Implement simple raster pipeline model | PLAT-GPU-001 | Planned |
 | [PLAT-GPU-003](../platform/plat-gpu-003-implement-shader-instruction-model.md) | Implement shader instruction model | PLAT-GPU-002 | Planned |
 | [PLAT-GPU-004](../platform/plat-gpu-004-implement-simd-and-simt-lane-model.md) | Implement SIMD and SIMT lane model | PLAT-GPU-003 | Planned |

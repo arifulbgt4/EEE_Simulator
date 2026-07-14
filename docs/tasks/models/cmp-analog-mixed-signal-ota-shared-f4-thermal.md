@@ -9,37 +9,83 @@
 | Variant | `shared` |
 | Fidelity | F4 |
 | Concern | THERMAL |
-| Release | R3 |
+| Release | R4 |
 | Requirements | REQ-009, REQ-010, REQ-011, REQ-014, REQ-018, REQ-020, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Implement only the F4 power, temperature and electrothermal feedback concern for **Operational transconductance amplifier**.
 
+## Exact prerequisites
+
+- `CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-MODEL`
+- `PLAT-REAL-007`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-analog-mixed-signal-ota.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Operational transconductance amplifier, Ota, ota
-- Pins: 1:IN+(input), 2:IN-(input), 3:OUT(output), 4:V+(power), 5:V-(power)
-- Parameters: nominal [SI], temperature [K], tolerance [1]
-- Supported analyses: dc, ac, transient, noise
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-AMS-OTA-NOMINAL, GOLD-AMS-OTA-BOUNDARY, GOLD-AMS-OTA-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 13-17
+- Stable family: `fam-analog-mixed-signal-ota` (Operational transconductance amplifier); task scope: shared family scope across `var-analog-mixed-signal-ota-single-ended`, `var-analog-mixed-signal-ota-differential`; fidelity `F4`; concern `THERMAL`.
+- Exact pins: `1:IN+` (input; analog/digital/power), `2:IN-` (input; analog/digital/power), `3:OUT` (output; analog/digital/power), `4:V+` (power; analog/digital/power), `5:V-` (power; analog/digital/power).
+- Exact parameters/defaults/limits: `transconductance`=1e-3 S with limits >0; `bias_current`=1e-3 A with limits >=0; `output_resistance`=1e6 ohm with limits >0; `output_current_limit`=0.01 A with limits >0; `bandwidth`=1e6 Hz with limits >0.
+- Supported analyses: `dc`, `ac`, `transient`, `noise`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-AMS-OTA-NOMINAL`, `GOLD-AMS-OTA-BOUNDARY`, `GOLD-AMS-OTA-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 13-17; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Operational transconductance amplifier family-specific implementation reference](../../catalog/families/fam-analog-mixed-signal-ota.md#family-specific-implementation-reference), registry row `fam-analog-mixed-signal-ota`, and shared family scope across `var-analog-mixed-signal-ota-single-ended`, `var-analog-mixed-signal-ota-differential`.
+- Exact pin vector: `1:IN+` (input; analog/digital/power), `2:IN-` (input; analog/digital/power), `3:OUT` (output; analog/digital/power), `4:V+` (power; analog/digital/power), `5:V-` (power; analog/digital/power).
+- Exact parameter vector: `transconductance`=1e-3 S with limits >0; `bias_current`=1e-3 A with limits >=0; `output_resistance`=1e6 ohm with limits >0; `output_current_limit`=0.01 A with limits >0; `bandwidth`=1e6 Hz with limits >0.
+- Declared analyses: `dc`, `ac`, `transient`, `noise`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Exact F4 thermal coupling is Cth*dT/dt = P-(T-Tamb)/Rth, with P from the family relation, explicit SI parameters, declared initialization, and no invented default when reference data is absent.
+- Exact reference vectors: `GOLD-AMS-OTA-NOMINAL`, `GOLD-AMS-OTA-BOUNDARY`, `GOLD-AMS-OTA-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-analog-mixed-signal-ota-shared-f4-thermal.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-analog-mixed-signal-ota.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Power balance and thermal state.
-- Temperature coefficients, ambient/coupling boundaries and derating.
-- Thermal warnings and runaway diagnostics.
+- One F4 thermal-state contract for `fam-analog-mixed-signal-ota` naming P, T, Tamb, Rth, Cth, initial state, valid range, update order, and unsupported coupling behavior.
+- Deterministic steady/transient thermal and runaway/limit evidence tied to the exact family reference vectors.
+- Scope is limited to `CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-THERMAL`: shared family scope across `var-analog-mixed-signal-ota-single-ended`, `var-analog-mixed-signal-ota-differential`, fidelity `F4`, concern `THERMAL`, and requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-018, REQ-020, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Implement only the F4 power, temperature and electrothermal feedback concern for
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:IN+` (input; analog/digital/power), `2:IN-` (input; analog/digital/power), `3:OUT` (output; analog/digital/power), `4:V+` (power; analog/digital/power), `5:V-` (power; analog/digital/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `transconductance`=1e-3 S with limits >0; `bias_current`=1e-3 A with limits >=0; `output_resistance`=1e6 ohm with limits >0; `output_current_limit`=0.01 A with limits >0; `bandwidth`=1e6 Hz with limits >0.
+- Support only `dc`, `ac`, `transient`, `noise`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Non-positive Rth/Cth, temperature outside the declared range, runaway, non-finite power, unsupported coupling, and timestep underflow produce named diagnostics.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-THERMAL-NOMINAL`
+- `TEST-CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-THERMAL-BOUNDARY`
+- `TEST-CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-THERMAL-FAILURE`
 
 ## Acceptance
 
-1. Steady/dynamic thermal targets pass.
-2. Energy and temperature remain finite inside declared limits.
-3. Limit crossing and runaway produce declared outcomes.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-ANALOG-MIXED-SIGNAL-OTA-SHARED-F4-THERMAL` exists and is limited to shared family scope across `var-analog-mixed-signal-ota-single-ended`, `var-analog-mixed-signal-ota-differential`, `F4`, and `THERMAL`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-analog-mixed-signal-ota` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-018, REQ-020, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

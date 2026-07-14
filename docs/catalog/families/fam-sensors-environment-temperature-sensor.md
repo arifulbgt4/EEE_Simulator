@@ -37,22 +37,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `STIMULUS` | physical | Physical/environmental input | electrical, physical, environmental |
-| `OUTPUT` | output | Electrical or digital output | electrical, physical, environmental |
-| `VDD` | power | Supply | electrical, physical, environmental |
-| `GND` | power | Reference | electrical, physical, environmental |
+| `S` | STIMULUS | physical | electrical, physical, environmental |
+| `O` | OUTPUT | output | electrical, physical, environmental |
+| `VDD` | VDD | power | electrical, physical, environmental |
+| `GND` | GND | power | electrical, physical, environmental |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `sensitivity` | SI | 1 | finite |
-| `offset` | SI | 0 | finite |
-| `response_time` | s | 0.01 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `minimum_temperature` | Minimum measured temperature | K | 223.15 | >0 |
+| `maximum_temperature` | Maximum measured temperature | K | 423.15 | >minimum_temperature |
+| `output_scale` | Normalized electrical output span | V | 1 | >0 |
+| `offset` | Output offset | V | 0 | finite |
+| `response_time` | Thermal response time | s | 1 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +68,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The electrical/digital output is the calibrated transfer f(temperature) plus declared response lag, range, quantization, drift, and noise.
+- **Exact nominal vector:** pins `S:STIMULUS`/physical, `O:OUTPUT`/output, `VDD:VDD`/power, `GND:GND`/power; parameters `minimum_temperature`=223.15 K (>0); `maximum_temperature`=423.15 K (>minimum_temperature); `output_scale`=1 V (>0); `offset`=0 V (finite); `response_time`=1 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEN-TEMPERATURE_SENSOR-NOMINAL`, `GOLD-SEN-TEMPERATURE_SENSOR-BOUNDARY`, `GOLD-SEN-TEMPERATURE_SENSOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

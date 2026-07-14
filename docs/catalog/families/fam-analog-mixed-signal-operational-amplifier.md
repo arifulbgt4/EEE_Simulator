@@ -4,7 +4,7 @@
 - **Category:** Analog and mixed-signal abstractions
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 13-17
 
 ## Purpose and scope
@@ -21,8 +21,8 @@ Search aliases are **Operational amplifier**, **Operational Amplifier**, and `op
 |---|---|---|---|---|
 | `var-analog-mixed-signal-operational-amplifier-ideal` | Ideal | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 | `var-analog-mixed-signal-operational-amplifier-bipolar-general-purpose` | Bipolar General Purpose | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-operational-amplifier-cmos` | Cmos | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-operational-amplifier-rail-to-rail` | Rail To Rail | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-operational-amplifier-cmos` | Cmos | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-operational-amplifier-rail-to-rail` | Rail To Rail | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -37,23 +37,26 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `IN+` | input | Non-inverting or primary input | analog, digital, power |
-| `IN-` | input | Inverting or secondary input | analog, digital, power |
-| `OUT` | output | Primary output | analog, digital, power |
-| `V+` | power | Positive supply | analog, digital, power |
-| `V-` | power | Negative supply | analog, digital, power |
+| `1` | IN+ | input | analog, digital, power |
+| `2` | IN- | input | analog, digital, power |
+| `3` | OUT | output | analog, digital, power |
+| `4` | V+ | power | analog, digital, power |
+| `5` | V- | power | analog, digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `open_loop_gain` | DC open-loop gain | 1 | 1e5 | >0 |
+| `gain_bandwidth` | Gain-bandwidth product | Hz | 1e6 | >0 |
+| `slew_rate` | Output slew rate | V/s | 1e6 | >0 |
+| `input_offset` | Input offset voltage | V | 0 | finite |
+| `input_bias_current` | Input bias current | A | 0 | finite |
+| `output_resistance` | Output resistance | ohm | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -67,6 +70,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: F1 computes Vout = clamp(Aol*(Vplus-Vminus), supply/output limits); higher tiers add poles, slew, bias, noise, common-mode, and output-drive limits.
+- **Exact nominal vector:** pins `1:IN+`/input, `2:IN-`/input, `3:OUT`/output, `4:V+`/power, `5:V-`/power; parameters `open_loop_gain`=1e5 1 (>0); `gain_bandwidth`=1e6 Hz (>0); `slew_rate`=1e6 V/s (>0); `input_offset`=0 V (finite); `input_bias_current`=0 A (finite); `output_resistance`=0 ohm (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-AMS-OPERATIONAL_AMPLIFIER-NOMINAL`, `GOLD-AMS-OPERATIONAL_AMPLIFIER-BOUNDARY`, `GOLD-AMS-OPERATIONAL_AMPLIFIER-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

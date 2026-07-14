@@ -23,16 +23,58 @@ Implement antenna behavioral abstraction. Deliver one reviewable outcome that sa
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-RF-003`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` clauses governing **antenna behavioral abstraction**, together with every acceptance obligation in REQ-024, REQ-028.
+- Prerequisite input: the completion evidence for `PLAT-RF-003`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_RF_004_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `implement_antenna_behavioral_abstraction`: RF ports, reference impedances, frequency grids, S-parameters, network topology, channel models, and conversion settings; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-RF-004.
+- Evidence input: `TEST-PLAT-RF-004-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-RF-004-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-rf-004-implement-antenna-behavioral-abstraction.md`
+- `docs/tasks/epics/epic-rf-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-RF-004-ACCEPTANCE`
+- `TEST-PLAT-RF-004-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Implement antenna behavioral abstraction**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- An implementation behavior and public-interface record named `implement_antenna_behavioral_abstraction` for **antenna behavioral abstraction**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-RF-004` fixture accepts the minimal valid input and produces the documented deterministic state transition or output; the published outcome is validated RF network response and frequency-domain diagnostics.
+- Failure outcome: `PLAT_RF_004_INVALID_INPUT` and `PLAT_RF_004_EXECUTION_FAILURE` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-RF-004-ACCEPTANCE` and `TEST-PLAT-RF-004-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-024, REQ-028, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-rf-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Implement antenna behavioral abstraction. Deliver one reviewable outcome that sa
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_RF_004_NOMINAL`: processing a minimal valid **antenna behavioral abstraction** fixture accepts the minimal valid input and produces the documented deterministic state transition or output; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_RF_004_BOUNDARY`: the **antenna behavioral abstraction** fixture matrix covers frequency-envelope edge, zero or extreme impedance, single-port/two-port limit, passivity edge, and time-domain transform boundary; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_RF_004_INVALID_INPUT`: reject a malformed Touchstone record, inconsistent port count, non-monotonic frequency, missing reference impedance, or non-finite matrix value before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_RF_004_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-RF-003`; no implicit migration or downgrade is allowed.
+- `PLAT_RF_004_EXECUTION_FAILURE`: contain passivity or causality violation, unstable transform, unsupported band, reference mismatch, or resource-limited network solve with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-024, REQ-028 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-RF-004-ACCEPTANCE` proves that **Implement antenna behavioral abstraction** accepts the minimal valid input and produces the documented deterministic state transition or output, produces validated RF network response and frequency-domain diagnostics, and satisfies every metadata requirement: REQ-024, REQ-028.
+2. `TEST-PLAT-RF-004-FAILURE` executes `PLAT_RF_004_INVALID_INPUT`, `PLAT_RF_004_PREREQUISITE_MISMATCH`, and `PLAT_RF_004_EXECUTION_FAILURE` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `PLAT-RF-003`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-RF-004 card, its epic, test registry entries `TEST-PLAT-RF-004-ACCEPTANCE` and `TEST-PLAT-RF-004-FAILURE`, requirement links REQ-024, REQ-028, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

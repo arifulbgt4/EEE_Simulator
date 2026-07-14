@@ -4,7 +4,7 @@
 - **Category:** Measurement instruments
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 20-23
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Specialized instrument**, **Specialized Instrument**, and `
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-instruments-specialized-instrument-curve-tracer` | Curve Tracer | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-instruments-specialized-instrument-protocol-analyzer` | Protocol Analyzer | F0, F1, F2 | Realistic Electronics MVP | `pkg-virtual` |
+| `var-instruments-specialized-instrument-curve-tracer` | Curve Tracer | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
+| `var-instruments-specialized-instrument-protocol-analyzer` | Protocol Analyzer | F0, F1, F2 | Post-MVP catalog | `pkg-virtual` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,21 +35,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `CHANNEL+` | input | Positive measurement terminal | measurement, electrical |
-| `CHANNEL-` | input | Negative measurement terminal | measurement, electrical |
-| `COMMON` | reference | Optional common reference | measurement, electrical |
+| `CH+` | CHANNEL+ | input | measurement, electrical |
+| `CH-` | CHANNEL- | input | measurement, electrical |
+| `COM` | COMMON | reference | measurement, electrical |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `instrument_profile` | Curve-tracer or protocol profile | 1 | curve-tracer | curve-tracer or registered protocol |
+| `stimulus_minimum` | Stimulus minimum | V | 0 | finite |
+| `stimulus_maximum` | Stimulus maximum | V | 5 | >stimulus_minimum |
+| `sample_rate` | Sample/decode rate | Hz | 1e6 | >0 |
+| `channel_count` | Observed channel count | 1 | 2 | 1..4096 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -63,6 +65,19 @@ Supported fidelity tiers: **F0, F1, F2**. Supported analysis capabilities: **mea
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected curve-tracer/protocol function applies its declared stimulus or passive decode and emits measurements with explicit loading, timing, and limits.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected curve-tracer/protocol function applies its declared stimulus or passive decode and emits measurements with explicit loading, timing, and limits.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected curve-tracer/protocol function applies its declared stimulus or passive decode and emits measurements with explicit loading, timing, and limits.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected curve-tracer/protocol function applies its declared stimulus or passive decode and emits measurements with explicit loading, timing, and limits.
+- **Exact nominal vector:** pins `CH+:CHANNEL+`/input, `CH-:CHANNEL-`/input, `COM:COMMON`/reference; parameters `instrument_profile`=curve-tracer 1 (curve-tracer or registered protocol); `stimulus_minimum`=0 V (finite); `stimulus_maximum`=5 V (>stimulus_minimum); `sample_rate`=1e6 Hz (>0); `channel_count`=2 1 (1..4096).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-INS-SPECIALIZED_INSTRUMENT-NOMINAL`, `GOLD-INS-SPECIALIZED_INSTRUMENT-BOUNDARY`, `GOLD-INS-SPECIALIZED_INSTRUMENT-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

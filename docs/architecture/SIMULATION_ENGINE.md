@@ -7,7 +7,7 @@ Primary implementation target: Rust compiled to WebAssembly for eligible local j
 
 This document defines the analog, electrical, thermal, tolerance, and failure simulation engine. It establishes numerical behavior, engine-facing component contracts, deterministic execution, diagnostics, and result integrity. Digital and cross-engine scheduling are defined in [Multi-Fidelity and Co-Simulation](./MULTI_FIDELITY_AND_CO_SIMULATION.md).
 
-The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear device equations, iterative solution, transient stepping, convergence checks, and waveform retention. [Source brief, pp. 9-11]
+The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear device equations, iterative solution, transient stepping, convergence checks, and waveform retention. [Source PDF, pp. 9-11]
 
 ## 2. Solver scope by release
 
@@ -23,7 +23,7 @@ The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear 
 | electrothermal feedback and failure transitions | F4 | realistic electronics gate |
 | physical device/TCAD model | F5 | deferred research/HPC |
 
-The engine is not initially a complete SPICE replacement. The platform begins with a small educational solver, stabilizes UI/netlist/component architecture, and later adds compatible external backends. [Source brief, pp. 32-33, 43]
+The engine is not initially a complete SPICE replacement. The platform begins with a small educational solver, stabilizes UI/netlist/component architecture, and later adds compatible external backends. [Source PDF, pp. 32-33, 43]
 
 ## 3. Canonical quantities and units
 
@@ -94,7 +94,7 @@ The baseline electrical formulation is MNA:
 A(x, t, T) * x = z(x, t, T)
 ```
 
-where `x` contains node voltages and selected branch currents. The engine MUST use sparse storage and SHOULD support compressed sparse row/column forms, sparse LU factorization, symbolic factorization reuse, and incremental restamping. Dense solvers MAY be used only below a measured threshold. [Source brief, pp. 9-10, 29]
+where `x` contains node voltages and selected branch currents. The engine MUST use sparse storage and SHOULD support compressed sparse row/column forms, sparse LU factorization, symbolic factorization reuse, and incremental restamping. Dense solvers MAY be used only below a measured threshold. [Source PDF, pp. 9-10, 29]
 
 Topology changes invalidate the symbolic structure. Parameter or source changes invalidate only affected numeric entries when a model declares incremental safety.
 
@@ -109,12 +109,12 @@ DC analysis MUST:
 - try declared convergence aids in deterministic order: initial condition, source stepping, conductance stepping, damping/line search, and limited model-specific continuation;
 - stop with `NON_CONVERGENCE` rather than return the last iterate as a successful result.
 
-A successful result requires both update convergence and residual convergence. The result manifest records tolerances, iteration count, convergence aids used, and engine build. [Source brief, pp. 9-10, 39]
+A successful result requires both update convergence and residual convergence. The result manifest records tolerances, iteration count, convergence aids used, and engine build. [Source PDF, pp. 9-10, 39]
 
 ## 8. Transient analysis
 
 - The baseline integrator MUST include at least backward Euler for startup/robustness and trapezoidal or a documented higher-order method for accuracy.
-- The engine MUST support adaptive timestep based on local truncation error, device breakpoints, source discontinuities, and the next scheduler boundary event. [Source brief, pp. 10, 29-30]
+- The engine MUST support adaptive timestep based on local truncation error, device breakpoints, source discontinuities, and the next scheduler boundary event. [Source PDF, pp. 10, 29-30]
 - A proposed step is either fully accepted or fully rejected. Model states, thermal states, and emitted events MUST roll back on rejection.
 - The engine MUST land exactly on mandatory event ticks within conversion tolerance.
 - Minimum and maximum timestep, stop time, maximum accepted steps, and maximum rejected steps are explicit request limits.
@@ -129,7 +129,7 @@ AC analysis MUST linearize nonlinear devices around a converged DC operating poi
 
 ### 9.2 Noise
 
-Noise analysis MAY include resistor thermal noise, semiconductor shot noise, flicker noise, and supply noise when the selected models declare support. Unsupported contributors MUST be listed; the UI MUST NOT imply a complete noise result. [Source brief, pp. 10-11]
+Noise analysis MUST include resistor thermal noise, semiconductor shot noise, flicker noise, and supply noise whenever the selected models declare those contributors supported. Unsupported contributors MUST be listed; the UI MUST NOT imply a complete noise result. [Source PDF, pp. 10-11]
 
 ### 9.3 Parameter sweep and Monte Carlo
 
@@ -141,7 +141,7 @@ Noise analysis MAY include resistor thermal noise, semiconductor shot noise, fli
 
 ## 10. Thermal and failure coupling
 
-The minimum lumped thermal relationship is derived from power, ambient temperature, thermal resistance, and thermal capacitance. Detailed models MAY add networks and neighboring heat sources. [Source brief, pp. 5-9, 11]
+The minimum lumped thermal relationship is derived from power, ambient temperature, thermal resistance, and thermal capacitance. Detailed models MAY add networks and neighboring heat sources. [Source PDF, pp. 5-9, 11]
 
 ```mermaid
 flowchart LR
@@ -157,7 +157,7 @@ flowchart LR
 - Electrical and thermal coupling policy MUST declare its timestep and convergence method: staggered, iterated staggered, or fully coupled.
 - Power sign conventions MUST be documented per domain; heat generation cannot be inferred from unsigned current alone.
 - Failure policies support `warn-only`, `stop-before-transition`, `inject-deterministic`, and `inject-stochastic`.
-- Supported failure states include open circuit, short circuit, resistance increase, leakage increase, intermittent failure, and permanent breakdown. [Source brief, pp. 8-9]
+- Supported failure states include open circuit, short circuit, resistance increase, leakage increase, intermittent failure, and permanent breakdown. [Source PDF, pp. 8-9]
 - A failure transition MUST be timestamped, attributed to a rule/model, and included in the result. It MUST NOT mutate the saved project unless the user explicitly applies it as a scenario.
 
 ## 11. Determinism
@@ -205,7 +205,7 @@ Partial results from cancellation, timeout, or failure MAY be retained, but MUST
 
 ## 14. WebAssembly execution
 
-- Local production builds MUST provide a single-threaded Rust/WASM artifact and MAY provide a threaded artifact.
+- Local production builds MUST provide both single-threaded and threaded Rust/WASM artifacts with identical public contracts and result semantics.
 - Threaded execution requires cross-origin isolation and MUST be feature-detected. The deployment requirements are described by the [Emscripten pthreads documentation](https://emscripten.org/docs/porting/pthreads.html), even when the core is compiled with Rust tooling.
 - A local run MUST execute in a dedicated Worker. The main thread MUST NOT perform blocking waits.
 - Memory growth, maximum pages, transfer buffers, and cancellation polling are explicit build capabilities.
@@ -235,4 +235,4 @@ Targets apply only inside the documented parameter, temperature, frequency, and 
 
 The engine test corpus MUST cover at least: open and short circuits, voltage divider, RC and RL transient, RLC resonance, diode rectifier, BJT switch, CMOS inverter, ring oscillator, op-amp linear/saturation cases, ideal versus non-ideal passive comparison, tolerance yield, noise source accounting, thermal rise, thermal runaway, deterministic failure injection, floating node, singular matrix, nonlinear non-convergence, timestep underflow, non-finite model value, cancellation, checkpoint/restore, and memory quota behavior.
 
-The underlying component and solver behaviors are motivated by the brief's model and failure sections. [Source brief, pp. 3-11, 32-37]
+The underlying component and solver behaviors are motivated by the brief's model and failure sections. [Source PDF, pp. 3-11, 32-37]

@@ -37,23 +37,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `ADDRESS` | bidirectional | Address interface | digital, architecture, power |
-| `DATA` | bidirectional | Data interface | digital, architecture, power |
-| `CONTROL` | bidirectional | Control interface | digital, architecture, power |
-| `CLOCK` | input | Clock | digital, architecture, power |
-| `POWER` | power | Abstract power interface | digital, architecture, power |
+| `ADDR` | ADDRESS | bidirectional | digital, architecture, power |
+| `DATA` | DATA | bidirectional | digital, architecture, power |
+| `CTRL` | CONTROL | bidirectional | digital, architecture, power |
+| `CLK` | CLOCK | input | digital, architecture, power |
+| `PWR` | POWER | power | digital, architecture, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `word_width` | bit | 8 | 1..4096 |
-| `clock_frequency` | Hz | 1000000 | > 0 |
-| `abstraction` | 1 | functional | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `system_profile` | Complete-system profile | 1 | edu-8 | registered profile |
+| `clock_frequency` | System clock | Hz | 1e6 | >0 |
+| `memory_size` | Main-memory size | byte | 65536 | >0 |
+| `boot_image_digest` | Pinned boot image digest | 1 | unset | valid digest before Ready |
+| `checkpoint_interval` | Checkpoint interval | tick | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -67,6 +69,18 @@ Supported fidelity tiers: **F0, F2**. Supported analysis capabilities: **functio
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The system composes pinned CPU, memory, bus, peripheral, boot, and I/O profiles under a deterministic global clock/event and reset contract.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The system composes pinned CPU, memory, bus, peripheral, boot, and I/O profiles under a deterministic global clock/event and reset contract.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The system composes pinned CPU, memory, bus, peripheral, boot, and I/O profiles under a deterministic global clock/event and reset contract.
+- **Exact nominal vector:** pins `ADDR:ADDRESS`/bidirectional, `DATA:DATA`/bidirectional, `CTRL:CONTROL`/bidirectional, `CLK:CLOCK`/input, `PWR:POWER`/power; parameters `system_profile`=edu-8 1 (registered profile); `clock_frequency`=1e6 Hz (>0); `memory_size`=65536 byte (>0); `boot_image_digest`=unset 1 (valid digest before Ready); `checkpoint_interval`=0 tick (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-CPU-COMPUTER_SYSTEM-NOMINAL`, `GOLD-CPU-COMPUTER_SYSTEM-BOUNDARY`, `GOLD-CPU-COMPUTER_SYSTEM-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -8,13 +8,13 @@ Deliver the complete **RF communications and distributed models** capability for
 
 - Requirements: REQ-024, REQ-028
 - Release: R7
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-RF-001](../platform/plat-rf-001-define-rf-port-and-reference-impedance-contract.md) | Define RF port and reference-impedance contract | Gate G0 documentation baseline | Planned |
+| [PLAT-RF-001](../platform/plat-rf-001-define-rf-port-and-reference-impedance-contract.md) | Define RF port and reference-impedance contract | Gate G6 Electronics MVP | Planned |
 | [PLAT-RF-002](../platform/plat-rf-002-implement-s-parameter-black-box-model.md) | Implement S-parameter black-box model | PLAT-RF-001 | Planned |
 | [PLAT-RF-003](../platform/plat-rf-003-implement-lossless-and-lossy-transmission-models.md) | Implement lossless and lossy transmission models | PLAT-RF-002 | Planned |
 | [PLAT-RF-004](../platform/plat-rf-004-implement-antenna-behavioral-abstraction.md) | Implement antenna behavioral abstraction | PLAT-RF-003 | Planned |

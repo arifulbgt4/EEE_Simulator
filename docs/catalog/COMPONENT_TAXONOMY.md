@@ -1,24 +1,39 @@
 # Component Taxonomy
 
 Status: **Frozen documentation baseline 1.0**  
-Requirements: **REQ-003, REQ-004, REQ-006, REQ-037, REQ-038**  
+Requirements: **REQ-022, REQ-023, REQ-037, REQ-038**
 Machine-readable source: [component-registry.yaml](component-registry.yaml)  
+Normative pin profiles: [variant-pin-profiles.yaml](variant-pin-profiles.yaml)
 Package source: [package-registry.yaml](package-registry.yaml)
 
 ## Completeness claim
 
 The built-in catalog tracks **162 canonical component families and 502 meaningful variants/presets**. Of these, 157 families and 494 variants form the production baseline; five families and eight variants remain explicitly Deferred/Research. The baseline covers electrical, digital, embedded, computer, RF, environmental, instrument, and physical-interface primitives requested by the source brief. [Source PDF, pp. 6-35]
 
-`Complete` does not mean every manufacturer ordering code. A manufacturer part is a vendor model bound to a canonical variant, explicit pin map, provenance record, and independently selected package. Package templates and package revisions are a separate dimension and never alter the frozen 162/502 component counts.
+`Complete` does not mean every manufacturer ordering code. A manufacturer part is a vendor model bound to a canonical variant, its explicit `PinProfile`, provenance record, and an independently selected package through `DevicePackageBinding`. Package templates and package revisions are a separate dimension and never alter the frozen 162/502 component counts.
+
+## Release profiles
+
+- **Realistic Electronics MVP:** 106 explicitly tagged production presets covering the core connectivity, sources, RLC, basic switches, diode/LED, BJT, MOSFET, op-amp, basic logic/memory, and instruments needed by the R2-R6 golden demonstrations.
+- **Post-MVP complete catalog:** 388 production presets remain visible and planned for R7; they are not omitted or silently represented as MVP-ready.
+- **Deferred/Research:** eight presets remain visible behind explicit F5/research gates.
+
+The machine-readable `release_target` on each variant is authoritative. A family may have mixed targets because its shared electrical model can support a small MVP preset while advanced presets retain separate catalog, validation, and release obligations. Reclassifying a preset requires synchronized registry, family, task, test, traceability, and release-checklist updates.
 
 ## Taxonomic levels
 
 1. **Category** groups related engineering purpose and simulation domain.
-2. **Family** owns stable pin semantics, parameters, symbol contract, supported analyses, fidelity envelope, and validation obligations.
-3. **Variant** is a meaningful built-in behavior/profile preset, not a cosmetic color or package.
+2. **Family** owns the stable pin-role vocabulary, parameters, symbol contract, supported analyses, fidelity envelope, and validation obligations; its compact pin list is a preview, not a variant topology.
+3. **Variant** is a meaningful built-in behavior/profile preset, not a cosmetic color or package, and selects exactly one normative `PinProfile`.
 4. **Vendor model** is imported data with provenance, license, pin map, supported analyses, and limitations.
 5. **Package** describes physical appearance and contact geometry independently of electrical function.
 6. **Footprint** is optional manufacturing metadata; it is not inferred from a visual package.
+
+## Variant pin topology
+
+The 502 built-in variants have 502 stable profile IDs in [variant-pin-profiles.yaml](variant-pin-profiles.yaml). The profile is authoritative for ordered logical pins, scalar versus bus shape, direction, domain, required state, optional groups, and bounded cardinality. This resolves legitimate family variation such as SPST/SPDT/DPDT contacts, isolated versus bussed resistor arrays, transformer windings and taps, RGB LED electrodes, semiconductor terminal conventions, analog/digital converter buses, motor phases, displays, connector protocols, memory interfaces, and RF N-ports.
+
+Family role vocabulary remains stable while profiles select a valid subset and topology. For example, the IGBT family exposes collector/gate/emitter roles and its profiles use `C`, `G`, `E`, plus an optional Kelvin emitter; they do not inherit MOSFET `D/G/S/B` terminals. A topology change never comes from package selection. The package contact map remains an explicit, separately validated `DevicePackageBinding`.
 
 ## Frozen category counts
 
@@ -302,6 +317,7 @@ These totals are acceptance invariants. Adding, removing, merging, or splitting 
 - Variant: `var-<category>-<family>-<variant>`.
 - Symbol: `sym-<category>-<family>`.
 - Package: `pkg-<package>`.
+- Device/package binding: `dpb-<variant-slug>-<package-slug>`.
 - Golden validation: `GOLD-<CATEGORY_CODE>-<FAMILY>-<CONCERN>`.
 
 Published IDs are immutable. Names and aliases may be clarified, but aliases cannot be reused for another object. A deprecated record remains resolvable and points to its successor or migration rule.
@@ -310,7 +326,7 @@ Published IDs are immutable. Names and aliases may be clarified, but aliases can
 
 A family is tagged `basic-component` when users reasonably expect a recognizable standalone physical body, leads/contacts, polarity or orientation cues, and value/part markings. In baseline 1.0 this includes connectivity hardware, sources/loads with physical counterparts, passives, switches/protection, semiconductors/optoelectronics, sensors, actuators/HMI, and connectors/cables.
 
-Every production variant declares a release target. The first target is `Realistic Electronics MVP`; later entries use `Post-MVP catalog` or an explicitly named stage. Deferred families use `Research`. A `basic-component` variant cannot become `Released` without an original scalable physical representation and at least one validated package/appearance mapping. This is the catalog enforcement point for REQ-037.
+Every production variant declares a release target. The first target is `Realistic Electronics MVP`; later entries use `Post-MVP catalog` or an explicitly named stage. Deferred families use `Research`. A `basic-component` variant cannot become `Released` without an original scalable physical representation and at least one published concrete `DevicePackageBinding` when its physical view uses a reusable package. Candidate `package_refs` and family compatibility lists have no release authority. This is the catalog enforcement point for REQ-037; the exact distinction is normative in [DEVICE_PACKAGE_BINDING_CONTRACT.md](DEVICE_PACKAGE_BINDING_CONTRACT.md).
 
 ## Symbol, physical, package, and footprint separation
 
@@ -319,6 +335,8 @@ Every production variant declares a release target. The first target is `Realist
 - The **package** supplies reusable body/contact geometry, dimensions, markings, materials, and pin numbering.
 - The optional **footprint** supplies sourced manufacturing land-pattern metadata.
 - The **electrical model** supplies simulation behavior.
+
+Package compatibility metadata answers which definitions may be offered by a chooser. It never supplies a pinout. Only a `DevicePackageBinding` pins an exact logical-pin contract, package revision, resolved dimensions/contacts, appearance revision, explicit contact map, provenance, and evidence.
 
 Switching views preserves instance identity, connectivity, parameters, model binding, live state, selection, and undo history. A package change cannot silently change electrical behavior. See [PACKAGE_AND_PHYSICAL_APPEARANCE.md](PACKAGE_AND_PHYSICAL_APPEARANCE.md).
 
@@ -337,6 +355,6 @@ Vacuum tubes, memristive devices, Josephson junctions, TCAD device physics, and 
 - Registry totals remain exactly 162 families and 502 variants.
 - Every family has one specification file and no specification is orphaned.
 - Every variant has a stable ID, release target, model tiers, package compatibility, supported analyses, provenance, limitations, and golden-test obligations.
-- Every package map is explicit and orientation-aware.
+- Every released package map is a concrete `DevicePackageBinding`; candidate references are never counted as bindings.
 - No IEC artwork, protected vendor mark, or unreviewed redistributable model is embedded.
 - A completeness statement always distinguishes built-ins, vendor imports, packages, and research scope.

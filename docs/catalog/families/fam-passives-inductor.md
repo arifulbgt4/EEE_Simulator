@@ -4,7 +4,7 @@
 - **Category:** Passives, magnetics and transmission
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 8-13
 
 ## Purpose and scope
@@ -20,7 +20,7 @@ Search aliases are **Inductor**, **Inductor**, and `inductor`. Variant names are
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
 | `var-passives-inductor-air-core` | Air Core | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-custom-parametric` |
-| `var-passives-inductor-iron-core` | Iron Core | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-custom-parametric` |
+| `var-passives-inductor-iron-core` | Iron Core | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-radial-2`, `pkg-custom-parametric` |
 | `var-passives-inductor-ferrite-core` | Ferrite Core | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
@@ -36,20 +36,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, thermal |
-| `N` | passive | Negative or second terminal | electrical, thermal |
+| `1` | P | passive | electrical, thermal |
+| `2` | N | passive | electrical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | finite and positive unless stated |
-| `tolerance` | 1 | 0.05 | 0..1 |
-| `temperature_coefficient` | 1/K | 0 | variant-defined |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `inductance` | Nominal inductance | H | 1e-3 | >0 |
+| `series_resistance` | Winding resistance | ohm | 0 | >=0 |
+| `initial_current` | Initial current | A | 0 | finite |
+| `saturation_current` | Saturation current | A | 1 | >0 |
+| `core_loss_resistance` | Equivalent core-loss resistance | ohm | 1e9 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -63,6 +65,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Flux and voltage satisfy lambda = L*i and v = d(lambda)/dt; non-ideal profiles add winding resistance, saturation, loss, and initial-current state.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `inductance`=1e-3 H (>0); `series_resistance`=0 ohm (>=0); `initial_current`=0 A (finite); `saturation_current`=1 A (>0); `core_loss_resistance`=1e9 ohm (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-PAS-INDUCTOR-NOMINAL`, `GOLD-PAS-INDUCTOR-BOUNDARY`, `GOLD-PAS-INDUCTOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

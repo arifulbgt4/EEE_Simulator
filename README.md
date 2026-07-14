@@ -25,7 +25,7 @@ This staged path is the source study's recommended response to numerical scale, 
 - A deterministic, timestamped scheduler coordinates analog, digital, thermal, RTL, and external engines. [Source PDF, pp. 27-28, 40]
 - Apache-2.0 for the open-source core. GPL or mixed-license engines remain behind executable or process boundaries pending distribution review.
 
-These decisions are recorded in [ADR-0001 through ADR-0010](docs/decisions/ADR-0001.md).
+These decisions are recorded in the complete [ADR-0001 through ADR-0010 decision index](docs/START_HERE.md#decision-index).
 
 ## Documentation map
 
@@ -33,11 +33,18 @@ Start with [docs/START_HERE.md](docs/START_HERE.md). The most important contract
 
 - [Product requirements](docs/PRODUCT_REQUIREMENTS.md)
 - [Physical representation and IC package requirements](docs/PRODUCT_REQUIREMENTS.md#physical-representation-and-integrated-circuit-packages)
+- [Physical appearance and reusable package contract](docs/catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
+- [Device/package binding and pin-map contract](docs/catalog/DEVICE_PACKAGE_BINDING_CONTRACT.md)
+- [Reusable package registry](docs/catalog/package-registry.yaml)
 - [System architecture](docs/architecture/SYSTEM_ARCHITECTURE.md)
 - [Component registry](docs/catalog/component-registry.yaml)
+- [Variant pin-profile guide](docs/catalog/PIN_PROFILE_CATALOG.md)
+- [Normative variant pin-profile registry](docs/catalog/variant-pin-profiles.yaml)
 - [Component model contract](docs/catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Master roadmap](docs/planning/MASTER_ROADMAP.md)
 - [Atomic task index](docs/tasks/TASK_INDEX.md)
+- [Atomic task contract](docs/tasks/ATOMIC_TASK_CONTRACT.md)
+- [Stable test catalog](docs/quality/TEST_CATALOG.md)
 - [Requirements traceability](docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md)
 - [Release gates](docs/planning/RELEASE_GATES.md)
 

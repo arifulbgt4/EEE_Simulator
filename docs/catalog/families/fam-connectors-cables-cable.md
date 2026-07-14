@@ -39,20 +39,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `CONTACTS[1..N]` | passive | Parameterized contact array | electrical, mechanical |
-| `SHIELD` | passive | Optional shield or chassis | electrical, mechanical |
+| `1..N` | CONTACTS | passive | electrical, mechanical |
+| `S` | SHIELD | passive | electrical, mechanical |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `contact_count` | 1 | 2 | 1..4096 |
-| `contact_resistance` | ohm | 0.01 | >= 0 |
-| `pitch` | m | 0.00254 | > 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `conductor_count` | Conductor count | 1 | 2 | 1..4096 |
+| `length` | Cable length | m | 1 | >0 |
+| `resistance_per_length` | Conductor resistance per length | ohm/m | 0.1 | >=0 |
+| `inductance_per_length` | Conductor inductance per length | H/m | 250e-9 | >=0 |
+| `capacitance_per_length` | Mutual/shunt capacitance per length | F/m | 100e-12 | >=0 |
+| `shielded` | Shield presence | 1 | false | true or false |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +69,19 @@ Supported fidelity tiers: **F0, F1, F3**. Supported analysis capabilities: **con
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Each conductor pair/shield follows the declared connectivity and lumped or distributed RLGC/coupling model with length and termination parameters.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Each conductor pair/shield follows the declared connectivity and lumped or distributed RLGC/coupling model with length and termination parameters.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Each conductor pair/shield follows the declared connectivity and lumped or distributed RLGC/coupling model with length and termination parameters.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Each conductor pair/shield follows the declared connectivity and lumped or distributed RLGC/coupling model with length and termination parameters.
+- **Exact nominal vector:** pins `1..N:CONTACTS`/passive, `S:SHIELD`/passive; parameters `conductor_count`=2 1 (1..4096); `length`=1 m (>0); `resistance_per_length`=0.1 ohm/m (>=0); `inductance_per_length`=250e-9 H/m (>=0); `capacitance_per_length`=100e-12 F/m (>=0); `shielded`=false 1 (true or false).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-CAB-CABLE-NOMINAL`, `GOLD-CAB-CABLE-BOUNDARY`, `GOLD-CAB-CABLE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

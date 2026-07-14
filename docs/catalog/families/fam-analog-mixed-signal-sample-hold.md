@@ -4,7 +4,7 @@
 - **Category:** Analog and mixed-signal abstractions
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 13-17
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Sample and hold**, **Sample Hold**, and `sample-hold`. Vari
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-analog-mixed-signal-sample-hold-track-and-hold` | Track And Hold | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-sample-hold-sample-and-hold` | Sample And Hold | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-sample-hold-track-and-hold` | Track And Hold | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-sample-hold-sample-and-hold` | Sample And Hold | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,23 +35,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `IN+` | input | Non-inverting or primary input | analog, digital, power |
-| `IN-` | input | Inverting or secondary input | analog, digital, power |
-| `OUT` | output | Primary output | analog, digital, power |
-| `V+` | power | Positive supply | analog, digital, power |
-| `V-` | power | Negative supply | analog, digital, power |
+| `1` | IN+ | input | analog, digital, power |
+| `2` | IN- | input | analog, digital, power |
+| `3` | OUT | output | analog, digital, power |
+| `4` | V+ | power | analog, digital, power |
+| `5` | V- | power | analog, digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `hold_capacitance` | Hold capacitance | F | 1e-9 | >0 |
+| `track_resistance` | Track-mode resistance | ohm | 10 | >=0 |
+| `droop_current` | Hold-mode leakage current | A | 0 | >=0 |
+| `aperture_time` | Sampling aperture | s | 0 | >=0 |
+| `initial_voltage` | Initial held voltage | V | 0 | finite |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -65,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Track mode follows the input through declared acquisition dynamics; hold mode preserves capacitor state with explicit droop, aperture, and feedthrough.
+- **Exact nominal vector:** pins `1:IN+`/input, `2:IN-`/input, `3:OUT`/output, `4:V+`/power, `5:V-`/power; parameters `hold_capacitance`=1e-9 F (>0); `track_resistance`=10 ohm (>=0); `droop_current`=0 A (>=0); `aperture_time`=0 s (>=0); `initial_voltage`=0 V (finite).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-AMS-SAMPLE_HOLD-NOMINAL`, `GOLD-AMS-SAMPLE_HOLD-BOUNDARY`, `GOLD-AMS-SAMPLE_HOLD-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

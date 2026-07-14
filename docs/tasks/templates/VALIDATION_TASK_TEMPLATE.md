@@ -11,6 +11,18 @@
 | Fidelity/analysis | `<F# and analysis>` |
 | Depends on | `<task IDs>` |
 
+## Exact prerequisites
+
+- `PLAT-QA-001`, predecessor gate, and exact target task IDs.
+
+## Public contracts
+
+- Exact result, diagnostic, provenance, model, and package contracts.
+
+## Allowed files
+
+- Exact validation documentation and evidence paths; implementation files are forbidden.
+
 ## Reference
 
 State the independent analytical, reference-engine, manufacturer, standards, or published dataset. Record version, settings, operating envelope, and license.
@@ -22,6 +34,14 @@ List nominal, boundary, invalid, temperature, tolerance, failure, and regression
 ## Acceptance calculation
 
 State exact expected values/features and `atol`/`rtol` or exact digital/event rules.
+
+## Acceptance test ID
+
+- `TEST-GRC-<NNN>`
+
+## Documentation updates
+
+- Exact fixture, registry, coverage, traceability, and release records.
 
 ## Evidence
 

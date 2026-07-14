@@ -8,7 +8,7 @@ Deliver the complete **Schematic editor** capability for release R1, including n
 
 - Requirements: REQ-004, REQ-005, REQ-037, REQ-038
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

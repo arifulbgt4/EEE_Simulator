@@ -54,7 +54,7 @@ Each phase has four parallel tracks:
 - Add tolerance distributions, Monte Carlo, leakage, ESR/ESL, parasitic R/C/L, noise foundation, power limits, thermal resistance/capacitance, derating, and aging metadata.
 - Add open, short, degraded, leakage-increase, intermittent, and breakdown failure behavior.
 - Add heat maps, power indicators, limit diagnostics, failure injection, and deterministic seeds.
-- Validate GRC-021 through GRC-026.
+- Validate GRC-021, GRC-022, and GRC-026; catalog-bound power and protection fixtures GRC-023 through GRC-025 remain scheduled for R7.
 
 ## R5 - Event-driven digital and mixed-signal
 
@@ -63,7 +63,7 @@ Each phase has four parallel tracks:
 - Implement deterministic event queue, 0/1/X/Z logic, drive strength, delay, fan-out, buses, contention, setup/hold, and metastability indication.
 - Release basic gates, latch, flip-flop, mux/demux, encoder/decoder, counter, register, adder, and comparator.
 - Implement timestamped analog/digital boundaries, threshold bands, hysteresis, non-ideal output drive, and global scheduler ordering.
-- Validate GRC-027 through GRC-035.
+- Validate GRC-027 through GRC-034; the transistor-level SRAM fixture GRC-035 remains scheduled for R8 with the educational memory milestone.
 
 ## R6 - Realistic Electronics MVP
 
@@ -79,7 +79,7 @@ Each phase has four parallel tracks:
 
 - Complete passives/magnetics, protection/isolation, power electronics, sensors, actuators, connectors/cables, instruments, digital logic, memory, MCU/FPGA peripherals, and RF/communications, including their required physical/package representations.
 - Complete SPICE, Verilog/SystemVerilog, Verilog-A/AMS, IBIS, Touchstone, CSV/PWL, VCD/FST, and HEX/ELF format work scheduled for this phase.
-- Validate GRC-036 through GRC-040 plus every family-specific fixture.
+- Validate GRC-023 through GRC-025, GRC-036 through GRC-040, plus every family-specific fixture.
 
 ## R8 - Educational CPU
 
@@ -87,7 +87,7 @@ Each phase has four parallel tracks:
 
 - Release register file, ALU, program counter, decoder, control, flags, bus, ROM/RAM, clock, interrupt, timer, UART, assembler, loader, debugger, and instruction/state views.
 - Provide transistor or gate detail only for selected small blocks; use event/behavioral levels for the complete CPU.
-- Validate GRC-041 through GRC-043.
+- Validate GRC-035 and GRC-041 through GRC-043.
 
 ## R9 - RTL, FPGA, and educational full computer
 

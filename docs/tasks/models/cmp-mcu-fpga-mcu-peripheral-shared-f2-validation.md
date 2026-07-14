@@ -11,35 +11,81 @@
 | Concern | VALIDATION |
 | Release | R7 |
 | Requirements | REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Produce independent validation evidence for **MCU peripheral** at **F2** without modifying the model under test.
 
+## Exact prerequisites
+
+- `CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-MODEL`
+- `PLAT-QA-001`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-mcu-fpga-mcu-peripheral.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: MCU peripheral, Mcu Peripheral, mcu-peripheral
-- Pins: IO:GPIO(bidirectional), RST:RESET(input), CLK:CLOCK(input), VDD:VDD(power), VSS:VSS(power)
-- Parameters: width [bit], propagation_delay [s], logic_family [1]
-- Supported analyses: digital-event, firmware, rtl, timing
-- Package mappings: pkg-dip, pkg-soic, pkg-tssop, pkg-qfp, pkg-qfn, pkg-bga, pkg-custom-parametric
-- Golden references: GOLD-MCU-MCU_PERIPHERAL-NOMINAL, GOLD-MCU-MCU_PERIPHERAL-BOUNDARY, GOLD-MCU-MCU_PERIPHERAL-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 25-30
+- Stable family: `fam-mcu-fpga-mcu-peripheral` (MCU peripheral); task scope: shared family scope across `var-mcu-fpga-mcu-peripheral-gpio`, `var-mcu-fpga-mcu-peripheral-timer`, `var-mcu-fpga-mcu-peripheral-pwm`, `var-mcu-fpga-mcu-peripheral-watchdog`, `var-mcu-fpga-mcu-peripheral-interrupt-controller`, `var-mcu-fpga-mcu-peripheral-dma`; fidelity `F2`; concern `VALIDATION`.
+- Exact pins: `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power).
+- Exact parameters/defaults/limits: `peripheral_profile`=timer 1 with limits timer, pwm, watchdog, interrupt, or dma; `clock_frequency`=1e6 Hz with limits >0; `channel_count`=1 1 with limits 1..4096; `counter_width`=16 bit with limits 1..64; `latency`=1 tick with limits >=0.
+- Supported analyses: `digital-event`, `firmware`, `rtl`, `timing`.
+- Valid package mappings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Golden references: `GOLD-MCU-MCU_PERIPHERAL-NOMINAL`, `GOLD-MCU-MCU_PERIPHERAL-BOUNDARY`, `GOLD-MCU-MCU_PERIPHERAL-FAILURE`.
+- Import mappings applicable to this family: `Verilog/SystemVerilog`, `VCD/FST`, `HEX/ELF`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 25-30; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [MCU peripheral family-specific implementation reference](../../catalog/families/fam-mcu-fpga-mcu-peripheral.md#family-specific-implementation-reference), registry row `fam-mcu-fpga-mcu-peripheral`, and shared family scope across `var-mcu-fpga-mcu-peripheral-gpio`, `var-mcu-fpga-mcu-peripheral-timer`, `var-mcu-fpga-mcu-peripheral-pwm`, `var-mcu-fpga-mcu-peripheral-watchdog`, `var-mcu-fpga-mcu-peripheral-interrupt-controller`, `var-mcu-fpga-mcu-peripheral-dma`.
+- Exact pin vector: `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power).
+- Exact parameter vector: `peripheral_profile`=timer 1 with limits timer, pwm, watchdog, interrupt, or dma; `clock_frequency`=1e6 Hz with limits >0; `channel_count`=1 1 with limits 1..4096; `counter_width`=16 bit with limits 1..64; `latency`=1 tick with limits >=0.
+- Declared analyses: `digital-event`, `firmware`, `rtl`, `timing`; declared package bindings: `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Candidate and independent reference must evaluate the same F2 rule: Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected timer/PWM/watchdog/interrupt/DMA peripheral uses a versioned register and event state machine with declared clock/reset behavior.
+- Exact reference vectors: `GOLD-MCU-MCU_PERIPHERAL-NOMINAL`, `GOLD-MCU-MCU_PERIPHERAL-BOUNDARY`, `GOLD-MCU-MCU_PERIPHERAL-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-mcu-fpga-mcu-peripheral-shared-f2-validation.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-mcu-fpga-mcu-peripheral.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Analytical or independent reference vectors.
-- Nominal, boundary, invalid, temperature and applicable failure comparisons.
-- Versioned evidence with environment, settings and tolerances.
+- One immutable candidate/reference evidence bundle for `GOLD-MCU-MCU_PERIPHERAL-NOMINAL`, `GOLD-MCU-MCU_PERIPHERAL-BOUNDARY`, `GOLD-MCU-MCU_PERIPHERAL-FAILURE` at `F2`, containing exact inputs, expected outputs, tolerance, versions, seed, and raw-result digests.
+- Nominal, every declared boundary class, and every applicable failure/diagnostic vector linked to this task's three stable acceptance-test IDs.
+- Scope is limited to `CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-VALIDATION`: shared family scope across `var-mcu-fpga-mcu-peripheral-gpio`, `var-mcu-fpga-mcu-peripheral-timer`, `var-mcu-fpga-mcu-peripheral-pwm`, `var-mcu-fpga-mcu-peripheral-watchdog`, `var-mcu-fpga-mcu-peripheral-interrupt-controller`, `var-mcu-fpga-mcu-peripheral-dma`, fidelity `F2`, concern `VALIDATION`, and requirements REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Produce independent validation evidence for **MCU peripheral** at **F2** without
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `IO:GPIO` (bidirectional; digital/firmware/power), `RST:RESET` (input; digital/firmware/power), `CLK:CLOCK` (input; digital/firmware/power), `VDD:VDD` (power; digital/firmware/power), `VSS:VSS` (power; digital/firmware/power); reject any package map outside `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `peripheral_profile`=timer 1 with limits timer, pwm, watchdog, interrupt, or dma; `clock_frequency`=1e6 Hz with limits >0; `channel_count`=1 1 with limits 1..4096; `counter_width`=16 bit with limits 1..64; `latency`=1 tick with limits >=0.
+- Support only `digital-event`, `firmware`, `rtl`, `timing`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Missing independent reference, wrong seed/version, tolerance breach, nondeterminism, absent raw data, or a silent diagnostic mismatch fails the evidence bundle.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-VALIDATION-NOMINAL`
+- `TEST-CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-VALIDATION-BOUNDARY`
+- `TEST-CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-VALIDATION-FAILURE`
 
 ## Acceptance
 
-1. Every declared golden assertion for the tier passes.
-2. The reference is independent and reproducible.
-3. Failure results are structured and never silently approximated.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-MCU-FPGA-MCU-PERIPHERAL-SHARED-F2-VALIDATION` exists and is limited to shared family scope across `var-mcu-fpga-mcu-peripheral-gpio`, `var-mcu-fpga-mcu-peripheral-timer`, `var-mcu-fpga-mcu-peripheral-pwm`, `var-mcu-fpga-mcu-peripheral-watchdog`, `var-mcu-fpga-mcu-peripheral-interrupt-controller`, `var-mcu-fpga-mcu-peripheral-dma`, `F2`, and `VALIDATION`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-mcu-fpga-mcu-peripheral` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-020, REQ-021, REQ-024, REQ-025, REQ-026, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

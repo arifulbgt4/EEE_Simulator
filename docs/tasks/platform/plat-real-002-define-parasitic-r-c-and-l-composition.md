@@ -23,16 +23,58 @@ Define parasitic R C and L composition. Deliver one reviewable outcome that sati
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-REAL-001`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/SIMULATION_ENGINE.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/SIMULATION_ENGINE.md` clauses governing **parasitic R C and L composition**, together with every acceptance obligation in REQ-014, REQ-015, REQ-016.
+- Prerequisite input: the completion evidence for `PLAT-REAL-001`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_REAL_002_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `define_parasitic_r_c_and_l_composition`: component and package definitions, scalable geometry, physical dimensions, render exaggeration, logical pins, pin maps, markings, and provenance; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-REAL-002.
+- Evidence input: `TEST-PLAT-REAL-002-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-REAL-002-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-real-002-define-parasitic-r-c-and-l-composition.md`
+- `docs/tasks/epics/epic-real-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/SIMULATION_ENGINE.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/SIMULATION_ENGINE.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-REAL-002-ACCEPTANCE`
+- `TEST-PLAT-REAL-002-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Define parasitic R C and L composition**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- A versioned normative contract named `define_parasitic_r_c_and_l_composition` for **parasitic R C and L composition**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-REAL-002` fixture resolves every required field, default, invariant, version rule, and public input/output without ambiguity; the published outcome is recognizable accessible physical/package projection and pin-equivalence evidence.
+- Failure outcome: `PLAT_REAL_002_SCHEMA_INVALID` and `PLAT_REAL_002_COMPATIBILITY_CONFLICT` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-REAL-002-ACCEPTANCE` and `TEST-PLAT-REAL-002-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-014, REQ-015, REQ-016, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-real-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/SIMULATION_ENGINE.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Define parasitic R C and L composition. Deliver one reviewable outcome that sati
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_REAL_002_NOMINAL`: processing a minimal valid **parasitic R C and L composition** fixture resolves every required field, default, invariant, version rule, and public input/output without ambiguity; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_REAL_002_BOUNDARY`: the **parasitic R C and L composition** fixture matrix covers minimum/maximum pin count, rotation and mirror, distant zoom, high contrast, exposed pad, and illustrative-dimension edge; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_REAL_002_SCHEMA_INVALID`: reject a duplicate or missing pin, pin-map mismatch, non-finite dimension, colliding geometry, invisible orientation cue, or unlicensed artwork before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_REAL_002_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-REAL-001`; no implicit migration or downgrade is allowed.
+- `PLAT_REAL_002_COMPATIBILITY_CONFLICT`: contain electrical identity change on view switch, misleading dimensional claim, inaccessible marking, renderer freeze, or package-version mutation with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-014, REQ-015, REQ-016 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-REAL-002-ACCEPTANCE` proves that **Define parasitic R C and L composition** resolves every required field, default, invariant, version rule, and public input/output without ambiguity, produces recognizable accessible physical/package projection and pin-equivalence evidence, and satisfies every metadata requirement: REQ-014, REQ-015, REQ-016.
+2. `TEST-PLAT-REAL-002-FAILURE` executes `PLAT_REAL_002_SCHEMA_INVALID`, `PLAT_REAL_002_PREREQUISITE_MISMATCH`, and `PLAT_REAL_002_COMPATIBILITY_CONFLICT` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/SIMULATION_ENGINE.md`, prerequisite `PLAT-REAL-001`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-REAL-002 card, its epic, test registry entries `TEST-PLAT-REAL-002-ACCEPTANCE` and `TEST-PLAT-REAL-002-FAILURE`, requirement links REQ-014, REQ-015, REQ-016, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

@@ -9,37 +9,83 @@
 | Variant | `shared` |
 | Fidelity | F1 |
 | Concern | VALIDATION |
-| Release | R1 |
+| Release | R2 |
 | Requirements | REQ-004, REQ-005, REQ-008, REQ-022, REQ-023, REQ-037 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Produce independent validation evidence for **Bus conductor** at **F1** without modifying the model under test.
 
+## Exact prerequisites
+
+- `CMP-CONNECTIVITY-BUS-SHARED-F1-MODEL`
+- `PLAT-QA-001`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-connectivity-bus.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Bus conductor, Bus, bus
-- Pins: 1:P(passive), 2:N(passive)
-- Parameters: nominal [SI], temperature [K], tolerance [1]
-- Supported analyses: connectivity, erc
-- Package mappings: pkg-virtual
-- Golden references: GOLD-CON-BUS-NOMINAL, GOLD-CON-BUS-BOUNDARY, GOLD-CON-BUS-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 6-8
+- Stable family: `fam-connectivity-bus` (Bus conductor); task scope: shared family scope across `var-connectivity-bus-parameterized-bus`; fidelity `F1`; concern `VALIDATION`.
+- Exact pins: `A:BUS_A` (bidirectional; electrical/digital/schematic), `B:BUS_B` (bidirectional; electrical/digital/schematic).
+- Exact parameters/defaults/limits: `width`=1 bit with limits 1..4096; `bit_order`=ascending 1 with limits ascending or descending; `mapping`=identity 1 with limits bijective declared mapping.
+- Supported analyses: `connectivity`, `erc`.
+- Valid package mappings: `pkg-virtual`.
+- Golden references: `GOLD-CON-BUS-NOMINAL`, `GOLD-CON-BUS-BOUNDARY`, `GOLD-CON-BUS-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 6-8; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Bus conductor family-specific implementation reference](../../catalog/families/fam-connectivity-bus.md#family-specific-implementation-reference), registry row `fam-connectivity-bus`, and shared family scope across `var-connectivity-bus-parameterized-bus`.
+- Exact pin vector: `A:BUS_A` (bidirectional; electrical/digital/schematic), `B:BUS_B` (bidirectional; electrical/digital/schematic).
+- Exact parameter vector: `width`=1 bit with limits 1..4096; `bit_order`=ascending 1 with limits ascending or descending; `mapping`=identity 1 with limits bijective declared mapping.
+- Declared analyses: `connectivity`, `erc`; declared package bindings: `pkg-virtual`.
+- Candidate and independent reference must evaluate the same F1 rule: Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Connectivity is evaluated bit-for-bit over the declared bus width; every source bit maps to exactly one destination bit and width or slice mismatch is an error.
+- Exact reference vectors: `GOLD-CON-BUS-NOMINAL`, `GOLD-CON-BUS-BOUNDARY`, `GOLD-CON-BUS-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-connectivity-bus-shared-f1-validation.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-connectivity-bus.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Analytical or independent reference vectors.
-- Nominal, boundary, invalid, temperature and applicable failure comparisons.
-- Versioned evidence with environment, settings and tolerances.
+- One immutable candidate/reference evidence bundle for `GOLD-CON-BUS-NOMINAL`, `GOLD-CON-BUS-BOUNDARY`, `GOLD-CON-BUS-FAILURE` at `F1`, containing exact inputs, expected outputs, tolerance, versions, seed, and raw-result digests.
+- Nominal, every declared boundary class, and every applicable failure/diagnostic vector linked to this task's three stable acceptance-test IDs.
+- Scope is limited to `CMP-CONNECTIVITY-BUS-SHARED-F1-VALIDATION`: shared family scope across `var-connectivity-bus-parameterized-bus`, fidelity `F1`, concern `VALIDATION`, and requirements REQ-004, REQ-005, REQ-008, REQ-022, REQ-023, REQ-037.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Produce independent validation evidence for **Bus conductor** at **F1** without 
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `A:BUS_A` (bidirectional; electrical/digital/schematic), `B:BUS_B` (bidirectional; electrical/digital/schematic); reject any package map outside `pkg-virtual`.
+- Reject non-finite values and any value outside this exact parameter contract: `width`=1 bit with limits 1..4096; `bit_order`=ascending 1 with limits ascending or descending; `mapping`=identity 1 with limits bijective declared mapping.
+- Support only `connectivity`, `erc`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Missing independent reference, wrong seed/version, tolerance breach, nondeterminism, absent raw data, or a silent diagnostic mismatch fails the evidence bundle.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-CONNECTIVITY-BUS-SHARED-F1-VALIDATION-NOMINAL`
+- `TEST-CMP-CONNECTIVITY-BUS-SHARED-F1-VALIDATION-BOUNDARY`
+- `TEST-CMP-CONNECTIVITY-BUS-SHARED-F1-VALIDATION-FAILURE`
 
 ## Acceptance
 
-1. Every declared golden assertion for the tier passes.
-2. The reference is independent and reproducible.
-3. Failure results are structured and never silently approximated.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-CONNECTIVITY-BUS-SHARED-F1-VALIDATION` exists and is limited to shared family scope across `var-connectivity-bus-parameterized-bus`, `F1`, and `VALIDATION`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-connectivity-bus` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-004, REQ-005, REQ-008, REQ-022, REQ-023, REQ-037, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

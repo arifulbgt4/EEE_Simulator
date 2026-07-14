@@ -11,35 +11,83 @@
 | Concern | MODEL |
 | Release | R2 |
 | Requirements | REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Implement one model tier, **F4**, for **Transmission line** using the family equations/behavior and no higher-fidelity claims.
 
+## Exact prerequisites
+
+- `CMP-PASSIVES-TRANSMISSION-LINE-LOSSLESS-F0-CAT`
+- `CMP-PASSIVES-TRANSMISSION-LINE-LOSSY-F0-CAT`
+- `CMP-PASSIVES-TRANSMISSION-LINE-TIME-DELAY-F0-CAT`
+- `CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F3-MODEL`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-passives-transmission-line.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Transmission line, Transmission Line, transmission-line
-- Pins: 1:P(passive), 2:N(passive)
-- Parameters: nominal [SI], tolerance [1], temperature_coefficient [1/K]
-- Supported analyses: dc, ac, transient, noise, monte-carlo
-- Package mappings: pkg-axial-2, pkg-smd-chip, pkg-radial-2
-- Golden references: GOLD-PAS-TRANSMISSION_LINE-NOMINAL, GOLD-PAS-TRANSMISSION_LINE-BOUNDARY, GOLD-PAS-TRANSMISSION_LINE-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13
+- Stable family: `fam-passives-transmission-line` (Transmission line); task scope: shared family scope across `var-passives-transmission-line-lossless`, `var-passives-transmission-line-lossy`, `var-passives-transmission-line-time-delay`; fidelity `F4`; concern `MODEL`.
+- Exact pins: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameters/defaults/limits: `characteristic_impedance`=50 ohm with limits >0; `propagation_delay`=1e-9 s with limits >=0; `series_resistance_per_length`=0 ohm/m with limits >=0; `series_inductance_per_length`=250e-9 H/m with limits >=0; `shunt_capacitance_per_length`=100e-12 F/m with limits >=0; `shunt_conductance_per_length`=0 S/m with limits >=0.
+- Supported analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`.
+- Valid package mappings: `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- Golden references: `GOLD-PAS-TRANSMISSION_LINE-NOMINAL`, `GOLD-PAS-TRANSMISSION_LINE-BOUNDARY`, `GOLD-PAS-TRANSMISSION_LINE-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Transmission line family-specific implementation reference](../../catalog/families/fam-passives-transmission-line.md#family-specific-implementation-reference), registry row `fam-passives-transmission-line`, and shared family scope across `var-passives-transmission-line-lossless`, `var-passives-transmission-line-lossy`, `var-passives-transmission-line-time-delay`.
+- Exact pin vector: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameter vector: `characteristic_impedance`=50 ohm with limits >0; `propagation_delay`=1e-9 s with limits >=0; `series_resistance_per_length`=0 ohm/m with limits >=0; `series_inductance_per_length`=250e-9 H/m with limits >=0; `shunt_capacitance_per_length`=100e-12 F/m with limits >=0; `shunt_conductance_per_length`=0 S/m with limits >=0.
+- Declared analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`; declared package bindings: `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- Exact F4 execution rule: Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Voltage/current propagation follows the declared characteristic impedance and delay or RLGC telegrapher model; terminations and reference direction are explicit.
+- Exact reference vectors: `GOLD-PAS-TRANSMISSION_LINE-NOMINAL`, `GOLD-PAS-TRANSMISSION_LINE-BOUNDARY`, `GOLD-PAS-TRANSMISSION_LINE-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-passives-transmission-line-shared-f4-model.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-passives-transmission-line.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Tier-specific state, equations/stamps/events and parameter validation.
-- Initialization, update, power and structured diagnostic behavior.
-- Declared analysis capability with unsupported-analysis rejection.
+- One `ModelBinding` for `fam-passives-transmission-line` at `F4` implementing the exact tier rule above, its initialization/state/stamp/event behavior, power reporting, and structured diagnostics.
+- One `AnalysisCapability` result for each of `dc`, `ac`, `transient`, `noise`, `monte-carlo`, with every unlisted analysis rejected rather than approximated.
+- Scope is limited to `CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F4-MODEL`: shared family scope across `var-passives-transmission-line-lossless`, `var-passives-transmission-line-lossy`, `var-passives-transmission-line-time-delay`, fidelity `F4`, concern `MODEL`, and requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +100,25 @@ Implement one model tier, **F4**, for **Transmission line** using the family equ
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal); reject any package map outside `pkg-axial-2`, `pkg-smd-chip`, `pkg-radial-2`.
+- Reject non-finite values and any value outside this exact parameter contract: `characteristic_impedance`=50 ohm with limits >0; `propagation_delay`=1e-9 s with limits >=0; `series_resistance_per_length`=0 ohm/m with limits >=0; `series_inductance_per_length`=250e-9 H/m with limits >=0; `shunt_capacitance_per_length`=100e-12 F/m with limits >=0; `shunt_conductance_per_length`=0 S/m with limits >=0.
+- Support only `dc`, `ac`, `transient`, `noise`, `monte-carlo`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Initialization, limiting, discontinuity, convergence/event ordering, cancellation, overflow/NaN, and out-of-envelope behavior must follow the `F4` rule without silent fallback.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F4-MODEL-NOMINAL`
+- `TEST-CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F4-MODEL-BOUNDARY`
+- `TEST-CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F4-MODEL-FAILURE`
 
 ## Acceptance
 
-1. Nominal and limiting-case model assertions pass.
-2. Conservation/truth/timing invariants appropriate to the tier pass.
-3. Results remain inside the declared validation envelope.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-PASSIVES-TRANSMISSION-LINE-SHARED-F4-MODEL` exists and is limited to shared family scope across `var-passives-transmission-line-lossless`, `var-passives-transmission-line-lossy`, `var-passives-transmission-line-time-delay`, `F4`, and `MODEL`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-passives-transmission-line` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This document defines the evidence required before any component, solver, interface, or release can be called correct. It turns the feasibility brief into a repeatable validation program rather than relying on visually plausible waveforms. The source brief explicitly identifies model accuracy, nonlinear convergence, browser memory, UI performance, and mixed-simulator synchronization as primary risks (PDF pp. 39-40).
+This document defines the evidence required before any component, solver, interface, or release can be called correct. It turns the feasibility brief into a repeatable validation program rather than relying on visually plausible waveforms. The source brief explicitly identifies model accuracy, nonlinear convergence, browser memory, UI performance, and mixed-simulator synchronization as primary risks. [Source PDF, pp. 39-40]
+
+Stable identifiers and the requirement/fixture test inventory are defined by the [Test Catalog](TEST_CATALOG.md) and [machine-readable test registry](test-registry.yaml). Atomic task test IDs follow the [Atomic Task Contract](../tasks/ATOMIC_TASK_CONTRACT.md).
 
 ## Quality principles
 
@@ -28,7 +30,7 @@ This document defines the evidence required before any component, solver, interf
 | Performance testing | Enforce budgets | Latency, throughput, memory, frame rate, and main-thread responsiveness |
 | Security testing | Contain untrusted content | Sandbox, quotas, parser abuse, authorization, and tenant isolation |
 | Accessibility testing | Make the laboratory operable without pointer/color dependence | Keyboard, focus, screen-reader, contrast, and nonvisual waveform summaries |
-| Visual/package conformance | Keep physical views recognizable and electrically correct | Golden renders, dimensions, orientation marks, color/label rules, and symbol-to-package pin equivalence |
+| Visual/package conformance | Keep physical views recognizable and electrically correct | Golden renders, resolved package revision/parameters, concrete `DevicePackageBinding`, dimensions, orientation marks, color/label rules, and symbol-to-package pin equivalence |
 
 ## Component release workflow
 
@@ -87,7 +89,7 @@ Each test case records:
 
 - Numerical-model changes require electronics/numerical review and regenerated golden evidence.
 - Public contract changes require schema compatibility review and migration documentation.
-- Physical appearance or package changes require golden visual review at fixed scales and pin-map equivalence tests; appearance alone may never change electrical identity.
+- Physical appearance or package changes require golden visual review at fixed scales and pin-map equivalence tests against the [Device Package Binding Contract](../catalog/DEVICE_PACKAGE_BINDING_CONTRACT.md); appearance alone may never change electrical identity. `package_refs` and compatibility metadata are candidate inputs, not binding evidence.
 - Third-party model updates require provenance and license review.
 - Security-boundary changes require threat-model and sandbox review.
 - Release candidates require the checklist in [Release Acceptance Checklists](./RELEASE_ACCEPTANCE_CHECKLISTS.md).

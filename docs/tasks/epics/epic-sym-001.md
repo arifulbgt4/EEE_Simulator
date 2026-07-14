@@ -8,7 +8,7 @@ Deliver the complete **Symbols physical appearance and package system** capabili
 
 - Requirements: REQ-022, REQ-023, REQ-037, REQ-038
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

@@ -5,7 +5,7 @@ Related: [Schematic Editor and Visualization](./SCHEMATIC_EDITOR_AND_VISUALIZATI
 
 ## 1. Purpose
 
-This document defines measurable browser responsiveness, capacity, compatibility, accessible interaction, and localization requirements. The source brief requires a browser schematic editor, separated Workers, Canvas/WebGL rendering, waveform/heat visualization, large-diagram optimization, and progressive user modes; it explicitly identifies browser memory and UI performance as risks. [Source brief, pp. 22-25, 29-31, 38-40]
+This document defines measurable browser responsiveness, capacity, compatibility, accessible interaction, and localization requirements. The source PDF requires a browser schematic editor, separated Workers, Canvas/WebGL rendering, waveform/heat visualization, large-diagram optimization, and progressive user modes; it explicitly identifies browser memory and UI performance as risks. [Source PDF, pp. 22-25, 29-31, 38-40]
 
 ## 2. Reference workloads and evidence
 
@@ -61,7 +61,7 @@ flowchart LR
 
 ## 5. Rendering and level of detail
 
-The renderer uses viewport culling, spatial indexing, cached geometry/glyphs, batched draw submission, and level of detail. [Source brief, pp. 29-30, 39-40]
+The renderer uses viewport culling, spatial indexing, cached geometry/glyphs, batched draw submission, and level of detail. [Source PDF, pp. 29-30, 39-40]
 
 ### 5.1 Schematic view
 
@@ -103,7 +103,7 @@ A workload may use WebGPU only when:
 5. device loss and unsupported hardware fall back cleanly;
 6. the benchmark is repeatable in the release evidence.
 
-Candidates include independent Monte Carlo runs, thermal grids, waveform filtering, visualization, and batched component evaluation. Frequently changing sparse matrices, branch-heavy Newton iteration, and small sequential circuits are not presumed suitable. [Source brief, pp. 24-25]
+Candidates include independent Monte Carlo runs, thermal grids, waveform filtering, visualization, and batched component evaluation. Frequently changing sparse matrices, branch-heavy Newton iteration, and small sequential circuits are not presumed suitable. [Source PDF, pp. 24-25]
 
 ## 8. Supported browsers
 
@@ -207,4 +207,4 @@ A reduced-effects mode may disable shadows, textures, particles, and heat animat
 
 ## 14. Source record
 
-Frontend rendering and Workers are grounded in the source brief, pp. 22-25. Optimization and large-diagram risks are grounded in pp. 29-30 and 39-40. User modes and visualizations are grounded in pp. 30-31. Exact budgets, browser matrix, WCAG target, localization contract, realistic physical/package performance, and dual-view accessibility are repository decisions supporting REQ-033, REQ-034, REQ-037, and REQ-038.
+Frontend rendering and Workers are grounded in the feasibility source. [Source PDF, pp. 22-25] Optimization and large-diagram controls address its performance plan and recorded risks. [Source PDF, pp. 29-30, 39-40] User modes and visualizations follow its interaction plan. [Source PDF, pp. 30-31] Exact budgets, browser matrix, WCAG target, localization contract, realistic physical/package performance, and dual-view accessibility are repository decisions supporting REQ-033, REQ-034, REQ-037, and REQ-038.

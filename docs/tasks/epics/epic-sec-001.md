@@ -8,7 +8,7 @@ Deliver the complete **Security privacy and sandboxing** capability for release 
 
 - Requirements: REQ-032, REQ-035
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

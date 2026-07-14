@@ -4,7 +4,7 @@
 - **Category:** Semiconductor and optoelectronics
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-15
 
 ## Purpose and scope
@@ -19,7 +19,7 @@ Search aliases are **Generic semiconductor black box**, **Semiconductor Generic*
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-semiconductors-semiconductor-generic-equation-model` | Equation Model | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
+| `var-semiconductors-semiconductor-generic-equation-model` | Equation Model | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -34,20 +34,21 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, optical, thermal |
-| `N` | passive | Negative or second terminal | electrical, optical, thermal |
+| `1` | P | passive | electrical, optical, thermal |
+| `2` | N | passive | electrical, optical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `model_id` | Registered model identifier | 1 | builtin-placeholder | registered reviewed model |
+| `scale` | Model scale multiplier | 1 | 1 | >0 |
+| `temperature` | Model temperature | K | 300.15 | >0 |
+| `state_limit` | Maximum internal state count | 1 | 64 | 0..65536 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -61,6 +62,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Behavior comes only from the selected validated black-box/compact model; its ordered pins, analyses, envelope, provenance, and unsupported behavior are mandatory inputs.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `model_id`=builtin-placeholder 1 (registered reviewed model); `scale`=1 1 (>0); `temperature`=300.15 K (>0); `state_limit`=64 1 (0..65536).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEM-SEMICONDUCTOR_GENERIC-NOMINAL`, `GOLD-SEM-SEMICONDUCTOR_GENERIC-BOUNDARY`, `GOLD-SEM-SEMICONDUCTOR_GENERIC-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -23,16 +23,58 @@ Implement authorization audit events. Deliver one reviewable outcome that satisf
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-AUTH-008`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md` clauses governing **authorization audit events**, together with every acceptance obligation in REQ-031, REQ-032.
+- Prerequisite input: the completion evidence for `PLAT-AUTH-008`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_AUTH_009_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `implement_authorization_audit_events`: identity claims, sessions and tokens, organization membership, project roles, object grants, invitations, and audit context; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-AUTH-009.
+- Evidence input: `TEST-PLAT-AUTH-009-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-AUTH-009-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-auth-009-implement-authorization-audit-events.md`
+- `docs/tasks/epics/epic-auth-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-AUTH-009-ACCEPTANCE`
+- `TEST-PLAT-AUTH-009-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Implement authorization audit events**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- An implementation behavior and public-interface record named `implement_authorization_audit_events` for **authorization audit events**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-AUTH-009` fixture accepts the minimal valid input and produces the documented deterministic state transition or output; the published outcome is least-privilege authorization decisions and auditable identity state.
+- Failure outcome: `PLAT_AUTH_009_INVALID_INPUT` and `PLAT_AUTH_009_EXECUTION_FAILURE` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-AUTH-009-ACCEPTANCE` and `TEST-PLAT-AUTH-009-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-031, REQ-032, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-auth-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Implement authorization audit events. Deliver one reviewable outcome that satisf
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_AUTH_009_NOMINAL`: processing a minimal valid **authorization audit events** fixture accepts the minimal valid input and produces the documented deterministic state transition or output; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_AUTH_009_BOUNDARY`: the **authorization audit events** fixture matrix covers token expiry, role change during a request, invitation expiry, owner transfer, public/unlisted transition, and session revocation; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_AUTH_009_INVALID_INPUT`: reject an untrusted issuer, malformed claim, missing tenant scope, unknown role, stale invitation, or cross-object grant before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_AUTH_009_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-AUTH-008`; no implicit migration or downgrade is allowed.
+- `PLAT_AUTH_009_EXECUTION_FAILURE`: contain authentication failure, authorization denial, revoked session, cross-tenant access attempt, or incomplete audit event with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-031, REQ-032 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-AUTH-009-ACCEPTANCE` proves that **Implement authorization audit events** accepts the minimal valid input and produces the documented deterministic state transition or output, produces least-privilege authorization decisions and auditable identity state, and satisfies every metadata requirement: REQ-031, REQ-032.
+2. `TEST-PLAT-AUTH-009-FAILURE` executes `PLAT_AUTH_009_INVALID_INPUT`, `PLAT_AUTH_009_PREREQUISITE_MISMATCH`, and `PLAT_AUTH_009_EXECUTION_FAILURE` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/SECURITY_PRIVACY_AND_SANDBOXING.md`, prerequisite `PLAT-AUTH-008`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-AUTH-009 card, its epic, test registry entries `TEST-PLAT-AUTH-009-ACCEPTANCE` and `TEST-PLAT-AUTH-009-FAILURE`, requirement links REQ-031, REQ-032, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

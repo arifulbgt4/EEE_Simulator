@@ -7,10 +7,10 @@
 | Status | Planned |
 | Epic | [EPIC-CPU-001](../epics/epic-cpu-001.md) |
 | Release | R8 |
-| Requirements | REQ-025 |
+| Requirements | REQ-002, REQ-025 |
 | Concern | `define_educational_cpu_abstraction_levels` |
 | Effort | S |
-| Depends on | Gate G0 documentation baseline |
+| Depends on | Gate G7 complete catalog |
 
 ## Objective
 
@@ -23,16 +23,58 @@ Define educational CPU abstraction levels. Deliver one reviewable outcome that s
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `Gate G7 complete catalog`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` clauses governing **educational CPU abstraction levels**, together with every acceptance obligation in REQ-002, REQ-025.
+- Prerequisite input: the completion evidence for `Gate G7 complete catalog`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_CPU_001_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `define_educational_cpu_abstraction_levels`: ISA definitions, datapath and control records, register state, buses, instructions, program images, breakpoints, and clock events; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-CPU-001.
+- Evidence input: `TEST-PLAT-CPU-001-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-CPU-001-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-cpu-001-define-educational-cpu-abstraction-levels.md`
+- `docs/tasks/epics/epic-cpu-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-CPU-001-ACCEPTANCE`
+- `TEST-PLAT-CPU-001-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Define educational CPU abstraction levels**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- A versioned normative contract named `define_educational_cpu_abstraction_levels` for **educational CPU abstraction levels**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-CPU-001` fixture resolves every required field, default, invariant, version rule, and public input/output without ambiguity; the published outcome is deterministic CPU architectural state, traces, and reference-program evidence.
+- Failure outcome: `PLAT_CPU_001_SCHEMA_INVALID` and `PLAT_CPU_001_COMPATIBILITY_CONFLICT` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-CPU-001-ACCEPTANCE` and `TEST-PLAT-CPU-001-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-002, REQ-025, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-cpu-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Define educational CPU abstraction levels. Deliver one reviewable outcome that s
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_CPU_001_NOMINAL`: processing a minimal valid **educational CPU abstraction levels** fixture resolves every required field, default, invariant, version rule, and public input/output without ambiguity; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_CPU_001_BOUNDARY`: the **educational CPU abstraction levels** fixture matrix covers reset, zero and maximum operand, address wrap, first and last register, branch edge, and single-step boundary; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_CPU_001_SCHEMA_INVALID`: reject an unknown opcode, illegal operand or register, contradictory control signal, malformed program image, or unsupported abstraction binding before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_CPU_001_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `Gate G7 complete catalog`; no implicit migration or downgrade is allowed.
+- `PLAT_CPU_001_COMPATIBILITY_CONFLICT`: contain decode fault, bus contention, incorrect flag transition, non-progressing control state, breakpoint mismatch, or program-result divergence with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-025 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-CPU-001-ACCEPTANCE` proves that **Define educational CPU abstraction levels** resolves every required field, default, invariant, version rule, and public input/output without ambiguity, produces deterministic CPU architectural state, traces, and reference-program evidence, and satisfies every metadata requirement: REQ-002, REQ-025.
+2. `TEST-PLAT-CPU-001-FAILURE` executes `PLAT_CPU_001_SCHEMA_INVALID`, `PLAT_CPU_001_PREREQUISITE_MISMATCH`, and `PLAT_CPU_001_COMPATIBILITY_CONFLICT` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `Gate G7 complete catalog`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-CPU-001 card, its epic, test registry entries `TEST-PLAT-CPU-001-ACCEPTANCE` and `TEST-PLAT-CPU-001-FAILURE`, requirement links REQ-002, REQ-025, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

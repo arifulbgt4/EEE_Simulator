@@ -4,7 +4,7 @@
 - **Category:** Analog and mixed-signal abstractions
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 13-17
 
 ## Purpose and scope
@@ -20,11 +20,11 @@ Search aliases are **Timing, filter, and converter abstraction**, **Timing Filte
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
 | `var-analog-mixed-signal-timing-filter-conversion-timer-555` | Timer 555 | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-timing-filter-conversion-vco` | Vco | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-timing-filter-conversion-pll` | Pll | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-timing-filter-conversion-active-filter` | Active Filter | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-timing-filter-conversion-level-converter` | Level Converter | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-timing-filter-conversion-frequency-converter` | Frequency Converter | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-timing-filter-conversion-vco` | Vco | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-timing-filter-conversion-pll` | Pll | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-timing-filter-conversion-active-filter` | Active Filter | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-timing-filter-conversion-level-converter` | Level Converter | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-timing-filter-conversion-frequency-converter` | Frequency Converter | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -39,23 +39,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `IN+` | input | Non-inverting or primary input | analog, digital, power |
-| `IN-` | input | Inverting or secondary input | analog, digital, power |
-| `OUT` | output | Primary output | analog, digital, power |
-| `V+` | power | Positive supply | analog, digital, power |
-| `V-` | power | Negative supply | analog, digital, power |
+| `1` | IN+ | input | analog, digital, power |
+| `2` | IN- | input | analog, digital, power |
+| `3` | OUT | output | analog, digital, power |
+| `4` | V+ | power | analog, digital, power |
+| `5` | V- | power | analog, digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `function_profile` | Selected timing/filter/conversion profile | 1 | timer-555 | registered profile |
+| `center_frequency` | Center or free-running frequency | Hz | 1000 | >0 |
+| `gain` | Small-signal or conversion gain | 1 | 1 | finite |
+| `quality_factor` | Filter/oscillator quality factor | 1 | 1 | >0 |
+| `propagation_delay` | Conversion delay | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -69,6 +71,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The selected 555/oscillator/VCO/PLL/filter/level/frequency-converter variant uses its declared state-space, transfer, or timed state-machine contract.
+- **Exact nominal vector:** pins `1:IN+`/input, `2:IN-`/input, `3:OUT`/output, `4:V+`/power, `5:V-`/power; parameters `function_profile`=timer-555 1 (registered profile); `center_frequency`=1000 Hz (>0); `gain`=1 1 (finite); `quality_factor`=1 1 (>0); `propagation_delay`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-AMS-TIMING_FILTER_CONVERSION-NOMINAL`, `GOLD-AMS-TIMING_FILTER_CONVERSION-BOUNDARY`, `GOLD-AMS-TIMING_FILTER_CONVERSION-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

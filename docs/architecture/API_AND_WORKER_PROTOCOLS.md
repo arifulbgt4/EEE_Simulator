@@ -5,7 +5,7 @@ Related: [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHIT
 
 ## 1. Purpose and protocol split
 
-This document defines the public cloud API, browser-Worker messages, simulation events, waveform transfer, and external-engine adapter lifecycle. The source brief requires separated browser Workers, a client-server simulation API, server job queues, progress streaming, result storage, and checkpoint/resume. [Source brief, pp. 23-28, 36]
+This document defines the public cloud API, browser-Worker messages, simulation events, waveform transfer, and external-engine adapter lifecycle. The source PDF requires separated browser Workers, a client-server simulation API, server job queues, progress streaming, result storage, and checkpoint/resume. [Source PDF, pp. 23-28, 36]
 
 The transport split is fixed:
 
@@ -274,4 +274,4 @@ Imported custom packages accept declarative records only. Preview requests MUST 
 
 ## 15. Source record
 
-Separate Workers and non-blocking browser execution come from the source brief, pp. 23-24. Scheduler and analog/digital boundary sequencing come from pp. 27-28. Server workers, queues, progress, storage, and checkpoint/resume come from pp. 25-26 and 36. Project storage and collaboration come from pp. 31-32 and 41-42. REST/SSE/WebSocket separation, exact envelopes, package endpoints, idempotency, and fencing semantics are repository architecture decisions.
+Separate Workers and non-blocking browser execution come from the feasibility source. [Source PDF, pp. 23-24] Scheduler and analog/digital boundary sequencing follow the described co-simulation flow. [Source PDF, pp. 27-28] Server workers, queues, progress, storage, and checkpoint/resume follow the distributed execution plan. [Source PDF, pp. 25-26, 36] Project storage and collaboration follow the project-management plan. [Source PDF, pp. 31-32, 41-42] REST/SSE/WebSocket separation, exact envelopes, package endpoints, idempotency, and fencing semantics are repository architecture decisions.

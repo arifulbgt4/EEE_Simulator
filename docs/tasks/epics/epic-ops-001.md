@@ -8,13 +8,13 @@ Deliver the complete **Deployment operations and observability** capability for 
 
 - Requirements: REQ-030
 - Release: R10
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-OPS-001](../platform/plat-ops-001-define-environment-and-configuration-policy.md) | Define environment and configuration policy | Gate G0 documentation baseline | Planned |
+| [PLAT-OPS-001](../platform/plat-ops-001-define-environment-and-configuration-policy.md) | Define environment and configuration policy | Gate G6 Electronics MVP | Planned |
 | [PLAT-OPS-002](../platform/plat-ops-002-define-container-build-and-signing-policy.md) | Define container build and signing policy | PLAT-OPS-001 | Planned |
 | [PLAT-OPS-003](../platform/plat-ops-003-define-database-and-object-migration-workflow.md) | Define database and object migration workflow | PLAT-OPS-002 | Planned |
 | [PLAT-OPS-004](../platform/plat-ops-004-define-backup-restore-and-disaster-recovery-objectives.md) | Define backup restore and disaster-recovery objectives | PLAT-OPS-003 | Planned |

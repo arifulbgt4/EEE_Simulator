@@ -36,21 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `DRIVE+` | input | Positive drive | electrical, mechanical, optical, acoustic |
-| `DRIVE-` | input | Negative drive or return | electrical, mechanical, optical, acoustic |
-| `PHYSICAL` | physical | Mechanical, optical, acoustic, or display state | electrical, mechanical, optical, acoustic |
+| `1` | DRIVE+ | input | electrical, mechanical, optical, acoustic |
+| `2` | DRIVE- | input | electrical, mechanical, optical, acoustic |
+| `M` | MECHANICAL_OR_DISPLAY | physical | electrical, mechanical, optical, acoustic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `coil_resistance` | Coil resistance | ohm | 20 | >0 |
+| `coil_inductance` | Coil inductance | H | 0.1 | >=0 |
+| `force_constant` | Force-current coefficient | N/A | 1 | >0 |
+| `stroke` | Mechanical stroke | m | 0.01 | >=0 |
+| `return_spring` | Return-spring stiffness | N/m | 100 | >=0 |
+| `response_time` | Actuation response time | s | 0.01 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- **Exact nominal vector:** pins `1:DRIVE+`/input, `2:DRIVE-`/input, `M:MECHANICAL_OR_DISPLAY`/physical; parameters `coil_resistance`=20 ohm (>0); `coil_inductance`=0.1 H (>=0); `force_constant`=1 N/A (>0); `stroke`=0.01 m (>=0); `return_spring`=100 N/m (>=0); `response_time`=0.01 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-ACT-SOLENOID_VALVE-NOMINAL`, `GOLD-ACT-SOLENOID_VALVE-BOUNDARY`, `GOLD-ACT-SOLENOID_VALVE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

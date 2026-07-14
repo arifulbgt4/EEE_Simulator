@@ -8,13 +8,13 @@ Deliver the complete **Performance and scale engineering** capability for releas
 
 - Requirements: REQ-033
 - Release: R2
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G1 editor foundation.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-PERF-001](../platform/plat-perf-001-create-reproducible-benchmark-environment.md) | Create reproducible benchmark environment | Gate G0 documentation baseline | Planned |
+| [PLAT-PERF-001](../platform/plat-perf-001-create-reproducible-benchmark-environment.md) | Create reproducible benchmark environment | Gate G1 editor foundation | Planned |
 | [PLAT-PERF-002](../platform/plat-perf-002-implement-editor-viewport-culling-policy.md) | Implement editor viewport culling policy | PLAT-PERF-001 | Planned |
 | [PLAT-PERF-003](../platform/plat-perf-003-implement-editor-level-of-detail-policy.md) | Implement editor level-of-detail policy | PLAT-PERF-002 | Planned |
 | [PLAT-PERF-004](../platform/plat-perf-004-implement-waveform-ring-buffer-and-decimation.md) | Implement waveform ring buffer and decimation | PLAT-PERF-003 | Planned |

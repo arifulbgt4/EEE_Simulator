@@ -8,13 +8,13 @@ Deliver the complete **Rust WASM and worker runtime** capability for release R2,
 
 - Requirements: REQ-029, REQ-033
 - Release: R2
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G1 editor foundation.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-WASM-001](../platform/plat-wasm-001-define-typescript-to-rust-ffi-contract.md) | Define TypeScript to Rust FFI contract | Gate G0 documentation baseline | Planned |
+| [PLAT-WASM-001](../platform/plat-wasm-001-define-typescript-to-rust-ffi-contract.md) | Define TypeScript to Rust FFI contract | Gate G1 editor foundation | Planned |
 | [PLAT-WASM-002](../platform/plat-wasm-002-define-worker-command-and-event-protocol.md) | Define worker command and event protocol | PLAT-WASM-001 | Planned |
 | [PLAT-WASM-003](../platform/plat-wasm-003-build-single-threaded-wasm-capability-path.md) | Build single-threaded WASM capability path | PLAT-WASM-002 | Planned |
 | [PLAT-WASM-004](../platform/plat-wasm-004-build-threaded-wasm-capability-path.md) | Build threaded WASM capability path | PLAT-WASM-003 | Planned |

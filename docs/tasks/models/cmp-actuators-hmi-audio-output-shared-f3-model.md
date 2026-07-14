@@ -11,35 +11,84 @@
 | Concern | MODEL |
 | Release | R7 |
 | Requirements | REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Implement one model tier, **F3**, for **Audio output** using the family equations/behavior and no higher-fidelity claims.
 
+## Exact prerequisites
+
+- `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SPEAKER-F0-CAT`
+- `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-BUZZER-F0-CAT`
+- `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-PIEZO-SOUNDER-F0-CAT`
+- `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SIREN-F0-CAT`
+- `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F2-MODEL`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-actuators-hmi-audio-output.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Audio output, Audio Output, audio-output
-- Pins: 1:DRIVE+(input), 2:DRIVE-(input), M:MECHANICAL_OR_DISPLAY(physical)
-- Parameters: drive_rating [SI], efficiency [1], inertia [SI]
-- Supported analyses: dc, transient, electromechanical
-- Package mappings: pkg-electromechanical, pkg-display-module, pkg-custom-parametric
-- Golden references: GOLD-ACT-AUDIO_OUTPUT-NOMINAL, GOLD-ACT-AUDIO_OUTPUT-BOUNDARY, GOLD-ACT-AUDIO_OUTPUT-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 17-21
+- Stable family: `fam-actuators-hmi-audio-output` (Audio output); task scope: shared family scope across `var-actuators-hmi-audio-output-speaker`, `var-actuators-hmi-audio-output-buzzer`, `var-actuators-hmi-audio-output-piezo-sounder`, `var-actuators-hmi-audio-output-siren`; fidelity `F3`; concern `MODEL`.
+- Exact pins: `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic).
+- Exact parameters/defaults/limits: `nominal_impedance`=8 ohm with limits >0; `resonant_frequency`=1000 Hz with limits >0; `sensitivity`=0.1 Pa/V with limits >=0; `bandwidth`=20e3 Hz with limits >0; `power_rating`=1 W with limits >0.
+- Supported analyses: `dc`, `transient`, `electromechanical`.
+- Valid package mappings: `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- Golden references: `GOLD-ACT-AUDIO_OUTPUT-NOMINAL`, `GOLD-ACT-AUDIO_OUTPUT-BOUNDARY`, `GOLD-ACT-AUDIO_OUTPUT-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 17-21; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Audio output family-specific implementation reference](../../catalog/families/fam-actuators-hmi-audio-output.md#family-specific-implementation-reference), registry row `fam-actuators-hmi-audio-output`, and shared family scope across `var-actuators-hmi-audio-output-speaker`, `var-actuators-hmi-audio-output-buzzer`, `var-actuators-hmi-audio-output-piezo-sounder`, `var-actuators-hmi-audio-output-siren`.
+- Exact pin vector: `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic).
+- Exact parameter vector: `nominal_impedance`=8 ohm with limits >0; `resonant_frequency`=1000 Hz with limits >0; `sensitivity`=0.1 Pa/V with limits >=0; `bandwidth`=20e3 Hz with limits >0; `power_rating`=1 W with limits >0.
+- Declared analyses: `dc`, `transient`, `electromechanical`; declared package bindings: `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- Exact F3 execution rule: Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Electrical drive maps through declared impedance/electromechanical transfer to acoustic output, bandwidth, resonance, efficiency, and thermal limits.
+- Exact reference vectors: `GOLD-ACT-AUDIO_OUTPUT-NOMINAL`, `GOLD-ACT-AUDIO_OUTPUT-BOUNDARY`, `GOLD-ACT-AUDIO_OUTPUT-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-actuators-hmi-audio-output-shared-f3-model.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-actuators-hmi-audio-output.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Tier-specific state, equations/stamps/events and parameter validation.
-- Initialization, update, power and structured diagnostic behavior.
-- Declared analysis capability with unsupported-analysis rejection.
+- One `ModelBinding` for `fam-actuators-hmi-audio-output` at `F3` implementing the exact tier rule above, its initialization/state/stamp/event behavior, power reporting, and structured diagnostics.
+- One `AnalysisCapability` result for each of `dc`, `transient`, `electromechanical`, with every unlisted analysis rejected rather than approximated.
+- Scope is limited to `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F3-MODEL`: shared family scope across `var-actuators-hmi-audio-output-speaker`, `var-actuators-hmi-audio-output-buzzer`, `var-actuators-hmi-audio-output-piezo-sounder`, `var-actuators-hmi-audio-output-siren`, fidelity `F3`, concern `MODEL`, and requirements REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +101,25 @@ Implement one model tier, **F3**, for **Audio output** using the family equation
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic); reject any package map outside `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `nominal_impedance`=8 ohm with limits >0; `resonant_frequency`=1000 Hz with limits >0; `sensitivity`=0.1 Pa/V with limits >=0; `bandwidth`=20e3 Hz with limits >0; `power_rating`=1 W with limits >0.
+- Support only `dc`, `transient`, `electromechanical`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Initialization, limiting, discontinuity, convergence/event ordering, cancellation, overflow/NaN, and out-of-envelope behavior must follow the `F3` rule without silent fallback.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F3-MODEL-NOMINAL`
+- `TEST-CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F3-MODEL-BOUNDARY`
+- `TEST-CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F3-MODEL-FAILURE`
 
 ## Acceptance
 
-1. Nominal and limiting-case model assertions pass.
-2. Conservation/truth/timing invariants appropriate to the tier pass.
-3. Results remain inside the declared validation envelope.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-ACTUATORS-HMI-AUDIO-OUTPUT-SHARED-F3-MODEL` exists and is limited to shared family scope across `var-actuators-hmi-audio-output-speaker`, `var-actuators-hmi-audio-output-buzzer`, `var-actuators-hmi-audio-output-piezo-sounder`, `var-actuators-hmi-audio-output-siren`, `F3`, and `MODEL`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-actuators-hmi-audio-output` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

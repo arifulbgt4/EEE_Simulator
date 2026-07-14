@@ -24,7 +24,7 @@ Users should be able to begin with a power source, resistor, LED, and ground; ob
 
 ## Initial success outcome
 
-The first production outcome is the **Realistic Electronics MVP**. A user can create and simulate the ten canonical demonstrations - LED circuit, RC charging circuit, transistor switch, CMOS inverter, ring oscillator, NAND gate, SR latch, one-bit memory, half adder, and full adder - with measurement, waveform, non-ideal, thermal, and failure behavior appropriate to the selected model. [Source PDF, p. 37]
+The first production outcome is the **Realistic Electronics MVP**. A user can create and simulate the eleven canonical demonstrations - LED circuit, RC charging circuit, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND gate, SR latch, one-bit memory, half adder, and full adder - with measurement, waveform, non-ideal, thermal, and failure behavior appropriate to the selected model. [Source PDF, p. 37]
 
 Passing this outcome is a prerequisite for CPU-stage work. The exact criteria live in [Release Gates](planning/RELEASE_GATES.md) and [Release Acceptance Checklists](quality/RELEASE_ACCEPTANCE_CHECKLISTS.md).
 

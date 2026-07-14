@@ -23,16 +23,58 @@ Implement tri-state open-drain and bus resolution. Deliver one reviewable outcom
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-DIG-005`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` clauses governing **tri-state open-drain and bus resolution**, together with every acceptance obligation in REQ-018, REQ-021.
+- Prerequisite input: the completion evidence for `PLAT-DIG-005`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_DIG_006_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `implement_tri_state_open_drain_and_bus_resolution`: four-state logic values, drivers and strengths, event timestamps, propagation delays, buses, clocks, and timing constraints; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-DIG-006.
+- Evidence input: `TEST-PLAT-DIG-006-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-DIG-006-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-dig-006-implement-tri-state-open-drain-and-bus-resolution.md`
+- `docs/tasks/epics/epic-dig-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-DIG-006-ACCEPTANCE`
+- `TEST-PLAT-DIG-006-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Implement tri-state open-drain and bus resolution**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- An implementation behavior and public-interface record named `implement_tri_state_open_drain_and_bus_resolution` for **tri-state open-drain and bus resolution**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-DIG-006` fixture accepts the minimal valid input and produces the documented deterministic state transition or output; the published outcome is ordered digital state transitions and timing diagnostics.
+- Failure outcome: `PLAT_DIG_006_INVALID_INPUT` and `PLAT_DIG_006_EXECUTION_FAILURE` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-DIG-006-ACCEPTANCE` and `TEST-PLAT-DIG-006-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-018, REQ-021, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-dig-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Implement tri-state open-drain and bus resolution. Deliver one reviewable outcom
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_DIG_006_NOMINAL`: processing a minimal valid **tri-state open-drain and bus resolution** fixture accepts the minimal valid input and produces the documented deterministic state transition or output; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_DIG_006_BOUNDARY`: the **tri-state open-drain and bus resolution** fixture matrix covers simultaneous events, zero-delay delta cycle, Z-only net, equal-strength contention, minimum pulse, and setup/hold edge; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_DIG_006_INVALID_INPUT`: reject an illegal logic value, negative delay, width mismatch, duplicate driver identity, or missing timing reference before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_DIG_006_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-DIG-005`; no implicit migration or downgrade is allowed.
+- `PLAT_DIG_006_EXECUTION_FAILURE`: contain contention, floating state, zero-time oscillation, setup/hold violation, metastability policy breach, or event-limit exhaustion with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-018, REQ-021 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-DIG-006-ACCEPTANCE` proves that **Implement tri-state open-drain and bus resolution** accepts the minimal valid input and produces the documented deterministic state transition or output, produces ordered digital state transitions and timing diagnostics, and satisfies every metadata requirement: REQ-018, REQ-021.
+2. `TEST-PLAT-DIG-006-FAILURE` executes `PLAT_DIG_006_INVALID_INPUT`, `PLAT_DIG_006_PREREQUISITE_MISMATCH`, and `PLAT_DIG_006_EXECUTION_FAILURE` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `PLAT-DIG-005`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-DIG-006 card, its epic, test registry entries `TEST-PLAT-DIG-006-ACCEPTANCE` and `TEST-PLAT-DIG-006-FAILURE`, requirement links REQ-018, REQ-021, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

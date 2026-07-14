@@ -21,8 +21,6 @@ Search aliases are **Net label**, **Net Label**, and `net-label`. Variant names 
 |---|---|---|---|---|
 | `var-connectivity-net-label-parameterized-label` | Parameterized Local or Global Label | F0, F1 | Realistic Electronics MVP | `pkg-virtual` |
 
-The `scope` parameter is explicitly `local` or `global`; both label types are therefore covered without treating a scope choice as a separate electrical behavior preset.
-
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
 ## Original symbol and physical views
@@ -36,19 +34,19 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `NET` | reference | Referenced net | electrical, schematic |
+| `1` | NET | power | electrical, schematic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `label` | Normalized net label | 1 | NET | 1..255 UTF-8 code points |
+| `scope` | Label scope | 1 | local | local, hierarchical, or global |
+| `width` | Net or bus width | bit | 1 | 1..4096 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +60,18 @@ Supported fidelity tiers: **F0, F1**. Supported analysis capabilities: **connect
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Net identity is the normalized label plus hierarchy scope; matching scoped labels form one net and unequal scopes never merge implicitly.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Net identity is the normalized label plus hierarchy scope; matching scoped labels form one net and unequal scopes never merge implicitly.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Net identity is the normalized label plus hierarchy scope; matching scoped labels form one net and unequal scopes never merge implicitly.
+- **Exact nominal vector:** pins `1:NET`/power; parameters `label`=NET 1 (1..255 UTF-8 code points); `scope`=local 1 (local, hierarchical, or global); `width`=1 bit (1..4096).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-CON-NET_LABEL-NOMINAL`, `GOLD-CON-NET_LABEL-BOUNDARY`, `GOLD-CON-NET_LABEL-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

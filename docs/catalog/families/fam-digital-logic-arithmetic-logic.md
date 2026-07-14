@@ -4,7 +4,7 @@
 - **Category:** Digital logic
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 21-26
 
 ## Purpose and scope
@@ -21,9 +21,9 @@ Search aliases are **Arithmetic logic**, **Arithmetic Logic**, and `arithmetic-l
 |---|---|---|---|---|
 | `var-digital-logic-arithmetic-logic-half-adder` | Half Adder | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 | `var-digital-logic-arithmetic-logic-full-adder` | Full Adder | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-digital-logic-arithmetic-logic-subtractor` | Subtractor | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-digital-logic-arithmetic-logic-alu` | Alu | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-digital-logic-arithmetic-logic-multiplier` | Multiplier | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-digital-logic-arithmetic-logic-subtractor` | Subtractor | F0, F2, F3 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-digital-logic-arithmetic-logic-alu` | Alu | F0, F2, F3 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-digital-logic-arithmetic-logic-multiplier` | Multiplier | F0, F2, F3 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -38,22 +38,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `INPUTS[1..N]` | input | Parameterized inputs | digital, power |
-| `OUTPUTS[1..M]` | output | Parameterized outputs | digital, power |
-| `VDD` | power | Positive supply | digital, power |
-| `VSS` | power | Reference supply | digital, power |
+| `1..N` | INPUTS | input | digital, power |
+| `N+1..M` | OUTPUTS | output | digital, power |
+| `VDD` | VDD | power | digital, power |
+| `VSS` | VSS | power | digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `width` | bit | 1 | 1..4096 |
-| `propagation_delay` | s | 0 | >= 0 |
-| `logic_family` | 1 | cmos | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `width` | Operand width | bit | 1 | 1..4096 |
+| `signed_mode` | Signed arithmetic mode | 1 | false | true or false |
+| `operation` | Arithmetic/logic operation | 1 | add | registered operation |
+| `propagation_delay` | Result delay | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -67,6 +68,19 @@ Supported fidelity tiers: **F0, F2, F3**. Supported analysis capabilities: **dig
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected width-bounded arithmetic/logic function maps operand and carry inputs to result, carry/borrow, and flags with explicit overflow semantics.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected width-bounded arithmetic/logic function maps operand and carry inputs to result, carry/borrow, and flags with explicit overflow semantics.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected width-bounded arithmetic/logic function maps operand and carry inputs to result, carry/borrow, and flags with explicit overflow semantics.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected width-bounded arithmetic/logic function maps operand and carry inputs to result, carry/borrow, and flags with explicit overflow semantics.
+- **Exact nominal vector:** pins `1..N:INPUTS`/input, `N+1..M:OUTPUTS`/output, `VDD:VDD`/power, `VSS:VSS`/power; parameters `width`=1 bit (1..4096); `signed_mode`=false 1 (true or false); `operation`=add 1 (registered operation); `propagation_delay`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-DIG-ARITHMETIC_LOGIC-NOMINAL`, `GOLD-DIG-ARITHMETIC_LOGIC-BOUNDARY`, `GOLD-DIG-ARITHMETIC_LOGIC-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

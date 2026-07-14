@@ -38,22 +38,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `STIMULUS` | physical | Physical/environmental input | electrical, physical, environmental |
-| `OUTPUT` | output | Electrical or digital output | electrical, physical, environmental |
-| `VDD` | power | Supply | electrical, physical, environmental |
-| `GND` | power | Reference | electrical, physical, environmental |
+| `S` | STIMULUS | physical | electrical, physical, environmental |
+| `O` | OUTPUT | output | electrical, physical, environmental |
+| `VDD` | VDD | power | electrical, physical, environmental |
+| `GND` | GND | power | electrical, physical, environmental |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `sensitivity` | SI | 1 | finite |
-| `offset` | SI | 0 | finite |
-| `response_time` | s | 0.01 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `relative_humidity_full_scale` | Relative-humidity full scale | 1 | 1 | >0 |
+| `pressure_full_scale` | Pressure full scale | Pa | 120e3 | >0 |
+| `concentration_full_scale` | Gas concentration full scale | mol/mol | 0.01 | >0 |
+| `warmup_time` | Warm-up time | s | 0 | >=0 |
+| `response_time` | Response time | s | 1 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -67,6 +69,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Output follows the declared humidity/gas concentration transfer with warm-up, cross-sensitivity, saturation, response/recovery, and environmental terms.
+- **Exact nominal vector:** pins `S:STIMULUS`/physical, `O:OUTPUT`/output, `VDD:VDD`/power, `GND:GND`/power; parameters `relative_humidity_full_scale`=1 1 (>0); `pressure_full_scale`=120e3 Pa (>0); `concentration_full_scale`=0.01 mol/mol (>0); `warmup_time`=0 s (>=0); `response_time`=1 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEN-CLIMATE_GAS_SENSOR-NOMINAL`, `GOLD-SEN-CLIMATE_GAS_SENSOR-BOUNDARY`, `GOLD-SEN-CLIMATE_GAS_SENSOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

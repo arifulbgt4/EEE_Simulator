@@ -34,20 +34,21 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, stimulus |
-| `N` | passive | Negative or second terminal | electrical, stimulus |
+| `1` | P | passive | electrical, stimulus |
+| `2` | N | passive | electrical, stimulus |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `magnitude` | family-specific SI unit | 1 | finite |
-| `frequency` | Hz | 0 | >= 0 |
-| `phase` | rad | 0 | finite |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `width` | Pattern width | bit | 1 | 1..4096 |
+| `tick_period` | Pattern tick period | s | 1e-6 | >0 |
+| `initial_value` | Initial logic vector | 1 | 0 | width-matched 0/1/X/Z vector |
+| `drive_profile` | Output drive profile | 1 | cmos | registered logic-family profile |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -61,6 +62,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The source emits the declared 0/1/X/Z vector at integer ticks; simultaneous changes use the scheduler tie order and never depend on host scheduling.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `width`=1 bit (1..4096); `tick_period`=1e-6 s (>0); `initial_value`=0 1 (width-matched 0/1/X/Z vector); `drive_profile`=cmos 1 (registered logic-family profile).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SRC-DIGITAL_PATTERN_SOURCE-NOMINAL`, `GOLD-SRC-DIGITAL_PATTERN_SOURCE-BOUNDARY`, `GOLD-SRC-DIGITAL_PATTERN_SOURCE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -8,13 +8,13 @@ Deliver the complete **Linear analog simulation** capability for release R2, inc
 
 - Requirements: REQ-008, REQ-009, REQ-010, REQ-029, REQ-033
 - Release: R2
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G1 editor foundation.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-ANA-001](../platform/plat-ana-001-define-sparse-matrix-storage-contract.md) | Define sparse matrix storage contract | Gate G0 documentation baseline | Planned |
+| [PLAT-ANA-001](../platform/plat-ana-001-define-sparse-matrix-storage-contract.md) | Define sparse matrix storage contract | Gate G1 editor foundation | Planned |
 | [PLAT-ANA-002](../platform/plat-ana-002-implement-mna-unknown-and-equation-indexing.md) | Implement MNA unknown and equation indexing | PLAT-ANA-001 | Planned |
 | [PLAT-ANA-003](../platform/plat-ana-003-implement-resistor-and-conductance-stamping.md) | Implement resistor and conductance stamping | PLAT-ANA-002 | Planned |
 | [PLAT-ANA-004](../platform/plat-ana-004-implement-independent-voltage-source-stamping.md) | Implement independent voltage source stamping | PLAT-ANA-003 | Planned |

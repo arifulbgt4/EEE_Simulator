@@ -169,7 +169,7 @@ The public core MUST be Apache-2.0. Every external engine, model, dataset, and s
 
 ### REQ-036 - Realistic Electronics MVP release gate
 
-The first production gate MUST demonstrate the LED, RC charging, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half-adder, and full-adder circuits with the required measurement, waveform, non-ideal, thermal, failure, reusable-subcircuit, WebAssembly, and Worker behaviors. CPU, GPU, and complete-computer release work MUST remain gated until this acceptance suite passes. [Source PDF, p. 37]
+The first production gate MUST demonstrate the LED, RC charging, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half-adder, and full-adder circuits with the required measurement, waveform, non-ideal, thermal, failure, reusable-subcircuit, WebAssembly, and Worker behaviors. CPU, GPU, and complete-computer release work MUST remain gated until this acceptance suite passes. [Source PDF, p. 37]
 
 ## Physical representation and integrated-circuit packages
 

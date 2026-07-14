@@ -4,6 +4,8 @@ Status: **Normative baseline 1.0**
 Requirements: **REQ-037 and REQ-038**  
 Registry: [package-registry.yaml](package-registry.yaml)
 
+Binding contract: [DEVICE_PACKAGE_BINDING_CONTRACT.md](DEVICE_PACKAGE_BINDING_CONTRACT.md)
+
 ## Product intent
 
 Basic components must be recognizable in a physical view: a resistor should look like a resistor, a polarized capacitor should expose its polarity stripe and lead relationship, a diode should show its cathode band, an LED should show lens and polarity cues, and a transistor or IC should expose its package silhouette, leads/contacts, pin numbering, orientation mark, and printed marking area. This is an educational and interaction view, not a photorealistic rendering requirement or a manufacturing guarantee.
@@ -21,6 +23,10 @@ Integrated circuits are not a single appearance. Electrical function, schematic 
 | Footprint | Sourced pads/holes/courtyard and manufacturing rules | Simulation behavior |
 
 `DevicePackageBinding` is the only bridge: it maps logical pins to package pins explicitly and optionally selects reviewed package parasitics.
+
+## Package candidates are not bindings
+
+The `package_refs` field on a component variant and family-level package compatibility metadata are discovery and planning candidates only. They do not select a package revision, resolve template parameters, assign logical pins to contacts, or provide release evidence. A renderer, package-aware export, or release record must use a concrete, immutable `DevicePackageBinding` that satisfies the [Device Package Binding Contract](DEVICE_PACKAGE_BINDING_CONTRACT.md). Candidate list order must never be treated as a default package or pin order.
 
 ## Required physical representation
 
@@ -65,10 +71,10 @@ The designer creates a new immutable `PackageDefinition` revision; it never edit
 4. numbering direction, pin-one/A1 location, zero-rotation orientation, keyed features, and mirror policy;
 5. marking fields, material regions, realistic color hints, and non-color orientation cues;
 6. optional sourced tolerance/drawing reference and optional footprint link;
-7. explicit device logical-pin to package-pin map, NC/reserved pins, exposed pads, shields, and duplicate electrical connections;
+7. an optional draft device logical-pin to package-contact map, NC/reserved pins, exposed pads, shields, and duplicate electrical connections; this remains non-authoritative until published as a validated `DevicePackageBinding`;
 8. optional package parasitics that are separately versioned and visible to the simulation user.
 
-Designer outputs include previewable LOD geometry, a package contact table, orientation diagrams, validation report, provenance, accuracy claim, and stable revision ID. Custom packages are project-local until engineering, accessibility, and license review approves catalog publication.
+Designer outputs include previewable LOD geometry, a package contact table, orientation diagrams, validation report, provenance, accuracy claim, and stable revision ID. Creating the package does not create a device binding. Custom packages and their concrete bindings are project-local until engineering, pin-equivalence, accessibility, and license review approves catalog publication.
 
 ## Designer validation
 
@@ -114,4 +120,6 @@ Project package geometry and symbol artwork are original Apache-2.0 assets. IEC/
 
 ## Release gate
 
-A `basic-component` variant cannot advance to `Released` until its schematic symbol, physical representation, package compatibility, explicit pin maps, orientation/polarity behavior, LOD behavior, accessibility metadata, provenance/license, and visual regression evidence are complete. Package entries remain outside the 162-family/502-variant counts.
+Each package revision declares one `primary_golden_fixture` in [package-registry.yaml](package-registry.yaml). A package `CAT` task uses only that class fixture. Its `SYM`, `VALIDATION`, and `DOCS` tasks use the primary fixture plus `GRC-054` for dual-view identity and state preservation, de-duplicating `GRC-054` when it is already primary. This projection prevents an atomic package task from inheriting unrelated package-class fixtures.
+
+A `basic-component` variant cannot advance to `Released` until its schematic symbol, physical representation, package compatibility, published concrete `DevicePackageBinding`, explicit pin/contact map, orientation/polarity behavior, LOD behavior, accessibility metadata, provenance/license, and visual regression evidence are complete. Candidate `package_refs` alone never satisfy this gate. Package entries remain outside the 162-family/502-variant counts.

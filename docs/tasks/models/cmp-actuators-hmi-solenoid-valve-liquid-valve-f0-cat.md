@@ -11,35 +11,81 @@
 | Concern | CAT |
 | Release | R7 |
 | Requirements | REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Create the complete, immutable catalog definition for **Liquid Valve** without implementing a different fidelity or sibling preset.
 
+## Exact prerequisites
+
+- `PLAT-GOV-001`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-actuators-hmi-solenoid-valve.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Solenoid and valve, Solenoid Valve, solenoid-valve
-- Pins: 1:DRIVE+(input), 2:DRIVE-(input), M:MECHANICAL_OR_DISPLAY(physical)
-- Parameters: drive_rating [SI], efficiency [1], inertia [SI]
-- Supported analyses: dc, transient, electromechanical
-- Package mappings: pkg-electromechanical, pkg-display-module, pkg-custom-parametric
-- Golden references: GOLD-ACT-SOLENOID_VALVE-NOMINAL, GOLD-ACT-SOLENOID_VALVE-BOUNDARY, GOLD-ACT-SOLENOID_VALVE-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 17-21
+- Stable family: `fam-actuators-hmi-solenoid-valve` (Solenoid and valve); task scope: variant `var-actuators-hmi-solenoid-valve-liquid-valve` (Liquid Valve); fidelity `F0`; concern `CAT`.
+- Exact pins: `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic).
+- Exact parameters/defaults/limits: `coil_resistance`=20 ohm with limits >0; `coil_inductance`=0.1 H with limits >=0; `force_constant`=1 N/A with limits >0; `stroke`=0.01 m with limits >=0; `return_spring`=100 N/m with limits >=0; `response_time`=0.01 s with limits >=0.
+- Supported analyses: `dc`, `transient`, `electromechanical`.
+- Valid package mappings: `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- Golden references: `GOLD-ACT-SOLENOID_VALVE-NOMINAL`, `GOLD-ACT-SOLENOID_VALVE-BOUNDARY`, `GOLD-ACT-SOLENOID_VALVE-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 17-21; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+- Selected variant tiers: `F0`, `F1`, `F2`, `F3`, `F4`; release target: Post-MVP catalog; package references: `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Solenoid and valve family-specific implementation reference](../../catalog/families/fam-actuators-hmi-solenoid-valve.md#family-specific-implementation-reference), registry row `fam-actuators-hmi-solenoid-valve`, and variant `var-actuators-hmi-solenoid-valve-liquid-valve` (Liquid Valve).
+- Exact pin vector: `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic).
+- Exact parameter vector: `coil_resistance`=20 ohm with limits >0; `coil_inductance`=0.1 H with limits >=0; `force_constant`=1 N/A with limits >0; `stroke`=0.01 m with limits >=0; `return_spring`=100 N/m with limits >=0; `response_time`=0.01 s with limits >=0.
+- Declared analyses: `dc`, `transient`, `electromechanical`; declared package bindings: `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- This catalog concern has no numerical equation. It freezes the selected variant's inherited/overridden fields against the governing family rule: Coil current creates force that drives a bounded mechanical/flow state with inductance, spring/load, delay, hysteresis, and thermal limits.
+- Exact reference vectors: `GOLD-ACT-SOLENOID_VALVE-NOMINAL`, `GOLD-ACT-SOLENOID_VALVE-BOUNDARY`, `GOLD-ACT-SOLENOID_VALVE-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-actuators-hmi-solenoid-valve-liquid-valve-f0-cat.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-actuators-hmi-solenoid-valve.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Stable variant identity, aliases, defaults, limits, supported tiers, analyses, and lifecycle state.
-- Explicit schematic-symbol, physical-appearance, and package references: pkg-electromechanical, pkg-display-module, pkg-custom-parametric.
-- Variant-specific provenance, accuracy/usage limits, and golden assertions.
+- One normalized `ComponentVariant` record for variant `var-actuators-hmi-solenoid-valve-liquid-valve` (Liquid Valve), retaining stable ID, aliases, inherited pins/parameters, declared tier list, package candidates, release target, provenance, and limitations.
+- A field-by-field registry/family consistency result and structured rejection evidence for duplicate ID, invalid override, missing package, or unsupported tier.
+- Scope is limited to `CMP-ACTUATORS-HMI-SOLENOID-VALVE-LIQUID-VALVE-F0-CAT`: variant `var-actuators-hmi-solenoid-valve-liquid-valve` (Liquid Valve), fidelity `F0`, concern `CAT`, and requirements REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +98,25 @@ Create the complete, immutable catalog definition for **Liquid Valve** without i
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:DRIVE+` (input; electrical/mechanical/optical/acoustic), `2:DRIVE-` (input; electrical/mechanical/optical/acoustic), `M:MECHANICAL_OR_DISPLAY` (physical; electrical/mechanical/optical/acoustic); reject any package map outside `pkg-electromechanical`, `pkg-display-module`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `coil_resistance`=20 ohm with limits >0; `coil_inductance`=0.1 H with limits >=0; `force_constant`=1 N/A with limits >0; `stroke`=0.01 m with limits >=0; `return_spring`=100 N/m with limits >=0; `response_time`=0.01 s with limits >=0.
+- Support only `dc`, `transient`, `electromechanical`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Duplicate stable IDs, incompatible inherited overrides, undeclared package/tier references, or absent provenance block publication of the variant record.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-ACTUATORS-HMI-SOLENOID-VALVE-LIQUID-VALVE-F0-CAT-NOMINAL`
+- `TEST-CMP-ACTUATORS-HMI-SOLENOID-VALVE-LIQUID-VALVE-F0-CAT-BOUNDARY`
+- `TEST-CMP-ACTUATORS-HMI-SOLENOID-VALVE-LIQUID-VALVE-F0-CAT-FAILURE`
 
 ## Acceptance
 
-1. The variant ID is unique and its defaults stay inside the family parameter limits.
-2. Every required logical pin maps exactly once to each supported physical package; NC and thermal pads remain explicit.
-3. The preset selects only declared model tiers (F0, F1, F2, F3, F4) and never implies manufacturer certification.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-ACTUATORS-HMI-SOLENOID-VALVE-LIQUID-VALVE-F0-CAT` exists and is limited to variant `var-actuators-hmi-solenoid-valve-liquid-valve` (Liquid Valve), `F0`, and `CAT`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-actuators-hmi-solenoid-valve` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, REQ-038, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

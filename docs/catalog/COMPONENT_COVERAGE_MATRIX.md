@@ -9,6 +9,8 @@ Physical packages: [package-registry.yaml](package-registry.yaml)
 
 `Specified` means the documentation contract exists; it does not claim executable implementation. `Required` means the artifact or validation must exist before release. `Deferred` means the work is visible but outside production gates. No empty cell is permitted in this matrix.
 
+Release coverage is variant-scoped: 106 production presets are tagged for the Realistic Electronics MVP, 388 production presets are tagged for the R7 complete-catalog gate, and eight presets remain Deferred/Research. Mixed-target families may finish a gate-scoped core profile while optional import formats or later presets remain explicitly unavailable; no unfinished capability may be claimed by the earlier profile.
+
 ## Category totals
 
 | Category | Families | Variants | Symbol contract | Physical/package contract | Model contract | Validation contract |
@@ -207,6 +209,7 @@ Physical packages: [package-registry.yaml](package-registry.yaml)
 - `basic-component` rows require physical appearance, polarity/pin-one cues where applicable, non-color identification, LOD behavior, and view-switch preservation before release.
 - All package bindings require an explicit logical-to-physical pin map; no pin order is inferred from a package name.
 - Golden validation must cover nominal, boundary, and failure behavior. `not-applicable` requires rationale; a blank is invalid.
+- A component release row covers the exact gate-scoped core profile defined by the model contract. Optional import/capability extensions are tracked separately, remain unavailable until their own validation is `Done`, and cannot substitute for any gate-required tier, package, appearance, analysis, or failure evidence.
 - Deferred families remain counted and visible but cannot satisfy a production release gate.
 
 ## Release evidence columns to add during implementation

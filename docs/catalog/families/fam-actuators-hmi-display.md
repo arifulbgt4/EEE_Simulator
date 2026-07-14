@@ -38,21 +38,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `DRIVE+` | input | Positive drive | electrical, mechanical, optical, acoustic |
-| `DRIVE-` | input | Negative drive or return | electrical, mechanical, optical, acoustic |
-| `PHYSICAL` | physical | Mechanical, optical, acoustic, or display state | electrical, mechanical, optical, acoustic |
+| `1` | DRIVE+ | input | electrical, mechanical, optical, acoustic |
+| `2` | DRIVE- | input | electrical, mechanical, optical, acoustic |
+| `M` | MECHANICAL_OR_DISPLAY | physical | electrical, mechanical, optical, acoustic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `pixel_or_segment_count` | Addressable element count | 1 | 8 | 1..16777216 |
+| `refresh_rate` | Display refresh rate | Hz | 60 | >0 |
+| `supply_voltage` | Display supply voltage | V | 5 | >0 |
+| `active_current` | Active supply current | A | 0.02 | >=0 |
+| `persistence_time` | Visual persistence | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +68,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Electrical/digital inputs update the selected segment/pixel state with declared addressing, refresh, luminance, timing, power, and persistence.
+- **Exact nominal vector:** pins `1:DRIVE+`/input, `2:DRIVE-`/input, `M:MECHANICAL_OR_DISPLAY`/physical; parameters `pixel_or_segment_count`=8 1 (1..16777216); `refresh_rate`=60 Hz (>0); `supply_voltage`=5 V (>0); `active_current`=0.02 A (>=0); `persistence_time`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-ACT-DISPLAY-NOMINAL`, `GOLD-ACT-DISPLAY-BOUNDARY`, `GOLD-ACT-DISPLAY-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

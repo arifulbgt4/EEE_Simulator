@@ -251,6 +251,21 @@ Generated from the frozen component and package registries. The manifest is norm
 
 ## Reusable package templates
 
+### Concern-specific golden fixture policy
+
+The package registry's `primary_golden_fixture` is the sole class fixture for a package `CAT` card. `SYM`, `VALIDATION`, and `DOCS` cards use that primary fixture plus `GRC-054` for schematic/physical identity and state preservation; when the primary fixture is already `GRC-054`, the reference is de-duplicated. The per-task `golden_references` list in [task-manifest.yaml](task-manifest.yaml) is the machine-readable projection of this table.
+
+| Primary fixture | Package IDs | CAT reference | SYM / VALIDATION / DOCS references |
+|---|---|---|---|
+| `GRC-049` | `pkg-axial-2`, `pkg-smd-chip` | `GRC-049` | `GRC-049`, `GRC-054` |
+| `GRC-050` | `pkg-radial-2`, `pkg-smd-diode`, `pkg-led-round`, `pkg-led-rectangular`, `pkg-led-smd`, `pkg-sot-23`, `pkg-sot-89`, `pkg-sot-223`, `pkg-to-92`, `pkg-to-126`, `pkg-to-220`, `pkg-to-247`, `pkg-dpak`, `pkg-d2pak`, `pkg-power-module` | `GRC-050` | `GRC-050`, `GRC-054` |
+| `GRC-051` | `pkg-dip`, `pkg-sip`, `pkg-zip`, `pkg-soic`, `pkg-ssop`, `pkg-tssop`, `pkg-plcc` | `GRC-051` | `GRC-051`, `GRC-054` |
+| `GRC-052` | `pkg-qfp`, `pkg-qfn`, `pkg-dfn`, `pkg-lga`, `pkg-bga`, `pkg-csp` | `GRC-052` | `GRC-052`, `GRC-054` |
+| `GRC-053` | `pkg-custom-parametric` | `GRC-053` | `GRC-053`, `GRC-054` |
+| `GRC-054` | `pkg-virtual`, `pkg-sensor-module`, `pkg-rf-module`, `pkg-electromechanical`, `pkg-display-module`, `pkg-connector-parametric`, `pkg-cable-parametric` | `GRC-054` | `GRC-054` |
+
+Fixture definitions live in [Golden Reference Circuits](../../quality/GOLDEN_REFERENCE_CIRCUITS.md). No package card may cite another package class's fixture merely for broad coverage.
+
 | Package | Atomic tasks |
 |---|---|
 | `pkg-virtual` Virtual or schematic-only | [CMP-PACKAGE-VIRTUAL-TEMPLATE-F0-CAT](cmp-package-virtual-template-f0-cat.md)<br>[CMP-PACKAGE-VIRTUAL-TEMPLATE-F0-SYM](cmp-package-virtual-template-f0-sym.md)<br>[CMP-PACKAGE-VIRTUAL-TEMPLATE-F0-VALIDATION](cmp-package-virtual-template-f0-validation.md)<br>[CMP-PACKAGE-VIRTUAL-TEMPLATE-F0-DOCS](cmp-package-virtual-template-f0-docs.md) |

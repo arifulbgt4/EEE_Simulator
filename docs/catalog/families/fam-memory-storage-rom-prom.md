@@ -36,23 +36,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `ADDRESS` | input | Address bus | digital, storage, power |
-| `DATA` | bidirectional | Data bus | digital, storage, power |
-| `CONTROL` | input | Clock, enable, read/write controls | digital, storage, power |
-| `VDD` | power | Positive supply | digital, storage, power |
-| `VSS` | power | Reference supply | digital, storage, power |
+| `A` | ADDRESS | input | digital, storage, power |
+| `D` | DATA | bidirectional | digital, storage, power |
+| `C` | CONTROL | input | digital, storage, power |
+| `VDD` | VDD | power | digital, storage, power |
+| `VSS` | VSS | power | digital, storage, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `width` | bit | 1 | 1..4096 |
-| `propagation_delay` | s | 0 | >= 0 |
-| `logic_family` | 1 | cmos | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `address_width` | Address width | bit | 8 | 1..64 |
+| `data_width` | Data width | bit | 8 | 1..4096 |
+| `initial_contents` | Initial image | 1 | zero-filled | size-matched image |
+| `read_delay` | Read delay | s | 0 | >=0 |
+| `output_enable_polarity` | Output-enable polarity | 1 | active-low | active-high or active-low |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +68,19 @@ Supported fidelity tiers: **F0, F2, F3**. Supported analysis capabilities: **dig
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Address selects an immutable/programmed word; range, enable, output delay, initialization, and unknown-address behavior are explicit.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Address selects an immutable/programmed word; range, enable, output delay, initialization, and unknown-address behavior are explicit.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Address selects an immutable/programmed word; range, enable, output delay, initialization, and unknown-address behavior are explicit.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Address selects an immutable/programmed word; range, enable, output delay, initialization, and unknown-address behavior are explicit.
+- **Exact nominal vector:** pins `A:ADDRESS`/input, `D:DATA`/bidirectional, `C:CONTROL`/input, `VDD:VDD`/power, `VSS:VSS`/power; parameters `address_width`=8 bit (1..64); `data_width`=8 bit (1..4096); `initial_contents`=zero-filled 1 (size-matched image); `read_delay`=0 s (>=0); `output_enable_polarity`=active-low 1 (active-high or active-low).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-MEM-ROM_PROM-NOMINAL`, `GOLD-MEM-ROM_PROM-BOUNDARY`, `GOLD-MEM-ROM_PROM-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -37,22 +37,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `INPUTS[1..N]` | input | Parameterized inputs | digital, power |
-| `OUTPUTS[1..M]` | output | Parameterized outputs | digital, power |
-| `VDD` | power | Positive supply | digital, power |
-| `VSS` | power | Reference supply | digital, power |
+| `1..N` | INPUTS | input | digital, power |
+| `N+1..M` | OUTPUTS | output | digital, power |
+| `VDD` | VDD | power | digital, power |
+| `VSS` | VSS | power | digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `width` | bit | 1 | 1..4096 |
-| `propagation_delay` | s | 0 | >= 0 |
-| `logic_family` | 1 | cmos | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `width` | Output width | bit | 1 | 1..4096 |
+| `value` | Driven logic vector | 1 | 0 | width-matched 0/1/X/Z vector |
+| `drive_strength` | Output drive strength | 1 | strong | registered strength |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +66,19 @@ Supported fidelity tiers: **F0, F2, F3**. Supported analysis capabilities: **dig
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The output drives the configured 0/1/X/Z value and drive strength at every scheduler tick.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The output drives the configured 0/1/X/Z value and drive strength at every scheduler tick.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The output drives the configured 0/1/X/Z value and drive strength at every scheduler tick.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The output drives the configured 0/1/X/Z value and drive strength at every scheduler tick.
+- **Exact nominal vector:** pins `1..N:INPUTS`/input, `N+1..M:OUTPUTS`/output, `VDD:VDD`/power, `VSS:VSS`/power; parameters `width`=1 bit (1..4096); `value`=0 1 (width-matched 0/1/X/Z vector); `drive_strength`=strong 1 (registered strength).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-DIG-LOGIC_CONSTANT-NOMINAL`, `GOLD-DIG-LOGIC_CONSTANT-BOUNDARY`, `GOLD-DIG-LOGIC_CONSTANT-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

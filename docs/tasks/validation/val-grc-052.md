@@ -1,20 +1,39 @@
-# VAL-GRC-052 - Validate QFP, QFN and BGA packages
+# VAL-GRC-052 - Validate Quad, leadless and grid-array IC package set
 
 ## Metadata
 
 | Field | Value |
 |---|---|
 | Status | Planned |
-| Target | QFP, QFN and BGA packages |
+| Target | Quad, leadless and grid-array IC package set |
 | Requirements | REQ-037, REQ-038 |
 | Golden fixture | GRC-052 |
-| Release | R7 |
+| Test ID | TEST-GRC-052 |
+| Release | R1 |
 | Concern | Validation only |
-| Depends on | Applicable model, engine, interface, package, and fixture-definition tasks |
+| Depends on | Exact prerequisite IDs listed below |
+
+## Exact prerequisites
+
+- `PLAT-QA-001`
+- `Gate G0 documentation baseline`
+- `CMP-PACKAGE-QFP-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-QFN-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-DFN-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-LGA-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-BGA-TEMPLATE-F0-VALIDATION`
+- `CMP-PACKAGE-CSP-TEMPLATE-F0-VALIDATION`
+
+Every named task must be `Done` and every named predecessor gate accepted before this card may become `Ready`.
+
+## Public contracts
+
+- `SimulationRequest`, `SimulationResult`, `Diagnostic`, deterministic provenance, and the applicable component/package contracts.
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
 
 ## Objective
 
-Produce independent, reproducible evidence for **Multi-side/grid numbering, thermal pad/ball-map semantics, orientation and zoom behavior** without changing the model or feature under test.
+Produce independent, reproducible evidence for **QFP/QFN/DFN and LGA/BGA/CSP multi-side/grid numbering, thermal-pad/ball semantics, orientation and zoom behavior** without changing the model or feature under test.
 
 ## Context to read
 
@@ -28,6 +47,29 @@ Produce independent, reproducible evidence for **Multi-side/grid numbering, ther
 - Record the analytical solution or an independent pinned reference engine/dataset.
 - Record exact circuit/project parameters, operating envelope, analysis settings, probes, initial state, engine/model/package versions, environment, and deterministic seed.
 - Include nominal, boundary, invalid, and relevant temperature/failure vectors.
+
+## Allowed files
+
+- `docs/tasks/validation/val-grc-052.md`
+- `docs/tasks/validation/INDEX.md`
+- `docs/quality/GOLDEN_REFERENCE_CIRCUITS.md`
+- `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`
+- `docs/quality/TEST_AND_VALIDATION_STRATEGY.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+This validation-only card cannot modify the implementation under test. Exact fixture-data/result paths must be appended when the card is promoted to `Ready` under completed `PLAT-GOV-001`.
+
+## Documentation updates
+
+- This card, `docs/tasks/validation/INDEX.md`, `docs/quality/test-registry.yaml`, and the GRC-052 fixture row.
+- Every referenced family/package coverage row, requirement traceability row, and applicable release checklist.
+- Reference provenance, environment, limitations, and retained evidence links only; no implementation behavior.
+
+## Acceptance test ID
+
+- `TEST-GRC-052`
 
 ## Deliverables
 

@@ -4,7 +4,7 @@
 - **Category:** Sources and loads
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 8-10
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Noise source**, **Noise Source**, and `noise-source`. Varia
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-sources-loads-noise-source-white` | White | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-virtual` |
-| `var-sources-loads-noise-source-pink` | Pink | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-virtual` |
+| `var-sources-loads-noise-source-white` | White | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-virtual` |
+| `var-sources-loads-noise-source-pink` | Pink | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-virtual` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,20 +35,21 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, stimulus |
-| `N` | passive | Negative or second terminal | electrical, stimulus |
+| `1` | P | passive | electrical, stimulus |
+| `2` | N | passive | electrical, stimulus |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `magnitude` | family-specific SI unit | 1 | finite |
-| `frequency` | Hz | 0 | >= 0 |
-| `phase` | rad | 0 | finite |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `voltage_density` | Voltage-noise density | V/sqrt(Hz) | 1e-9 | >=0 |
+| `lower_frequency` | Lower noise frequency | Hz | 0 | >=0 |
+| `upper_frequency` | Upper noise frequency | Hz | 1e6 | >lower_frequency |
+| `seed` | Deterministic random seed | 1 | 1 | 0..18446744073709551615 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +63,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The sampled process follows the declared spectral-density/bandwidth distribution and deterministic seed; equal configuration, tick sequence, and seed reproduce equal samples.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `voltage_density`=1e-9 V/sqrt(Hz) (>=0); `lower_frequency`=0 Hz (>=0); `upper_frequency`=1e6 Hz (>lower_frequency); `seed`=1 1 (0..18446744073709551615).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SRC-NOISE_SOURCE-NOMINAL`, `GOLD-SRC-NOISE_SOURCE-BOUNDARY`, `GOLD-SRC-NOISE_SOURCE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -39,6 +39,9 @@ Likelihood and impact use `Low`, `Medium`, `High`, and `Critical`. Owners are wo
 | RSK-031 | Realistic-looking component uses the wrong electrical pin map | Medium | Critical | Separate package from model, stable pin IDs, symbol/package equivalence tests, golden fixtures |
 | RSK-032 | Photorealistic detail harms editor performance or accessibility | Medium | High | Parametric vector/Canvas bodies, level of detail, nonvisual labels, performance gates |
 | RSK-033 | Package drawing or vendor marking is copied without rights | Medium | High | Original parametric geometry, generic markings, provenance review and no copied protected artwork |
+| RSK-034 | Sibling variant IDs exist but resolve to the same behavior | High | Critical | One-to-one semantic profiles, explicit behavior selectors/pin profiles/overrides, sibling-distinguishability audit, and variant-specific CAT evidence; trigger: behavior is inferred from display text |
+| RSK-035 | Compact catalog normalization invents unresolved executable fields | High | Critical | Distinguish planning records from releaseable normalized entities, use deterministic parameter/pin/semantic sidecars, and emit blocking unresolved-field diagnostics instead of defaults |
+| RSK-036 | Package candidate metadata is mistaken for a verified device binding | High | Critical | Candidate/binding separation, immutable `DevicePackageBinding`, complete contact disposition, candidate-only rejection, and GRC-049..054 binding evidence |
 
 ## Review cadence
 

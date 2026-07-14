@@ -5,7 +5,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Storage, Versioning, 
 
 ## 1. Purpose
 
-The portable project format is a versioned, self-describing archive with the extension **.eesim**. It preserves the electrical design, hierarchy, selected component and package definitions, simulation configuration, stimuli, tests, measurements, documentation, and referenced assets needed to reopen or reproduce a supported project. The source brief requires schematic, hierarchy, models, configurations, waveforms, measurements, testbenches, version history, comments, and documentation to be preserved across local and cloud workflows. [Source brief, pp. 31-32]
+The portable project format is a versioned, self-describing archive with the extension **.eesim**. It preserves the electrical design, hierarchy, selected component and package definitions, simulation configuration, stimuli, tests, measurements, documentation, and referenced assets needed to reopen or reproduce a supported project. The source PDF requires schematic, hierarchy, models, configurations, waveforms, measurements, testbenches, version history, comments, and documentation to be preserved across local and cloud workflows. [Source PDF, pp. 31-32]
 
 An archive is a transport artifact, not a live database and not an executable program. Opening an archive MUST NOT execute an imported model, firmware image, HDL source, custom equation, or script.
 
@@ -90,7 +90,7 @@ Changing view MUST NOT change the component definition, electrical model, parame
 
 Physical dimensions are stored in SI base units. Display in millimetres, inches, or grid units is presentation-only. When a drawing uses deliberate visual exaggeration for legibility, the definition MUST keep separate **physicalDimensions** and **renderExaggeration** records so the exaggerated art is never treated as manufacturing geometry.
 
-This dual-view requirement refines the brief's visual editor, beginner-component, visualization, and reusable-subcircuit goals. [Source brief, pp. 22-23, 30-32, 37; REQ-037]
+This dual-view requirement refines the brief's visual editor, beginner-component, visualization, and reusable-subcircuit goals. [Source PDF, pp. 22-23, 30-32, 37; REQ-037]
 
 ## 6. Reusable package definitions
 
@@ -108,7 +108,7 @@ A **PackageDefinition** is independent of an electrical component model and MUST
 
 A component variant may support multiple packages, and one package definition may be reused by many component variants. Selecting a package creates or changes only a package binding unless the selected variant also explicitly changes the electrical model.
 
-The baseline package system MUST support axial and radial through-hole bodies, LED and diode bodies, common transistor and power-device bodies, SIP/DIP, SOIC/TSSOP, SOT, TO, QFP, QFN/DFN, and BGA-style geometry through reusable definitions or constrained parametric families. This is a project requirement derived from the user's physical-component and individually designable IC-package direction; it complements the brief's component, schematic, and reusable-library scope. [Source brief, pp. 22-23, 30-32; REQ-038]
+The baseline package system MUST support axial and radial through-hole bodies, LED and diode bodies, common transistor and power-device bodies, SIP/DIP, SOIC/TSSOP, SOT, TO, QFP, QFN/DFN, and BGA-style geometry through reusable definitions or constrained parametric families. This is a project requirement derived from the user's physical-component and individually designable IC-package direction; it complements the brief's component, schematic, and reusable-library scope. [Source PDF, pp. 22-23, 30-32; REQ-038]
 
 ## 7. Pin-map equivalence
 
@@ -206,5 +206,4 @@ Archives MUST be parsed in a bounded Worker locally or an isolated import servic
 
 ## 14. Source record
 
-Project contents, browser storage, cloud versioning, collaboration, public libraries, and documentation are grounded in the source brief. [Source brief, pp. 31-32, 41-42] Hierarchy and reusable subcircuits are grounded in pp. 2, 16, 29, 34-37. The .eesim container, exact normalization, dual visual projections, reusable package records, custom-package designer, and pin-map rules are repository decisions supporting REQ-006, REQ-037, and REQ-038.
-
+Project contents, browser storage, cloud versioning, collaboration, public libraries, and documentation are grounded in the feasibility source. [Source PDF, pp. 31-32, 41-42] Hierarchy and reusable subcircuits follow its circuit-to-computer scope and staged examples. [Source PDF, pp. 2, 16, 29, 34-37] The `.eesim` container, exact normalization, dual visual projections, reusable package records, custom-package designer, and pin-map rules are repository decisions supporting REQ-006, REQ-037, and REQ-038.

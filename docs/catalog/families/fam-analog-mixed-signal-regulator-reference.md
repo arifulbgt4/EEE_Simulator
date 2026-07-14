@@ -4,7 +4,7 @@
 - **Category:** Analog and mixed-signal abstractions
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 13-17
 
 ## Purpose and scope
@@ -19,9 +19,9 @@ Search aliases are **Linear regulator and reference**, **Regulator Reference**, 
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-analog-mixed-signal-regulator-reference-ldo` | Ldo | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-regulator-reference-shunt-reference` | Shunt Reference | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-analog-mixed-signal-regulator-reference-series-reference` | Series Reference | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-regulator-reference-ldo` | Ldo | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-regulator-reference-shunt-reference` | Shunt Reference | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-analog-mixed-signal-regulator-reference-series-reference` | Series Reference | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -36,23 +36,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `IN+` | input | Non-inverting or primary input | analog, digital, power |
-| `IN-` | input | Inverting or secondary input | analog, digital, power |
-| `OUT` | output | Primary output | analog, digital, power |
-| `V+` | power | Positive supply | analog, digital, power |
-| `V-` | power | Negative supply | analog, digital, power |
+| `1` | IN+ | input | analog, digital, power |
+| `2` | IN- | input | analog, digital, power |
+| `3` | OUT | output | analog, digital, power |
+| `4` | V+ | power | analog, digital, power |
+| `5` | V- | power | analog, digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `output_voltage` | Regulated/reference voltage | V | 3.3 | >0 |
+| `dropout_voltage` | Minimum input-output headroom | V | 0.3 | >=0 |
+| `current_limit` | Output current limit | A | 1 | >0 |
+| `output_resistance` | Small-signal output resistance | ohm | 0.01 | >=0 |
+| `thermal_shutdown` | Thermal shutdown temperature | K | 423.15 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +68,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Output regulation follows the selected setpoint subject to dropout/headroom, current limit, line/load response, noise, and thermal protection.
+- **Exact nominal vector:** pins `1:IN+`/input, `2:IN-`/input, `3:OUT`/output, `4:V+`/power, `5:V-`/power; parameters `output_voltage`=3.3 V (>0); `dropout_voltage`=0.3 V (>=0); `current_limit`=1 A (>0); `output_resistance`=0.01 ohm (>=0); `thermal_shutdown`=423.15 K (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-AMS-REGULATOR_REFERENCE-NOMINAL`, `GOLD-AMS-REGULATOR_REFERENCE-BOUNDARY`, `GOLD-AMS-REGULATOR_REFERENCE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

@@ -4,7 +4,7 @@
 - **Category:** Semiconductor and optoelectronics
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-15
 
 ## Purpose and scope
@@ -19,7 +19,7 @@ Search aliases are **Laser diode**, **Laser Diode**, and `laser-diode`. Variant 
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-semiconductors-laser-diode-edge-emitting` | Edge Emitting | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-led-round`, `pkg-led-smd`, `pkg-custom-parametric` |
+| `var-semiconductors-laser-diode-edge-emitting` | Edge Emitting | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-led-round`, `pkg-led-smd`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -34,20 +34,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `A` | passive | Anode | electrical, optical, thermal |
-| `K` | passive | Cathode | electrical, optical, thermal |
+| `1` | A | passive | electrical, optical, thermal |
+| `2` | K | passive | electrical, optical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `threshold_current` | Lasing threshold current | A | 0.02 | >0 |
+| `slope_efficiency` | Optical slope efficiency | W/A | 0.5 | >=0 |
+| `peak_wavelength` | Peak wavelength | m | 850e-9 | >0 |
+| `series_resistance` | Series resistance | ohm | 5 | >=0 |
+| `temperature` | Junction temperature | K | 300.15 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -61,6 +63,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The junction relation couples to optical power above threshold with declared slope efficiency, wavelength, thermal roll-off, and safe operating limits.
+- **Exact nominal vector:** pins `1:A`/passive, `2:K`/passive; parameters `threshold_current`=0.02 A (>0); `slope_efficiency`=0.5 W/A (>=0); `peak_wavelength`=850e-9 m (>0); `series_resistance`=5 ohm (>=0); `temperature`=300.15 K (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEM-LASER_DIODE-NOMINAL`, `GOLD-SEM-LASER_DIODE-BOUNDARY`, `GOLD-SEM-LASER_DIODE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

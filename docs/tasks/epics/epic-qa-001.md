@@ -6,15 +6,15 @@ Deliver the complete **Quality traceability and release evidence** capability fo
 
 ## Requirements and release
 
-- Requirements: REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038
+- Requirements: REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038
 - Release: R0
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: None - R0 root task; G0 is this epic's exit gate.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-QA-001](../platform/plat-qa-001-define-test-identifier-and-evidence-schema.md) | Define test identifier and evidence schema | Gate G0 documentation baseline | Planned |
+| [PLAT-QA-001](../platform/plat-qa-001-define-test-identifier-and-evidence-schema.md) | Define test identifier and evidence schema | None - R0 root task; G0 is this epic's exit gate | Ready |
 | [PLAT-QA-002](../platform/plat-qa-002-create-analytical-golden-reference-harness-plan.md) | Create analytical golden reference harness plan | PLAT-QA-001 | Planned |
 | [PLAT-QA-003](../platform/plat-qa-003-create-reference-engine-differential-harness-plan.md) | Create reference-engine differential harness plan | PLAT-QA-002 | Planned |
 | [PLAT-QA-004](../platform/plat-qa-004-create-component-registry-completeness-audit.md) | Create component registry completeness audit | PLAT-QA-003 | Planned |

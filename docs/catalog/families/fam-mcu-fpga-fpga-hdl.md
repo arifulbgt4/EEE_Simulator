@@ -38,23 +38,26 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `GPIO` | bidirectional | Parameterized I/O | digital, firmware, power |
-| `RESET` | input | Reset | digital, firmware, power |
-| `CLOCK` | input | Clock | digital, firmware, power |
-| `VDD` | power | Positive supply | digital, firmware, power |
-| `VSS` | power | Reference supply | digital, firmware, power |
+| `IO` | GPIO | bidirectional | digital, firmware, power |
+| `RST` | RESET | input | digital, firmware, power |
+| `CLK` | CLOCK | input | digital, firmware, power |
+| `VDD` | VDD | power | digital, firmware, power |
+| `VSS` | VSS | power | digital, firmware, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `width` | bit | 1 | 1..4096 |
-| `propagation_delay` | s | 0 | >= 0 |
-| `logic_family` | 1 | cmos | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `block_profile` | FPGA/HDL block profile | 1 | hdl-wrapper | lut, bram, dsp, pll, or hdl-wrapper |
+| `input_width` | Input width | bit | 1 | 0..4096 |
+| `output_width` | Output width | bit | 1 | 0..4096 |
+| `clock_frequency` | Clock frequency | Hz | 1e6 | >0 |
+| `toolchain_digest` | Pinned HDL toolchain digest | 1 | unset | valid reviewed digest before Ready |
+| `latency` | Declared block latency | tick | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -68,6 +71,19 @@ Supported fidelity tiers: **F0, F2, F3**. Supported analysis capabilities: **dig
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected LUT/BRAM/DSP/PLL/HDL block executes its declared RTL/event relation under a pinned HDL toolchain and explicit clock/reset/pin mapping.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected LUT/BRAM/DSP/PLL/HDL block executes its declared RTL/event relation under a pinned HDL toolchain and explicit clock/reset/pin mapping.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected LUT/BRAM/DSP/PLL/HDL block executes its declared RTL/event relation under a pinned HDL toolchain and explicit clock/reset/pin mapping.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected LUT/BRAM/DSP/PLL/HDL block executes its declared RTL/event relation under a pinned HDL toolchain and explicit clock/reset/pin mapping.
+- **Exact nominal vector:** pins `IO:GPIO`/bidirectional, `RST:RESET`/input, `CLK:CLOCK`/input, `VDD:VDD`/power, `VSS:VSS`/power; parameters `block_profile`=hdl-wrapper 1 (lut, bram, dsp, pll, or hdl-wrapper); `input_width`=1 bit (0..4096); `output_width`=1 bit (0..4096); `clock_frequency`=1e6 Hz (>0); `toolchain_digest`=unset 1 (valid reviewed digest before Ready); `latency`=0 tick (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-MCU-FPGA_HDL-NOMINAL`, `GOLD-MCU-FPGA_HDL-BOUNDARY`, `GOLD-MCU-FPGA_HDL-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

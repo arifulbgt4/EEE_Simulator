@@ -8,13 +8,13 @@ Deliver the complete **Model data and firmware interchange** capability for rele
 
 - Requirements: REQ-024, REQ-032
 - Release: R7
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G6 Electronics MVP.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-IMP-001](../platform/plat-imp-001-implement-spice-model-and-subcircuit-import-policy.md) | Implement SPICE model and subcircuit import policy | Gate G0 documentation baseline | Planned |
+| [PLAT-IMP-001](../platform/plat-imp-001-implement-spice-model-and-subcircuit-import-policy.md) | Implement SPICE model and subcircuit import policy | Gate G6 Electronics MVP | Planned |
 | [PLAT-IMP-002](../platform/plat-imp-002-implement-spice-library-include-resolution.md) | Implement SPICE library include resolution | PLAT-IMP-001 | Planned |
 | [PLAT-IMP-003](../platform/plat-imp-003-implement-verilog-and-systemverilog-source-packaging.md) | Implement Verilog and SystemVerilog source packaging | PLAT-IMP-002 | Planned |
 | [PLAT-IMP-004](../platform/plat-imp-004-implement-verilog-a-and-ams-supported-subset-policy.md) | Implement Verilog-A and AMS supported-subset policy | PLAT-IMP-003 | Planned |

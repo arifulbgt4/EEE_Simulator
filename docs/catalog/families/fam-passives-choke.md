@@ -4,7 +4,7 @@
 - **Category:** Passives, magnetics and transmission
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 8-13
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Choke**, **Choke**, and `choke`. Variant names are also ali
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-passives-choke-common-mode` | Common Mode | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-custom-parametric` |
-| `var-passives-choke-differential-mode` | Differential Mode | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-custom-parametric` |
+| `var-passives-choke-common-mode` | Common Mode | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-radial-2`, `pkg-custom-parametric` |
+| `var-passives-choke-differential-mode` | Differential Mode | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-radial-2`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,20 +35,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, thermal |
-| `N` | passive | Negative or second terminal | electrical, thermal |
+| `1` | P | passive | electrical, thermal |
+| `2` | N | passive | electrical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | finite and positive unless stated |
-| `tolerance` | 1 | 0.05 | 0..1 |
-| `temperature_coefficient` | 1/K | 0 | variant-defined |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `winding_count` | Winding count | 1 | 2 | 1..64 |
+| `differential_inductance` | Differential-mode inductance | H | 1e-3 | >0 |
+| `common_mode_inductance` | Common-mode inductance | H | 10e-3 | >0 |
+| `coupling_coefficient` | Winding coupling | 1 | 0.99 | -1..1 |
+| `winding_resistance` | Per-winding resistance | ohm | 0.1 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +64,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `winding_count`=2 1 (1..64); `differential_inductance`=1e-3 H (>0); `common_mode_inductance`=10e-3 H (>0); `coupling_coefficient`=0.99 1 (-1..1); `winding_resistance`=0.1 ohm (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-PAS-CHOKE-NOMINAL`, `GOLD-PAS-CHOKE-BOUNDARY`, `GOLD-PAS-CHOKE-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

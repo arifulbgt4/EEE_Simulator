@@ -5,7 +5,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Security, Privacy, an
 
 ## 1. Goals
 
-The platform MUST provide immediate, offline-capable editing and bounded simulation in the browser while moving heavy, long-running, toolchain-dependent, or untrusted native workloads to isolated server workers. This follows the feasibility brief's explicit split between small browser simulations and large SPICE, RTL, architecture, GPU, Monte Carlo, and thermal jobs on server/HPC infrastructure. [Source brief, pp. 25-26, 36, 44]
+The platform MUST provide immediate, offline-capable editing and bounded simulation in the browser while moving heavy, long-running, toolchain-dependent, or untrusted native workloads to isolated server workers. This follows the feasibility brief's explicit split between small browser simulations and large SPICE, RTL, architecture, GPU, Monte Carlo, and thermal jobs on server/HPC infrastructure. [Source PDF, pp. 25-26, 36, 44]
 
 ## 2. Placement decision
 
@@ -61,12 +61,12 @@ flowchart TB
 ```
 
 - The main thread owns interaction and accessible presentation only.
-- Domain/netlist, analog solver, digital scheduler, and waveform processing are separate logical Workers. Implementations MAY merge Workers on constrained devices only if isolation and responsiveness budgets remain satisfied.
+- Domain/netlist preparation, analog solving, digital scheduling, and waveform processing use separate Workers. Analog, digital, and waveform responsibilities MUST NOT be merged into one Worker; a constrained device uses the documented reduced-capability or cloud-routing path instead of weakening this boundary. Netlist preparation may share the domain Worker only when benchmarks justify it, as allowed by ADR-0002.
 - Messages MUST be versioned and size-bounded. Large buffers SHOULD be transferred, not copied.
 - Shared memory MAY be used only by the threaded WASM build with cross-origin isolation and an explicit buffer schema.
 - Cancellation MUST be available without waiting for a long synchronous call to return.
 
-The source brief explicitly assigns UI, netlist generation, analog solving, digital events, and waveform work to separate threads and warns against running simulation on the main UI thread. [Source brief, pp. 23-24]
+The source PDF explicitly assigns UI, netlist generation, analog solving, digital events, and waveform work to separate threads and warns against running simulation on the main UI thread. [Source PDF, pp. 23-24]
 
 ## 4. Rust/WASM build matrix
 
@@ -83,11 +83,11 @@ Two local artifacts are required:
 - If cross-origin isolation is unavailable, the application MUST explain the reduced capability and use the single-threaded build.
 - Correctness tests MUST run against both artifacts.
 
-The deployment constraint is described by the [official Emscripten pthreads documentation](https://emscripten.org/docs/porting/pthreads.html). The brief identifies the same SharedArrayBuffer, Worker, COOP, and COEP requirements. [Source brief, p. 24]
+The deployment constraint is described by the [official Emscripten pthreads documentation](https://emscripten.org/docs/porting/pthreads.html). The brief identifies the same SharedArrayBuffer, Worker, COOP, and COEP requirements. [Source PDF, p. 24]
 
 ## 5. Local persistence and offline behavior
 
-- IndexedDB stores working project drafts, immutable catalog/model assets, pending synchronization operations, and optionally bounded result chunks. [Source brief, pp. 31-32]
+- IndexedDB stores working project drafts, immutable catalog/model assets, pending synchronization operations, and optionally bounded result chunks. [Source PDF, pp. 31-32]
 - A service worker MAY cache the application shell and approved immutable assets. It MUST NOT cache private API responses in a shared cache.
 - Local drafts MUST be recoverable after refresh or Worker crash through an append-only command journal plus periodic compact snapshots.
 - Storage quota pressure MUST trigger proactive warnings and explicit choices: delete cached results, export a project, reduce retention, or stop a run.
@@ -132,7 +132,7 @@ Redis Streams is the dispatch transport, not the source of truth. A stream entry
 - Stream trimming MUST never delete the only durable history because history belongs in PostgreSQL.
 - Priority MAY use separate streams; starvation limits are mandatory.
 
-The brief names PostgreSQL and object storage for cloud projects and requires a server job queue, result storage, progress streaming, and checkpoint/resume. Redis Streams is the project decision for the queue implementation. [Source brief, pp. 31-32, 36]
+The brief names PostgreSQL and object storage for cloud projects and requires a server job queue, result storage, progress streaming, and checkpoint/resume. Redis Streams is the project decision for the queue implementation. [Source PDF, pp. 31-32, 36]
 
 ## 7. Job state machine
 
@@ -238,4 +238,4 @@ Client-provided estimates are hints only. The server computes the enforceable pr
 
 ## 14. Source record
 
-Browser/WASM/Worker constraints derive from the brief, pp. 22-24. Local versus server placement derives from pp. 25-26. Local and cloud persistence derives from pp. 31-32. Cloud queues, progress, storage, and checkpoints derive from p. 36. Browser memory and worker isolation refinements are project decisions needed to satisfy the risks on pp. 39-40.
+Browser/WASM/Worker constraints derive from the feasibility source. [Source PDF, pp. 22-24] Local versus server placement follows its hybrid-execution plan. [Source PDF, pp. 25-26] Local and cloud persistence follows its project-management plan. [Source PDF, pp. 31-32] Cloud queues, progress, storage, and checkpoints follow its distributed-computing plan. [Source PDF, p. 36] Browser-memory and Worker-isolation refinements are project decisions needed to address the recorded risks. [Source PDF, pp. 39-40]

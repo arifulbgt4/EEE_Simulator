@@ -8,13 +8,13 @@ Deliver the complete **RTL FPGA and Verilator integration** capability for relea
 
 - Requirements: REQ-026
 - Release: R9
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G8 educational CPU.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-HDL-001](../platform/plat-hdl-001-define-supported-verilog-and-systemverilog-subset.md) | Define supported Verilog and SystemVerilog subset | Gate G0 documentation baseline | Planned |
+| [PLAT-HDL-001](../platform/plat-hdl-001-define-supported-verilog-and-systemverilog-subset.md) | Define supported Verilog and SystemVerilog subset | Gate G8 educational CPU | Planned |
 | [PLAT-HDL-002](../platform/plat-hdl-002-implement-hdl-editor-and-source-package-contract.md) | Implement HDL editor and source package contract | PLAT-HDL-001 | Planned |
 | [PLAT-HDL-003](../platform/plat-hdl-003-implement-syntax-lint-worker.md) | Implement syntax lint worker | PLAT-HDL-002 | Planned |
 | [PLAT-HDL-004](../platform/plat-hdl-004-implement-no-network-compiler-sandbox.md) | Implement no-network compiler sandbox | PLAT-HDL-003 | Planned |

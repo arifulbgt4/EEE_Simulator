@@ -6,15 +6,15 @@ Deliver the complete **Mixed-signal scheduler and boundaries** capability for re
 
 ## Requirements and release
 
-- Requirements: REQ-019, REQ-020
+- Requirements: REQ-001, REQ-002, REQ-019, REQ-020
 - Release: R5
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G4 realism.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-MIX-001](../platform/plat-mix-001-define-global-integer-simulation-timebase.md) | Define global integer simulation timebase | Gate G0 documentation baseline | Planned |
+| [PLAT-MIX-001](../platform/plat-mix-001-define-global-integer-simulation-timebase.md) | Define global integer simulation timebase | Gate G4 realism | Planned |
 | [PLAT-MIX-002](../platform/plat-mix-002-define-same-timestamp-event-ordering.md) | Define same-timestamp event ordering | PLAT-MIX-001 | Planned |
 | [PLAT-MIX-003](../platform/plat-mix-003-implement-analog-to-digital-threshold-adapter.md) | Implement analog-to-digital threshold adapter | PLAT-MIX-002 | Planned |
 | [PLAT-MIX-004](../platform/plat-mix-004-implement-threshold-ambiguity-and-hysteresis.md) | Implement threshold ambiguity and hysteresis | PLAT-MIX-003 | Planned |

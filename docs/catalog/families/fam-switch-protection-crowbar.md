@@ -4,7 +4,7 @@
 - **Category:** Switches, protection and isolation
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-14
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Crowbar protector**, **Crowbar**, and `crowbar`. Variant na
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-switch-protection-crowbar-scr` | Scr | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-crowbar-triac` | Triac | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
+| `var-switch-protection-crowbar-scr` | Scr | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
+| `var-switch-protection-crowbar-triac` | Triac | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,20 +35,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, control |
-| `N` | passive | Negative or second terminal | electrical, control |
+| `1` | P | passive | electrical, control |
+| `2` | N | passive | electrical, control |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `trigger_voltage` | Trigger voltage | V | 6 | >0 |
+| `latching_current` | Latching current | A | 0.01 | >=0 |
+| `holding_current` | Holding current | A | 0.005 | 0..latching_current |
+| `on_voltage` | On-state voltage | V | 1 | >=0 |
+| `reset_mode` | Reset mode | 1 | supply-removal | supply-removal or explicit |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -62,6 +64,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The trigger condition latches a low-impedance protection path until the declared hold-current, reset, or supply-removal condition is met.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `trigger_voltage`=6 V (>0); `latching_current`=0.01 A (>=0); `holding_current`=0.005 A (0..latching_current); `on_voltage`=1 V (>=0); `reset_mode`=supply-removal 1 (supply-removal or explicit).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SWP-CROWBAR-NOMINAL`, `GOLD-SWP-CROWBAR-BOUNDARY`, `GOLD-SWP-CROWBAR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

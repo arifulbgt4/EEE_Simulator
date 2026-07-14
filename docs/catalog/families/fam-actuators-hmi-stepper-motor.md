@@ -36,21 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `DRIVE+` | input | Positive drive | electrical, mechanical, optical, acoustic |
-| `DRIVE-` | input | Negative drive or return | electrical, mechanical, optical, acoustic |
-| `PHYSICAL` | physical | Mechanical, optical, acoustic, or display state | electrical, mechanical, optical, acoustic |
+| `1` | DRIVE+ | input | electrical, mechanical, optical, acoustic |
+| `2` | DRIVE- | input | electrical, mechanical, optical, acoustic |
+| `M` | MECHANICAL_OR_DISPLAY | physical | electrical, mechanical, optical, acoustic |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `phase_resistance` | Per-phase resistance | ohm | 2 | >0 |
+| `phase_inductance` | Per-phase inductance | H | 2e-3 | >=0 |
+| `step_angle` | Full-step angle | rad | 0.0314159 | >0 |
+| `holding_torque` | Holding torque | N*m | 0.5 | >=0 |
+| `rotor_inertia` | Rotor inertia | kg*m^2 | 1e-4 | >0 |
+| `detent_torque` | Detent torque | N*m | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Phase-current and rotor angle/speed states follow the declared step/torque/detent/inertia model with missed-step and limit behavior.
+- **Exact nominal vector:** pins `1:DRIVE+`/input, `2:DRIVE-`/input, `M:MECHANICAL_OR_DISPLAY`/physical; parameters `phase_resistance`=2 ohm (>0); `phase_inductance`=2e-3 H (>=0); `step_angle`=0.0314159 rad (>0); `holding_torque`=0.5 N*m (>=0); `rotor_inertia`=1e-4 kg*m^2 (>0); `detent_torque`=0 N*m (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-ACT-STEPPER_MOTOR-NOMINAL`, `GOLD-ACT-STEPPER_MOTOR-BOUNDARY`, `GOLD-ACT-STEPPER_MOTOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

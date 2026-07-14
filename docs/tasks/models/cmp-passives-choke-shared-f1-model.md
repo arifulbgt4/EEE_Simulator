@@ -11,35 +11,82 @@
 | Concern | MODEL |
 | Release | R2 |
 | Requirements | REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037 |
-| Depends on | Applicable registry, package, engine, and preceding family-concern tasks |
+| Depends on | Exact prerequisite IDs listed below |
 
 ## Single outcome
 
 Implement one model tier, **F1**, for **Choke** using the family equations/behavior and no higher-fidelity claims.
 
+## Exact prerequisites
+
+- `CMP-PASSIVES-CHOKE-COMMON-MODE-F0-CAT`
+- `CMP-PASSIVES-CHOKE-DIFFERENTIAL-MODE-F0-CAT`
+- `CMP-PASSIVES-CHOKE-SHARED-F0-MODEL`
+
+Every ID above must be `Done` or its named predecessor gate accepted before this card may become `Ready`.
+
 ## Context to read
 
 - [Family specification](../../catalog/families/fam-passives-choke.md)
 - [Component registry](../../catalog/component-registry.yaml)
+- [Package registry](../../catalog/package-registry.yaml)
 - [Component model contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
 - [Package and physical appearance](../../catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 
 ## Normative inputs
 
-- Aliases: Choke, Choke, choke
-- Pins: 1:P(passive), 2:N(passive)
-- Parameters: nominal [SI], tolerance [1], temperature_coefficient [1/K]
-- Supported analyses: dc, ac, transient, noise, monte-carlo
-- Package mappings: pkg-radial-2, pkg-custom-parametric
-- Golden references: GOLD-PAS-CHOKE-NOMINAL, GOLD-PAS-CHOKE-BOUNDARY, GOLD-PAS-CHOKE-FAILURE
-- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13
+- Stable family: `fam-passives-choke` (Choke); task scope: shared family scope across `var-passives-choke-common-mode`, `var-passives-choke-differential-mode`; fidelity `F1`; concern `MODEL`.
+- Exact pins: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameters/defaults/limits: `winding_count`=2 1 with limits 1..64; `differential_inductance`=1e-3 H with limits >0; `common_mode_inductance`=10e-3 H with limits >0; `coupling_coefficient`=0.99 1 with limits -1..1; `winding_resistance`=0.1 ohm with limits >=0.
+- Supported analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`.
+- Valid package mappings: `pkg-radial-2`, `pkg-custom-parametric`.
+- Golden references: `GOLD-PAS-CHOKE-NOMINAL`, `GOLD-PAS-CHOKE-BOUNDARY`, `GOLD-PAS-CHOKE-FAILURE`.
+- Import mappings applicable to this family: `SPICE .model/.subckt`, `Verilog-A/AMS 2023`, `CSV/PWL`.
+- Provenance basis: Project-defined canonical family; Source PDF, pp. 8-13; symbol license: Apache-2.0 original artwork; model license: per-model SPDX identifier required.
+
+## Public contracts
+
+- Named entities: `ComponentDefinition`, `ComponentVariant`, `PinDefinition`, `ParameterDefinition`, `ModelBinding`, `AnalysisCapability`, `FailureDefinition`, `ModelProvenance`, `PhysicalRepresentation`, `DevicePackageBinding`.
+- [Component Model Contract](../../catalog/COMPONENT_MODEL_CONTRACT.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
+
+## Equations and reference data
+
+- Canonical source: [Choke family-specific implementation reference](../../catalog/families/fam-passives-choke.md#family-specific-implementation-reference), registry row `fam-passives-choke`, and shared family scope across `var-passives-choke-common-mode`, `var-passives-choke-differential-mode`.
+- Exact pin vector: `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal).
+- Exact parameter vector: `winding_count`=2 1 with limits 1..64; `differential_inductance`=1e-3 H with limits >0; `common_mode_inductance`=10e-3 H with limits >0; `coupling_coefficient`=0.99 1 with limits -1..1; `winding_resistance`=0.1 ohm with limits >=0.
+- Declared analyses: `dc`, `ac`, `transient`, `noise`, `monte-carlo`; declared package bindings: `pkg-radial-2`, `pkg-custom-parametric`.
+- Exact F1 execution rule: Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Each winding follows v = d(lambda)/dt with the declared differential/common-mode inductance matrix, winding loss, and saturation envelope.
+- Exact reference vectors: `GOLD-PAS-CHOKE-NOMINAL`, `GOLD-PAS-CHOKE-BOUNDARY`, `GOLD-PAS-CHOKE-FAILURE`. Nominal uses the registry defaults above; boundary evaluates every declared limit and supported state; failure covers each declared failure mode plus invalid/non-finite parameters, pin-map mismatch, unsupported analysis, and unavailable fidelity.
+- Numerical comparisons use `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`; missing model-specific constants or independent reference data are a named blocker and may not be guessed.
+
+## Allowed files
+
+- `docs/tasks/models/cmp-passives-choke-shared-f1-model.md`
+- `docs/tasks/models/task-manifest.yaml`
+- `docs/tasks/models/INDEX.md`
+- `docs/catalog/component-registry.yaml`
+- `docs/catalog/families/fam-passives-choke.md`
+- `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001`; it may not widen the family, variant, tier, concern, or documentation allowlist.
 
 ## Deliverables
 
-- Tier-specific state, equations/stamps/events and parameter validation.
-- Initialization, update, power and structured diagnostic behavior.
-- Declared analysis capability with unsupported-analysis rejection.
+- One `ModelBinding` for `fam-passives-choke` at `F1` implementing the exact tier rule above, its initialization/state/stamp/event behavior, power reporting, and structured diagnostics.
+- One `AnalysisCapability` result for each of `dc`, `ac`, `transient`, `noise`, `monte-carlo`, with every unlisted analysis rejected rather than approximated.
+- Scope is limited to `CMP-PASSIVES-CHOKE-SHARED-F1-MODEL`: shared family scope across `var-passives-choke-common-mode`, `var-passives-choke-differential-mode`, fidelity `F1`, concern `MODEL`, and requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037.
+
+## Documentation updates
+
+- This task card, `docs/tasks/models/task-manifest.yaml`, and `docs/tasks/models/INDEX.md`.
+- The exact registry/family records in the allowlist and `docs/catalog/COMPONENT_COVERAGE_MATRIX.md`.
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`, the named golden evidence, and the applicable release checklist.
+- Provenance, license, limitations, and package/pin-map records changed by this concern only.
 
 ## Allowed scope
 
@@ -52,16 +99,25 @@ Implement one model tier, **F1**, for **Choke** using the family equations/behav
 
 ## Required edge and failure behavior
 
-- Reject invalid parameters, missing/duplicate pins, unsupported analyses, unavailable fidelity, incompatible domains, and invalid package maps with structured diagnostics.
-- Preserve component identity, nets, parameters, model state, and simulation result when switching schematic and physical views.
-- Keep realistic appearance illustrative unless sourced dimensions are explicitly verified.
+- Reject a missing, duplicate, reordered, or domain-incompatible pin from `1:P` (passive; electrical/thermal), `2:N` (passive; electrical/thermal); reject any package map outside `pkg-radial-2`, `pkg-custom-parametric`.
+- Reject non-finite values and any value outside this exact parameter contract: `winding_count`=2 1 with limits 1..64; `differential_inductance`=1e-3 H with limits >0; `common_mode_inductance`=10e-3 H with limits >0; `coupling_coefficient`=0.99 1 with limits -1..1; `winding_resistance`=0.1 ohm with limits >=0.
+- Support only `dc`, `ac`, `transient`, `noise`, `monte-carlo`; return a structured unsupported-analysis/fidelity diagnostic for every other request.
+- Initialization, limiting, discontinuity, convergence/event ordering, cancellation, overflow/NaN, and out-of-envelope behavior must follow the `F1` rule without silent fallback.
+- Schematic/physical/package view switching preserves instance ID, nets, parameters, model state, selected package revision, results, selection, and undo history.
+
+## Acceptance test IDs
+
+- `TEST-CMP-PASSIVES-CHOKE-SHARED-F1-MODEL-NOMINAL`
+- `TEST-CMP-PASSIVES-CHOKE-SHARED-F1-MODEL-BOUNDARY`
+- `TEST-CMP-PASSIVES-CHOKE-SHARED-F1-MODEL-FAILURE`
 
 ## Acceptance
 
-1. Nominal and limiting-case model assertions pass.
-2. Conservation/truth/timing invariants appropriate to the tier pass.
-3. Results remain inside the declared validation envelope.
-4. Registry, family specification, package mapping, coverage, task, test, and release traceability agree.
+1. The exact output for `CMP-PASSIVES-CHOKE-SHARED-F1-MODEL` exists and is limited to shared family scope across `var-passives-choke-common-mode`, `var-passives-choke-differential-mode`, `F1`, and `MODEL`.
+2. The family-specific relation/state rule, pin vector, parameter defaults/limits, analysis list, and package list above agree with `fam-passives-choke` and its family specification.
+3. This task's nominal, boundary, and failure test IDs pass with retained inputs, expected/actual outputs, versions, provenance, deterministic seed where applicable, and evidence digests.
+4. Every invalid/unsupported case named above returns the documented structured diagnostic; there is no silent fallback, inferred pin map, guessed constant, or undeclared fidelity.
+5. Requirements REQ-009, REQ-010, REQ-011, REQ-014, REQ-015, REQ-016, REQ-022, REQ-023, REQ-037, registry, family specification, package mapping, coverage, task indexes, test registry, risk record, and applicable release checklist are synchronized.
 
 ## Known limitations to preserve
 

@@ -23,16 +23,58 @@ Validate worker loss and duplicate-delivery recovery. Deliver one reviewable out
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
 - [Relevant accepted ADRs](../../decisions/)
 
+## Exact prerequisites
+
+- `PLAT-API-013`
+
+The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
+
+## Public contracts
+
+- `docs/architecture/API_AND_WORKER_PROTOCOLS.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/tasks/ATOMIC_TASK_CONTRACT.md`
+
 ## Inputs
 
-- The normative contracts, constraints, release budgets, and failure behavior in the linked documents.
-- Existing prerequisite task evidence and any linked golden fixtures.
+- Normative input: `docs/architecture/API_AND_WORKER_PROTOCOLS.md` clauses governing **worker loss and duplicate-delivery recovery**, together with every acceptance obligation in REQ-029, REQ-030.
+- Prerequisite input: the completion evidence for `PLAT-API-013`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_API_014_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Domain input for `validate_worker_loss_and_duplicate_delivery_recovery`: versioned requests, job and attempt IDs, idempotency keys, leases and fences, event sequences, checkpoints, and quota profiles; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-API-014.
+- Evidence input: `TEST-PLAT-API-014-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-API-014-FAILURE` receives every named invalid/failure case in this card.
+
+## Allowed files
+
+- `docs/tasks/platform/plat-api-014-validate-worker-loss-and-duplicate-delivery-recovery.md`
+- `docs/tasks/epics/epic-api-001.md`
+- `docs/tasks/platform/INDEX.md`
+- `docs/tasks/TASK_INDEX.md`
+- `docs/architecture/API_AND_WORKER_PROTOCOLS.md`
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+- `docs/planning/RISK_REGISTER.md`
+
+No application/source path is authorized while this card is `Planned`. Promotion to `Ready` must append exact source and test paths from completed `PLAT-GOV-001` without widening this concern.
+
+## Reference data and test IDs
+
+- Normative reference: `docs/architecture/API_AND_WORKER_PROTOCOLS.md` plus the exact requirements listed in metadata.
+- `TEST-PLAT-API-014-ACCEPTANCE`
+- `TEST-PLAT-API-014-FAILURE`
 
 ## Deliverables
 
-- A complete implementation and evidence package for: **Validate worker loss and duplicate-delivery recovery**.
-- Structured diagnostics for invalid, unsupported, cancelled, or resource-limited behavior where applicable.
-- Updated tests, user/developer documentation, traceability, and release evidence owned by this concern.
+- A reproducible validation report named `validate_worker_loss_and_duplicate_delivery_recovery` for **worker loss and duplicate-delivery recovery**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
+- Observable outcome: the valid `PLAT-API-014` fixture classifies every pinned reference fixture against its expected value, tolerance, and diagnostic; the published outcome is authoritative job state, ordered events, and checksummed result references.
+- Failure outcome: `PLAT_API_014_FIXTURE_INVALID` and `PLAT_API_014_REFERENCE_MISMATCH` terminate or reject at the documented boundary without silent fallback, partial authoritative state, or lost provenance.
+- Evidence artifact: `TEST-PLAT-API-014-ACCEPTANCE` and `TEST-PLAT-API-014-FAILURE` record prerequisite identity, exact fixture input, expected and actual output, diagnostic codes, limits/tolerances, requirement set REQ-029, REQ-030, and release disposition.
+
+## Documentation updates
+
+- This task card, `docs/tasks/epics/epic-api-001.md`, `docs/tasks/platform/INDEX.md`, and `docs/tasks/TASK_INDEX.md`.
+- `docs/architecture/API_AND_WORKER_PROTOCOLS.md` and `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md` when public behavior changes.
+- The named test evidence, risk record, and applicable release checklist.
 
 ## Allowed scope
 
@@ -44,16 +86,18 @@ Validate worker loss and duplicate-delivery recovery. Deliver one reviewable out
 
 ## Required behavior and edge cases
 
-- Define nominal, boundary, invalid, failure, cancellation, and compatibility behavior relevant to the outcome.
-- Preserve deterministic state and provenance where simulation or persisted data is involved.
-- Keep simulation work off the browser main thread and untrusted execution inside the documented sandbox.
+- `PLAT_API_014_NOMINAL`: processing a minimal valid **worker loss and duplicate-delivery recovery** fixture classifies every pinned reference fixture against its expected value, tolerance, and diagnostic; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
+- `PLAT_API_014_BOUNDARY`: the **worker loss and duplicate-delivery recovery** fixture matrix covers duplicate submission, duplicate delivery, lease expiry, SSE reconnect, cancellation race, and event-retention expiry; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
+- `PLAT_API_014_FIXTURE_INVALID`: reject a malformed request, unauthorized project revision, reused key with a changed body, stale fence, or incompatible checkpoint before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
+- `PLAT_API_014_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `PLAT-API-013`; no implicit migration or downgrade is allowed.
+- `PLAT_API_014_REFERENCE_MISMATCH`: contain quota rejection, worker loss, corrupt result chunk, queue outage, cancellation timeout, or terminal-state conflict with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
-1. The task's single outcome is observable and conforms to REQ-029, REQ-030 and the relevant architecture contract.
-2. Nominal and at least one boundary/failure case produce the documented result or structured diagnostic.
-3. Applicable golden, security, performance, browser, and accessibility evidence passes.
-4. Requirement -> epic -> task -> test -> release traceability is updated with no unrelated scope change.
+1. `TEST-PLAT-API-014-ACCEPTANCE` proves that **Validate worker loss and duplicate-delivery recovery** classifies every pinned reference fixture against its expected value, tolerance, and diagnostic, produces authoritative job state, ordered events, and checksummed result references, and satisfies every metadata requirement: REQ-029, REQ-030.
+2. `TEST-PLAT-API-014-FAILURE` executes `PLAT_API_014_FIXTURE_INVALID`, `PLAT_API_014_PREREQUISITE_MISMATCH`, and `PLAT_API_014_REFERENCE_MISMATCH` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
+3. The evidence names `docs/architecture/API_AND_WORKER_PROTOCOLS.md`, prerequisite `PLAT-API-013`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+4. The PLAT-API-014 card, its epic, test registry entries `TEST-PLAT-API-014-ACCEPTANCE` and `TEST-PLAT-API-014-FAILURE`, requirement links REQ-029, REQ-030, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done
 

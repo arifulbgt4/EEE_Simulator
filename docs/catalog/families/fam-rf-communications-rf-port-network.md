@@ -36,21 +36,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `RF_IN` | passive | Input port | rf, electrical, communications |
-| `RF_OUT` | passive | Output port | rf, electrical, communications |
-| `GROUND` | reference | Reference plane | rf, electrical, communications |
+| `IN` | RF_IN | passive | rf, electrical, communications |
+| `OUT` | RF_OUT | passive | rf, electrical, communications |
+| `GND` | GROUND | reference | rf, electrical, communications |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `reference_impedance` | ohm | 50 | > 0 |
-| `center_frequency` | Hz | 1000000 | >= 0 |
-| `bandwidth` | Hz | 100000 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `port_count` | RF port count | 1 | 2 | 1..1024 |
+| `reference_impedance` | Port reference impedance | ohm | 50 | >0 |
+| `start_frequency` | Validated start frequency | Hz | 1e6 | >=0 |
+| `stop_frequency` | Validated stop frequency | Hz | 1e9 | >start_frequency |
+| `data_digest` | Pinned network-data digest | 1 | unset | valid digest before Ready |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +66,19 @@ Supported fidelity tiers: **F1, F2, F3**. Supported analysis capabilities: **AC,
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** At each declared frequency, incident/reflected waves satisfy b = S(f)*a at the stated reference impedance; passivity, causality, and port order are validated.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: At each declared frequency, incident/reflected waves satisfy b = S(f)*a at the stated reference impedance; passivity, causality, and port order are validated.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: At each declared frequency, incident/reflected waves satisfy b = S(f)*a at the stated reference impedance; passivity, causality, and port order are validated.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: At each declared frequency, incident/reflected waves satisfy b = S(f)*a at the stated reference impedance; passivity, causality, and port order are validated.
+- **Exact nominal vector:** pins `IN:RF_IN`/passive, `OUT:RF_OUT`/passive, `GND:GROUND`/reference; parameters `port_count`=2 1 (1..1024); `reference_impedance`=50 ohm (>0); `start_frequency`=1e6 Hz (>=0); `stop_frequency`=1e9 Hz (>start_frequency); `data_digest`=unset 1 (valid digest before Ready).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-RFC-RF_PORT_NETWORK-NOMINAL`, `GOLD-RFC-RF_PORT_NETWORK-BOUNDARY`, `GOLD-RFC-RF_PORT_NETWORK-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

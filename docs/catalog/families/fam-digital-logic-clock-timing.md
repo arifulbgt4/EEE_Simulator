@@ -4,7 +4,7 @@
 - **Category:** Digital logic
 - **Lifecycle:** Planned
 - **Basic component tag:** Not tagged basic
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 21-26
 
 ## Purpose and scope
@@ -22,7 +22,7 @@ Search aliases are **Clock and timing**, **Clock Timing**, and `clock-timing`. V
 | `var-digital-logic-clock-timing-clock` | Clock | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 | `var-digital-logic-clock-timing-divider` | Divider | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 | `var-digital-logic-clock-timing-delay` | Delay | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
-| `var-digital-logic-clock-timing-one-shot` | One Shot | F0, F2, F3 | Realistic Electronics MVP | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
+| `var-digital-logic-clock-timing-one-shot` | One Shot | F0, F2, F3 | Post-MVP catalog | `pkg-dip`, `pkg-soic`, `pkg-tssop`, `pkg-qfp`, `pkg-qfn`, `pkg-bga`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -37,22 +37,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `INPUTS[1..N]` | input | Parameterized inputs | digital, power |
-| `OUTPUTS[1..M]` | output | Parameterized outputs | digital, power |
-| `VDD` | power | Positive supply | digital, power |
-| `VSS` | power | Reference supply | digital, power |
+| `1..N` | INPUTS | input | digital, power |
+| `N+1..M` | OUTPUTS | output | digital, power |
+| `VDD` | VDD | power | digital, power |
+| `VSS` | VSS | power | digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `width` | bit | 1 | 1..4096 |
-| `propagation_delay` | s | 0 | >= 0 |
-| `logic_family` | 1 | cmos | registered profile |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `frequency` | Clock/oscillator frequency | Hz | 1e6 | >0 |
+| `duty_cycle` | Clock duty cycle | 1 | 0.5 | 0..1 |
+| `phase` | Initial phase | rad | 0 | finite |
+| `division_ratio` | Divider ratio | 1 | 2 | 1..4294967296 |
+| `delay` | Delay/one-shot interval | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -66,6 +68,19 @@ Supported fidelity tiers: **F0, F2, F3**. Supported analysis capabilities: **dig
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Integer-tick events implement the selected oscillator/divider/delay/monostable sequence with explicit phase, duty, jitter seed, and zero-time-loop rejection.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Integer-tick events implement the selected oscillator/divider/delay/monostable sequence with explicit phase, duty, jitter seed, and zero-time-loop rejection.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Integer-tick events implement the selected oscillator/divider/delay/monostable sequence with explicit phase, duty, jitter seed, and zero-time-loop rejection.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Integer-tick events implement the selected oscillator/divider/delay/monostable sequence with explicit phase, duty, jitter seed, and zero-time-loop rejection.
+- **Exact nominal vector:** pins `1..N:INPUTS`/input, `N+1..M:OUTPUTS`/output, `VDD:VDD`/power, `VSS:VSS`/power; parameters `frequency`=1e6 Hz (>0); `duty_cycle`=0.5 1 (0..1); `phase`=0 rad (finite); `division_ratio`=2 1 (1..4294967296); `delay`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-DIG-CLOCK_TIMING-NOMINAL`, `GOLD-DIG-CLOCK_TIMING-BOUNDARY`, `GOLD-DIG-CLOCK_TIMING-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

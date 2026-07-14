@@ -4,7 +4,7 @@
 - **Category:** Switches, protection and isolation
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-14
 
 ## Purpose and scope
@@ -19,10 +19,10 @@ Search aliases are **Surge and ESD suppressor**, **Surge Suppressor**, and `surg
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-switch-protection-surge-suppressor-mov` | Mov | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-surge-suppressor-tvs` | Tvs | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-surge-suppressor-gdt` | Gdt | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-surge-suppressor-esd-clamp` | Esd Clamp | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
+| `var-switch-protection-surge-suppressor-mov` | Mov | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
+| `var-switch-protection-surge-suppressor-tvs` | Tvs | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
+| `var-switch-protection-surge-suppressor-gdt` | Gdt | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
+| `var-switch-protection-surge-suppressor-esd-clamp` | Esd Clamp | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -37,20 +37,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, control |
-| `N` | passive | Negative or second terminal | electrical, control |
+| `1` | P | passive | electrical, control |
+| `2` | N | passive | electrical, control |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `stand_off_voltage` | Stand-off voltage | V | 5 | >=0 |
+| `clamp_voltage` | Clamp voltage | V | 8 | >stand_off_voltage |
+| `leakage_current` | Stand-off leakage current | A | 1e-9 | >=0 |
+| `dynamic_resistance` | Clamp dynamic resistance | ohm | 1 | >=0 |
+| `energy_rating` | Single-pulse energy rating | J | 1 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +66,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The selected MOV/TVS/GDT/ESD variant uses a bounded nonlinear clamp or trigger relation with explicit leakage, breakdown, energy, and recovery behavior.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `stand_off_voltage`=5 V (>=0); `clamp_voltage`=8 V (>stand_off_voltage); `leakage_current`=1e-9 A (>=0); `dynamic_resistance`=1 ohm (>=0); `energy_rating`=1 J (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SWP-SURGE_SUPPRESSOR-NOMINAL`, `GOLD-SWP-SURGE_SUPPRESSOR-BOUNDARY`, `GOLD-SWP-SURGE_SUPPRESSOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

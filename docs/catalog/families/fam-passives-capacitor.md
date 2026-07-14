@@ -4,7 +4,7 @@
 - **Category:** Passives, magnetics and transmission
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 8-13
 
 ## Purpose and scope
@@ -22,7 +22,7 @@ Search aliases are **Capacitor**, **Capacitor**, and `capacitor`. Variant names 
 | `var-passives-capacitor-ceramic` | Ceramic | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-axial-2`, `pkg-smd-chip` |
 | `var-passives-capacitor-film` | Film | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-axial-2`, `pkg-smd-chip` |
 | `var-passives-capacitor-aluminum-electrolytic` | Aluminum Electrolytic | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-axial-2`, `pkg-smd-chip` |
-| `var-passives-capacitor-tantalum` | Tantalum | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-radial-2`, `pkg-axial-2`, `pkg-smd-chip` |
+| `var-passives-capacitor-tantalum` | Tantalum | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-radial-2`, `pkg-axial-2`, `pkg-smd-chip` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -37,20 +37,23 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, thermal |
-| `N` | passive | Negative or second terminal | electrical, thermal |
+| `1` | P | passive | electrical, thermal |
+| `2` | N | passive | electrical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | finite and positive unless stated |
-| `tolerance` | 1 | 0.05 | 0..1 |
-| `temperature_coefficient` | 1/K | 0 | variant-defined |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `capacitance` | Nominal capacitance | F | 1e-6 | >0 |
+| `tolerance` | Capacitance tolerance | 1 | 0.1 | 0..1 |
+| `series_resistance` | Equivalent series resistance | ohm | 0 | >=0 |
+| `series_inductance` | Equivalent series inductance | H | 0 | >=0 |
+| `leakage_resistance` | Leakage resistance | ohm | 1e12 | >0 |
+| `initial_voltage` | Initial voltage | V | 0 | finite |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Charge and current satisfy q = C*v and i = dq/dt; non-ideal profiles add declared ESR, ESL, leakage, dielectric, and initial-voltage state.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `capacitance`=1e-6 F (>0); `tolerance`=0.1 1 (0..1); `series_resistance`=0 ohm (>=0); `series_inductance`=0 H (>=0); `leakage_resistance`=1e12 ohm (>0); `initial_voltage`=0 V (finite).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-PAS-CAPACITOR-NOMINAL`, `GOLD-PAS-CAPACITOR-BOUNDARY`, `GOLD-PAS-CAPACITOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

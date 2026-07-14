@@ -8,7 +8,7 @@ Deliver the complete **Accessibility browser support and localization** capabili
 
 - Requirements: REQ-034
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

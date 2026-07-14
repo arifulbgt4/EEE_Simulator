@@ -5,7 +5,7 @@ Related: [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHIT
 
 ## 1. Purpose
 
-This document defines deployment units, environments, release/rollback, migrations, capacity, backups, observability, alerting, and incident operations. The source brief requires a hybrid browser/server architecture, CPU and GPU/HPC Workers, distributed jobs, progress streaming, result storage, checkpoint/resume, and a multidisciplinary operational boundary. [Source brief, pp. 25-26, 36, 38-40]
+This document defines deployment units, environments, release/rollback, migrations, capacity, backups, observability, alerting, and incident operations. The source PDF requires a hybrid browser/server architecture, CPU and GPU/HPC Workers, distributed jobs, progress streaming, result storage, checkpoint/resume, and a multidisciplinary operational boundary. [Source PDF, pp. 25-26, 36, 38-40]
 
 ## 2. Deployment topology
 
@@ -240,4 +240,4 @@ Each alert has owner, severity, user impact, evidence queries, immediate contain
 
 ## 15. Source record
 
-Hybrid placement and Worker pools are grounded in the source brief, pp. 25-26. Cloud queues, progress, storage, checkpoint/resume, and HPC are grounded in p. 36. Browser memory, UI, synchronization, and model risks are grounded in pp. 39-40. Exact environments, SLO/RPO/RTO targets, release mechanics, observability, package-registry operations, and disaster-recovery procedures are repository operational decisions.
+Hybrid placement and Worker pools are grounded in the feasibility source. [Source PDF, pp. 25-26] Cloud queues, progress, storage, checkpoint/resume, and HPC follow its distributed-computing plan. [Source PDF, p. 36] Browser memory, UI, synchronization, and model risks follow its risk analysis. [Source PDF, pp. 39-40] Exact environments, SLO/RPO/RTO targets, release mechanics, observability, package-registry operations, and disaster-recovery procedures are repository operational decisions.

@@ -5,7 +5,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Security, Privacy, an
 
 ## 1. Purpose
 
-This document defines the licensing, provenance, attribution, and isolation rules for the Apache-2.0 public core, hosted services, external simulation engines, imported models, standards references, symbols, physical component artwork, and reusable IC packages. The source brief recommends integrating ngspice, Xyce, Verilator, gem5, QEMU, and GPU research engines rather than attempting to replace every simulator (Source brief, pp. 21-26, 35-36, 43). That integration must not blur license or trust boundaries.
+This document defines the licensing, provenance, attribution, and isolation rules for the Apache-2.0 public core, hosted services, external simulation engines, imported models, standards references, symbols, physical component artwork, and reusable IC packages. The feasibility source recommends integrating ngspice, Xyce, Verilator, gem5, QEMU, and GPU research engines rather than attempting to replace every simulator. [Source PDF, pp. 21-26, 35-36, 43] That integration must not blur license or trust boundaries.
 
 This is an engineering policy, not legal advice. A qualified legal review is required before distributing any third-party binary, model library, standards-derived asset, or dataset whose rights are not already confirmed.
 
@@ -161,4 +161,4 @@ If ownership, license, provenance, or redistribution permission is disputed:
 
 ## 13. Source and decision record
 
-The external-engine strategy is grounded in the source brief, pp. 21-26, 35-36, and 43. Component-model provenance and accuracy risks are grounded in pp. 31-32 and 39-40. Apache-2.0, process isolation, package/artwork separation, SBOM, and asset-publication rules are repository decisions recorded by ADR-0008 and ADR-0010.
+The external-engine strategy is grounded in the feasibility source. [Source PDF, pp. 21-26, 35-36, 43] Component-model provenance and accuracy controls address its project-data and model-risk findings. [Source PDF, pp. 31-32, 39-40] Apache-2.0, process isolation, package/artwork separation, SBOM, and asset-publication rules are repository decisions recorded by ADR-0008 and ADR-0010.

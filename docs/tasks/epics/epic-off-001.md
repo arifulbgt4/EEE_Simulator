@@ -6,9 +6,9 @@ Deliver the complete **Offline storage and PWA behavior** capability for release
 
 ## Requirements and release
 
-- Requirements: REQ-006
+- Requirements: REQ-006, REQ-029
 - Release: R1
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G0 documentation baseline.
 
 ## Atomic tasks
 

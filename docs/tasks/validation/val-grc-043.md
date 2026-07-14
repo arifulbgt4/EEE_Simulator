@@ -8,9 +8,23 @@
 | Target | Four-bit CPU |
 | Requirements | REQ-025 |
 | Golden fixture | GRC-043 |
+| Test ID | TEST-GRC-043 |
 | Release | R8 |
 | Concern | Validation only |
-| Depends on | Applicable model, engine, interface, package, and fixture-definition tasks |
+| Depends on | Exact prerequisite IDs listed below |
+
+## Exact prerequisites
+
+- `PLAT-QA-001`
+- `Gate G7 complete catalog`
+- `CMP-COMPUTER-GPU-EDUCATIONAL-CPU-SHARED-F2-VALIDATION`
+
+Every named task must be `Done` and every named predecessor gate accepted before this card may become `Ready`.
+
+## Public contracts
+
+- `SimulationRequest`, `SimulationResult`, `Diagnostic`, deterministic provenance, and the applicable component/package contracts.
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
 
 ## Objective
 
@@ -28,6 +42,29 @@ Produce independent, reproducible evidence for **Fetch/decode/execute and branch
 - Record the analytical solution or an independent pinned reference engine/dataset.
 - Record exact circuit/project parameters, operating envelope, analysis settings, probes, initial state, engine/model/package versions, environment, and deterministic seed.
 - Include nominal, boundary, invalid, and relevant temperature/failure vectors.
+
+## Allowed files
+
+- `docs/tasks/validation/val-grc-043.md`
+- `docs/tasks/validation/INDEX.md`
+- `docs/quality/GOLDEN_REFERENCE_CIRCUITS.md`
+- `docs/quality/NUMERICAL_ACCURACY_TARGETS.md`
+- `docs/quality/TEST_AND_VALIDATION_STRATEGY.md`
+- `docs/quality/test-registry.yaml`
+- `docs/quality/REQUIREMENTS_TRACEABILITY_MATRIX.md`
+- `docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md`
+
+This validation-only card cannot modify the implementation under test. Exact fixture-data/result paths must be appended when the card is promoted to `Ready` under completed `PLAT-GOV-001`.
+
+## Documentation updates
+
+- This card, `docs/tasks/validation/INDEX.md`, `docs/quality/test-registry.yaml`, and the GRC-043 fixture row.
+- Every referenced family/package coverage row, requirement traceability row, and applicable release checklist.
+- Reference provenance, environment, limitations, and retained evidence links only; no implementation behavior.
+
+## Acceptance test ID
+
+- `TEST-GRC-043`
 
 ## Deliverables
 

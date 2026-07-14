@@ -1,0 +1,894 @@
+---
+schema_version: 1.0.0
+registry_id: eesim-test-registry
+status: Specified documentation baseline
+counts:
+  requirement_tests: 38
+  golden_tests: 54
+  enumerated_tests: 92
+derived_atomic_test_policy: TEST-<TASK-ID>-NOMINAL/BOUNDARY/FAILURE or ACCEPTANCE/FAILURE
+  as defined by docs/tasks/ATOMIC_TASK_CONTRACT.md
+requirement_tests:
+- id: TEST-REQ-001
+  requirement: REQ-001
+  title: Hierarchical multi-fidelity product
+  status: Specified
+  expected_evidence: GRC-034, GRC-045, GRC-047
+  gate: G5/G12
+- id: TEST-REQ-002
+  requirement: REQ-002
+  title: Abstraction selection and substitution
+  status: Specified
+  expected_evidence: Cross-fidelity equivalence suite
+  gate: G5/G8
+- id: TEST-REQ-003
+  requirement: REQ-003
+  title: Audience modes and honest explanations
+  status: Specified
+  expected_evidence: Mode capability and explanation review
+  gate: G1/G6
+- id: TEST-REQ-004
+  requirement: REQ-004
+  title: Visual schematic editor
+  status: Specified
+  expected_evidence: Editor operation, keyboard, invalid-circuit and visual regression
+    suites
+  gate: G1
+- id: TEST-REQ-005
+  requirement: REQ-005
+  title: Hierarchy and reusable subcircuits
+  status: Specified
+  expected_evidence: Hierarchy round trip and stable-port suite
+  gate: G1
+- id: TEST-REQ-006
+  requirement: REQ-006
+  title: Portable, versioned project persistence
+  status: Specified
+  expected_evidence: "`.eesim` conformance, migration, corruption and offline-recovery
+    suites"
+  gate: G1
+- id: TEST-REQ-007
+  requirement: REQ-007
+  title: Measurement and visualization
+  status: Specified
+  expected_evidence: Probe/instrument GRC assertions and accessible waveform review
+  gate: G2/G6
+- id: TEST-REQ-008
+  requirement: REQ-008
+  title: Netlist and numerical circuit foundation
+  status: Specified
+  expected_evidence: GRC-001..013, conservation and topology diagnostics
+  gate: G2/G3
+- id: TEST-REQ-009
+  requirement: REQ-009
+  title: DC operating point
+  status: Specified
+  expected_evidence: GRC-001..005, GRC-011..018 DC assertions
+  gate: G2/G3
+- id: TEST-REQ-010
+  requirement: REQ-010
+  title: Transient analysis
+  status: Specified
+  expected_evidence: GRC-006..010 and transient semiconductor fixtures
+  gate: G2/G3
+- id: TEST-REQ-011
+  requirement: REQ-011
+  title: AC analysis
+  status: Specified
+  expected_evidence: GRC-008..010, GRC-018 and GRC-040
+  gate: G3/G7
+- id: TEST-REQ-012
+  requirement: REQ-012
+  title: Noise analysis
+  status: Specified
+  expected_evidence: Noise density, integration and source-attribution suite
+  gate: G4/G7
+- id: TEST-REQ-013
+  requirement: REQ-013
+  title: Statistical and parameter analyses
+  status: Specified
+  expected_evidence: GRC-026 and deterministic-seed suite
+  gate: G4
+- id: TEST-REQ-014
+  requirement: REQ-014
+  title: Non-ideal component behavior
+  status: Specified
+  expected_evidence: Family golden fixtures and ngspice/reference comparisons
+  gate: G4/G7
+- id: TEST-REQ-015
+  requirement: REQ-015
+  title: Electrothermal coupling
+  status: Specified
+  expected_evidence: GRC-021..022 at G4, GRC-023..024 at G7, thermal balance and
+    runaway suite
+  gate: G4/G7
+- id: TEST-REQ-016
+  requirement: REQ-016
+  title: Failure modeling and injection
+  status: Specified
+  expected_evidence: GRC-021..022 at G4, GRC-023..025 at G7, and all documented
+    failure-state tests
+  gate: G4/G7
+- id: TEST-REQ-017
+  requirement: REQ-017
+  title: Numerical robustness and diagnostics
+  status: Specified
+  expected_evidence: Singular, non-convergent, timestep-underflow, NaN and resource
+    suites
+  gate: G3/G6
+- id: TEST-REQ-018
+  requirement: REQ-018
+  title: Event-driven digital semantics
+  status: Specified
+  expected_evidence: GRC-027..032 and exhaustive logic/timing suite
+  gate: G5
+- id: TEST-REQ-019
+  requirement: REQ-019
+  title: Global deterministic scheduler
+  status: Specified
+  expected_evidence: Same-timestamp ordering, checkpoint and deterministic replay
+    suite
+  gate: G5
+- id: TEST-REQ-020
+  requirement: REQ-020
+  title: Analog/digital boundary adapters
+  status: Specified
+  expected_evidence: GRC-033, GRC-034 and load/threshold edge suite
+  gate: G5
+- id: TEST-REQ-021
+  requirement: REQ-021
+  title: Digital buses, clocks, and instruments
+  status: Specified
+  expected_evidence: GRC-027..034 at G5/G6, GRC-035 at G8, and instrument-loading
+    tests
+  gate: G5/G6/G8
+- id: TEST-REQ-022
+  requirement: REQ-022
+  title: Complete tracked component baseline
+  status: Specified
+  expected_evidence: 'Registry count audit: 162 families/502 variants'
+  gate: G0/G7
+- id: TEST-REQ-023
+  requirement: REQ-023
+  title: Normative component model contract
+  status: Specified
+  expected_evidence: Required-field, lifecycle and family golden-evidence audit
+  gate: G0/G7
+- id: TEST-REQ-024
+  requirement: REQ-024
+  title: Model and result interchange
+  status: Specified
+  expected_evidence: Format conformance, malformed input, security and round-trip
+    suites
+  gate: G7/G9
+- id: TEST-REQ-025
+  requirement: REQ-025
+  title: Educational CPU and memory progression
+  status: Specified
+  expected_evidence: GRC-035, GRC-041..043 and ISA/memory suites
+  gate: G8
+- id: TEST-REQ-026
+  requirement: REQ-026
+  title: HDL and RTL integration
+  status: Specified
+  expected_evidence: GRC-045, HDL conformance, sandbox and differential suites
+  gate: G9
+- id: TEST-REQ-027
+  requirement: REQ-027
+  title: Complete educational computer
+  status: Specified
+  expected_evidence: GRC-044 and complete boot/application suite
+  gate: G9
+- id: TEST-REQ-028
+  requirement: REQ-028
+  title: Architecture and GPU abstractions
+  status: Specified
+  expected_evidence: GRC-046..048 and research reproducibility datasets
+  gate: G12/G13
+- id: TEST-REQ-029
+  requirement: REQ-029
+  title: Local-first execution routing
+  status: Specified
+  expected_evidence: Browser capability, offline, routing and worker-fallback suites
+  gate: G2/G10
+- id: TEST-REQ-030
+  requirement: REQ-030
+  title: Heavy-job lifecycle
+  status: Specified
+  expected_evidence: Queue, stream, cancel, retry, checkpoint, worker-loss and quota
+    suites
+  gate: G10/G11
+- id: TEST-REQ-031
+  requirement: REQ-031
+  title: Versioning and real-time collaboration
+  status: Specified
+  expected_evidence: Convergence, reconnect, authorization, history and moderation
+    suites
+  gate: G10
+- id: TEST-REQ-032
+  requirement: REQ-032
+  title: Untrusted workload isolation
+  status: Specified
+  expected_evidence: Malicious archive/model/HDL, quota and tenant-isolation suites
+  gate: G1/G10
+- id: TEST-REQ-033
+  requirement: REQ-033
+  title: Responsive and scalable browser execution
+  status: Specified
+  expected_evidence: Published benchmark matrix and threaded/single-thread fallback
+  gate: G2/G6
+- id: TEST-REQ-034
+  requirement: REQ-034
+  title: Browser compatibility, accessibility, and localization
+  status: Specified
+  expected_evidence: WCAG 2.2 AA manual/automated and supported-browser suites
+  gate: G1/G6
+- id: TEST-REQ-035
+  requirement: REQ-035
+  title: Open-source and third-party license boundary
+  status: Specified
+  expected_evidence: License/notice inventory, boundary review and release audit
+  gate: G0/every release
+- id: TEST-REQ-036
+  requirement: REQ-036
+  title: Realistic Electronics MVP release gate
+  status: Specified
+  expected_evidence: Required MVP demos, benchmarks, security, browser and accessibility
+    evidence
+  gate: G6
+- id: TEST-REQ-037
+  requirement: REQ-037
+  title: Realistic physical component appearance
+  status: Specified
+  expected_evidence: GRC-049, GRC-050, GRC-054 and visual-performance suite
+  gate: G1/G6
+- id: TEST-REQ-038
+  requirement: REQ-038
+  title: Reusable IC package library and parametric package designer
+  status: Specified
+  expected_evidence: GRC-051..054, pin-equivalence and custom-package conformance
+    suites
+  gate: G1/G7
+golden_tests:
+- id: TEST-GRC-001
+  fixture: GRC-001
+  validation_task: VAL-GRC-001
+  title: DC source and resistor
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Ohm's law, branch current, resistor power
+- id: TEST-GRC-002
+  fixture: GRC-002
+  validation_task: VAL-GRC-002
+  title: Two-resistor divider
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Node voltage, source power, load effect
+- id: TEST-GRC-003
+  fixture: GRC-003
+  validation_task: VAL-GRC-003
+  title: Current source and resistor
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Compliance behavior and node voltage
+- id: TEST-GRC-004
+  fixture: GRC-004
+  validation_task: VAL-GRC-004
+  title: VCVS/VCCS/CCVS/CCCS set
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Gain/transresistance/transconductance and control polarity
+- id: TEST-GRC-005
+  fixture: GRC-005
+  validation_task: VAL-GRC-005
+  title: Battery with internal resistance
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Open-circuit voltage, loaded voltage, power split
+- id: TEST-GRC-006
+  fixture: GRC-006
+  validation_task: VAL-GRC-006
+  title: RC charge/discharge
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-036
+  release: R2
+  status: Specified
+  expected_evidence: Time constant and sampled waveform
+- id: TEST-GRC-007
+  fixture: GRC-007
+  validation_task: VAL-GRC-007
+  title: RL step
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Current rise, inductor voltage, stored energy
+- id: TEST-GRC-008
+  fixture: GRC-008
+  validation_task: VAL-GRC-008
+  title: Series and parallel RLC
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R2
+  status: Specified
+  expected_evidence: Resonance, damping, gain, phase
+- id: TEST-GRC-009
+  fixture: GRC-009
+  validation_task: VAL-GRC-009
+  title: Transformer
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R3
+  status: Specified
+  expected_evidence: Turns ratio, polarity, reflected impedance
+- id: TEST-GRC-010
+  fixture: GRC-010
+  validation_task: VAL-GRC-010
+  title: Transmission-line termination
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  release: R7
+  status: Specified
+  expected_evidence: Delay and reflection coefficient
+- id: TEST-GRC-011
+  fixture: GRC-011
+  validation_task: VAL-GRC-011
+  title: Forward and reverse diode sweep
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: I-V curve, leakage, temperature trend
+- id: TEST-GRC-012
+  fixture: GRC-012
+  validation_task: VAL-GRC-012
+  title: Zener regulator
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: Breakdown voltage, dynamic resistance, power
+- id: TEST-GRC-013
+  fixture: GRC-013
+  validation_task: VAL-GRC-013
+  title: Half-wave and bridge rectifier
+  requirements:
+  - REQ-008
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  - REQ-036
+  release: R3
+  status: Specified
+  expected_evidence: Conduction intervals, ripple, diode stress
+- id: TEST-GRC-014
+  fixture: GRC-014
+  validation_task: VAL-GRC-014
+  title: LED resistor circuit
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  - REQ-036
+  release: R3
+  status: Specified
+  expected_evidence: Current, optical indicator state, thermal power
+- id: TEST-GRC-015
+  fixture: GRC-015
+  validation_task: VAL-GRC-015
+  title: BJT common-emitter stage
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: Bias point, gain, cutoff, saturation
+- id: TEST-GRC-016
+  fixture: GRC-016
+  validation_task: VAL-GRC-016
+  title: MOSFET low-side switch
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  - REQ-036
+  release: R3
+  status: Specified
+  expected_evidence: Threshold region, on loss, switching transient
+- id: TEST-GRC-017
+  fixture: GRC-017
+  validation_task: VAL-GRC-017
+  title: CMOS inverter
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  - REQ-036
+  release: R3
+  status: Specified
+  expected_evidence: Transfer curve, noise margins, delay, short-circuit power
+- id: TEST-GRC-018
+  fixture: GRC-018
+  validation_task: VAL-GRC-018
+  title: Op-amp buffer and inverting amplifier
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: Gain, clipping, slew rate, input/output limits
+- id: TEST-GRC-019
+  fixture: GRC-019
+  validation_task: VAL-GRC-019
+  title: Comparator with hysteresis
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: Thresholds, state memory, propagation delay
+- id: TEST-GRC-020
+  fixture: GRC-020
+  validation_task: VAL-GRC-020
+  title: 555 astable
+  requirements:
+  - REQ-009
+  - REQ-010
+  - REQ-011
+  - REQ-014
+  - REQ-017
+  release: R3
+  status: Specified
+  expected_evidence: Frequency, duty cycle, startup
+- id: TEST-GRC-021
+  fixture: GRC-021
+  validation_task: VAL-GRC-021
+  title: Overrated resistor
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  - REQ-036
+  release: R4
+  status: Specified
+  expected_evidence: Temperature rise, derating warning, open/short injection
+- id: TEST-GRC-022
+  fixture: GRC-022
+  validation_task: VAL-GRC-022
+  title: MOSFET thermal runaway
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  release: R4
+  status: Specified
+  expected_evidence: Rds(on), leakage, junction temperature feedback
+- id: TEST-GRC-023
+  fixture: GRC-023
+  validation_task: VAL-GRC-023
+  title: Buck converter
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  release: R7
+  status: Specified
+  expected_evidence: Regulation, ripple, switching loss, efficiency
+- id: TEST-GRC-024
+  fixture: GRC-024
+  validation_task: VAL-GRC-024
+  title: H-bridge motor drive
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  release: R7
+  status: Specified
+  expected_evidence: Dead time, shoot-through prevention, current and back-EMF
+- id: TEST-GRC-025
+  fixture: GRC-025
+  validation_task: VAL-GRC-025
+  title: Fuse and TVS surge protection
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  release: R7
+  status: Specified
+  expected_evidence: Trip/clamp behavior and post-failure state
+- id: TEST-GRC-026
+  fixture: GRC-026
+  validation_task: VAL-GRC-026
+  title: Monte Carlo divider
+  requirements:
+  - REQ-013
+  - REQ-014
+  - REQ-015
+  - REQ-016
+  release: R4
+  status: Specified
+  expected_evidence: Distribution, deterministic seed, pass yield
+- id: TEST-GRC-027
+  fixture: GRC-027
+  validation_task: VAL-GRC-027
+  title: Primitive gate truth tables
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  - REQ-036
+  release: R5
+  status: Specified
+  expected_evidence: 0/1/X/Z, delay, drive strength
+- id: TEST-GRC-028
+  fixture: GRC-028
+  validation_task: VAL-GRC-028
+  title: NAND ring oscillator
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  - REQ-036
+  release: R5
+  status: Specified
+  expected_evidence: Event order, oscillation, delay accumulation
+- id: TEST-GRC-029
+  fixture: GRC-029
+  validation_task: VAL-GRC-029
+  title: SR latch
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  - REQ-036
+  release: R5
+  status: Specified
+  expected_evidence: Set/reset/hold and invalid state
+- id: TEST-GRC-030
+  fixture: GRC-030
+  validation_task: VAL-GRC-030
+  title: D flip-flop
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  release: R5
+  status: Specified
+  expected_evidence: Edge capture, setup/hold violation
+- id: TEST-GRC-031
+  fixture: GRC-031
+  validation_task: VAL-GRC-031
+  title: Counter and shift register
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  release: R5
+  status: Specified
+  expected_evidence: Sequential state and reset behavior
+- id: TEST-GRC-032
+  fixture: GRC-032
+  validation_task: VAL-GRC-032
+  title: Half and full adder
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  - REQ-036
+  release: R5
+  status: Specified
+  expected_evidence: Exhaustive truth table and carry propagation
+- id: TEST-GRC-033
+  fixture: GRC-033
+  validation_task: VAL-GRC-033
+  title: ADC/DAC loop
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  release: R5
+  status: Specified
+  expected_evidence: Quantization, reference scaling, latency
+- id: TEST-GRC-034
+  fixture: GRC-034
+  validation_task: VAL-GRC-034
+  title: Analog/digital threshold adapter
+  requirements:
+  - REQ-001
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  release: R5
+  status: Specified
+  expected_evidence: Threshold band, hysteresis, loading, simultaneous event
+- id: TEST-GRC-035
+  fixture: GRC-035
+  validation_task: VAL-GRC-035
+  title: 6T SRAM cell
+  requirements:
+  - REQ-018
+  - REQ-019
+  - REQ-020
+  - REQ-021
+  - REQ-025
+  release: R8
+  status: Specified
+  expected_evidence: Read, write, hold, noise margin
+- id: TEST-GRC-036
+  fixture: GRC-036
+  validation_task: VAL-GRC-036
+  title: Thermistor divider
+  requirements:
+  - REQ-022
+  - REQ-023
+  - REQ-024
+  release: R7
+  status: Specified
+  expected_evidence: Temperature-to-voltage transfer and self-heating
+- id: TEST-GRC-037
+  fixture: GRC-037
+  validation_task: VAL-GRC-037
+  title: Load-cell bridge and amplifier
+  requirements:
+  - REQ-022
+  - REQ-023
+  - REQ-024
+  release: R7
+  status: Specified
+  expected_evidence: Force transfer, offset, saturation
+- id: TEST-GRC-038
+  fixture: GRC-038
+  validation_task: VAL-GRC-038
+  title: DC motor startup
+  requirements:
+  - REQ-022
+  - REQ-023
+  - REQ-024
+  release: R7
+  status: Specified
+  expected_evidence: Inrush, acceleration, back-EMF, stall
+- id: TEST-GRC-039
+  fixture: GRC-039
+  validation_task: VAL-GRC-039
+  title: I2C sensor transaction
+  requirements:
+  - REQ-022
+  - REQ-023
+  - REQ-024
+  release: R7
+  status: Specified
+  expected_evidence: Electrical thresholds and protocol decode
+- id: TEST-GRC-040
+  fixture: GRC-040
+  validation_task: VAL-GRC-040
+  title: Touchstone two-port
+  requirements:
+  - REQ-011
+  - REQ-022
+  - REQ-023
+  - REQ-024
+  release: R7
+  status: Specified
+  expected_evidence: S-parameter import and frequency response
+- id: TEST-GRC-041
+  fixture: GRC-041
+  validation_task: VAL-GRC-041
+  title: One-bit memory and register
+  requirements:
+  - REQ-025
+  - REQ-036
+  release: R6
+  status: Specified
+  expected_evidence: Store, retain, read and reset
+- id: TEST-GRC-042
+  fixture: GRC-042
+  validation_task: VAL-GRC-042
+  title: Four-bit ALU
+  requirements:
+  - REQ-025
+  release: R8
+  status: Specified
+  expected_evidence: Arithmetic, flags, logic, exhaustive vectors
+- id: TEST-GRC-043
+  fixture: GRC-043
+  validation_task: VAL-GRC-043
+  title: Four-bit CPU
+  requirements:
+  - REQ-025
+  release: R8
+  status: Specified
+  expected_evidence: Fetch/decode/execute and branching
+- id: TEST-GRC-044
+  fixture: GRC-044
+  validation_task: VAL-GRC-044
+  title: Eight-bit computer
+  requirements:
+  - REQ-026
+  - REQ-027
+  release: R9
+  status: Specified
+  expected_evidence: Program, bus, RAM/ROM, timer, UART and display
+- id: TEST-GRC-045
+  fixture: GRC-045
+  validation_task: VAL-GRC-045
+  title: RTL differential model
+  requirements:
+  - REQ-001
+  - REQ-026
+  - REQ-027
+  release: R9
+  status: Specified
+  expected_evidence: Gate/event model versus Verilated model
+- id: TEST-GRC-046
+  fixture: GRC-046
+  validation_task: VAL-GRC-046
+  title: Cache and DRAM timing
+  requirements:
+  - REQ-028
+  release: R12
+  status: Specified
+  expected_evidence: Hit/miss, row behavior, deterministic event counts
+- id: TEST-GRC-047
+  fixture: GRC-047
+  validation_task: VAL-GRC-047
+  title: Full-system boot
+  requirements:
+  - REQ-001
+  - REQ-028
+  release: R12
+  status: Specified
+  expected_evidence: Functional ISA execution and checkpoint/restart
+- id: TEST-GRC-048
+  fixture: GRC-048
+  validation_task: VAL-GRC-048
+  title: GPU compute kernel
+  requirements:
+  - REQ-028
+  release: R13
+  status: Specified
+  expected_evidence: Functional output, cycle counters and bandwidth limits
+- id: TEST-GRC-049
+  fixture: GRC-049
+  validation_task: VAL-GRC-049
+  title: Resistor package physical set
+  requirements:
+  - REQ-037
+  release: R1
+  status: Specified
+  expected_evidence: Axial and SMD recognizable geometry, value/tolerance cues, exact
+    PinProfile-to-contact binding, rotation and scale, plus candidate-only rejection
+- id: TEST-GRC-050
+  fixture: GRC-050
+  validation_task: VAL-GRC-050
+  title: Discrete, optoelectronic and power package physical set
+  requirements:
+  - REQ-037
+  release: R1
+  status: Specified
+  expected_evidence: Radial passive, diode, LED, SOT/TO/DPAK and power-module recognition;
+    polarity/orientation and exact contact/pin-label map through a concrete binding
+- id: TEST-GRC-051
+  fixture: GRC-051
+  validation_task: VAL-GRC-051
+  title: Through-hole and perimeter-leaded IC package set
+  requirements:
+  - REQ-037
+  - REQ-038
+  release: R1
+  status: Specified
+  expected_evidence: DIP/SIP/ZIP and SOIC/SSOP/TSSOP/PLCC pin-one cues, numbering,
+    resolved dimensions, labels and exact PinProfile/package-contact equivalence
+- id: TEST-GRC-052
+  fixture: GRC-052
+  validation_task: VAL-GRC-052
+  title: Quad, leadless and grid-array IC package set
+  requirements:
+  - REQ-037
+  - REQ-038
+  release: R1
+  status: Specified
+  expected_evidence: QFP/QFN/DFN and LGA/BGA/CSP multi-side/grid numbering, thermal-pad/ball
+    semantics, complete contact disposition, orientation and zoom behavior
+- id: TEST-GRC-053
+  fixture: GRC-053
+  validation_task: VAL-GRC-053
+  title: Custom package designer
+  requirements:
+  - REQ-037
+  - REQ-038
+  release: R1
+  status: Specified
+  expected_evidence: Parameter constraints, immutable deterministic package revision,
+    unbound-state handling and reviewed DevicePackageBinding creation without inference
+- id: TEST-GRC-054
+  fixture: GRC-054
+  validation_task: VAL-GRC-054
+  title: Dual-view and interface-package project
+  requirements:
+  - REQ-037
+  - REQ-038
+  release: R1
+  status: Specified
+  expected_evidence: Same component/model/binding identity, nets and results across views;
+    interface anchor preservation and binding-revision round trip

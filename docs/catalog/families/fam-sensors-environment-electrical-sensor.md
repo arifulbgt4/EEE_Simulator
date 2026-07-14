@@ -36,22 +36,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `STIMULUS` | physical | Physical/environmental input | electrical, physical, environmental |
-| `OUTPUT` | output | Electrical or digital output | electrical, physical, environmental |
-| `VDD` | power | Supply | electrical, physical, environmental |
-| `GND` | power | Reference | electrical, physical, environmental |
+| `S` | STIMULUS | physical | electrical, physical, environmental |
+| `O` | OUTPUT | output | electrical, physical, environmental |
+| `VDD` | VDD | power | electrical, physical, environmental |
+| `GND` | GND | power | electrical, physical, environmental |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `sensitivity` | SI | 1 | finite |
-| `offset` | SI | 0 | finite |
-| `response_time` | s | 0.01 | >= 0 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `voltage_full_scale` | Measured-voltage full scale | V | 100 | >0 |
+| `current_full_scale` | Measured-current full scale | A | 10 | >0 |
+| `output_span` | Electrical output span | V | 5 | >0 |
+| `burden_resistance` | Measurement burden | ohm | 0 | >=0 |
+| `bandwidth` | Measurement bandwidth | Hz | 10e3 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -65,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: Output follows the declared voltage/current/power/frequency isolation and scaling relation with bandwidth, burden, offset, saturation, and noise.
+- **Exact nominal vector:** pins `S:STIMULUS`/physical, `O:OUTPUT`/output, `VDD:VDD`/power, `GND:GND`/power; parameters `voltage_full_scale`=100 V (>0); `current_full_scale`=10 A (>0); `output_span`=5 V (>0); `burden_resistance`=0 ohm (>=0); `bandwidth`=10e3 Hz (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEN-ELECTRICAL_SENSOR-NOMINAL`, `GOLD-SEN-ELECTRICAL_SENSOR-BOUNDARY`, `GOLD-SEN-ELECTRICAL_SENSOR-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

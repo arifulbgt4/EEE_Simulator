@@ -4,7 +4,7 @@
 - **Category:** Semiconductor and optoelectronics
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Post-MVP catalog
 - **Source:** Source PDF, pp. 10-15
 
 ## Purpose and scope
@@ -19,8 +19,8 @@ Search aliases are **Insulated-gate bipolar transistor**, **Igbt**, and `igbt`. 
 
 | Stable variant ID | Display name | Model tiers | Release target | Compatible package profiles |
 |---|---|---|---|---|
-| `var-semiconductors-igbt-n-channel` | N Channel | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
-| `var-semiconductors-igbt-p-channel` | P Channel | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
+| `var-semiconductors-igbt-n-channel` | N Channel | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
+| `var-semiconductors-igbt-p-channel` | P Channel | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-sot-23`, `pkg-to-92`, `pkg-to-220`, `pkg-qfn`, `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
 
@@ -35,22 +35,24 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `D` | passive | Drain or collector | electrical, optical, thermal |
-| `G` | input | Gate | electrical, optical, thermal |
-| `S` | passive | Source or emitter | electrical, optical, thermal |
-| `B` | optional | Body when exposed | electrical, optical, thermal |
+| `1` | D | passive | electrical, optical, thermal |
+| `2` | G | input | electrical, optical, thermal |
+| `3` | S | passive | electrical, optical, thermal |
+| `4` | B | optional | electrical, optical, thermal |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `threshold_voltage` | Gate threshold voltage | V | 5 | finite |
+| `transconductance` | Effective transconductance | A/V | 10 | >0 |
+| `saturation_voltage` | On-state collector-emitter voltage | V | 2 | >=0 |
+| `tail_time` | Turn-off tail time | s | 1e-6 | >=0 |
+| `temperature` | Junction temperature | K | 300.15 | >0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -64,6 +66,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The conduction model combines insulated-gate control with bipolar output behavior, including tail current, antiparallel path, and thermal limits when declared.
+- **Exact nominal vector:** pins `1:D`/passive, `2:G`/input, `3:S`/passive, `4:B`/optional; parameters `threshold_voltage`=5 V (finite); `transconductance`=10 A/V (>0); `saturation_voltage`=2 V (>=0); `tail_time`=1e-6 s (>=0); `temperature`=300.15 K (>0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SEM-IGBT-NOMINAL`, `GOLD-SEM-IGBT-BOUNDARY`, `GOLD-SEM-IGBT-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

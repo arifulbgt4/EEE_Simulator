@@ -8,13 +8,13 @@ Deliver the complete **Nonlinear simulation and convergence** capability for rel
 
 - Requirements: REQ-008, REQ-017
 - Release: R3
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G2 linear analog.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-NON-001](../platform/plat-non-001-define-nonlinear-device-evaluation-contract.md) | Define nonlinear device evaluation contract | Gate G0 documentation baseline | Planned |
+| [PLAT-NON-001](../platform/plat-non-001-define-nonlinear-device-evaluation-contract.md) | Define nonlinear device evaluation contract | Gate G2 linear analog | Planned |
 | [PLAT-NON-002](../platform/plat-non-002-implement-residual-and-jacobian-assembly.md) | Implement residual and Jacobian assembly | PLAT-NON-001 | Planned |
 | [PLAT-NON-003](../platform/plat-non-003-implement-newton-iteration.md) | Implement Newton iteration | PLAT-NON-002 | Planned |
 | [PLAT-NON-004](../platform/plat-non-004-implement-bounded-damping-and-line-search.md) | Implement bounded damping and line search | PLAT-NON-003 | Planned |

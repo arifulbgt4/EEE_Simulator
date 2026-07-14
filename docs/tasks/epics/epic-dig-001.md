@@ -8,13 +8,13 @@ Deliver the complete **Event-driven digital simulation** capability for release 
 
 - Requirements: REQ-018, REQ-021
 - Release: R5
-- Entry: Gate G0 documentation baseline and every task-level dependency below.
+- Entry: Gate G4 realism.
 
 ## Atomic tasks
 
 | Task | Single outcome | Depends on | Status |
 |---|---|---|---|
-| [PLAT-DIG-001](../platform/plat-dig-001-define-0-1-x-z-logic-algebra.md) | Define 0 1 X Z logic algebra | Gate G0 documentation baseline | Planned |
+| [PLAT-DIG-001](../platform/plat-dig-001-define-0-1-x-z-logic-algebra.md) | Define 0 1 X Z logic algebra | Gate G4 realism | Planned |
 | [PLAT-DIG-002](../platform/plat-dig-002-define-drive-strength-and-resolution-rules.md) | Define drive-strength and resolution rules | PLAT-DIG-001 | Planned |
 | [PLAT-DIG-003](../platform/plat-dig-003-implement-deterministic-event-priority-queue.md) | Implement deterministic event priority queue | PLAT-DIG-002 | Planned |
 | [PLAT-DIG-004](../platform/plat-dig-004-implement-primitive-combinational-evaluation.md) | Implement primitive combinational evaluation | PLAT-DIG-003 | Planned |

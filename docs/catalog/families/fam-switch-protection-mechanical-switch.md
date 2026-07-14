@@ -4,7 +4,7 @@
 - **Category:** Switches, protection and isolation
 - **Lifecycle:** Planned
 - **Basic component tag:** `basic-component`
-- **Release target:** Realistic Electronics MVP
+- **Release target:** Mixed variant targets: Realistic Electronics MVP and Post-MVP catalog (see variant table)
 - **Source:** Source PDF, pp. 10-14
 
 ## Purpose and scope
@@ -21,8 +21,8 @@ Search aliases are **Mechanical switch**, **Mechanical Switch**, and `mechanical
 |---|---|---|---|---|
 | `var-switch-protection-mechanical-switch-spst` | Spst | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
 | `var-switch-protection-mechanical-switch-spdt` | Spdt | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-mechanical-switch-dpst` | Dpst | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
-| `var-switch-protection-mechanical-switch-dpdt` | Dpdt | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
+| `var-switch-protection-mechanical-switch-dpst` | Dpst | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
+| `var-switch-protection-mechanical-switch-dpdt` | Dpdt | F0, F1, F2, F3, F4 | Post-MVP catalog | `pkg-custom-parametric` |
 | `var-switch-protection-mechanical-switch-momentary` | Momentary | F0, F1, F2, F3, F4 | Realistic Electronics MVP | `pkg-custom-parametric` |
 
 A variant is a simulation preset, not a manufacturer SKU. All production variants are tagged with an explicit release target. A family carrying `basic-component` requires a scalable physical representation before any variant may become `Released`.
@@ -38,20 +38,22 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `P` | passive | Positive or first terminal | electrical, control |
-| `N` | passive | Negative or second terminal | electrical, control |
+| `1` | P | passive | electrical, control |
+| `2` | N | passive | electrical, control |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `initial_state` | Initial contact state | 1 | open | open or closed |
+| `on_resistance` | Closed-contact resistance | ohm | 0.01 | >=0 |
+| `off_resistance` | Open-contact resistance | ohm | 1e12 | >0 |
+| `bounce_time` | Contact bounce interval | s | 0 | >=0 |
+| `actuation_delay` | Mechanical actuation delay | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -65,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: The contact-state graph selects open or closed conductance with declared bounce timing; impossible pole/throw states and zero-time chatter are rejected.
+- **Exact nominal vector:** pins `1:P`/passive, `2:N`/passive; parameters `initial_state`=open 1 (open or closed); `on_resistance`=0.01 ohm (>=0); `off_resistance`=1e12 ohm (>0); `bounce_time`=0 s (>=0); `actuation_delay`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-SWP-MECHANICAL_SWITCH-NOMINAL`, `GOLD-SWP-MECHANICAL_SWITCH-BOUNDARY`, `GOLD-SWP-MECHANICAL_SWITCH-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

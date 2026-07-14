@@ -35,23 +35,25 @@ A variant is a simulation preset, not a manufacturer SKU. All production variant
 
 ## Pin contract
 
-| Pin or group | Electrical type | Meaning | Domains |
+| Pin or group | Name | Electrical type | Domains |
 |---|---|---|---|
-| `IN+` | input | Non-inverting or primary input | analog, digital, power |
-| `IN-` | input | Inverting or secondary input | analog, digital, power |
-| `OUT` | output | Primary output | analog, digital, power |
-| `V+` | power | Positive supply | analog, digital, power |
-| `V-` | power | Negative supply | analog, digital, power |
+| `1` | IN+ | input | analog, digital, power |
+| `2` | IN- | input | analog, digital, power |
+| `3` | OUT | output | analog, digital, power |
+| `4` | V+ | power | analog, digital, power |
+| `5` | V- | power | analog, digital, power |
 
 Pin IDs are stable inside a variant. A package pin map must be explicit, bijective for all required logical pins, and validated before export or release. Unmapped no-connect package pins are declared, never inferred.
 
 ## Parameter contract
 
-| Parameter | Internal unit | Default | Limits |
-|---|---:|---:|---|
-| `nominal` | family-specific SI unit | 1 | variant-defined |
-| `temperature` | K | 300.15 | 1..1000 |
-| `tolerance` | 1 | 0 | 0..1 |
+| Parameter | Meaning | Internal unit | Default | Limits |
+|---|---|---:|---:|---|
+| `lower_threshold` | Lower switching threshold | V | 1.5 | finite |
+| `upper_threshold` | Upper switching threshold | V | 3.5 | >lower_threshold |
+| `output_low` | Low output voltage | V | 0 | finite |
+| `output_high` | High output voltage | V | 5 | finite |
+| `propagation_delay` | Propagation delay | s | 0 | >=0 |
 
 All numerical values use SI base units internally. Display prefixes and localized formatting are presentation concerns. Variant-specific parameters may refine this table but may not weaken its validation rules.
 
@@ -65,6 +67,21 @@ Supported fidelity tiers: **F0, F1, F2, F3, F4**. Supported analysis capabilitie
 - F3 binds a compact, macro, HDL, S-parameter, or other validated external model.
 - F4 adds tolerance, electrothermal, parasitic, aging, and failure behavior where applicable.
 - F5 is restricted to declared research models and may not be represented as production-ready.
+
+## Family-specific implementation reference
+
+This section is the normative planning baseline for model tasks. A vendor or imported model may refine it only inside a declared validation envelope; it may not silently change pin order, units, polarity, state initialization, or unsupported behavior.
+
+- **Governing relation or state rule:** A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **F0:** Connectivity-only: validate declared pins, domains, width/direction, hierarchy, and package mapping; do not claim numerical behavior. Family baseline: A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **F1:** Ideal/equation tier: implement exactly this family baseline and its declared parameter limits: A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **F2:** Behavioral/timing tier: preserve the family baseline using deterministic integer-tick state/event rules and explicit initialization: A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **F3:** Compact/macro/external tier: bind a pinned model or executable relation that preserves ordered pins and the validated envelope; the governing family relation is: A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **F4:** Electrothermal/tolerance/failure tier: extend the lower-tier relation with declared sampling, power-to-heat state Cth*dT/dt = P-(T-Tamb)/Rth, derating, and deterministic failure transitions; base relation: A two-threshold hysteretic state machine maps the input to output logic; threshold ordering and unknown-band behavior are explicit.
+- **Exact nominal vector:** pins `1:IN+`/input, `2:IN-`/input, `3:OUT`/output, `4:V+`/power, `5:V-`/power; parameters `lower_threshold`=1.5 V (finite); `upper_threshold`=3.5 V (>lower_threshold); `output_low`=0 V (finite); `output_high`=5 V (finite); `propagation_delay`=0 s (>=0).
+- **Boundary vector:** every declared inclusive/exclusive parameter limit, supported pin/domain/width edge, and supported-analysis boundary is exercised independently; combinations outside the declared envelope are invalid, not extrapolated.
+- **Failure vector:** `open-circuit`, `short-circuit`, `parameter-drift`, `overstress-or-saturation`, plus non-finite parameters, invalid pin maps, unsupported analysis, and unavailable fidelity.
+- **Golden evidence:** `GOLD-AMS-SCHMITT_TRIGGER-NOMINAL`, `GOLD-AMS-SCHMITT_TRIGGER-BOUNDARY`, `GOLD-AMS-SCHMITT_TRIGGER-FAILURE`.
 
 ## Non-ideal, thermal, and failure behavior
 

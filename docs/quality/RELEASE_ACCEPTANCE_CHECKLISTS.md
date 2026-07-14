@@ -7,6 +7,7 @@
 - [ ] No `Ready` or `In Progress` task is silently included as completed scope.
 - [ ] Registry counts and coverage states are internally consistent.
 - [ ] All released components have model, validation, provenance, limitations, and user documentation.
+- [ ] Every released component satisfies its exact gate-scoped core profile; unfinished optional extensions are visibly unavailable and no gate-required capability is classified as optional.
 - [ ] All normative schemas are versioned and compatibility behavior is documented.
 - [ ] Golden, differential, integration, failure, security, performance, browser, and accessibility suites pass.
 - [ ] Known limitations and deferred work are visible in release notes.
@@ -15,21 +16,35 @@
 
 ## Documentation baseline gate (R0)
 
+- [ ] The initial queue starts with `PLAT-QA-001` as the sole `Ready` R0 root task; later R0 tasks are promoted only after their exact predecessor is `Done`.
+- [ ] `PLAT-GOV-001` remains `Planned` until the complete R0 evidence bundle is accepted at G0.
 - [ ] Root governance and contributor documents exist.
 - [ ] Product, architecture, catalog, quality, planning, ADR, and task documents are cross-linked.
 - [ ] The baseline contains exactly 162 families and 502 variants.
 - [ ] Every variant has an atomic task card.
 - [ ] Every production family has a family specification and applicable model/validation tasks.
 - [ ] REQ-037/REQ-038 are traced to physical-appearance, package-registry, package-designer, pin-map and visual-regression tasks.
+- [ ] Package candidates are distinguished from concrete `DevicePackageBinding` records; no `package_refs` list is accepted as a pin map or release artifact.
 - [ ] Requirement traceability has no orphan row.
 - [ ] All source-brief-derived requirements cite PDF pages.
 - [ ] No executable application code or runtime configuration is introduced by the documentation-only milestone.
 
+## Scheduled golden evidence
+
+- [ ] G2/R2 includes GRC-001 through GRC-008.
+- [ ] G3/R3 includes GRC-011 through GRC-020.
+- [ ] G4/R4 includes GRC-021, GRC-022, and GRC-026.
+- [ ] G5/R5 includes GRC-027 through GRC-034.
+- [ ] G7/R7 includes GRC-023 through GRC-025, GRC-036 through GRC-040, and every applicable family-specific fixture.
+- [ ] G8/R8 includes GRC-035 and GRC-041 through GRC-043.
+
 ## Realistic Electronics MVP gate
 
 - [ ] Guest users can create, save offline, export, import, and reopen a project.
-- [ ] Core connectivity, sources, RLC, diode/LED, BJT, MOSFET, op-amp, basic gates, and instruments are released.
-- [ ] Basic components have recognizable physical views, and released ICs have reusable package definitions with verified symbol/package pin equivalence.
+- [ ] Exactly the 106 registry presets tagged `Realistic Electronics MVP` are evaluated for this gate; the 388 `Post-MVP catalog` presets remain visible but cannot be claimed as released.
+- [ ] The early switch profile is limited to mechanical SPST, SPDT, and momentary plus voltage-controlled and ideal-controlled presets; mechanical DPST/DPDT and current-controlled presets remain R7 work even when they reuse the validated shared family core.
+- [ ] Core connectivity, sources, RLC, the five basic-switch presets above, diode/LED, BJT, MOSFET, op-amp, basic gates, and instruments are released.
+- [ ] Basic components have recognizable physical views, and released ICs have reusable package definitions plus published concrete `DevicePackageBinding` revisions with verified symbol/package pin equivalence.
 - [ ] DC and transient analyses pass; AC, tolerance/Monte Carlo, power, temperature, leakage, and failure behavior meet the MVP scope.
 - [ ] LED, RC, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half adder, full adder, and thermal-failure demonstrations pass.
 - [ ] Invalid circuits produce actionable diagnostics.
@@ -39,6 +54,7 @@
 
 ## Complete catalog gate
 
+- [ ] GRC-023 through GRC-025 and GRC-036 through GRC-040 pass with retained evidence.
 - [ ] All 157 production families and 494 production variants are released or explicitly moved through an approved scope-change ADR.
 - [ ] Deferred research families remain listed with rationale and entry criteria.
 - [ ] SPICE, HDL, IBIS, Touchstone, waveform, stimulus, and firmware import policies are implemented and tested as scheduled.
@@ -46,6 +62,7 @@
 
 ## Educational computer gate
 
+- [ ] GRC-035 and GRC-041 through GRC-043 pass with retained evidence.
 - [ ] One-bit memory, register file, ALU, control unit, bus, ROM, RAM, timer, UART, input, and display blocks are validated.
 - [ ] Four-bit and eight-bit reference CPUs execute their complete documented instruction sets.
 - [ ] Assembler output, program loading, breakpoints, state inspection, timing, and deterministic replay pass.

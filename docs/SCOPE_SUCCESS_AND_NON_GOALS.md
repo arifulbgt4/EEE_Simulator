@@ -33,7 +33,7 @@
 3. Nonlinear semiconductor and SPICE interoperability.
 4. Non-ideal, electrothermal, failure, AC, and statistical analyses.
 5. Event-driven digital and analog/digital co-simulation.
-6. **Realistic Electronics MVP** with all ten canonical demonstrations. [Source PDF, p. 37]
+6. **Realistic Electronics MVP** with all eleven canonical demonstrations. [Source PDF, p. 37]
 7. Remaining production component domains.
 8. Educational CPU and memory.
 9. RTL/FPGA integration and complete educational computer.
@@ -53,7 +53,7 @@ The exact ordering and entry/exit criteria are defined in [Master Roadmap](plann
 
 ### Realistic Electronics MVP
 
-- The ten canonical circuits - LED, RC charging, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half adder, and full adder - pass declared functional, numerical, deterministic, thermal/failure, and visualization checks. [Source PDF, p. 37]
+- The eleven canonical circuits - LED, RC charging, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half adder, and full adder - pass declared functional, numerical, deterministic, thermal/failure, and visualization checks. [Source PDF, p. 37]
 - A supported reference project of 500 components and 1,000 nets can retain 100,000 selected waveform samples within documented browser limits.
 - The declared reference suite reaches DC result in under one second and transient result in under five seconds on the documented reference desktop.
 - Schematic pan and zoom target 50 FPS, and simulation causes no main-thread stall longer than 100 ms.
