@@ -58,5 +58,17 @@ Each card validates one golden fixture and must remain independent of the implem
 | [VAL-GRC-052](val-grc-052.md) | Quad, leadless and grid-array IC package set | REQ-037, REQ-038 | R1 | Planned |
 | [VAL-GRC-053](val-grc-053.md) | Custom package designer | REQ-037, REQ-038 | R1 | Planned |
 | [VAL-GRC-054](val-grc-054.md) | Dual-view and interface-package project | REQ-037, REQ-038 | R1 | Planned |
+| [VAL-GRC-055](val-grc-055.md) | Physical resistor divider | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-056](val-grc-056.md) | Physical RC charging and discharging | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-057](val-grc-057.md) | Physical RL transient | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-058](val-grc-058.md) | Physical RLC resonance | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-059](val-grc-059.md) | Physical diode rectifier | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-060](val-grc-060.md) | Physical LED current and heating | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-061](val-grc-061.md) | Physical BJT switch | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-062](val-grc-062.md) | Physical MOSFET switch | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-063](val-grc-063.md) | Physical op-amp amplifier | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-064](val-grc-064.md) | Physical regulator load response | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-065](val-grc-065.md) | Physical oscillator | REQ-039..047 | R4 | Planned |
+| [VAL-GRC-066](val-grc-066.md) | Physical thermal overload circuit | REQ-039..047 | R4 | Planned |
 
-**Total validation tasks: 54.**
+**Total validation tasks: 66.**

@@ -1,5 +1,9 @@
 # Local, Cloud, and Worker Architecture
 
+Local and hosted execution share the semantic [Library Service](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md) contract. The local resolver reads immutable definitions cached in IndexedDB or bundled assets; the hosted resolver uses PostgreSQL/JSONB and object storage behind repositories. Both produce the same storage-independent execution bundle. No browser/server simulation Worker queries those stores directly.
+
+Optional Google OIDC and personal cloud persistence are introduced with the R1 project-storage foundation and hardened by R6, but guest/offline editing and eligible simulation remain first-class. Organization membership, invitations, advanced RBAC, collaboration, public moderation, and team accounting remain R10.
+
 Status: Normative  
 Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Security, Privacy, and Sandboxing](./SECURITY_PRIVACY_AND_SANDBOXING.md)
 

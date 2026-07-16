@@ -9,6 +9,8 @@
 - [ ] All released components have model, validation, provenance, limitations, and user documentation.
 - [ ] Every released component satisfies its exact gate-scoped core profile; unfinished optional extensions are visibly unavailable and no gate-required capability is classified as optional.
 - [ ] All normative schemas are versioned and compatibility behavior is documented.
+- [ ] Published records use immutable revision IDs and content hashes; dependency/reverse-dependency resolution and lineage are complete.
+- [ ] Scientific claims state validity, provenance, trust, accuracy/uncertainty, limitations, and evidence status without false precision.
 - [ ] Golden, differential, integration, failure, security, performance, browser, and accessibility suites pass.
 - [ ] Known limitations and deferred work are visible in release notes.
 - [ ] Third-party licenses, notices, model redistribution rights, and process isolation have been reviewed.
@@ -19,11 +21,18 @@
 - [ ] The initial queue starts with `PLAT-QA-001` as the sole `Ready` R0 root task; later R0 tasks are promoted only after their exact predecessor is `Done`.
 - [ ] `PLAT-GOV-001` remains `Planned` until the complete R0 evidence bundle is accepted at G0.
 - [ ] Root governance and contributor documents exist.
+- [ ] The project description and contributor path identify Applied Physics First and its principle-to-validation chain.
 - [ ] Product, architecture, catalog, quality, planning, ADR, and task documents are cross-linked.
 - [ ] The baseline contains exactly 162 families and 502 variants.
+- [ ] The scientific model registry validates and reports only the model records it actually enumerates; physics, primitive, composite, behavioral, and external-adapter kinds are distinguishable.
+- [ ] All 502 variant pin profiles and all 502 variant semantic profiles resolve exactly once; unresolved model-plan references remain release-blocking.
+- [ ] Parameter definitions declare dimensions/canonical SI or explicit unresolved diagnostics; no normalization invents physical values.
 - [ ] Every variant has an atomic task card.
 - [ ] Every production family has a family specification and applicable model/validation tasks.
 - [ ] REQ-037/REQ-038 are traced to physical-appearance, package-registry, package-designer, pin-map and visual-regression tasks.
+- [ ] REQ-039..063 are traced to ADR-0011..0020, architecture, epics, atomic tasks, stable tests, risks, gates, and evidence contracts.
+- [ ] The roadmap contains exactly R0 through R13; R4 is named `Applied Physics and Real-World Fidelity`; the stable IDs and ordering of R5-R13 are unchanged and no R14 exists. Later-phase acceptance wording may be synchronized without renumbering those releases.
+- [ ] Library Service, storage-independent engine bundle, mixed storage, immutable publication, safe CRUD, declarative/executable boundary, optional Google OIDC, guest migration, and personal persistence contracts are explicit.
 - [ ] Package candidates are distinguished from concrete `DevicePackageBinding` records; no `package_refs` list is accepted as a pin map or release artifact.
 - [ ] Requirement traceability has no orphan row.
 - [ ] All source-brief-derived requirements cite PDF pages.
@@ -33,14 +42,16 @@
 
 - [ ] G2/R2 includes GRC-001 through GRC-008.
 - [ ] G3/R3 includes GRC-011 through GRC-020.
-- [ ] G4/R4 includes GRC-021, GRC-022, and GRC-026.
+- [ ] G4/R4 includes preserved GRC-021 through GRC-026 scope plus GRC-055 through GRC-066 physical-correlation fixtures.
 - [ ] G5/R5 includes GRC-027 through GRC-034.
 - [ ] G7/R7 includes GRC-023 through GRC-025, GRC-036 through GRC-040, and every applicable family-specific fixture.
 - [ ] G8/R8 includes GRC-035 and GRC-041 through GRC-043.
 
 ## Realistic Electronics MVP gate
 
+- [ ] G4 Applied Physics and Real-World Fidelity has passed and no applicable real-world behavior is bypassed by G5 or this gate.
 - [ ] Guest users can create, save offline, export, import, and reopen a project.
+- [ ] Optional personal Google OIDC and private cloud persistence are production-hardened; guest migration is explicit/idempotent/non-destructive and guest/offline use remains fully supported.
 - [ ] Exactly the 106 registry presets tagged `Realistic Electronics MVP` are evaluated for this gate; the 388 `Post-MVP catalog` presets remain visible but cannot be claimed as released.
 - [ ] The early switch profile is limited to mechanical SPST, SPDT, and momentary plus voltage-controlled and ideal-controlled presets; mechanical DPST/DPDT and current-controlled presets remain R7 work even when they reuse the validated shared family core.
 - [ ] Core connectivity, sources, RLC, the five basic-switch presets above, diode/LED, BJT, MOSFET, op-amp, basic gates, and instruments are released.
@@ -59,6 +70,21 @@
 - [ ] Deferred research families remain listed with rationale and entry criteria.
 - [ ] SPICE, HDL, IBIS, Touchstone, waveform, stimulus, and firmware import policies are implemented and tested as scheduled.
 - [ ] Vendor models retain provenance and redistribution restrictions.
+- [ ] Vendor/order-code records inherit exact generic-device revisions through bounded dimensionally valid overrides and exact package/pin bindings; no duplicated internal model or unevidenced market-coverage claim is accepted.
+
+## Applied Physics and Real-World Fidelity gate (R4/G4)
+
+- [ ] Every included model documents physical principles, governing/engineering equations or approved algorithm, assumptions, approximation, numerical method, dependencies, fidelity, state, inputs/outputs, convergence expectations, and failure conditions.
+- [ ] Canonical SI units, dimensions, ranges, temperature/frequency/operating validity, and invalid-input diagnostics pass.
+- [ ] Provenance, license/redistribution, trust, validation state, accuracy/uncertainty envelope, limitations, deprecation, and replacement metadata are complete.
+- [ ] Existing tolerance, Monte Carlo, leakage, ESR/ESL, parasitic R/C/L, noise, power-limit, electrothermal, derating, aging, failure, visualization, injection, and deterministic-seed obligations remain present.
+- [ ] Environmental profiles, manufacturing variation/mismatch, aging/stress history, failure transitions, interconnection parasitics, source non-ideality, and instrument loading are modeled only at declared fidelity and validity.
+- [ ] Tolerance changes are observable and seeded statistical reruns reproduce sample parameters and classifications.
+- [ ] Electrical -> power -> thermal -> updated-electrical feedback is synchronized with the deterministic scheduler and covers steady/transient heat, cooling, runaway, shutdown, and failure where applicable.
+- [ ] Failure states use declared thresholds, durations, accumulated stress, reversible/irreversible transitions, resulting electrical/thermal behavior, diagnostics, visualization, provenance, and evidence.
+- [ ] GRC-021, GRC-022, GRC-026, and GRC-055..066 produce current retained G4 evidence. GRC-023..025 remain preserved catalog-bound specifications scheduled for R7 and are not circular G4 prerequisites. Physical fixtures include exact schematic/BOM/specimens, calibrated equipment, environment, procedure, raw data, model revisions, error calculation, uncertainty, criteria, and limitations.
+- [ ] Accuracy reporting uses category-specific envelopes, does not display false precision, and distinguishes analytical, differential, estimated, and physical-correlation evidence.
+- [ ] G5 and G6 dependency audits prove G4 cannot be bypassed. The release sequence remains exactly R0-R13.
 
 ## Educational computer gate
 

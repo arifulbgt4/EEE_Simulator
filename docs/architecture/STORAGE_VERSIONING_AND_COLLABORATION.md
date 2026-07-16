@@ -1,5 +1,9 @@
 # Storage, Versioning, and Collaboration
 
+The normative storage split and early personal-persistence path are specified in [Data-Driven Library and Storage Architecture](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md): PostgreSQL owns transactional identity/ownership/permission/revision/dependency/publication/audit/search metadata; validated evolving definitions may use indexed PostgreSQL `JSONB`; S3-compatible storage owns large immutable archives/assets/datasets/waveforms; IndexedDB owns local projects/cache/outbox. A separate document database requires a superseding ADR with evidence that JSONB cannot meet a named requirement.
+
+Published model/device/package/binding/board/system/benchmark revisions are immutable and content-addressed. Referenced or published revisions cannot be hard-deleted; archive/soft deletion removes discovery while exact historical resolution remains. Collaboration and R10 organization policy build on these invariants and do not replace the R1 guest/personal path.
+
 Status: Normative  
 Related: [Project File Format](./PROJECT_FILE_FORMAT.md), [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md), [API and Worker Protocols](./API_AND_WORKER_PROTOCOLS.md)
 
@@ -28,6 +32,8 @@ flowchart LR
 | S3-compatible object storage | immutable .eesim archives, models, package assets, firmware/HDL, result chunks, checkpoints | authorization or mutable workflow state |
 | Redis Streams | transient job dispatch and leases | project history, collaboration truth, or results |
 
+PostgreSQL also owns Library Service logical IDs/revisions, ownership, publication state, dependency/reverse-dependency edges, provenance/license/trust indexes, and audit records. Validated definition documents MAY use versioned JSONB with required indexes and transactional constraints. A separate document database is prohibited until an evidence-backed superseding ADR proves that JSONB cannot satisfy a named query/scale/availability need.
+
 ## 3. Local persistence
 
 Each local project has an opaque device-scoped project ID, an append-only command journal, periodic compact snapshots, asset references, and a last-known validation summary.
@@ -42,6 +48,8 @@ Each local project has an opaque device-scoped project ID, an append-only comman
 
 Local-only work remains usable without an account. Choosing cloud synchronization is an explicit operation that shows what project, models, firmware/HDL, custom packages, and documentation will be uploaded.
 
+Minimal personal persistence uses provider-neutral identity with Google OIDC as the initial provider. A guest owns device-local projects; an authenticated person owns private cloud-project revisions. Migration is per-project, explicit, idempotent, hash-checked, and never deletes the local source before durable acknowledgement. Name/content conflicts create a visible conflict copy or require explicit resolution. Failed authorization, quota, upload, or sync retains local data and a retryable outbox record.
+
 ## 4. Cloud project model
 
 A cloud project contains:
@@ -51,6 +59,7 @@ A cloud project contains:
 - one or more mutable draft branches;
 - immutable published versions;
 - content-addressed project, model, component, package, and documentation objects;
+- exact model/device/symbol/pin-profile/package/binding/board/system/benchmark revision locks and dependency lineage;
 - comments and review threads anchored to stable entity IDs and versions;
 - simulation jobs bound to an immutable version;
 - audit references and deletion state.
@@ -70,6 +79,7 @@ A published version is immutable and contains:
 - parent version(s) and source draft vector;
 - canonical project/member digest set;
 - catalog, component, package, pin-map, and model locks;
+- semantic-profile, parameter-definition, board/system, benchmark, and dependency digests;
 - author, time, message, provenance, and validation status;
 - compatibility and migration status;
 - optional release/checkpoint labels.
@@ -234,4 +244,3 @@ Consumers pin exact versions/digests. Deprecation never removes an asset from an
 ## 16. Source record
 
 Project contents, IndexedDB, cloud databases/object storage, versioning, collaboration, public sharing, reusable libraries, comments, and documentation are required or proposed by the source PDF. [Source PDF, pp. 31-32, 41-42] CRDT selection, immutable version mechanics, exact conflict policy, package-version independence, optional footprint boundary, and retention workflow are repository decisions supporting REQ-006, REQ-031, REQ-037, and REQ-038.
-

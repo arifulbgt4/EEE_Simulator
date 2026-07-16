@@ -6,7 +6,7 @@ Deliver the complete **Project format and lifecycle** capability for release R1,
 
 ## Requirements and release
 
-- Requirements: REQ-005, REQ-006, REQ-023, REQ-038
+- Requirements: REQ-005, REQ-006, REQ-023, REQ-038, REQ-050, REQ-051, REQ-052, REQ-053, REQ-058, REQ-059
 - Release: R1
 - Entry: Gate G0 documentation baseline.
 
@@ -36,3 +36,5 @@ Deliver the complete **Project format and lifecycle** capability for release R1,
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] `.eesim` locks exact scientific-model/device/symbol/pin/package/binding/board/system/benchmark revisions and hashes; mutable aliases cannot change prior projects.
+- [ ] Guest/account ownership and sync metadata remain outside portable scientific identity.

@@ -8,13 +8,15 @@ Stable identifiers and the requirement/fixture test inventory are defined by the
 
 ## Quality principles
 
-1. A symbol is not a simulation model.
-2. A converged answer is not automatically a correct answer.
-3. Every result must identify its engine, engine version, model version, fidelity level, settings, seed, and limitations.
-4. Every released component must have a golden circuit, expected results, tolerance, and failure cases.
-5. Local and cloud execution must use the same normative request and result contracts.
-6. Randomized analyses must be reproducible from a stored seed.
-7. Accuracy claims apply only inside a documented operating envelope.
+1. Applied Physics evidence follows principle -> equation -> numerical method -> model -> composed artifact -> physical validation; a plausible display is not evidence.
+2. A symbol is not a simulation model, and a package is not a device, board, or system.
+3. A converged answer is not automatically a correct answer.
+4. Every result must identify its engine, engine version, exact model/dependency revisions, fidelity level, settings, seed, environment, evidence status, and limitations.
+5. Every released component must have a golden circuit, expected results, tolerance, failure cases, provenance, validity range, and accuracy/uncertainty envelope.
+6. Local and cloud execution must use the same normative request, resolved-definition, and result contracts.
+7. Randomized analyses must be reproducible from a stored seed.
+8. Accuracy claims apply only inside a documented operating envelope and cannot show false precision.
+9. Differential simulator agreement is not a substitute for physical correlation when a physical claim is made.
 
 ## Evidence layers
 
@@ -31,6 +33,8 @@ Stable identifiers and the requirement/fixture test inventory are defined by the
 | Security testing | Contain untrusted content | Sandbox, quotas, parser abuse, authorization, and tenant isolation |
 | Accessibility testing | Make the laboratory operable without pointer/color dependence | Keyboard, focus, screen-reader, contrast, and nonvisual waveform summaries |
 | Visual/package conformance | Keep physical views recognizable and electrically correct | Golden renders, resolved package revision/parameters, concrete `DevicePackageBinding`, dimensions, orientation marks, color/label rules, and symbol-to-package pin equivalence |
+| Schema and lineage conformance | Keep data-driven definitions scientifically and historically resolvable | Kinds, dimensions, immutable revisions, hashes, dependency DAG, reverse dependencies, provenance, trust, license, publication state, and principle-to-result lineage |
+| Physical benchmark correlation | Bound real-world claims against measurements | Exact specimen/BOM, calibrated equipment, environment, procedure, immutable raw data, model revisions, error calculation, uncertainty budget, envelope, and limitations |
 
 ## Component release workflow
 
@@ -58,7 +62,7 @@ stateDiagram-v2
 | F1 Ideal/equation | Analytical result, dimensional check, limiting cases, zero/extreme parameter behavior |
 | F2 Behavioral/timing | Truth table or transfer function, delay and state transition tests, X/Z/contention behavior where digital |
 | F3 Compact/macro | DC sweep, transient, AC where applicable, reference-engine comparison, convergence envelope |
-| F4 Electrothermal/failure | Power balance, temperature transient, limit crossing, derating, each documented failure state |
+| F4 Applied Physics/real-world | Non-ideal electrical effects, power/thermal balance, environment, manufacturing variation, aging, interconnect/source/instrument loading, limit crossing, each documented failure state, category uncertainty, and physical correlation where claimed |
 | F5 Physical/research | Published or independently reproduced reference dataset and explicit research-only limitations |
 
 ## Mandatory failure suites
@@ -72,6 +76,9 @@ The regression corpus must include:
 - Over-power, over-voltage, over-current, breakdown, thermal runaway, open, short, degraded, leakage-increase, and intermittent failures.
 - Malformed archives, unsupported schema versions, failed migrations, missing model assets, storage quota exhaustion, and corrupted checkpoints.
 - Worker timeout, cancellation, retry, worker crash, duplicate event delivery, out-of-order stream chunk, expired authorization, and cross-tenant access attempts.
+- Invalid or missing dimensions, ambiguous constants, inverted validity ranges, dependency cycles, missing revisions, incompatible inheritance overrides, incomplete pin bindings, package-as-board type errors, mutable published revisions, and hard deletion of referenced records.
+- Missing/expired calibration, incomplete physical-fixture metadata, raw-data digest mismatch, result outside model validity, false-precision formatting, unsupported scientific claims, and incomplete principle-to-result lineage.
+- Arbitrary executable stored content, unknown executable capability, imported-model trust/license quarantine, direct engine/database coupling, unsafe guest migration, offline/cloud conflict, and unauthorized system-library publication.
 
 ## Test artifact requirements
 
@@ -84,6 +91,7 @@ Each test case records:
 - Expected scalar values, waveform features, event ordering, thermal/failure outcomes, and permitted error.
 - Human-readable reason for the tolerance and the source of reference data.
 - Result status, execution date, environment fingerprint, and regression owner.
+- For physical correlation: specimen count/identity, manufacturer ordering codes and packages, equipment/calibration, ambient/enclosure/airflow, immutable raw-data references, processing revision, error calculation, uncertainty components, correlation status, and evidence reviewer.
 
 ## Review gates
 

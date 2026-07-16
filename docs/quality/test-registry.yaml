@@ -3,9 +3,9 @@ schema_version: 1.0.0
 registry_id: eesim-test-registry
 status: Specified documentation baseline
 counts:
-  requirement_tests: 38
-  golden_tests: 54
-  enumerated_tests: 92
+  requirement_tests: 63
+  golden_tests: 66
+  enumerated_tests: 129
 derived_atomic_test_policy: TEST-<TASK-ID>-NOMINAL/BOUNDARY/FAILURE or ACCEPTANCE/FAILURE
   as defined by docs/tasks/ATOMIC_TASK_CONTRACT.md
 requirement_tests:
@@ -248,6 +248,156 @@ requirement_tests:
   status: Specified
   expected_evidence: GRC-051..054, pin-equivalence and custom-package conformance
     suites
+  gate: G1/G7
+- id: TEST-REQ-039
+  requirement: REQ-039
+  title: Applied Physics First
+  status: Specified
+  expected_evidence: Project description, ADR-0011, normative principle and exact R0-R13 roadmap audit
+  gate: G0/G4
+- id: TEST-REQ-040
+  requirement: REQ-040
+  title: Formal physics model contract and registry
+  status: Specified
+  expected_evidence: Model-registry schema, kind discrimination and required-field conformance
+  gate: G0/G4
+- id: TEST-REQ-041
+  requirement: REQ-041
+  title: Units and dimensional validation
+  status: Specified
+  expected_evidence: Canonical-SI and invalid/missing/incompatible-dimension rejection suite
+  gate: G0/G4
+- id: TEST-REQ-042
+  requirement: REQ-042
+  title: Validity, provenance, trust, and limitations
+  status: Specified
+  expected_evidence: Publication rejection for incomplete provenance, trust, validity or limitations
+  gate: G0/G4
+- id: TEST-REQ-043
+  requirement: REQ-043
+  title: Model accuracy and uncertainty
+  status: Specified
+  expected_evidence: Category envelope, uncertainty budget and false-precision review
+  gate: G4
+- id: TEST-REQ-044
+  requirement: REQ-044
+  title: Experimental correlation and physical benchmarks
+  status: Specified
+  expected_evidence: GRC-055..066 metadata, raw-evidence and correlation contract audit
+  gate: G4
+- id: TEST-REQ-045
+  requirement: REQ-045
+  title: Real-world electrical, thermal, and environmental behavior
+  status: Specified
+  expected_evidence: GRC-021, GRC-022, and GRC-026 at G4; preserved GRC-023..025 specifications remain scheduled for R7; plus environmental/electrothermal physical fixtures
+  gate: G4
+- id: TEST-REQ-046
+  requirement: REQ-046
+  title: Manufacturing variation, statistics, and aging
+  status: Specified
+  expected_evidence: Seeded variation, correlation, stress-history and aging-state suite
+  gate: G4
+- id: TEST-REQ-047
+  requirement: REQ-047
+  title: Failure, interconnection, source, and instrument physics
+  status: Specified
+  expected_evidence: Threshold failure, loading, parasitic, source and instrument evidence
+  gate: G4
+- id: TEST-REQ-048
+  requirement: REQ-048
+  title: Hierarchical model taxonomy and acyclic dependencies
+  status: Specified
+  expected_evidence: Kind/schema conformance, exact revision resolution and dependency-cycle rejection
+  gate: G1/G4
+- id: TEST-REQ-049
+  requirement: REQ-049
+  title: Generic-device and vendor-variant inheritance
+  status: Specified
+  expected_evidence: Base-reference, bounded override, evidence and market-ingestion suite
+  gate: G1/G7
+- id: TEST-REQ-050
+  requirement: REQ-050
+  title: Symbol, package, pin-profile, and binding orthogonality
+  status: Specified
+  expected_evidence: Type separation, package-content rejection and pin-equivalence suite
+  gate: G1
+- id: TEST-REQ-051
+  requirement: REQ-051
+  title: Board and module schema
+  status: Specified
+  expected_evidence: Exact device revision composition and board-not-package conformance
+  gate: G1
+- id: TEST-REQ-052
+  requirement: REQ-052
+  title: System and project revision composition
+  status: Specified
+  expected_evidence: Exact immutable system/project dependency and round-trip suite
+  gate: G1/G9
+- id: TEST-REQ-053
+  requirement: REQ-053
+  title: End-to-end model lineage
+  status: Specified
+  expected_evidence: Bidirectional principle-to-result lineage and missing-lineage rejection
+  gate: G1/every release
+- id: TEST-REQ-054
+  requirement: REQ-054
+  title: Library Service and storage-independent engine
+  status: Specified
+  expected_evidence: Resolved-bundle conformance and direct engine/database dependency audit
+  gate: G1
+- id: TEST-REQ-055
+  requirement: REQ-055
+  title: Mixed storage responsibility
+  status: Specified
+  expected_evidence: PostgreSQL/JSONB/object/IndexedDB responsibility and repository-boundary audit
+  gate: G1/G10
+- id: TEST-REQ-056
+  requirement: REQ-056
+  title: Declarative models and executable-kernel boundary
+  status: Specified
+  expected_evidence: Arbitrary stored execution rejection and allowlisted sandbox capability suite
+  gate: G1/G7
+- id: TEST-REQ-057
+  requirement: REQ-057
+  title: Minimal Google OIDC with guest preservation
+  status: Specified
+  expected_evidence: OIDC contract/security review plus unauthenticated guest/offline path
+  gate: G1/G6
+- id: TEST-REQ-058
+  requirement: REQ-058
+  title: Guest migration and personal cloud persistence
+  status: Specified
+  expected_evidence: Idempotent non-destructive migration, conflict, quota and offline suite
+  gate: G1/G6
+- id: TEST-REQ-059
+  requirement: REQ-059
+  title: Immutable revisions and publication lifecycle
+  status: Specified
+  expected_evidence: Published mutation rejection, content identity and supersession suite
+  gate: G1
+- id: TEST-REQ-060
+  requirement: REQ-060
+  title: System- and user-library permissions
+  status: Specified
+  expected_evidence: System steward and private user lifecycle authorization matrix
+  gate: G1/G10
+- id: TEST-REQ-061
+  requirement: REQ-061
+  title: Safe CRUD and dependency-aware retirement
+  status: Specified
+  expected_evidence: Hard-delete rejection, soft-delete history and reverse-dependency suite
+  gate: G1
+- id: TEST-REQ-062
+  requirement: REQ-062
+  title: Versioned Library Service API
+  status: Specified
+  expected_evidence: Operation/schema/auth/concurrency/idempotency/audit contract suite
+  gate: G1/G10
+- id: TEST-REQ-063
+  requirement: REQ-063
+  title: Imported-model trust and licensing
+  status: Specified
+  expected_evidence: Source/hash/license/trust/parser/sandbox/publication quarantine suite
   gate: G1/G7
 golden_tests:
 - id: TEST-GRC-001
@@ -892,3 +1042,207 @@ golden_tests:
   status: Specified
   expected_evidence: Same component/model/binding identity, nets and results across views;
     interface anchor preservation and binding-revision round trip
+- id: TEST-GRC-055
+  fixture: GRC-055
+  validation_task: VAL-GRC-055
+  title: Physical resistor divider
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured loaded voltage, source/instrument loading, tolerance and uncertainty envelope
+- id: TEST-GRC-056
+  fixture: GRC-056
+  validation_task: VAL-GRC-056
+  title: Physical RC charging and discharging
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured time constant, source/probe loading, parasitics, temperature and uncertainty
+- id: TEST-GRC-057
+  fixture: GRC-057
+  validation_task: VAL-GRC-057
+  title: Physical RL transient
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured current rise, winding resistance, source limit, probe bandwidth and uncertainty
+- id: TEST-GRC-058
+  fixture: GRC-058
+  validation_task: VAL-GRC-058
+  title: Physical RLC resonance
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured resonance, damping, ESR/ESL, source/instrument bandwidth and uncertainty
+- id: TEST-GRC-059
+  fixture: GRC-059
+  validation_task: VAL-GRC-059
+  title: Physical diode rectifier
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured conduction, ripple, source impedance, junction temperature and model envelope
+- id: TEST-GRC-060
+  fixture: GRC-060
+  validation_task: VAL-GRC-060
+  title: Physical LED current and heating
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured current, forward voltage, thermal rise, tolerance and bounded optical limitation
+- id: TEST-GRC-061
+  fixture: GRC-061
+  validation_task: VAL-GRC-061
+  title: Physical BJT switch
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured cutoff/saturation, base drive, delay, heating and device variation
+- id: TEST-GRC-062
+  fixture: GRC-062
+  validation_task: VAL-GRC-062
+  title: Physical MOSFET switch
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured gate transient, on loss, source/load parasitics, junction heating and variation
+- id: TEST-GRC-063
+  fixture: GRC-063
+  validation_task: VAL-GRC-063
+  title: Physical op-amp amplifier
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured gain, offset, bandwidth, clipping, supply behavior and probe loading
+- id: TEST-GRC-064
+  fixture: GRC-064
+  validation_task: VAL-GRC-064
+  title: Physical regulator load response
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured regulation, dropout, transient response, ripple, current limit and heating
+- id: TEST-GRC-065
+  fixture: GRC-065
+  validation_task: VAL-GRC-065
+  title: Physical oscillator
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured startup, frequency, duty, amplitude, drift, loading and uncertainty
+- id: TEST-GRC-066
+  fixture: GRC-066
+  validation_task: VAL-GRC-066
+  title: Physical thermal overload circuit
+  requirements:
+  - REQ-039
+  - REQ-040
+  - REQ-041
+  - REQ-042
+  - REQ-043
+  - REQ-044
+  - REQ-045
+  - REQ-046
+  - REQ-047
+  release: R4
+  status: Specified
+  expected_evidence: Measured power-to-temperature feedback, derating threshold, runaway/failure state and uncertainty

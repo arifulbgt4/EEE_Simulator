@@ -16,7 +16,7 @@
 ## Exact prerequisites
 
 - `PLAT-QA-001`
-- `Gate G4 realism`
+- `Gate G4 Applied Physics and Real-World Fidelity`
 - `CMP-DIGITAL-LOGIC-ARITHMETIC-LOGIC-SHARED-F2-VALIDATION`
 
 Every named task must be `Done` and every named predecessor gate accepted before this card may become `Ready`.

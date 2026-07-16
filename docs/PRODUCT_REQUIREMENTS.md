@@ -4,7 +4,7 @@
 
 This document defines the stable product requirements for the documentation baseline. The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-- Requirement IDs `REQ-001` through `REQ-038` are permanent and must not be renumbered or reused.
+- Requirement IDs `REQ-001` through `REQ-063` are permanent and must not be renumbered or reused.
 - Each requirement includes its source basis. `[Source PDF, p. N]` refers to *Web-based Electronics and Computer Simulation Platform*, 44 pages.
 - Architecture details are delegated to linked contracts and accepted ADRs.
 - Verification links are maintained in [Requirements Traceability Matrix](quality/REQUIREMENTS_TRACEABILITY_MATRIX.md).
@@ -180,6 +180,112 @@ Every released basic component variant MUST provide an original, scalable physic
 ### REQ-038 - Reusable IC package library and parametric package designer
 
 Integrated-circuit function, schematic symbol, electrical model, physical package, and optional PCB-footprint metadata MUST be separate, versioned definitions joined by stable bindings. The platform MUST provide a reusable package library and a parametric package designer capable of defining a distinct visual package for each IC variant, including body dimensions and style, lead or pad geometry, pin count and numbering, pin names, spacing or pitch, orientation marker, notch or pin-one dot, exposed or thermal pad, labels, colors, and package-specific limits. A device MAY bind to several packages and a package MAY be reused by several devices; changing appearance MUST NOT silently alter electrical pin mapping. Package validation MUST diagnose duplicate, missing, out-of-range, or unmapped pins, and the initial package taxonomy MUST cover through-hole, gull-wing, leadless, grid-array, and transistor or power-package forms without claiming a PCB-layout editor. [Source basis for component records, custom models, hierarchy, and reusable component libraries: PDF, pp. 26-27, 29-32; the package-definition separation, parametric designer, and validation rules are repository decisions.]
+
+## Applied Physics and scientific model governance
+
+### REQ-039 - Applied Physics First
+
+The platform MUST follow the normative progression **Physical Principles -> Mathematical Models -> Engineering Equations -> Numerical Algorithms -> Primitive Models -> Composite Models -> Library Devices -> Circuits and Boards -> Complete Systems -> Experimental Validation**. Physics MUST inform every fidelity tier; R4 applies the real-world effects that are intentionally simplified in earlier tiers and MUST NOT be treated as the first point at which physics exists. [User architecture brief, 2026-07-16; Source PDF, pp. 1-12, 27-30, 39-41]
+
+### REQ-040 - Formal physics model contract and registry
+
+Every governed model MUST have a stable ID, immutable revision identity, model kind, governing principles, equations or algorithm reference, parameters, dimensions, dependencies, supported analyses, fidelity, validity domain, provenance, accuracy statement, uncertainty statement, limitations, and validation status. The versioned model registry MUST distinguish `physics`, `primitive`, `composite`, `behavioral`, and `external_adapter` kinds without claiming unenumerated model inventory. [User architecture brief, 2026-07-16; Source PDF, pp. 5-12, 20-21, 26-28, 40]
+
+### REQ-041 - Units and dimensional validation
+
+Normative numeric model parameters, equations, ports, stimuli, measurements, and benchmark assertions MUST declare dimensions and canonical unprefixed SI units. Import and authoring workflows MUST reject incompatible dimensions, preserve an explicit unit-conversion record, and keep display prefixes separate from internal values. Dimensionless quantities MUST be marked explicitly rather than represented by an absent unit. [User architecture brief, 2026-07-16; Source PDF, pp. 5-11, 27-30]
+
+### REQ-042 - Validity, provenance, trust, and limitations
+
+Every model revision MUST declare its applicable operating ranges, unsupported conditions, source type, source locator and version, license or redistribution status, author or steward, trust level, validation state, and known limitations. Missing, expired, contradictory, or unverifiable provenance MUST prevent system-library publication and MUST remain visible for user-library imports. [User architecture brief, 2026-07-16; Source PDF, pp. 5-9, 20-21, 26-28, 40-41]
+
+### REQ-043 - Model accuracy and uncertainty
+
+Every released model MUST state what reference it was compared with, the metrics and operating envelope used, observed error, numerical tolerance, parameter or measurement uncertainty, and whether the result is verified, correlated, estimated, or unknown. The product MUST NOT present more significant precision or a broader accuracy claim than its evidence supports. [User architecture brief, 2026-07-16; Source PDF, pp. 9-12, 39-41]
+
+### REQ-044 - Experimental correlation and physical benchmarks
+
+The quality system MUST define reproducible physical benchmark fixtures with device identity, specimen count, equipment, calibration status, wiring and environment, stimulus, procedure, raw-data location, processing method, expected envelope, uncertainty budget, model revision, and reproducibility manifest. Correlation evidence MUST be versioned and MUST NOT be inferred from a simulation-to-simulation comparison alone. [User architecture brief, 2026-07-16; Source PDF, pp. 30-31, 37, 39-41]
+
+### REQ-045 - Real-world electrical, thermal, and environmental behavior
+
+R4 MUST preserve the existing tolerance, non-ideal, parasitic, noise, electrothermal, derating, aging, and failure scope and expand it with explicit environment inputs, coupled heat flow, ambient and enclosure assumptions, humidity or pressure where applicable, and declared approximation limits. Models MUST couple these effects only at a documented fidelity and timestep policy. [User architecture brief, 2026-07-16; Source PDF, pp. 1, 3, 5-12, 33, 39-41]
+
+### REQ-046 - Manufacturing variation, statistics, and aging
+
+Applicable model revisions MUST define manufacturing distributions, correlations, lot or process assumptions, tolerance truncation, mismatch, deterministic seeds, sample counts, aging mechanisms, stress history, drift, and end-of-life criteria. Statistical results MUST retain the exact model and parameter revisions used. [User architecture brief, 2026-07-16; Source PDF, pp. 8-11, 24, 30-31, 33]
+
+### REQ-047 - Failure, interconnection, source, and instrument physics
+
+R4 MUST specify applicable overstress and failure transitions; wires, contacts, connectors, cables, breadboards, and package interconnect parasitics; source impedance, regulation, ripple, capacity, and transient limits; and instrument input impedance, bandwidth, loading, noise, resolution, and clipping. Ideal sources, wires, and instruments MAY exist only when their idealization is explicit. [User architecture brief, 2026-07-16; Source PDF, pp. 5-11, 22-23, 30-31, 33, 37]
+
+## Hierarchical model and device library
+
+### REQ-048 - Hierarchical model taxonomy and acyclic dependencies
+
+The library MUST distinguish physics models, primitive models, composite models, behavioral models, external-engine adapters, generic devices, vendor devices or variants, symbols, packages, pin profiles, bindings, boards or modules, systems, user projects, and validation artifacts. Composite dependency graphs MUST use exact immutable revisions and MUST reject cycles, missing nodes, incompatible ports, and unsupported fidelity transitions. [User architecture brief, 2026-07-16; Source PDF, pp. 2, 13-21, 26-29, 31-37]
+
+### REQ-049 - Generic-device and vendor-variant inheritance
+
+Market-scale ingestion MUST reuse a validated generic device or family model and create vendor or ordering-code variants through bounded parameter overrides, package and pin bindings, metadata, and evidence. Every override MUST name its source and validation state; inheritance MUST reject unknown, dimensionally incompatible, out-of-range, or contract-changing overrides. Complete internal circuits MUST NOT be duplicated solely for vendor ordering codes. [User architecture brief, 2026-07-16; Source PDF, pp. 6-8, 20, 26-27, 32-36]
+
+### REQ-050 - Symbol, package, pin-profile, and binding orthogonality
+
+Electrical or functional models, schematic symbols, physical packages, pin profiles, device-package bindings, boards, and systems MUST remain independently versioned records. A package MUST describe mechanical appearance and terminals only; it MUST NOT contain a device, board, module, or system. A binding MUST prove complete, one-to-one or explicitly aliased pin mapping and MUST diagnose every missing, duplicate, incompatible, or out-of-range mapping. [User architecture brief, 2026-07-16; Source PDF, pp. 22-23, 26-32]
+
+### REQ-051 - Board and module schema
+
+A board or module revision MUST compose exact device, binding, connector, subcircuit, asset, and firmware references with explicit ports and configuration. A board is not a package; for example, an Arduino Uno-class artifact is a board that may contain an ATmega328P-class device and other devices, packages, and interconnects. [User architecture brief, 2026-07-16; Source PDF, pp. 16, 21, 26-27, 29, 31-37]
+
+### REQ-052 - System and project revision composition
+
+A system revision MUST compose exact board, device, subsystem, stimulus, environment, and software revisions through declared interfaces. Every saved simulation and user project MUST resolve all mutable aliases to immutable revision IDs and content hashes so later library publication cannot silently change prior results. [User architecture brief, 2026-07-16; Source PDF, pp. 16-21, 25-29, 35-37, 40]
+
+### REQ-053 - End-to-end model lineage
+
+For every simulation result, the platform MUST be able to traverse from physical principle and governing model through primitive or composite dependencies, generic and vendor devices, symbol/package/pin binding, board or system composition, project revision, execution engine, benchmark evidence, and result artifact. Missing lineage MUST be reported as a publication or reproducibility failure. [User architecture brief, 2026-07-16; Source PDF, pp. 20-21, 26-28, 35-37, 40-41]
+
+## Data-driven library, persistence, and identity
+
+### REQ-054 - Library Service and storage-independent engine
+
+Clients, importers, administrative tools, and simulation preparation MUST access governed library records through a versioned Library Service contract. The simulation engine MUST consume a validated, resolved `ComponentDefinitionPlan` or equivalent execution bundle and MUST NOT depend directly on PostgreSQL, a document database, object storage, or IndexedDB. Storage is a source of governed data, not a simulation engine. [User architecture brief, 2026-07-16; Source PDF, pp. 25-29, 31-32, 39-40]
+
+### REQ-055 - Mixed storage responsibility
+
+The hosted architecture MUST initially use PostgreSQL for identities, ownership, permissions, stable metadata, revisions, dependency edges, publication state, audit records, and searchable indexes; PostgreSQL `JSONB` MAY store validated evolving definitions when indexed query and transaction requirements are met. S3-compatible storage MUST hold large immutable archives, assets, raw datasets, and waveforms; IndexedDB MUST support local projects, cache, and offline outbox state. A separate document database requires a superseding ADR proving that PostgreSQL `JSONB` is insufficient. [User architecture brief, 2026-07-16; Source PDF, pp. 25-26, 31-32, 39]
+
+### REQ-056 - Declarative models and executable-kernel boundary
+
+Database- and archive-resident model content MUST be declarative, schema-validated, dimensionally validated, resource-bounded, and compiled into approved execution plans. Native, WASM, HDL, SPICE, equation, or external-adapter kernels MUST be selected from an allowlisted capability registry and run under the applicable sandbox. Arbitrary executable database content MUST be prohibited. [User architecture brief, 2026-07-16; Source PDF, pp. 21-29, 35-36, 39-40]
+
+### REQ-057 - Minimal Google OIDC with guest preservation
+
+An early personal-account release MUST support Google OIDC through a provider-neutral identity interface while preserving a fully usable guest/offline path. Authentication MUST use standards-based issuer, audience, nonce, state, PKCE where applicable, verified email claims, session rotation, logout, and account-linking rules; it MUST NOT move organization, enterprise RBAC, or advanced collaboration scope out of R10. [User architecture brief, 2026-07-16; Source PDF, pp. 31-32, 41-42]
+
+### REQ-058 - Guest migration and personal cloud persistence
+
+Users MUST be able to keep projects only on their device, opt into a personal cloud account, and transactionally migrate selected guest projects without duplicate ownership, silent overwrite, or loss of local data. Sync MUST define revision comparison, conflict copies or explicit resolution, retry and idempotency, quota failure, account unlinking, export, and continued offline access. [User architecture brief, 2026-07-16; Source PDF, pp. 25-26, 31-32, 41-42]
+
+### REQ-059 - Immutable revisions and publication lifecycle
+
+Published model, device, package, binding, board, system, and benchmark revisions MUST be immutable, content-addressable, auditable, and replaceable only through a new revision with explicit supersession or deprecation metadata. Drafts MAY change until publication, but project and result references MUST resolve to an immutable revision. [User architecture brief, 2026-07-16; Source PDF, pp. 26-28, 31-32, 40-41]
+
+### REQ-060 - System- and user-library permissions
+
+System-library publication MUST require authorized stewardship, schema and dimensional conformance, provenance and license review, dependency closure, validation evidence, and audit records. User libraries MUST support private drafts, duplication, validation, publication where policy permits, archive, restore, and export without granting clients unrestricted database access. [User architecture brief, 2026-07-16; Source PDF, pp. 26-27, 31-32, 40-42]
+
+### REQ-061 - Safe CRUD and dependency-aware retirement
+
+Library operations MUST provide validated create, read, revise, compare, publish, deprecate, supersede, archive, soft-delete, restore, duplicate, dependency resolution, reverse-dependency resolution, reference migration, import, and export. Referenced or published records MUST NOT be hard-deleted; retirement MUST preserve historical resolution and identify compatible replacements where available. [User architecture brief, 2026-07-16; Source PDF, pp. 26-28, 31-32, 40-42]
+
+### REQ-062 - Versioned Library Service API
+
+The Library Service MUST specify versioned endpoints or messages for search, exact-revision retrieval, dependency and reverse-dependency traversal, draft creation, validation, comparison, publication, deprecation, supersession, archive, soft deletion, restore, import, export, and resolution into an engine-ready bundle. Every write MUST enforce authorization, schema, dimensions, dependency closure, provenance, license policy, publication policy, optimistic concurrency, and audit logging. [User architecture brief, 2026-07-16; Source PDF, pp. 25-29, 31-32, 39-42]
+
+### REQ-063 - Imported-model trust and licensing
+
+Every imported model MUST retain source, content hash, declared and detected format, license or unknown-license state, redistribution permission, trust level, validation status, parser diagnostics, executable-mode classification, dependency closure, and sandbox policy. Untrusted, unlicensed, or unvalidated imports MUST NOT enter the system library or execute outside the declared isolation boundary. [User architecture brief, 2026-07-16; Source PDF, pp. 20-21, 26-28, 35-36, 39-40]
 
 ## Change control
 

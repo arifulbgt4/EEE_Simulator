@@ -16,7 +16,7 @@
 ## Exact prerequisites
 
 - `PLAT-QA-001`
-- `Gate G4 realism`
+- `Gate G4 Applied Physics and Real-World Fidelity`
 - `CMP-DIGITAL-LOGIC-DIGITAL-PORT-SHARED-F2-VALIDATION`
 - `PLAT-MIX-012`
 

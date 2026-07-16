@@ -15,7 +15,7 @@ Each phase has four parallel tracks:
 
 **Outcome:** A decision-complete source of truth suitable for contributors and small AI agents.
 
-- Freeze product scope, architecture, public contracts, 162-family/502-variant registry, separate package registry, realistic physical-appearance contract, fidelity policy, accuracy targets, and open-source boundary.
+- Freeze product scope, Applied Physics First, architecture, public contracts, 162-family/502-variant component registry, scientific model registry, separate package registry, realistic physical-appearance contract, fidelity policy, accuracy/uncertainty targets, physical benchmark contract, and open-source boundary.
 - Create requirement, epic, atomic task, validation, risk, dependency, and release traceability.
 - Exit only when the R0 checklist has no missing required document, family, variant, task, or traceability link.
 
@@ -28,6 +28,8 @@ Each phase has four parallel tracks:
 - Implement original schematic symbols, recognizable physical/breadboard component views, reusable IC packages, symbol-to-package pin mapping, wire/junction/net rules, hierarchy, and subcircuits.
 - Define axial/radial, LED, transistor/power and IC package primitives plus a constrained parametric custom-package designer.
 - Implement `.eesim` manifest, local IndexedDB storage, autosave, import/export, schema validation, and migrations.
+- Establish the versioned Library Service contract, immutable revision/dependency foundation, declarative model ingestion, and exact model/device/package/board/system references.
+- Add optional provider-neutral Google OIDC, private personal cloud projects, explicit guest-to-account migration, and IndexedDB cache/outbox sync while preserving unauthenticated offline use. Organizations, team RBAC, invitations, collaboration, and public moderation remain R10.
 
 ## R2 - Linear analog foundation
 
@@ -47,14 +49,15 @@ Each phase has four parallel tracks:
 - Add AC analysis, compact-model import foundation, and reference-engine differential tests.
 - Validate GRC-011 through GRC-020.
 
-## R4 - Non-ideal, thermal, tolerance, and failure
+## R4 - Applied Physics and Real-World Fidelity
 
-**Outcome:** The product explains why a mathematically functioning circuit may fail physically.
+**Outcome:** The product connects validated physical principles and evidence to real-world circuit behavior and explains why a mathematically functioning circuit may perform differently, disturb its measurement, age, or fail physically.
 
-- Add tolerance distributions, Monte Carlo, leakage, ESR/ESL, parasitic R/C/L, noise foundation, power limits, thermal resistance/capacitance, derating, and aging metadata.
-- Add open, short, degraded, leakage-increase, intermittent, and breakdown failure behavior.
-- Add heat maps, power indicators, limit diagnostics, failure injection, and deterministic seeds.
-- Validate GRC-021, GRC-022, and GRC-026; catalog-bound power and protection fixtures GRC-023 through GRC-025 remain scheduled for R7.
+- Preserve tolerance distributions, Monte Carlo, leakage, ESR/ESL, parasitic R/C/L, noise, power limits, thermal resistance/capacitance, derating, aging, open/short/degraded/leakage/intermittent/breakdown failures, heat maps, power indicators, diagnostics, injection, and deterministic seeds.
+- Govern formal physics-model specifications, canonical SI dimensions, operating/validity ranges, approximation limits, provenance, trust, accuracy envelopes, uncertainty budgets, dependency lineage, and reproducibility manifests.
+- Add electrical/thermal/environmental coupling; manufacturing variation and mismatch; aging and stress history; wire/contact/connector/package interconnect; source impedance/regulation/ripple/capacity; and instrument loading/bandwidth/noise/resolution physics at declared fidelity.
+- Correlate the declared envelopes with versioned physical benchmark fixtures containing calibrated equipment, raw data, environment, procedure, specimen, uncertainty, model revision, and processing evidence.
+- Validate GRC-021, GRC-022, GRC-026, and GRC-055 through GRC-066 at G4. Preserve the specifications and dependencies for catalog-bound power/protection fixtures GRC-023 through GRC-025, whose execution evidence remains scheduled for R7. G5 and G6 cannot bypass applicable G4 behavior.
 
 ## R5 - Event-driven digital and mixed-signal
 
@@ -72,6 +75,7 @@ Each phase has four parallel tracks:
 - Complete guest/offline workflow, tutorials, reference projects, error guidance, accessibility, browser compatibility, performance, and security hardening.
 - Demonstrate LED, RC, rectifier, transistor switch, CMOS inverter, ring oscillator, NAND, SR latch, one-bit memory, half/full adder, and thermal failure.
 - Publish accuracy envelopes, known limitations, component coverage, release evidence, and migration policy.
+- Production-harden the optional personal account/cloud path, guest migration, private-project authorization, cache synchronization, quota behavior, export, and account unlinking without making sign-in mandatory.
 
 ## R7 - Complete production component catalog
 
@@ -80,6 +84,7 @@ Each phase has four parallel tracks:
 - Complete passives/magnetics, protection/isolation, power electronics, sensors, actuators, connectors/cables, instruments, digital logic, memory, MCU/FPGA peripherals, and RF/communications, including their required physical/package representations.
 - Complete SPICE, Verilog/SystemVerilog, Verilog-A/AMS, IBIS, Touchstone, CSV/PWL, VCD/FST, and HEX/ELF format work scheduled for this phase.
 - Validate GRC-023 through GRC-025, GRC-036 through GRC-040, plus every family-specific fixture.
+- Ingest market devices through generic-model inheritance, dimensionally valid bounded overrides, exact package/pin bindings, provenance, license, trust, and validation evidence; do not duplicate an internal circuit per ordering code or claim complete SKU coverage.
 
 ## R8 - Educational CPU
 

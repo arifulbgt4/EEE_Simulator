@@ -12,6 +12,8 @@ These are default acceptance limits for declared operating envelopes. A family s
 - Never compare only rounded display values.
 - Record solver method, tolerances, minimum/maximum timestep, iteration limits, initial conditions, and reference temperature.
 - Numerical warnings are part of the result contract and cannot be hidden by the UI.
+- Every numeric field declares a quantity kind and physical dimension. Dimensionless values are explicit; invalid or missing units are rejected before solving or comparing.
+- Stored and computed precision does not authorize displayed precision. Significant digits and intervals must reflect model, component, environmental, and measurement uncertainty.
 
 ## Default targets
 
@@ -31,6 +33,29 @@ These are default acceptance limits for declared operating envelopes. A family s
 | F4 dynamic thermal time constant | Within 5% |
 | Monte Carlo deterministic replay | Bit-identical sample parameters and pass/fail counts for same engine/version/seed |
 | Cross-engine logical outcomes | Exact pass/fail and state sequence |
+
+The F4 values above are default engineering targets only. Resistor networks, switching semiconductors, thermal systems, batteries, sensors, RF networks, instruments, and aging models may require different category-specific metrics and envelopes. A published model records its metric, reference, range, sample basis, uncertainty, observed error, and rationale; `unknown` or `uncorrelated` is preferable to an unsupported universal threshold.
+
+## Physical correlation and uncertainty
+
+- A physical benchmark separates model discrepancy, specimen/component tolerance, source uncertainty, instrument calibration and resolution, environmental variation, repeatability, and data-processing uncertainty.
+- Candidate and measured waveforms are aligned by documented physical events/timebase; the procedure cannot tune alignment after viewing residuals without versioning that choice.
+- Acceptance uses a declared category metric and combined uncertainty interval. A pass outside the model's validity range is prohibited even when numeric residual happens to be small.
+- A simulation-to-simulation comparison is `differentially verified`, not `physically correlated`.
+- Status values are `unverified`, `analytically_verified`, `differentially_verified`, `physically_correlated`, `estimated`, `out_of_validity`, or `rejected`; the evidence record explains any combination.
+- GRC-055 through GRC-066 cannot be marked passing until immutable calibrated measurement evidence exists.
+
+Example display policy:
+
+```text
+Voltage: 4.91 V
+Model fidelity: F4
+Estimated model uncertainty: +/- 1.8%
+Component tolerance: enabled
+Ambient temperature: 300.15 K (displayed as 27.0 degrees C)
+Validity status: within supported operating range
+Correlation status: physically correlated by GRC-055 revision <id>
+```
 
 ## Convergence contract
 
@@ -71,4 +96,3 @@ The engine must report the failing simulated time/frequency/parameter point, las
 | Research | F3-F5 with explicit engine configuration | Reproducible experiments; no blanket accuracy claim |
 
 The profile name is not evidence by itself. Each result must list the actual model and engine versions used.
-

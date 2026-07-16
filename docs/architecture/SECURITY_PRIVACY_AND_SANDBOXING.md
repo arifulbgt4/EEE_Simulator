@@ -1,5 +1,9 @@
 # Security, Privacy, and Sandboxing
 
+Stored library models are declarative and dimensionally/schema validated. Native, WASM, HDL, SPICE, equation-extension, or external-adapter execution requires an allowlisted versioned capability, provenance/license review, resource policy, and the applicable browser/server sandbox. Arbitrary database code, shell commands, dynamic host imports, outbound network, or host filesystem access are prohibited. Imported content retains source/hash/license/trust/validation/executable classification and remains quarantined until policy permits use or publication.
+
+Google sign-in uses OIDC behind a provider-neutral identity interface with issuer/audience/signature/nonce/state validation, PKCE where applicable, verified claim policy, session rotation, logout, linking, and audit. It is optional: guest/offline mode cannot be weakened. Guest-to-account migration is explicit, idempotent, non-destructive, authorization-checked, and conflict-visible. Organization/RBAC controls remain R10.
+
 Status: Normative  
 Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [API and Worker Protocols](./API_AND_WORKER_PROTOCOLS.md), [Open Source and Third-Party Licenses](./OPEN_SOURCE_AND_THIRD_PARTY_LICENSES.md)
 

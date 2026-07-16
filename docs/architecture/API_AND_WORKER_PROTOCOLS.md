@@ -1,5 +1,9 @@
 # API and Worker Protocols
 
+Library operations are a distinct versioned domain API defined in [Data-Driven Library and Storage Architecture](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md). Search, exact-revision retrieval, dependency/reverse-dependency traversal, draft, validate, compare, publish, deprecate, supersede, archive, soft-delete, restore, duplicate, import/export, reference migration, and execution-bundle resolution never expose unrestricted database CRUD. Every mutation enforces authorization, schema/dimensions, dependency closure, provenance/license/trust, publication policy, optimistic concurrency, idempotency where applicable, and audit logging.
+
+The worker `prepare` input contains the resolved immutable execution bundle and digest. A Worker MUST NOT call the Library Service or a storage system during numerical execution to resolve a mutable model alias; missing content is a preparation failure.
+
 Status: Normative  
 Related: [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md), [Simulation Engine](./SIMULATION_ENGINE.md), [Security, Privacy, and Sandboxing](./SECURITY_PRIVACY_AND_SANDBOXING.md)
 
@@ -43,6 +47,17 @@ The minimum resource paths are:
 | GET /v1/projects/{projectId} | authorized project snapshot |
 | POST /v1/projects/{projectId}/versions | publish immutable project version |
 | GET /v1/projects/{projectId}/versions/{versionId} | retrieve immutable version metadata |
+| GET /v1/library/search | search authorized system/user records with opaque cursor and kind filters |
+| GET /v1/library/{kind}/{logicalId}/revisions/{revisionId} | retrieve one exact immutable library revision and digest |
+| GET /v1/library/{kind}/{logicalId}/revisions/{revisionId}/dependencies | traverse exact dependency closure |
+| GET /v1/library/{kind}/{logicalId}/revisions/{revisionId}/reverse-dependencies | traverse authorized reverse dependencies |
+| POST /v1/library/{kind}/drafts | create a validated private draft |
+| POST /v1/library/{kind}/{logicalId}/drafts/{draftId}/validate | run schema, dimensions, dependencies, provenance, license and policy validation |
+| POST /v1/library/{kind}/{logicalId}/drafts/{draftId}/publish | publish one immutable revision after authorization and evidence gates |
+| POST /v1/library/{kind}/{logicalId}/revisions/{revisionId}/deprecate | deprecate with reason and optional compatible replacement |
+| POST /v1/library/{kind}/{logicalId}/revisions/{revisionId}/supersede | link a new immutable revision and compatibility statement |
+| POST /v1/library/{kind}/{logicalId}/archive | archive or soft-delete discovery state without breaking exact references |
+| POST /v1/library/resolve | resolve project/library references into a hash-locked `ComponentDefinitionPlan` |
 | POST /v1/imports | authorize and validate staged archive/model upload |
 | POST /v1/packages | create a custom package draft or publish an approved package version |
 | GET /v1/packages/{packageId}/versions/{version} | retrieve package definition and digest |
@@ -69,11 +84,11 @@ A **SimulationRequest** MUST include:
 - root seed and sampling contract when stochastic;
 - requested engine capability, not a client-selected server executable;
 - placement preference and local capability summary;
-- expected catalog, package-registry, model, and pin-map digests;
+- expected scientific-model, component, semantic-profile, parameter, package, pin-profile, device-binding, board/system, and benchmark digests;
 - optional checkpoint reference with compatibility requirements;
 - client request ID and idempotency key.
 
-The server or local planner resolves this into an immutable **ExecutionPlan**. Validation MUST reject missing package-pin equivalence when physical/breadboard connections participate in the project snapshot; view artwork itself never affects numerical execution.
+The server or local Library Service resolves this into an immutable **ComponentDefinitionPlan/ExecutionPlan**. Validation MUST reject a missing or mutable revision, digest mismatch, dependency cycle, invalid dimension/range, unsupported analysis/fidelity, unresolved semantic model plan, untrusted executable capability, or missing package-pin equivalence when physical/breadboard connections participate in the project snapshot; view artwork itself never affects numerical execution.
 
 ## 5. Job, attempt, and result
 

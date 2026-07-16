@@ -38,3 +38,7 @@ Deliver the complete **Quality traceability and release evidence** capability fo
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+
+## Applied Physics and library-quality coordination
+
+This epic retains its original R0 task identities and scope. The expanded documentation baseline is completed jointly with `EPIC-PHY-001`, `EPIC-LIB-001`, `EPIC-DATA-001`, and `EPIC-IDP-001`: `PLAT-PHY-002/003/007`, `PLAT-LIB-002/013/014`, and `PLAT-DATA-008` extend schema, dimensional, dependency, import-trust, physical-benchmark, count, and documentation-drift validation for `REQ-039` through `REQ-063`. `TEST-REQ-039..063` and `TEST-GRC-055..066` are part of the same release-evidence inventory. No original QA task is silently widened or renumbered.

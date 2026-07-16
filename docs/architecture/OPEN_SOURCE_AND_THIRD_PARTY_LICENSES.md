@@ -86,13 +86,15 @@ Every imported asset stores:
 - normalized logical-pin map and package binding;
 - supported analyses, fidelity, operating envelope, validation evidence, and limitations;
 - visibility and sharing policy independent of the containing project.
+- generic-device base revision, schema-authorized vendor overrides, trust/validation state, executable-mode classification, sandbox policy, and dependency closure when applicable.
 
 Default policy:
 
 - user-provided assets remain private to authorized users and are not redistributed by the public library;
 - an unknown, encrypted, click-through, or redistribution-restricted model cannot be published as a built-in asset;
 - a vendor name or part number does not imply endorsement, accuracy, or redistribution permission;
-- deleting a model removes authorized references according to retention policy but does not rewrite immutable historical evidence required by law/security policy;
+- a vendor ordering code does not justify copying the generic model, protected datasheet text/artwork, package drawing, or vendor model; inheritance and extracted facts remain bounded by source rights and evidence;
+- referenced or published model revisions are never hard-deleted; archive, soft deletion, quarantine, deprecation, and supersession remove new discovery/use while preserving authorized historical resolution and required evidence;
 - results retain model digests and provenance without exposing private model contents.
 
 ## 7. Standards, symbols, and physical packages

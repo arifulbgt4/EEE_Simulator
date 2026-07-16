@@ -7,11 +7,13 @@ Terms in this glossary are normative where they define project-specific semantic
 | Abstraction switching | Replacing a block's model with a more or less detailed representation while preserving declared boundary semantics. The source brief calls the overall idea hierarchical adaptive-fidelity simulation. [Source PDF, p. 16] |
 | AC analysis | Small-signal frequency-domain analysis of gain, phase, impedance, bandwidth, and resonance. [Source PDF, pp. 10-11] |
 | Accuracy envelope | The declared analyses, parameter range, reference, and maximum error within which a model is validated. |
+| Applied Physics First | The normative progression from physical principles through mathematical models, engineering equations, numerical algorithms, reusable models, devices, circuits/boards, complete systems, and experimental validation. Physics informs every fidelity tier. |
 | Analog/digital adapter | A boundary model that maps analog voltage to digital logic using thresholds/hysteresis or maps a digital output to non-ideal analog drive. [Source PDF, p. 28] |
 | Basic component | A production component variant explicitly classified in the registry for the beginner or Realistic Electronics MVP experience. Every released basic component requires both an electrically clear schematic symbol and a recognizable physical representation. |
 | Canonical family | A stable component concept in the registry, independent of manufacturer SKU or visual preset. |
 | Checkpoint | A versioned, engine-specific state from which a supported simulation job may resume. [Source PDF, pp. 27-28, 36] |
 | Component variant | A built-in preset or structural variation of a canonical family with a stable ID and shared or specialized models. |
+| Composite model | A versioned model whose behavior is composed from exact primitive, composite, behavioral, or adapter revisions through an acyclic dependency graph. |
 | CRDT | Conflict-free Replicated Data Type; the selected foundation for convergent concurrent editing and offline merge. |
 | DC operating point | A steady-state solution reporting supported node voltages, branch currents, and component power. [Source PDF, p. 10] |
 | Deterministic scheduler | The global integer-time coordinator that orders analog steps, digital events, clocks, thermal updates, RTL/external boundaries, and checkpoints reproducibly. [Source PDF, pp. 27-28, 40] |
@@ -21,6 +23,7 @@ Terms in this glossary are normative where they define project-specific semantic
 | Electrothermal coupling | Bidirectional interaction in which electrical power changes temperature and temperature changes electrical behavior. [Source PDF, pp. 5, 8-11] |
 | Engine adapter | A lifecycle boundary that discovers capabilities and validates, prepares, runs, streams, pauses, checkpoints, resumes, cancels, and disposes a simulation engine. |
 | External engine | A simulator, compiler, emulator, or analyzer invoked outside the Apache core, normally in an isolated worker process. |
+| Generic device | A reusable device or family definition that binds models, interfaces, and common parameters without claiming a specific manufacturer ordering code. |
 | F0 | Connectivity-only fidelity: topology, pins, nets, domains, and structural checks without behavioral simulation. |
 | F1 | Ideal/equation fidelity: analytical or simplified electrical behavior without full non-ideal effects. |
 | F2 | Behavioral/digital-timing fidelity: event, switch, timing, or functional behavior with declared delays and states. |
@@ -37,14 +40,21 @@ Terms in this glossary are normative where they define project-specific semantic
 | Logic `Z` | High-impedance digital state in which a driver does not actively drive the net. [Source PDF, p. 34] |
 | MNA | Modified Nodal Analysis; the matrix formulation used to solve node voltages and selected branch currents. [Source PDF, p. 9] |
 | Model binding | The association between a component variant, fidelity tier, supported analysis, and executable model implementation. |
+| Model lineage | The bidirectional, immutable chain from physical principle, model and dependencies through device/package/board/system/project/execution revisions to validation and result artifacts. |
+| Model registry | The versioned inventory of actually enumerated physics, primitive, composite, behavioral, and external-adapter models; it is separate from the 162-family/502-variant component registry. |
 | Model provenance | Source, author or organization, version, retrieval data, checksum, license, modifications, and validation evidence for a model. |
 | Monte Carlo analysis | Repeated seeded simulation using declared parameter distributions to estimate variation or yield. [Source PDF, p. 11] |
 | Non-ideal behavior | Real effects such as tolerance, leakage, parasitics, noise, saturation, breakdown, delay, and temperature dependence. [Source PDF, pp. 1, 3, 5-8] |
 | Offline-capable | Editing and supported local simulation that do not require network connectivity after the required client assets are available. [Source PDF, pp. 25-26, 31-32] |
 | Package definition | A reusable, versioned description of an IC or discrete-device body, leads or pads, pin numbering, pitch, orientation marks, labels, dimensions, and optional footprint metadata; it is separate from device function and electrical behavior. |
 | Package designer | The parametric editor for creating and validating package definitions and explicit device-to-package pin mappings. |
+| Board or module | A versioned composition of exact devices, bindings, connectors, interconnects, assets, and optional firmware with declared ports; it is not a package. |
+| Library Service | The storage-independent domain boundary that validates, revisions, searches, publishes, resolves dependencies, and produces an immutable engine-ready definition bundle. |
+| Primitive model | A smallest governed simulation behavior implemented by an approved equation or kernel and used directly or by composite models. |
 | Physical representation | An original, scalable rendering that resembles a real component body and its observable markings while remaining separate from the schematic symbol, electrical model, and dimensional-accuracy claims. [Source basis: PDF, pp. 22-23, 30-31] |
 | Project revision | An immutable content identity against which a simulation job, comment, comparison, or release result is bound. |
+| System | A versioned composition of boards, devices, subsystems, software, stimuli, and environments through explicit interfaces. |
+| Vendor device | A manufacturer or ordering-code revision that inherits an exact generic-device revision and adds bounded parameter overrides, package/pin binding, metadata, provenance, license, and validation evidence. |
 | Realistic Electronics MVP | The first production gate containing realistic browser electronics and eleven canonical demonstrations; CPU and GPU stages remain blocked until it passes. [Source PDF, p. 37] |
 | Release gate | A mandatory, evidence-based entry/exit checkpoint that prevents later product stages from beginning prematurely. |
 | SI base units | Canonical internal quantities represented in unprefixed SI units; display prefixes are a presentation concern. |

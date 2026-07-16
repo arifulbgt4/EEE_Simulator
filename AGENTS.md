@@ -12,6 +12,8 @@ This file is the mandatory workflow for human-directed AI agents working in this
 
 The source brief recommends staged delivery from components to circuits, logic, CPU blocks, small computers, and only then architecture-level systems. Do not skip those gates or silently widen the selected task. [Source PDF, pp. 32-41]
 
+For model or library work, also read [Applied Physics and Real-World Fidelity](docs/architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md), [Hierarchical Model and Library Architecture](docs/architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md), and [Data-Driven Library and Storage Architecture](docs/architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md). Preserve the complete principle-to-result lineage.
+
 ## One-task rule
 
 - Work on one atomic task at a time.
@@ -55,6 +57,10 @@ The source brief identifies model accuracy, numerical convergence, mixed-engine 
 - Cite derived source requirements with an explicit PDF page reference.
 - Use SI base units internally in normative examples; presentation prefixes are display concerns.
 - State assumptions, limits, provenance, fidelity, and unsupported analyses directly.
+- Store normative quantities in unprefixed SI units with explicit dimensions; reject incompatible units rather than guessing.
+- Reference immutable published revisions and content hashes; never hard-delete a referenced or published record.
+- Treat `behavioral` as the canonical public enum; `behavioural` is an import/display alias only.
+- Do not claim unenumerated model counts, market-wide coverage, or experimental accuracy without evidence.
 - Keep links relative and update inbound references when a document moves.
 - Mermaid diagrams must render in standard GitHub Markdown.
 - Do not copy IEC symbol artwork. Create original IEC/ANSI-aligned symbols and document provenance.
@@ -73,6 +79,14 @@ Agents must not contradict accepted ADRs without first adding a superseding ADR:
 - process isolation for external engines;
 - CRDT-based collaboration;
 - Apache-2.0 open-source core licensing.
+- Applied Physics First and the hard R4 Applied Physics and Real-World Fidelity gate;
+- hierarchical, acyclic model/device/board/system taxonomy with exact revision lineage;
+- orthogonal model, symbol, package, pin-profile, binding, board, and system records;
+- Library Service resolution into an engine-ready bundle with no direct engine-to-storage dependency;
+- PostgreSQL plus validated JSONB, object storage, and IndexedDB responsibilities;
+- declarative stored models and allowlisted, sandboxed executable kernels;
+- guest/offline access plus provider-neutral Google OIDC planning, with organization/RBAC scope retained in R10;
+- immutable publication and dependency-safe soft deletion.
 
 ## Verification and handoff
 

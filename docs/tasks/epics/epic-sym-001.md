@@ -6,7 +6,7 @@ Deliver the complete **Symbols physical appearance and package system** capabili
 
 ## Requirements and release
 
-- Requirements: REQ-022, REQ-023, REQ-037, REQ-038
+- Requirements: REQ-022, REQ-023, REQ-037, REQ-038, REQ-048, REQ-050
 - Release: R1
 - Entry: Gate G0 documentation baseline.
 
@@ -37,3 +37,4 @@ Deliver the complete **Symbols physical appearance and package system** capabili
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] Symbols, packages, pin profiles, and bindings remain orthogonal to models, devices, boards, and systems; package content-kind validation rejects category collapse.

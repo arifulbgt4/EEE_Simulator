@@ -79,6 +79,29 @@ Primary use cases:
 - Implement one model tier and concern at a time under an atomic task.
 - Compare the model against analytical results, source data, an accepted external engine, or a measured reference.
 - Publish accuracy limits and prevent release when the model has no golden validation. [Source PDF, p. 40]
+- Trace a device from governing principle through primitive/composite model dependencies, exact generic/vendor revision, symbol/package/pin binding, board/system/project, engine, and evidence.
+- Ingest a market ordering code by inheriting a reviewed generic device, applying only bounded dimensionally valid overrides, and attaching source/license/trust/validation metadata rather than copying the whole model.
+
+## Physical benchmark author or scientific reviewer
+
+**Goal:** Establish defensible real-world accuracy and uncertainty envelopes without changing evidence to fit a candidate model.
+
+Primary use cases:
+
+- Define an exact schematic, BOM/order codes, construction, source, instruments/calibration, environment, safe procedure, specimen count, and acceptance policy.
+- Preserve immutable raw observations and separate calibration/fitting data from holdout validation data.
+- Compare exact model/engine revisions with measurements, calculate error and uncertainty, classify validity/correlation, review limitations, and publish reproducibility evidence.
+- Reject false precision, expired calibration, unsupported validity, missing provenance, and a simulation-to-simulation result presented as physical correlation.
+
+## Guest or personal cloud user
+
+**Goal:** Keep complete control of local projects while optionally gaining private cloud persistence.
+
+Primary use cases:
+
+- Create, edit, simulate, export, and recover supported projects without signing in.
+- Optionally authenticate through Google OIDC, choose individual guest projects to migrate, and keep local data until cloud acknowledgement.
+- Continue offline, resolve sync conflicts explicitly, observe quota failures, export all content, and unlink an account without silently deleting local projects.
 
 ## Collaborator or reviewer
 
@@ -104,6 +127,16 @@ Primary use cases:
 - Investigate resource exhaustion, failed cleanup, or unauthorized access without exposing private project content.
 
 The source study places large SPICE, RTL compilation, architecture, GPU, Monte Carlo, and long thermal work on server workers and calls for queueing, streaming, storage, and checkpoint/resume. [Source PDF, pp. 25-26, 36]
+
+## System-library steward
+
+**Goal:** Publish and retire trusted shared records without breaking historical projects.
+
+Primary use cases:
+
+- Review schema, dimensions, dependency closure, provenance, license, trust, validation, accuracy/uncertainty, and limitations before immutable publication.
+- Compare revisions, resolve dependencies and reverse dependencies, deprecate or supersede with compatibility metadata, and archive or soft-delete without hard-deleting referenced records.
+- Reject arbitrary stored execution, unsafe imports, invalid inheritance, cyclic dependencies, and packages that contain device/board/system semantics.
 
 ## Authorization roles for hosted projects
 

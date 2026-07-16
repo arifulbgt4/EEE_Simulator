@@ -1,5 +1,7 @@
 # Multi-Fidelity and Co-Simulation
 
+Applied Physics informs every tier. F0-F3 are documented structural, idealized, behavioral, or compact approximations derived from physical/engineering contracts; R4/F4 adds required non-ideal, thermal, environmental, manufacturing, aging, interconnection, source, instrument, uncertainty, and failure behavior. A higher tier is not automatically more accurate outside its validated range. Exact model/dependency revisions, validity, evidence state, and limitations are part of every abstraction choice. See [Applied Physics and Real-World Fidelity](./APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md).
+
 Status: Normative  
 Related: [Simulation Engine](./SIMULATION_ENGINE.md), [API and Worker Protocols](./API_AND_WORKER_PROTOCOLS.md)
 

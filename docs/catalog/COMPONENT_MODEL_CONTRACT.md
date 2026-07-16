@@ -1,11 +1,13 @@
 # Component Model Contract
 
-Status: **Normative baseline 1.1**
-Requirements: **REQ-009, REQ-010, REQ-014, REQ-015, REQ-016, REQ-018, REQ-020, REQ-022, REQ-023, REQ-024, REQ-037, REQ-038**
+Status: **Normative baseline 1.2**
+Requirements: **REQ-009, REQ-010, REQ-014, REQ-015, REQ-016, REQ-018, REQ-020, REQ-022, REQ-023, REQ-024, REQ-037, REQ-038, REQ-039, REQ-040, REQ-041, REQ-042, REQ-043, REQ-048, REQ-049, REQ-050, REQ-053, REQ-054, REQ-056, REQ-059, REQ-063**
 
 ## Purpose
 
-This contract separates electrical meaning, simulation behavior, schematic appearance, physical appearance, package geometry, and optional manufacturing metadata. All engines, editors, importers, project files, and catalog tools must preserve these boundaries. [Source PDF, pp. 6-35]
+This contract separates physical/scientific models, electrical meaning, simulation behavior, schematic appearance, physical appearance, package geometry, boards/systems, and optional manufacturing metadata. All engines, editors, importers, Library Service operations, project files, and catalog tools must preserve these boundaries. [Source PDF, pp. 6-35]
+
+It is read with the [Applied Physics contract](../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md), [hierarchical library architecture](../architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md), [data-driven library architecture](../architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md), [scientific model registry](model-registry.yaml), [variant semantic profiles](variant-semantic-profiles.yaml), and [parameter-definition catalog](PARAMETER_DEFINITION_CATALOG.md). Registry presence is planning evidence only; unresolved executable bindings remain release-blocking.
 
 ## Normative entities
 
@@ -35,6 +37,8 @@ The compact registry stores family-owned defaults once and variant-owned overrid
 
 The normalized form MUST contain every required field named above. Missing compact fields mean “inherit by this rule,” never `null`, wildcard support, or implementer discretion. Normalized output and the source family/variant digests are recorded in project and result provenance.
 
+The [variant semantic profile](VARIANT_SEMANTIC_PROFILE_CONTRACT.md) selects the exact behavior selector, PinProfile, fidelity-specific model-plan references, parameter overrides, and nominal/boundary/failure obligations for each built-in variant. A semantic profile never creates an executable model by implication. Every unresolved `model-plan-*` reference blocks `Model Ready` and must later resolve through the Library Service to an immutable model revision in [model-registry.yaml](model-registry.yaml) or a validated imported model.
+
 ### PinProfile
 
 `PinProfile` is the normative topology selected by one built-in variant. Required fields are `id`, `revision`, `familyId`, `variantId`, `topologyStatus`, `pins`, `resolvedOrderRule`, `packageBindingRule`, and `limitations`. Every built-in variant resolves exactly one profile; profile IDs use `pinprof-<category>-<family>-<variant>` and are not derived from display names at runtime.
@@ -52,6 +56,12 @@ Required fields: `id`, `name`, `aliases`, `electricalType`, `domains`, `directio
 ### ParameterDefinition
 
 Required fields: `id`, `name`, `quantityKind`, `internalUnit`, `displayUnitHints`, `valueType`, `default`, `minimum`, `maximum`, `enumValues`, `expressionAllowed`, `temperatureDependency`, `validation`, and `description`. Numerical storage uses SI base units. Display prefixes do not alter stored values.
+
+Every compact-registry parameter occurrence resolves through [parameter-definitions.yaml](parameter-definitions.yaml). When legacy source data does not establish a dimension, unit, default, or limit, normalization records an explicit unresolved diagnostic and cannot invent a value. Ambiguous legacy tokens such as `FNU` remain quarantined until reviewed.
+
+### ScientificModelRevision
+
+Required fields are defined by [model-registry.yaml](model-registry.yaml): stable model ID, immutable revision ID and content digest, canonical `kind` (`physics`, `primitive`, `composite`, `behavioral`, or `external_adapter`), governing principles/equations or algorithm reference, assumptions, approximation, inputs/outputs/state, parameter references and dimensions, dependencies, analyses/fidelity, validity, numerical method, convergence expectations, failure conditions, provenance/license/trust, validation evidence, accuracy/uncertainty envelope, limitations, lifecycle, deprecation, and replacement. `behavioural` is accepted only as an import/display alias for canonical `behavioral`.
 
 ### ModelBinding
 
@@ -78,6 +88,14 @@ Required fields: `id`, `variantId`, `artworkRevision`, `geometryType`, `body`, `
 `PackageDefinition` owns reusable physical form: stable ID and immutable semantic `revision`, classification, mounting, body and contact dimensions in metres, lead form, parameterized pin-count rule, numbering, markings, materials, orientation, LOD, provenance, one primary golden fixture, limitations, and optional footprint reference. A binding identifies both package ID and revision; registry schema version alone is not a package revision.
 
 `DevicePackageBinding` owns `variantId`, `packageRevision`, explicit logical-to-package pin map, NC pins, exposed or thermal pads, package-parasitic profile, marking overrides, validation evidence, and effective date. Electrical function, symbol, model, package, and footprint are distinct records as required by REQ-038.
+
+A package contains no device, MCU, circuit, board, module, system, firmware, or behavioral model. Boards and systems are separate composition revisions defined by the hierarchical library architecture.
+
+### ComponentDefinitionPlan
+
+The Library Service resolves a project/component reference into an immutable, storage-independent execution bundle. Required content includes project/component/variant IDs, exact semantic and pin-profile revisions, exact scientific-model revisions and dependency DAG, parameters normalized to canonical SI, logical pins and domains, model/analysis selection, package-parasitic binding when enabled, environment and stimulus inputs, executable capability IDs, engine/version constraints, deterministic seed/timebase policy, source content hashes, provenance/license/trust, validation and accuracy envelope, limitations, and a bundle digest.
+
+Resolution fails before simulation with stable diagnostics for missing revision, hash mismatch, dependency cycle, incompatible port/fidelity/analysis, invalid dimension/range, incomplete package binding, untrusted executable capability, or unavailable model plan. The engine consumes only this bundle and never queries PostgreSQL, JSONB, object storage, or IndexedDB.
 
 ## Fidelity levels
 
@@ -116,6 +134,10 @@ Time is an integer multiple of the declared project time quantum. Logic uses `0`
 8. A `basic-component` release has physical-view and package evidence.
 9. Nominal, boundary, and failure golden tests resolve.
 10. Unsupported behavior produces a diagnostic rather than a silent approximation.
+11. Composite/model/device/board/system dependency graphs are acyclic, exact-revision, hash-verified, and dependency-closed.
+12. Published revisions are immutable; referenced revisions cannot be hard-deleted.
+13. Stored model content is declarative unless it selects an allowlisted, versioned, sandboxed executable capability.
+14. Physical/scientific claims remain inside their validity and accuracy/uncertainty envelope and identify their evidence state.
 
 ## Lifecycle and compatibility
 
@@ -127,4 +149,4 @@ Schema and profile revisions use semantic versioning. Additive optional fields m
 
 ## Canonical limitations
 
-A family model cannot claim manufacturer accuracy without a validated vendor artifact. A physical package cannot claim manufacturability without sourced footprint evidence. A behavioral CPU/GPU block cannot claim transistor-level fidelity. Deferred models cannot satisfy production gates.
+A family model cannot claim manufacturer accuracy without a validated vendor artifact. A vendor ordering code cannot widen the generic model's claim through metadata alone. A physical package cannot claim manufacturability without sourced footprint evidence. A behavioral CPU/GPU block cannot claim transistor-level fidelity. Differential agreement cannot claim physical correlation. Deferred or unresolved model-plan records cannot satisfy production gates. No database, imported record, visual representation, or model name is itself a simulation engine or evidence of physical accuracy.

@@ -6,7 +6,7 @@ Deliver the complete **Collaboration versioning and public library** capability 
 
 ## Requirements and release
 
-- Requirements: REQ-031
+- Requirements: REQ-031, REQ-053, REQ-059, REQ-060, REQ-061, REQ-062
 - Release: R10
 - Entry: Gate G6 Electronics MVP.
 
@@ -34,3 +34,4 @@ Deliver the complete **Collaboration versioning and public library** capability 
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] Public-library publication, moderation, history, and collaboration preserve immutable revisions, exact lineage, reverse dependencies, and dependency-safe retirement defined by the R1 Library Service.

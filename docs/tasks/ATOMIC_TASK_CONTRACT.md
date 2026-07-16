@@ -1,6 +1,6 @@
 # Atomic Task Contract
 
-Status: **Normative planning contract 1.0**
+Status: **Normative planning contract 1.1**
 
 This contract makes every future task safe for a small implementation model. It complements [AGENTS.md](../../AGENTS.md), the [task index](TASK_INDEX.md), and the card templates. A card cannot become `Ready` unless every field below is concrete and mechanically verifiable.
 
@@ -10,6 +10,7 @@ This contract makes every future task safe for a small implementation model. It 
 - A component card owns one family or variant, one fidelity tier, and one concern.
 - A package card owns one package revision, one F0 concern, and no electrical-model behavior.
 - A validation card owns one golden fixture and cannot modify the implementation under test.
+- An Applied Physics/model-library card owns one schema, model kind, dependency rule, lifecycle operation, evidence contract, or physical fixture concern; it cannot combine adjacent layers merely because they share a registry.
 - IDs, release IDs, requirement IDs, dependency IDs, public contracts, and test IDs are immutable after publication.
 
 Canonical release values are `R0` through `R13`. Descriptive aliases such as `MVP` and composite values such as `R1/R7` are forbidden in task metadata; the Realistic Electronics MVP is `R6`.
@@ -29,6 +30,8 @@ Every card MUST state:
 9. stable acceptance-test IDs and expected evidence;
 10. exact documentation, coverage, traceability, risk, and release records to update;
 11. known limitations and Definition of Done.
+
+For scientific/model/library work, the exact inputs and outputs also include stable logical ID, immutable revision ID, content hash, kind, dependency/reverse-dependency edges, dimensions/canonical SI, validity, provenance/license/trust, accuracy/uncertainty, evidence state, lifecycle, and executable capability classification where applicable. A missing value is an explicit blocking diagnostic, not implementer discretion.
 
 “Applicable dependencies,” “relevant files,” or similar implementer-selected scope is not valid readiness evidence.
 
@@ -67,6 +70,10 @@ This is a stage gate, not permission for an implementer to choose files.
 ### Platform and validation cards
 
 The first task of an epic depends on the predecessor release gate; later tasks name the preceding task. R0 quality work treats G0 as its exit gate and does not depend on G0. Each golden validation card depends on `PLAT-QA-001`, the predecessor gate, and exact target component/platform/package task IDs.
+
+Physical-correlation cards additionally depend on the benchmark contract, exact physical lineage `PBC-*`, exact GRC/validation ID, fixture/BOM/specimen/equipment/calibration/procedure/raw-data/model/environment artifacts, and the applicable R4 model tasks. They cannot become `Ready` while these evidence identities are unresolved, and they cannot modify the model under test or raw observations.
+
+Library lifecycle tasks MUST reject dependency cycles, mutable published references, unknown dimensions, unsafe inheritance, arbitrary stored execution, and hard deletion of referenced/published revisions. Engine tasks consume the resolved bundle and cannot add a direct database/storage dependency.
 
 ## Stable test IDs
 

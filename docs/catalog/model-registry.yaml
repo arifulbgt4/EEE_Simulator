@@ -1,0 +1,754 @@
+schema_version: "1.0.0"
+registry_id: "eesim-model-registry"
+registry_revision: "1.0.0"
+title: "Confirmed seed registry for versioned simulation models"
+status: "Normative planning seed; no entry is implemented or release-validated"
+normative_contract: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md"
+requirements:
+  - "REQ-039"
+  - "REQ-040"
+  - "REQ-041"
+  - "REQ-042"
+  - "REQ-043"
+  - "REQ-044"
+  - "REQ-045"
+  - "REQ-046"
+  - "REQ-047"
+canonical_model_kinds:
+  - "physics"
+  - "primitive"
+  - "composite"
+  - "behavioral"
+  - "external_adapter"
+kind_aliases:
+  behavioural: "behavioral"
+model_count: 9
+kind_counts:
+  physics: 3
+  primitive: 3
+  composite: 1
+  behavioral: 1
+  external_adapter: 1
+count_rule: "Counts describe only the nine planning records in this file. Component families, component variants, packages, symbols, bindings, and benchmark fixtures are separate inventories."
+publication_rule: "A planned entry is not executable or published. Release requires a non-null content digest, reviewed provenance and license, validated units and equations, independent evidence, a bounded validity envelope, and the applicable release gate."
+revision_rule: "The stable id names a model lineage. revision_id is immutable and equals <id>@<semantic-revision>. A changed equation, parameter meaning, dependency revision, unit, state, numerical method, or validity claim creates a new revision."
+dependency_rule: "Every dependency names an exact model revision. Composite registry dependencies are acyclic; circuit feedback is represented in resolved topology, not by recursive registry references."
+artifact_rule: "null content_sha256 is allowed only while status is planned and artifact availability is not_created. It blocks publication and execution."
+trust_levels:
+  - "unreviewed"
+  - "source_identified"
+  - "reviewed"
+  - "correlated"
+  - "release_approved"
+lineage_examples:
+  generic_74hc00:
+    status: "planned-lineage-only"
+    path:
+      - "mdl-physics-mos-channel@1.0.0"
+      - "mdl-primitive-nmos-level1@1.0.0 and mdl-primitive-pmos-level1@1.0.0"
+      - "mdl-composite-cmos-nand2@1.0.0"
+      - "mdl-behavioral-74hc00-quad-nand@1.0.0"
+      - "future generic-device revision"
+      - "future vendor-device revision"
+      - "future DevicePackageBinding revision"
+    limitation: "No vendor device, ordering code, package binding, or executable 74HC00 implementation is asserted by this seed."
+
+models:
+  - id: "mdl-physics-ohmic-conduction"
+    revision: "1.0.0"
+    revision_id: "mdl-physics-ohmic-conduction@1.0.0"
+    name: "Lumped Ohmic Conduction"
+    kind: "physics"
+    status: "planned"
+    deprecation:
+      deprecated: false
+      replacement_revision_id: null
+    physical_principles:
+      - "Constitutive relation between voltage, current, and electrical resistance"
+      - "Electrical power conservation in a passive lumped element"
+    governing_equations:
+      - "v = i * R"
+      - "p_absorbed = v * i = i^2 * R"
+    engineering_equations:
+      - "R = rho * length / cross_section when uniform material geometry is explicitly supplied"
+    assumptions:
+      - "Lumped, quasi-static behavior"
+      - "Scalar resistance is finite, positive, and constant unless a dependent revision is selected"
+      - "Distributed, frequency-dependent, thermal, and noise effects are omitted"
+    approximation_level: "ideal-linear-constitutive"
+    fidelity_levels: ["F1"]
+    supported_analyses: ["dc", "transient", "ac"]
+    inputs:
+      - {id: "voltage", quantity: "electric_potential_difference", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "resistance", quantity: "electrical_resistance", unit: "ohm", dimension: "[M L^2 T^-3 I^-2]"}
+    outputs:
+      - {id: "current", quantity: "electric_current", unit: "A", dimension: "[I]"}
+      - {id: "absorbed_power", quantity: "power", unit: "W", dimension: "[M L^2 T^-3]"}
+    state_variables: []
+    parameters:
+      - id: "resistance_ohm"
+        unit: "ohm"
+        dimension: "[M L^2 T^-3 I^-2]"
+        default: null
+        required: true
+        minimum: 1.0e-12
+        maximum: 1.0e15
+        range_basis: "repository engineering bounds; family contracts may narrow"
+    canonical_units:
+      voltage: "V"
+      current: "A"
+      resistance: "ohm"
+      power: "W"
+    dependencies: []
+    equation_references:
+      - id: "eq-ohm-constitutive"
+        equations: ["v = i * R", "p_absorbed = v * i"]
+        source_type: "repository_decision"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#2-normative-physical-principle-pipeline"
+    implementation_kind: "declarative_equation_over_reviewed_linear_stamp"
+    numerical_method:
+      formulation: "Modified Nodal Analysis conductance stamp"
+      rollback: "stateless"
+      non_finite_policy: "reject with structured diagnostic"
+    convergence_expectations: "Linear solve; matrix residual must satisfy the active F1 numeric profile."
+    failure_conditions: []
+    provenance:
+      - source_type: "repository_defined_engineering_approximation"
+        title: "Applied Physics and Real-World Fidelity contract"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "1.0"
+        publication_date: "2026-07-16"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored text"
+        extracted_parameters: ["resistance_ohm"]
+        trust_level: "source_identified"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "analytical Ohm-law and power-balance fixtures"
+      release_blocker: "Independent regression evidence has not been captured."
+    validity:
+      parameter_ranges: "resistance_ohm within the declared family envelope"
+      temperature_K: null
+      frequency_Hz: "quasi-static lumped envelope declared by the binding"
+      operating_regions: ["linear passive"]
+      out_of_range_behavior: "MODEL_OUT_OF_RANGE diagnostic"
+    uncertainty:
+      status: "uncharacterized"
+      target: "F1 analytical acceptance inside the selected binding envelope"
+      contributors: ["numeric rounding", "parameter uncertainty supplied by the component"]
+    limitations:
+      - "No temperature coefficient, noise, parasitic reactance, or nonlinear conduction"
+      - "The geometry relation is invalid for nonuniform or distributed conductors without another model"
+    license:
+      specification: "Apache-2.0"
+      artifact: null
+      redistribution: "blocked until an artifact exists and is reviewed"
+    trust_level: "source_identified"
+    artifact:
+      availability: "not_created"
+      content_sha256: null
+      null_reason: "Documentation-only planning seed"
+
+  - id: "mdl-physics-lumped-electrothermal"
+    revision: "1.0.0"
+    revision_id: "mdl-physics-lumped-electrothermal@1.0.0"
+    name: "Lumped Electrothermal Network"
+    kind: "physics"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles:
+      - "Energy conservation"
+      - "Lumped thermal capacitance and thermal conductance"
+    governing_equations:
+      - "C_th * dT/dt = P_dissipation - (T - T_ambient) / R_th"
+      - "E_stored = C_th * (T - T_reference)"
+    engineering_equations:
+      - "T_steady = T_ambient + P_dissipation * R_th for constant power and a single thermal path"
+      - "tau_th = R_th * C_th"
+    assumptions:
+      - "One isothermal body node and one ambient boundary in the baseline relation"
+      - "Radiation, spatial gradients, airflow fields, and neighboring heat sources are omitted unless added as explicit network elements"
+    approximation_level: "lumped-first-order-electrothermal"
+    fidelity_levels: ["F4"]
+    supported_analyses: ["transient", "steady_state_thermal", "electrothermal"]
+    inputs:
+      - {id: "dissipated_power", quantity: "power", unit: "W", dimension: "[M L^2 T^-3]"}
+      - {id: "ambient_temperature", quantity: "thermodynamic_temperature", unit: "K", dimension: "[Theta]"}
+    outputs:
+      - {id: "body_temperature", quantity: "thermodynamic_temperature", unit: "K", dimension: "[Theta]"}
+      - {id: "heat_flow_to_ambient", quantity: "power", unit: "W", dimension: "[M L^2 T^-3]"}
+    state_variables:
+      - {id: "temperature_K", quantity: "thermodynamic_temperature", unit: "K", dimension: "[Theta]"}
+      - {id: "stored_thermal_energy_J", quantity: "energy", unit: "J", dimension: "[M L^2 T^-2]"}
+    parameters:
+      - {id: "thermal_resistance_K_per_W", unit: "K/W", dimension: "[M^-1 L^-2 T^3 Theta]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "thermal_capacitance_J_per_K", unit: "J/K", dimension: "[M L^2 T^-2 Theta^-1]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "initial_temperature_K", unit: "K", dimension: "[Theta]", default: null, required: true, minimum: 0.0, maximum: null}
+    canonical_units:
+      temperature: "K"
+      power: "W"
+      energy: "J"
+      thermal_resistance: "K/W"
+      thermal_capacitance: "J/K"
+      time: "s"
+    dependencies: []
+    equation_references:
+      - id: "eq-lumped-thermal-balance"
+        equations: ["C_th * dT/dt = P_dissipation - (T - T_ambient) / R_th"]
+        source_type: "repository_engineering_approximation"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#6-electrical-thermal-feedback"
+    implementation_kind: "declarative_state_equation_over_reviewed_thermal_kernel"
+    numerical_method:
+      formulation: "implicit time integration synchronized at accepted electrical intervals"
+      coupling: "staggered, iterated-staggered, or fully-coupled as declared by the binding"
+      rollback: "restore temperature, stored energy, and accumulated power exactly on rejected step"
+      non_finite_policy: "reject with THERMAL_NUMERICAL_FAILURE"
+    convergence_expectations: "Temperature and energy residuals meet the declared F4 thermal profile before a coupled state is committed."
+    failure_conditions:
+      - "Binding-defined maximum junction/case temperature"
+      - "Positive-feedback thermal runaway condition"
+    provenance:
+      - source_type: "repository_defined_engineering_approximation"
+        title: "Applied Physics and Real-World Fidelity contract"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "1.0"
+        publication_date: "2026-07-16"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#6-electrical-thermal-feedback"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored text"
+        extracted_parameters: ["thermal_resistance_K_per_W", "thermal_capacitance_J_per_K", "initial_temperature_K"]
+        trust_level: "source_identified"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "analytical first-order response plus physical thermal benchmark"
+      release_blocker: "Package-specific thermal parameters and correlation evidence are not selected."
+    validity:
+      parameter_ranges: "positive finite thermal resistance and capacitance; binding supplies narrower bounds"
+      temperature_K: "binding-defined"
+      frequency_Hz: null
+      operating_regions: ["single-node or explicit lumped thermal network"]
+      out_of_range_behavior: "MODEL_OUT_OF_RANGE diagnostic"
+    uncertainty:
+      status: "uncharacterized"
+      target: "Category-specific F4 thermal envelope"
+      contributors: ["thermal parameter uncertainty", "ambient drift", "sensor placement", "unmodeled convection and radiation"]
+    limitations:
+      - "Not a spatial heat-transfer, CFD, or enclosure certification model"
+      - "A single-node record cannot claim junction-to-case spatial accuracy"
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "source_identified"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-physics-mos-channel"
+    revision: "1.0.0"
+    revision_id: "mdl-physics-mos-channel@1.0.0"
+    name: "Quasi-Static MOS Channel Engineering Model"
+    kind: "physics"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles:
+      - "Field-effect modulation of inversion-channel charge"
+      - "Charge transport represented by a piecewise compact engineering relation"
+    governing_equations:
+      - "cutoff: I_D = 0 for V_GS <= V_TO"
+      - "triode: I_D = beta * ((V_GS - V_TO) * V_DS - V_DS^2 / 2) * (1 + lambda * V_DS)"
+      - "saturation: I_D = beta * (V_GS - V_TO)^2 * (1 + lambda * V_DS) / 2"
+    engineering_equations:
+      - "beta = K_P * W / L"
+    assumptions:
+      - "Quasi-static, long-channel, sign-normalized formulation"
+      - "Body effect, subthreshold conduction, charge storage, capacitances, noise, self-heating, and breakdown are omitted from this seed"
+    approximation_level: "first-order-piecewise-compact"
+    fidelity_levels: ["F3"]
+    supported_analyses: ["dc", "transient_when_wrapped_with_declared_capacitances"]
+    inputs:
+      - {id: "gate_source_voltage", quantity: "electric_potential_difference", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "drain_source_voltage", quantity: "electric_potential_difference", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "temperature", quantity: "thermodynamic_temperature", unit: "K", dimension: "[Theta]"}
+    outputs:
+      - {id: "drain_current", quantity: "electric_current", unit: "A", dimension: "[I]"}
+      - {id: "absorbed_power", quantity: "power", unit: "W", dimension: "[M L^2 T^-3]"}
+    state_variables: []
+    parameters:
+      - {id: "threshold_voltage_V", unit: "V", dimension: "[M L^2 T^-3 I^-1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "transconductance_parameter_A_per_V2", unit: "A/V^2", dimension: "[M^-2 L^-4 T^6 I^3]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "width_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "length_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "channel_length_modulation_per_V", unit: "1/V", dimension: "[M^-1 L^-2 T^3 I]", default: 0.0, required: true, minimum: 0.0, maximum: null}
+    canonical_units: {voltage: "V", current: "A", temperature: "K", length: "m", power: "W"}
+    dependencies: []
+    equation_references:
+      - id: "eq-mos-first-order-piecewise"
+        equations: ["I_D piecewise by cutoff, triode, and saturation regions", "beta = K_P * W / L"]
+        source_type: "repository_engineering_approximation"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"
+    implementation_kind: "reviewed_native_compact_kernel_required"
+    numerical_method:
+      formulation: "nonlinear residual and Jacobian contributions with region-aware derivatives"
+      initialization: "binding-defined DC continuation"
+      rollback: "stateless seed relation; wrappers restore dynamic state"
+      non_finite_policy: "reject with NON_FINITE_MODEL_VALUE"
+    convergence_expectations: "Both update and residual convergence are required across the declared operating regions."
+    failure_conditions:
+      - "No failure physics in this F3 seed; voltage, current, power, and temperature limits belong to an F4 binding"
+    provenance:
+      - source_type: "repository_defined_engineering_approximation"
+        title: "First-order MOS planning relation"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "1.0"
+        publication_date: "2026-07-16"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored text"
+        extracted_parameters: ["threshold_voltage_V", "transconductance_parameter_A_per_V2", "width_m", "length_m", "channel_length_modulation_per_V"]
+        trust_level: "unreviewed"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "Independent compact-model DC sweeps and limiting-region checks"
+      release_blocker: "Independent scientific source, implementation, convergence envelope, and evidence are absent."
+    validity:
+      parameter_ranges: "All required parameters finite; width and length positive; exact bounds binding-defined"
+      temperature_K: "binding-defined; seed has no temperature scaling"
+      frequency_Hz: "quasi-static only"
+      operating_regions: ["cutoff", "triode", "saturation"]
+      out_of_range_behavior: "MODEL_OUT_OF_RANGE or MODEL_UNSUPPORTED diagnostic"
+    uncertainty:
+      status: "uncharacterized"
+      target: "F3 category-specific envelope after independent comparison"
+      contributors: ["long-channel approximation", "omitted capacitance", "omitted body effect", "parameter extraction"]
+    limitations:
+      - "Not manufacturer-specific and not suitable for short-channel, breakdown, RF, noise, or electrothermal claims"
+      - "Transient support requires separately declared charge/capacitance behavior"
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "unreviewed"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-primitive-resistor-ideal"
+    revision: "1.0.0"
+    revision_id: "mdl-primitive-resistor-ideal@1.0.0"
+    name: "Ideal Two-Terminal Resistor Primitive"
+    kind: "primitive"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["Ohmic conduction", "Electrical power conservation"]
+    governing_equations: ["v(P,N) = i(P->N) * R", "p_absorbed = v(P,N) * i(P->N)"]
+    engineering_equations: ["G = 1 / R for the MNA conductance stamp"]
+    assumptions: ["Ideal, linear, time-invariant resistor", "No tolerance, temperature coefficient, parasitics, noise, aging, or failure"]
+    approximation_level: "ideal-primitive"
+    fidelity_levels: ["F1"]
+    supported_analyses: ["dc", "transient", "ac"]
+    inputs:
+      - {id: "pin_P_voltage", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "pin_N_voltage", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    outputs:
+      - {id: "branch_current_P_to_N", quantity: "electric_current", unit: "A", dimension: "[I]"}
+      - {id: "absorbed_power", quantity: "power", unit: "W", dimension: "[M L^2 T^-3]"}
+    state_variables: []
+    parameters:
+      - {id: "resistance_ohm", unit: "ohm", dimension: "[M L^2 T^-3 I^-2]", default: 1000.0, required: true, minimum: 1.0e-12, maximum: 1.0e15}
+    canonical_units: {voltage: "V", current: "A", resistance: "ohm", power: "W"}
+    dependencies:
+      - {id: "mdl-physics-ohmic-conduction", revision_id: "mdl-physics-ohmic-conduction@1.0.0", purpose: "constitutive and power relation"}
+    equation_references:
+      - id: "eq-resistor-primitive"
+        equations: ["v = i * R", "G = 1 / R"]
+        source_type: "model_dependency"
+        source_location: "mdl-physics-ohmic-conduction@1.0.0"
+    implementation_kind: "declarative_primitive_over_reviewed_linear_stamp"
+    numerical_method: {formulation: "MNA conductance stamp", rollback: "stateless", non_finite_policy: "reject"}
+    convergence_expectations: "Linear residual meets the active F1 tolerance."
+    failure_conditions: []
+    provenance:
+      - source_type: "repository_model_dependency"
+        title: "Lumped Ohmic Conduction"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "mdl-physics-ohmic-conduction@1.0.0"
+        publication_date: "2026-07-16"
+        source_location: "model-registry.yaml#mdl-physics-ohmic-conduction"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored metadata"
+        extracted_parameters: ["resistance_ohm"]
+        trust_level: "source_identified"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "GRC-001, GRC-002, analytical limiting cases, and dimensional checks"
+      release_blocker: "Executable model and retained regression evidence are absent."
+    validity:
+      parameter_ranges: "1e-12 ohm through 1e15 ohm, further bounded by solver conditioning policy"
+      temperature_K: null
+      frequency_Hz: "lumped ideal envelope"
+      operating_regions: ["linear passive"]
+      out_of_range_behavior: "INVALID_PARAMETER_RANGE"
+    uncertainty:
+      status: "exact_equation_with_numeric_tolerance"
+      target: "F1 analytical target"
+      contributors: ["binary64 rounding", "linear solver residual"]
+    limitations: ["F1 only; not a realistic physical resistor"]
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "source_identified"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-primitive-nmos-level1"
+    revision: "1.0.0"
+    revision_id: "mdl-primitive-nmos-level1@1.0.0"
+    name: "Generic NMOS First-Order Primitive"
+    kind: "primitive"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["MOS field effect", "Sign-normalized channel conduction"]
+    governing_equations: ["NMOS orientation of mdl-physics-mos-channel@1.0.0"]
+    engineering_equations: ["I_D is evaluated in cutoff, triode, or saturation region"]
+    assumptions: ["Generic enhancement-mode NMOS", "No manufacturer accuracy", "Body, capacitance, noise, breakdown, and thermal effects omitted"]
+    approximation_level: "F3 first-order compact primitive"
+    fidelity_levels: ["F3"]
+    supported_analyses: ["dc", "transient_with_explicit_dynamic_wrapper"]
+    inputs:
+      - {id: "D", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "G", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "S", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "B", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    outputs:
+      - {id: "drain_current", quantity: "electric_current", unit: "A", dimension: "[I]"}
+      - {id: "region", quantity: "enumerated_state", unit: "1", dimension: "[1]"}
+    state_variables: []
+    parameters:
+      - {id: "threshold_voltage_V", unit: "V", dimension: "[M L^2 T^-3 I^-1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "transconductance_parameter_A_per_V2", unit: "A/V^2", dimension: "[M^-2 L^-4 T^6 I^3]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "width_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "length_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+    canonical_units: {voltage: "V", current: "A", length: "m"}
+    dependencies:
+      - {id: "mdl-physics-mos-channel", revision_id: "mdl-physics-mos-channel@1.0.0", purpose: "channel-current relation"}
+    equation_references:
+      - {id: "eq-nmos-level1", equations: ["NMOS sign convention applied to dependency equations"], source_type: "model_dependency", source_location: "mdl-physics-mos-channel@1.0.0"}
+    implementation_kind: "reviewed_native_compact_kernel_required"
+    numerical_method: {formulation: "nonlinear MNA residual and Jacobian", rollback: "stateless seed relation", non_finite_policy: "reject"}
+    convergence_expectations: "DC continuation and residual checks must pass across every declared operating region."
+    failure_conditions: ["None in this F3 seed"]
+    provenance:
+      - source_type: "repository_model_dependency"
+        title: "Quasi-Static MOS Channel Engineering Model"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "mdl-physics-mos-channel@1.0.0"
+        publication_date: "2026-07-16"
+        source_location: "model-registry.yaml#mdl-physics-mos-channel"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored metadata"
+        extracted_parameters: ["threshold_voltage_V", "transconductance_parameter_A_per_V2", "width_m", "length_m"]
+        trust_level: "unreviewed"
+        validation_status: "planned"
+    validation: {status: "planned", evidence_ids: [], reference_method: "Independent DC region sweeps", release_blocker: "No kernel, external source review, or retained evidence"}
+    validity: {parameter_ranges: "dependency and binding-defined", temperature_K: "binding-defined but no temperature scaling in seed", frequency_Hz: "quasi-static", operating_regions: ["cutoff", "triode", "saturation"], out_of_range_behavior: "MODEL_OUT_OF_RANGE"}
+    uncertainty: {status: "uncharacterized", target: "F3 category-specific", contributors: ["first-order approximation", "parameter extraction", "omitted effects"]}
+    limitations: ["Generic educational primitive; no vendor, package, RF, noise, breakdown, or F4 accuracy claim"]
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "unreviewed"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-primitive-pmos-level1"
+    revision: "1.0.0"
+    revision_id: "mdl-primitive-pmos-level1@1.0.0"
+    name: "Generic PMOS First-Order Primitive"
+    kind: "primitive"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["MOS field effect", "Sign-normalized channel conduction"]
+    governing_equations: ["PMOS polarity transform of mdl-physics-mos-channel@1.0.0"]
+    engineering_equations: ["I_SD is evaluated with positive V_SG and V_SD, then mapped to the canonical branch sign"]
+    assumptions: ["Generic enhancement-mode PMOS", "No manufacturer accuracy", "Body, capacitance, noise, breakdown, and thermal effects omitted"]
+    approximation_level: "F3 first-order compact primitive"
+    fidelity_levels: ["F3"]
+    supported_analyses: ["dc", "transient_with_explicit_dynamic_wrapper"]
+    inputs:
+      - {id: "D", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "G", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "S", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "B", quantity: "electrical_terminal", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    outputs:
+      - {id: "drain_current", quantity: "electric_current", unit: "A", dimension: "[I]"}
+      - {id: "region", quantity: "enumerated_state", unit: "1", dimension: "[1]"}
+    state_variables: []
+    parameters:
+      - {id: "threshold_magnitude_V", unit: "V", dimension: "[M L^2 T^-3 I^-1]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "transconductance_parameter_A_per_V2", unit: "A/V^2", dimension: "[M^-2 L^-4 T^6 I^3]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "width_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+      - {id: "length_m", unit: "m", dimension: "[L]", default: null, required: true, minimum: null, minimum_exclusive: 0.0, maximum: null}
+    canonical_units: {voltage: "V", current: "A", length: "m"}
+    dependencies:
+      - {id: "mdl-physics-mos-channel", revision_id: "mdl-physics-mos-channel@1.0.0", purpose: "sign-normalized channel-current relation"}
+    equation_references:
+      - {id: "eq-pmos-level1", equations: ["PMOS polarity transform of dependency equations"], source_type: "model_dependency", source_location: "mdl-physics-mos-channel@1.0.0"}
+    implementation_kind: "reviewed_native_compact_kernel_required"
+    numerical_method: {formulation: "nonlinear MNA residual and Jacobian", rollback: "stateless seed relation", non_finite_policy: "reject"}
+    convergence_expectations: "DC continuation and residual checks must pass across every declared operating region."
+    failure_conditions: ["None in this F3 seed"]
+    provenance:
+      - source_type: "repository_model_dependency"
+        title: "Quasi-Static MOS Channel Engineering Model"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "mdl-physics-mos-channel@1.0.0"
+        publication_date: "2026-07-16"
+        source_location: "model-registry.yaml#mdl-physics-mos-channel"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored metadata"
+        extracted_parameters: ["threshold_magnitude_V", "transconductance_parameter_A_per_V2", "width_m", "length_m"]
+        trust_level: "unreviewed"
+        validation_status: "planned"
+    validation: {status: "planned", evidence_ids: [], reference_method: "Independent DC region sweeps", release_blocker: "No kernel, external source review, or retained evidence"}
+    validity: {parameter_ranges: "dependency and binding-defined", temperature_K: "binding-defined but no temperature scaling in seed", frequency_Hz: "quasi-static", operating_regions: ["cutoff", "triode", "saturation"], out_of_range_behavior: "MODEL_OUT_OF_RANGE"}
+    uncertainty: {status: "uncharacterized", target: "F3 category-specific", contributors: ["first-order approximation", "parameter extraction", "omitted effects"]}
+    limitations: ["Generic educational primitive; no vendor, package, RF, noise, breakdown, or F4 accuracy claim"]
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "unreviewed"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-composite-cmos-nand2"
+    revision: "1.0.0"
+    revision_id: "mdl-composite-cmos-nand2@1.0.0"
+    name: "Reusable Two-Input CMOS NAND Composite"
+    kind: "composite"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["Complementary MOS pull-up and pull-down networks", "Charge/discharge of an output node by transistor conduction"]
+    governing_equations: ["Y = NOT(A AND B) at the Boolean boundary", "Electrical behavior is the resolved dependency graph of two series NMOS and two parallel PMOS primitives"]
+    engineering_equations: ["The composite netlist, not a duplicated device equation, defines topology"]
+    assumptions: ["Generic topology", "No 74HC process, package, ESD, supply-current, timing, or vendor accuracy"]
+    approximation_level: "F3 transistor-composite; F2 behavior is a separate dependent model"
+    fidelity_levels: ["F3"]
+    supported_analyses: ["dc", "transient_when_dynamic_parameters_resolve"]
+    inputs:
+      - {id: "A", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "B", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "VDD", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "VSS", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    outputs:
+      - {id: "Y", quantity: "electric_potential", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    state_variables:
+      - {id: "output_charge_when_dynamic_wrapper_selected", quantity: "electric_charge", unit: "C", dimension: "[T I]"}
+    parameters:
+      - {id: "nmos_parameter_set_ref", unit: "1", dimension: "[1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "pmos_parameter_set_ref", unit: "1", dimension: "[1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "output_capacitance_F", unit: "F", dimension: "[M^-1 L^-2 T^4 I^2]", default: null, required: false, minimum: 0.0, maximum: null}
+    canonical_units: {voltage: "V", current: "A", charge: "C", capacitance: "F"}
+    dependencies:
+      - {id: "mdl-primitive-nmos-level1", revision_id: "mdl-primitive-nmos-level1@1.0.0", purpose: "two series pull-down instances"}
+      - {id: "mdl-primitive-pmos-level1", revision_id: "mdl-primitive-pmos-level1@1.0.0", purpose: "two parallel pull-up instances"}
+    equation_references:
+      - {id: "eq-cmos-nand-topology", equations: ["Y = NOT(A AND B) at logic boundary", "device currents are contributed by exact primitive dependencies"], source_type: "repository_composite_definition", source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"}
+    implementation_kind: "declarative_composite_graph"
+    numerical_method:
+      formulation: "dependency netlist resolved into the selected analog or digital engine"
+      recursion: "forbidden in registry dependency graph"
+      rollback: "all dependency state rolls back atomically"
+      non_finite_policy: "reject the composite step"
+    convergence_expectations: "All dependency residuals and the composite output-node residual meet the active profile."
+    failure_conditions: ["No failure physics in the seed; F4 requires explicit dependency revisions and rules"]
+    provenance:
+      - source_type: "repository_defined_composite"
+        title: "74HC00 lineage planning example"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "1.0"
+        publication_date: "2026-07-16"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored metadata"
+        extracted_parameters: ["dependency topology only"]
+        trust_level: "unreviewed"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "Exhaustive truth table plus transistor-level DC transfer and switching comparison"
+      release_blocker: "Composite graph artifact, parameter set, and evidence are absent."
+    validity:
+      parameter_ranges: "resolved dependency envelopes"
+      temperature_K: "resolved dependency envelopes"
+      frequency_Hz: "requires explicit dynamic parameters"
+      operating_regions: ["static truth", "bounded switching when dynamic wrapper is supplied"]
+      out_of_range_behavior: "DEPENDENCY_OUT_OF_RANGE"
+    uncertainty: {status: "uncharacterized", target: "F2 exact truth and category-specific F3 electrical envelope", contributors: ["primitive approximation", "missing dynamic parameters", "supply and load"]}
+    limitations: ["Not a 74HC process or vendor model", "No package or DevicePackageBinding", "Timing is unsupported until dynamic parameters are validated"]
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "unreviewed"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-behavioral-74hc00-quad-nand"
+    revision: "1.0.0"
+    revision_id: "mdl-behavioral-74hc00-quad-nand@1.0.0"
+    name: "Generic 74HC00 Quad Two-Input NAND Behavioral Model"
+    kind: "behavioral"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["CMOS NAND behavior derived from a complementary transistor network", "Finite propagation and output drive represented as an abstraction"]
+    governing_equations: ["Y_k = NOT(A_k AND B_k) for k in 1..4", "output event tick = input event tick + selected propagation delay"]
+    engineering_equations: ["Four references to one reusable NAND model; ordering codes use overrides rather than copied internal circuits"]
+    assumptions:
+      - "Generic family behavior, not a TI, Nexperia, Toshiba, or other manufacturer model"
+      - "Four-state digital inputs and outputs"
+      - "Exact thresholds, timing, leakage, drive, temperature grade, and supply range require a sourced device revision"
+    approximation_level: "F2 functional/timing abstraction with optional F3 lineage reference"
+    fidelity_levels: ["F2"]
+    supported_analyses: ["digital_event", "truth_table", "timing_when_parameters_are_sourced"]
+    inputs:
+      - {id: "A1_B1_A2_B2_A3_B3_A4_B4", quantity: "four_state_logic_inputs", unit: "1", dimension: "[1]"}
+      - {id: "VCC", quantity: "supply_voltage", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+      - {id: "GND", quantity: "reference_voltage", unit: "V", dimension: "[M L^2 T^-3 I^-1]"}
+    outputs:
+      - {id: "Y1_Y2_Y3_Y4", quantity: "four_state_logic_outputs", unit: "1", dimension: "[1]"}
+    state_variables:
+      - {id: "pending_output_events", quantity: "ordered_event_queue", unit: "tick", dimension: "[T]"}
+      - {id: "resolved_output_states", quantity: "four_state_logic", unit: "1", dimension: "[1]"}
+    parameters:
+      - {id: "propagation_low_to_high_s", unit: "s", dimension: "[T]", default: null, required: true, minimum: 0.0, maximum: null}
+      - {id: "propagation_high_to_low_s", unit: "s", dimension: "[T]", default: null, required: true, minimum: 0.0, maximum: null}
+      - {id: "input_low_threshold_V", unit: "V", dimension: "[M L^2 T^-3 I^-1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "input_high_threshold_V", unit: "V", dimension: "[M L^2 T^-3 I^-1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "output_drive_profile_ref", unit: "1", dimension: "[1]", default: null, required: true, minimum: null, maximum: null}
+    canonical_units: {time: "s", scheduler_time: "integer tick", voltage: "V", logic_state: "1"}
+    dependencies:
+      - {id: "mdl-composite-cmos-nand2", revision_id: "mdl-composite-cmos-nand2@1.0.0", purpose: "scientific lineage and reusable NAND behavior; instantiated four times"}
+    equation_references:
+      - {id: "eq-74hc00-functional", equations: ["Y_k = NOT(A_k AND B_k)", "t_output = t_input + t_propagation"], source_type: "repository_behavioral_abstraction", source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"}
+    implementation_kind: "declarative_behavioral_graph"
+    numerical_method:
+      formulation: "deterministic four-state event scheduling"
+      event_order: "global integer timebase and ADR-0006 tie-break policy"
+      rollback: "pending events and resolved states restore from checkpoint"
+      non_finite_policy: "not applicable to logic state; invalid timing parameters reject preparation"
+    convergence_expectations: "Delta cycles must quiesce within the configured limit; zero-time oscillation is a terminal diagnostic."
+    failure_conditions: ["No physical failure behavior in the seed; future F4 device revision required"]
+    provenance:
+      - source_type: "repository_defined_behavioral_abstraction"
+        title: "Generic 74HC00 lineage planning example"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "1.0"
+        publication_date: "2026-07-16"
+        source_location: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md#4-model-kinds-composition-and-lineage"
+        license: "Apache-2.0"
+        redistribution_restrictions: "none for repository-authored metadata"
+        extracted_parameters: ["none; timing and thresholds intentionally unresolved"]
+        trust_level: "unreviewed"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "Exhaustive four-gate truth table, X/Z policy, deterministic timing, and future sourced family comparison"
+      release_blocker: "Supply, threshold, drive, timing, package, vendor, and validation records are unresolved."
+    validity:
+      parameter_ranges: "all timing/threshold/drive fields must be supplied by a reviewed generic-device revision"
+      temperature_K: "unresolved"
+      frequency_Hz: "unresolved; derived from sourced timing and load envelope"
+      operating_regions: ["four-state functional logic after required parameters resolve"]
+      out_of_range_behavior: "MODEL_OUT_OF_RANGE or MODEL_UNRESOLVED"
+    uncertainty:
+      status: "uncharacterized"
+      target: "Exact F2 truth state; timing uncertainty is device-revision-specific"
+      contributors: ["supply", "temperature", "load", "process", "timing abstraction"]
+    limitations:
+      - "No manufacturer-specific or orderable-part claim"
+      - "No transistor-accurate, package, pin-map, voltage-grade, temperature-grade, or speed-grade claim"
+      - "A future SN74HC00N or SN74HC00DR record must reuse this lineage and add sourced overrides and a concrete DevicePackageBinding"
+    license: {specification: "Apache-2.0", artifact: null, redistribution: "blocked until artifact review"}
+    trust_level: "unreviewed"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}
+
+  - id: "mdl-external-adapter-ngspice"
+    revision: "1.0.0"
+    revision_id: "mdl-external-adapter-ngspice@1.0.0"
+    name: "ngspice External Engine Adapter Contract"
+    kind: "external_adapter"
+    status: "planned"
+    deprecation: {deprecated: false, replacement_revision_id: null}
+    physical_principles: ["Delegates equations to explicitly resolved input models; the adapter owns no device physics"]
+    governing_equations: ["No adapter-owned device equation; every delegated equation revision is captured in the execution manifest"]
+    engineering_equations: ["Canonical request/result and pin/parameter/unit transformations are versioned adapter data"]
+    assumptions: ["External process or shared-library execution is isolated according to accepted architecture", "Engine/version capability is discovered before preparation"]
+    approximation_level: "translation-and-execution-boundary"
+    fidelity_levels: ["F1", "F3", "F4"]
+    supported_analyses: ["capability_discovery_required"]
+    inputs:
+      - {id: "canonical_simulation_request", quantity: "versioned_contract", unit: "1", dimension: "[1]"}
+      - {id: "resolved_model_bundle", quantity: "immutable_artifact_bundle", unit: "1", dimension: "[1]"}
+    outputs:
+      - {id: "canonical_simulation_events", quantity: "versioned_event_stream", unit: "1", dimension: "[1]"}
+      - {id: "canonical_simulation_result", quantity: "versioned_result_contract", unit: "1", dimension: "[1]"}
+    state_variables:
+      - {id: "adapter_lifecycle_state", quantity: "enumerated_state", unit: "1", dimension: "[1]"}
+      - {id: "checkpoint_handle", quantity: "opaque_versioned_reference", unit: "1", dimension: "[1]"}
+    parameters:
+      - {id: "engine_version_constraint", unit: "1", dimension: "[1]", default: null, required: true, minimum: null, maximum: null}
+      - {id: "cpu_limit", unit: "s", dimension: "[T]", default: null, required: true, minimum: 0.0, maximum: null}
+      - {id: "memory_limit_bytes", unit: "byte", dimension: "[1]", default: null, required: true, minimum: 1, maximum: null}
+      - {id: "output_limit_bytes", unit: "byte", dimension: "[1]", default: null, required: true, minimum: 1, maximum: null}
+    canonical_units: {simulation_time: "integer tick plus seconds conversion", physical_quantities: "canonical SI", resource_time: "s", storage: "byte"}
+    dependencies: []
+    equation_references:
+      - id: "eq-external-delegation"
+        equations: ["Adapter owns no physical equation; execution manifest lists every delegated model revision and engine build"]
+        source_type: "repository_architecture_decision"
+        source_location: "../decisions/ADR-0008.md"
+    implementation_kind: "reviewed_isolated_adapter_required"
+    numerical_method:
+      formulation: "external-engine-defined and captured per result"
+      determinism: "D2 inputs/order with adapter-specific numeric tolerance"
+      rollback: "capability-negotiated; unsupported operations rejected before execution"
+      non_finite_policy: "translate to canonical diagnostic and incomplete result"
+    convergence_expectations: "Adapter records external tolerances, iterations, recovery, and terminal status without converting non-convergence to success."
+    failure_conditions:
+      - "Timeout, memory/process/output quota, crash, invalid model, cancellation, incompatible checkpoint, or non-convergence"
+    provenance:
+      - source_type: "repository_architecture_decision"
+        title: "ADR-0008: External Engine Adapter and Process Isolation Boundary"
+        author_or_organization: "EEE Simulator project"
+        manufacturer: null
+        document_revision: "accepted 2026-07-11"
+        publication_date: "2026-07-11"
+        source_location: "../decisions/ADR-0008.md"
+        license: "Apache-2.0 for repository adapter specification"
+        redistribution_restrictions: "External engine distribution remains blocked pending separate legal review"
+        extracted_parameters: ["adapter lifecycle", "isolation policy", "result provenance"]
+        trust_level: "source_identified"
+        validation_status: "planned"
+    validation:
+      status: "planned"
+      evidence_ids: []
+      reference_method: "Pinned-engine conformance, differential fixtures, failure translation, cancellation, isolation, and reproducibility tests"
+      release_blocker: "Adapter implementation, pinned engine build, license review, sandbox evidence, and differential results are absent."
+    validity:
+      parameter_ranges: "capability-discovered for an exact engine build"
+      temperature_K: "delegated-model-defined"
+      frequency_Hz: "delegated-model-defined"
+      operating_regions: ["only analyses and models declared by capability discovery"]
+      out_of_range_behavior: "MODEL_UNSUPPORTED or ADAPTER_CAPABILITY_MISMATCH"
+    uncertainty:
+      status: "adapter_does_not_define_universal_accuracy"
+      target: "Each delegated model and differential fixture defines its own envelope"
+      contributors: ["external engine build", "numeric settings", "delegated models", "platform determinism class"]
+    limitations:
+      - "Candidate adapter, not a public-core dependency or implemented engine"
+      - "Scientific trust, redistribution permission, and process isolation are separate reviews"
+      - "External-engine results do not inherit blanket manufacturer accuracy"
+    license:
+      specification: "Apache-2.0"
+      artifact: null
+      external_engine: "requires exact-version legal review before distribution"
+      redistribution: "blocked"
+    trust_level: "source_identified"
+    artifact: {availability: "not_created", content_sha256: null, null_reason: "Documentation-only planning seed"}

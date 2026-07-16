@@ -100,6 +100,25 @@ Golden reference circuits are small, reviewable fixtures used to prove that each
 | GRC-053 | Custom package designer | Parameter constraints, immutable deterministic package revision, unbound-state handling and valid reviewed DevicePackageBinding creation without implicit pin inference | R1 |
 | GRC-054 | Dual-view and interface-package project | Same component/model/binding identity, nets and results across views; virtual, module, connector and cable state/anchor preservation and binding-revision round trip | R1 |
 
+## Physical benchmark and experimental-correlation fixtures
+
+These fixtures compare an immutable simulation configuration with retained physical measurements. Each requires exact schematic, BOM and ordering codes, package, measured tolerances, specimen count, source and wiring, calibrated equipment, environment, procedure, raw-data digest, model/dependency revisions, processing method, uncertainty budget, category-specific acceptance envelope, limitations, and regression evidence. Agreement with another simulator alone is not physical correlation.
+
+| ID | Fixture | Required assertions | Primary release |
+|---|---|---|---|
+| GRC-055 | Physical resistor divider | Measured loaded voltage, source/instrument loading, tolerance and uncertainty envelope | R4 |
+| GRC-056 | Physical RC charging and discharging | Measured time constant, source/probe loading, parasitics, temperature and uncertainty | R4 |
+| GRC-057 | Physical RL transient | Measured current rise, winding resistance, source limit, probe bandwidth and uncertainty | R4 |
+| GRC-058 | Physical RLC resonance | Measured resonance, damping, ESR/ESL, source/instrument bandwidth and uncertainty | R4 |
+| GRC-059 | Physical diode rectifier | Measured conduction, ripple, source impedance, junction temperature and model envelope | R4 |
+| GRC-060 | Physical LED current and heating | Measured current, forward voltage, thermal rise, tolerance and bounded optical limitation | R4 |
+| GRC-061 | Physical BJT switch | Measured cutoff/saturation, base drive, delay, heating and device variation | R4 |
+| GRC-062 | Physical MOSFET switch | Measured gate transient, on loss, source/load parasitics, junction heating and variation | R4 |
+| GRC-063 | Physical op-amp amplifier | Measured gain, offset, bandwidth, clipping, supply behavior and probe loading | R4 |
+| GRC-064 | Physical regulator load response | Measured regulation, dropout, transient response, ripple, current limit and heating | R4 |
+| GRC-065 | Physical oscillator | Measured startup, frequency, duty, amplitude, drift, loading and uncertainty | R4 |
+| GRC-066 | Physical thermal overload circuit | Measured power-to-temperature feedback, derating threshold, runaway/failure state and uncertainty | R4 |
+
 ## Expansion rule
 
-The 54 fixtures above are the minimum cross-platform suite. Every component family specification adds at least one family-specific fixture or explicitly links to an existing fixture with additional assertions. No family may use a generic fixture without naming the variant-specific expected result.
+The 66 fixtures above are the minimum cross-platform suite. Every component family specification adds at least one family-specific fixture or explicitly links to an existing fixture with additional assertions. No family may use a generic fixture without naming the variant-specific expected result. GRC-055 through GRC-066 remain `Specified`, not measured or passing, until their validation cards retain real calibrated evidence.

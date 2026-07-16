@@ -2,11 +2,11 @@
 
 ## Outcome
 
-Deliver the complete **Identity organizations and authorization** capability for release R10, including normative behavior, failure handling, validation, documentation, security, accessibility, performance, compatibility, and operations where applicable.
+Deliver the advanced **organizations and authorization** capability for release R10 on top of the provider-neutral personal identity established by `EPIC-IDP-001`. This epic owns organizations, membership, invitations, complex project roles, public visibility, cross-tenant controls, and advanced revocation/audit; it does not move those features into R1.
 
 ## Requirements and release
 
-- Requirements: REQ-031, REQ-032
+- Requirements: REQ-031, REQ-032, REQ-057, REQ-060
 - Release: R10
 - Entry: Gate G6 Electronics MVP.
 
@@ -32,3 +32,4 @@ Deliver the complete **Identity organizations and authorization** capability for
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] `PLAT-AUTH-001/002` extend, rather than replace or duplicate, the R1 provider-neutral subject/session/account contract and preserve guest/offline use.

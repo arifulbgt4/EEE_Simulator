@@ -6,7 +6,7 @@ Deliver the complete **Model data and firmware interchange** capability for rele
 
 ## Requirements and release
 
-- Requirements: REQ-024, REQ-032
+- Requirements: REQ-024, REQ-032, REQ-042, REQ-049, REQ-056, REQ-063
 - Release: R7
 - Entry: Gate G6 Electronics MVP.
 
@@ -34,3 +34,5 @@ Deliver the complete **Model data and firmware interchange** capability for rele
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] Every import records source/hash/license/redistribution/trust/validation/executable mode/dependencies/sandbox and remains quarantined until policy permits use/publication.
+- [ ] Vendor ordering codes use bounded generic-device inheritance and exact package/pin bindings instead of copied whole models.

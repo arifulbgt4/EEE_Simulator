@@ -6,7 +6,7 @@ Deliver the complete **Offline storage and PWA behavior** capability for release
 
 ## Requirements and release
 
-- Requirements: REQ-006, REQ-029
+- Requirements: REQ-006, REQ-029, REQ-055, REQ-057, REQ-058
 - Release: R1
 - Entry: Gate G0 documentation baseline.
 
@@ -30,3 +30,4 @@ Deliver the complete **Offline storage and PWA behavior** capability for release
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] IndexedDB cache/outbox semantics align with `PLAT-IDP-002..004`; authentication remains optional and no failed sync deletes local work.

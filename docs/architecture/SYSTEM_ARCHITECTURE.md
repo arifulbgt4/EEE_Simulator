@@ -7,7 +7,7 @@ Audience: product, frontend, simulation, backend, security, infrastructure, and 
 
 This document defines the system boundaries, major runtime processes, ownership of data, and allowed dependency directions for the Web-Based Electronics and Computer Simulation Platform. `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are normative.
 
-The platform is a browser-based, hierarchical, multi-fidelity environment. It combines circuit-level physics, switch-level transistor behavior, event-driven digital logic, RTL execution, microarchitecture simulation, and full-system emulation without claiming that a modern computer can be simulated transistor-by-transistor in a browser. That scope boundary is taken directly from the feasibility brief. [Source PDF, pp. 13-21, 43-44]
+The platform is a browser-based, Applied Physics-driven, hierarchical, multi-fidelity environment. It follows physical principles through equations, numerical algorithms, reusable model/device revisions, circuits/boards, systems, and experimental validation while combining circuit physics, switch-level behavior, event-driven logic, RTL, microarchitecture, and full-system emulation. It does not claim that a modern computer can be simulated transistor-by-transistor in a browser. [Source PDF, pp. 1-21, 43-44]
 
 ## 2. Architectural drivers
 
@@ -17,6 +17,8 @@ The platform is a browser-based, hierarchical, multi-fidelity environment. It co
 4. **Main-thread responsiveness.** Simulation, layout, and waveform processing MUST NOT block the browser UI thread. [Source PDF, pp. 23-24]
 5. **Explicit fidelity.** Every model and result MUST declare its fidelity, analysis capability, provenance, limitations, and deterministic seed when stochastic behavior is used. [Source PDF, pp. 3-4, 13-20, 27, 40]
 6. **Open-core license safety.** Apache-2.0 core code MUST remain separable from GPL or mixed-license engines. Such engines MUST execute behind a process or service boundary unless legal review explicitly approves another distribution pattern.
+7. **Applied Physics lineage.** Every released scientific model and physical claim MUST retain governing basis, dimensions, validity, provenance, dependencies, accuracy/uncertainty, limitations, and evidence. See [Applied Physics and Real-World Fidelity](./APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md).
+8. **Data is not the engine.** A versioned Library Service MUST resolve immutable model/device/package/board/system revisions into a validated execution bundle. The numerical engine MUST NOT query PostgreSQL, JSONB, object storage, or IndexedDB. See [Data-Driven Library and Storage Architecture](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md).
 
 ## 3. Context and topology
 
@@ -30,6 +32,7 @@ flowchart TB
     DigitalWorker["Digital scheduler Worker"]
     WaveWorker["Waveform processing Worker"]
     API["Simulation and project API"]
+    Library["Versioned Library Service"]
     PG["PostgreSQL metadata and collaboration"]
     S3["S3-compatible immutable objects"]
     Redis["Redis Streams job queue"]
@@ -45,8 +48,10 @@ flowchart TB
     AnalogWorker --> WaveWorker
     DigitalWorker --> WaveWorker
     Browser <--> API
-    API <--> PG
-    API <--> S3
+    Browser <--> Library
+    API <--> Library
+    Library <--> PG
+    Library <--> S3
     API --> Redis
     Redis --> Workers
     Workers --> S3
@@ -69,6 +74,7 @@ The frontend stack is Next.js, React, and TypeScript. The schematic surface uses
 | Global scheduler | integer timestamps, boundary events, checkpoints, deterministic ordering | engine-specific numerical algorithms |
 | Waveform pipeline | chunking, decimation, derived measurements, display-ready levels | source project mutation |
 | Project service | authorization, project metadata, versions, branches, comments, sharing | executing untrusted models in-process |
+| Library Service | exact revision retrieval, schema/dimensional validation, dependency DAG, publication, provenance/license/trust, resolution into `ComponentDefinitionPlan` | numerical solving, direct client database CRUD, arbitrary stored execution |
 | Job service | validation, quotas, idempotency, state transitions, dispatch | engine implementation |
 | Worker runtime | isolated execution, checkpointing, result upload | permanent metadata authority |
 | Object store | immutable project packages, model assets, result chunks, checkpoints | relational permissions or mutable job state |
@@ -85,6 +91,7 @@ Infrastructure adapters -------------------------------> Engine ports
 ```
 
 - Domain contracts MUST be independent of React, database clients, cloud SDKs, and external engine APIs.
+- Engine ports accept only a self-contained validated `ComponentDefinitionPlan` or equivalent immutable execution bundle; an unresolved alias, dependency, dimension, trust state, or executable capability fails before solver preparation.
 - UI components MUST use application commands and read models; they MUST NOT mutate project persistence directly.
 - The canonical project model MUST be engine-neutral. Engine adapters create private derived netlists or binaries.
 - External engines MUST implement the `EngineAdapter` contract defined in [API and Worker Protocols](./API_AND_WORKER_PROTOCOLS.md).
@@ -96,11 +103,12 @@ Infrastructure adapters -------------------------------> Engine ports
 ### 6.1 Local edit and simulation
 
 1. A command updates an immutable in-memory project revision.
-2. Schematic validation produces diagnostics and a deterministic netlist snapshot.
-3. The snapshot and `SimulationRequest` are transferred to the appropriate Workers.
-4. The scheduler coordinates analog, digital, and thermal boundaries.
-5. Waveform chunks are transferred to the waveform Worker, decimated, and streamed to the UI.
-6. The project draft and optional result summary are committed to IndexedDB.
+2. A local semantic Library Service resolves exact cached component/model/device/package/board/system revisions and validates dimensions, dependency closure, and hashes.
+3. Schematic validation produces diagnostics and a deterministic netlist plus `ComponentDefinitionPlan` snapshot.
+4. The snapshot and `SimulationRequest` are transferred to the appropriate Workers.
+5. The scheduler coordinates analog, digital, thermal, environment, and external boundaries.
+6. Waveform chunks are transferred to the waveform Worker, decimated, and streamed to the UI.
+7. The project draft and optional result summary are committed to IndexedDB.
 
 No server is authoritative in this flow. Local simulation eligibility is defined in [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md).
 

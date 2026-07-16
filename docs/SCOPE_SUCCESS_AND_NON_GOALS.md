@@ -4,6 +4,7 @@
 
 ### Realistic electronics foundation
 
+- Applied Physics First governance from physical principles through equations, algorithms, reusable models, composed devices/systems, and experimental validation.
 - Hierarchical schematic capture, reusable subcircuits, offline projects, measurement, waveforms, and educational overlays. [Source PDF, pp. 2, 22-23, 30-32]
 - DC, transient, AC, noise, Monte Carlo, thermal, and applicable parameter analyses. [Source PDF, pp. 9-11, 30]
 - Ideal, non-ideal, nonlinear, parasitic, tolerance, leakage, thermal, rating, and failure behavior at declared fidelity. [Source PDF, pp. 3, 5-9, 33]
@@ -25,13 +26,15 @@
 - Local-first small simulation and isolated cloud workers for large or specialized jobs. [Source PDF, pp. 25-26, 36]
 - Versioning, comments, controlled sharing, reusable libraries, and real-time collaboration. [Source PDF, pp. 31-32, 42]
 - Accessibility, localization readiness, security isolation, provenance, open-core licensing, observability, and bounded resource use.
+- A versioned Library Service that resolves immutable model/device/package/board/system revisions into storage-independent execution bundles.
+- PostgreSQL metadata and validated JSONB definitions, S3-compatible immutable artifacts, IndexedDB local projects/cache/outbox, optional Google OIDC, guest migration, and personal cloud persistence; organization and enterprise authorization remain R10.
 
 ## Release boundaries
 
 1. Documentation and registry foundation.
 2. Editor, format, offline persistence, and linear circuit foundation.
 3. Nonlinear semiconductor and SPICE interoperability.
-4. Non-ideal, electrothermal, failure, AC, and statistical analyses.
+4. **Applied Physics and Real-World Fidelity:** non-ideal, electrothermal, environmental, manufacturing, interconnection, source, instrument, aging, failure, uncertainty, and physical-correlation evidence.
 5. Event-driven digital and analog/digital co-simulation.
 6. **Realistic Electronics MVP** with all eleven canonical demonstrations. [Source PDF, p. 37]
 7. Remaining production component domains.
@@ -47,7 +50,7 @@ The exact ordering and entry/exit criteria are defined in [Master Roadmap](plann
 ### Documentation foundation
 
 - All planned canonical documents exist and cross-links resolve.
-- `REQ-001` through `REQ-038` trace to at least one ADR, epic, atomic task, test, and release gate as applicable.
+- `REQ-001` through `REQ-063` trace to at least one ADR, epic, atomic task, test, and release gate as applicable.
 - The registry validates at exactly 162 families and 502 variants, with no missing required contract field.
 - Every external dependency has source, version policy, license, isolation decision, and distribution status.
 
@@ -81,6 +84,7 @@ Detailed criteria and exceptions belong in [Numerical Accuracy Targets](quality/
 - Shipping a modern-PC implementation in the Realistic Electronics MVP. [Source PDF, pp. 35, 37]
 - Guaranteeing sign-off accuracy for safety-critical, medical, aerospace, mains, grid, automotive, or production semiconductor design without independent qualified verification.
 - Bundling every manufacturer SKU. The built-in promise is the canonical family and preset baseline; vendor parts enter through imported models.
+- Claiming thousands of primitive or composite models, complete market coverage, or laboratory-grade accuracy before those records and their evidence are actually enumerated.
 - Copying IEC 60617 artwork or redistributing proprietary models without permission.
 - Treating visual animation as measured physical truth when it is an explanatory abstraction. [Source PDF, p. 31]
 - Treating a realistic component body or IC package rendering as proof of electrical, dimensional, thermal, manufacturing, or regulatory accuracy.
@@ -88,6 +92,9 @@ Detailed criteria and exceptions belong in [Numerical Accuracy Targets](quality/
 - Requiring cloud connectivity for supported small projects or basic editing. [Source PDF, pp. 25-26, 31-32]
 - Mobile schematic editing in the first MVP; mobile viewing MAY be added later.
 - Allowing arbitrary user HDL, model code, firmware, or external tools to execute without isolation and resource limits.
+- Executing arbitrary database content, coupling the simulation engine directly to a storage technology, or adding a separate document database without an evidence-backed ADR.
+- Treating a package as an IC, MCU, board, module, or system, or treating a board as a package.
+- Hard-deleting a referenced or published library revision.
 
 ## Deferred research scope
 

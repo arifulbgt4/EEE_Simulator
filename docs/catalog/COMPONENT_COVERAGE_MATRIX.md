@@ -4,12 +4,17 @@ Status: **Baseline 1.0 coverage contract**
 Registry: [component-registry.yaml](component-registry.yaml)  
 Family specifications: [families](families)  
 Physical packages: [package-registry.yaml](package-registry.yaml)
+Scientific models: [model-registry.yaml](model-registry.yaml)
+Variant semantic profiles: [variant-semantic-profiles.yaml](variant-semantic-profiles.yaml)
+Parameter definitions: [parameter-definitions.yaml](parameter-definitions.yaml)
 
 ## Interpretation
 
 `Specified` means the documentation contract exists; it does not claim executable implementation. `Required` means the artifact or validation must exist before release. `Deferred` means the work is visible but outside production gates. No empty cell is permitted in this matrix.
 
 Release coverage is variant-scoped: 106 production presets are tagged for the Realistic Electronics MVP, 388 production presets are tagged for the R7 complete-catalog gate, and eight presets remain Deferred/Research. Mixed-target families may finish a gate-scoped core profile while optional import formats or later presets remain explicitly unavailable; no unfinished capability may be claimed by the earlier profile.
+
+The scientific model registry is a separate, evidence-derived inventory. Its count never changes the 162-family/502-variant baseline, and this matrix does not claim that every semantic model-plan reference is implemented. Each of the 502 semantic profiles remains `Planned` until its exact model revisions, parameters, package binding, lineage, and golden evidence resolve.
 
 ## Category totals
 
@@ -206,6 +211,9 @@ Release coverage is variant-scoped: 106 production presets are tagged for the Re
 - The category table totals are mechanically checked against the registry.
 - Every family row links to exactly one family specification.
 - Every one of the 502 variants appears exactly once under one family.
+- Every variant resolves exactly one PinProfile and exactly one semantic profile; missing, duplicate, sibling-collapsed, or unresolved profile/model-plan references block release.
+- Every compact parameter occurrence resolves to a dimension/unit definition or an explicit release-blocking unresolved diagnostic; normalization never invents a physical value.
+- Model, generic/vendor device, symbol, package, pin/binding, board, system, project, and evidence counts are maintained separately and derived from actual records.
 - `basic-component` rows require physical appearance, polarity/pin-one cues where applicable, non-color identification, LOD behavior, and view-switch preservation before release.
 - All package bindings require an explicit logical-to-physical pin map; no pin order is inferred from a package name.
 - Golden validation must cover nominal, boundary, and failure behavior. `not-applicable` requires rationale; a blank is invalid.

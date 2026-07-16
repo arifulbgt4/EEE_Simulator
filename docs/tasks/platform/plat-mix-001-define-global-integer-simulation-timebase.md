@@ -10,7 +10,7 @@
 | Requirements | REQ-001, REQ-002, REQ-019, REQ-020 |
 | Concern | `define_global_integer_simulation_timebase` |
 | Effort | S |
-| Depends on | Gate G4 realism |
+| Depends on | Gate G4 Applied Physics and Real-World Fidelity |
 
 ## Objective
 
@@ -25,7 +25,7 @@ Define global integer simulation timebase. Deliver one reviewable outcome that s
 
 ## Exact prerequisites
 
-- `Gate G4 realism`
+- `Gate G4 Applied Physics and Real-World Fidelity`
 
 The named task or gate must be complete before this card may become `Ready`; a later sequential task cannot use an epic title as a substitute dependency.
 
@@ -38,7 +38,7 @@ The named task or gate must be complete before this card may become `Ready`; a l
 ## Inputs
 
 - Normative input: `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md` clauses governing **global integer simulation timebase**, together with every acceptance obligation in REQ-001, REQ-002, REQ-019, REQ-020.
-- Prerequisite input: the completion evidence for `Gate G4 realism`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_MIX_001_PREREQUISITE_MISSING` is raised if that evidence is absent.
+- Prerequisite input: the completion evidence for `Gate G4 Applied Physics and Real-World Fidelity`, including its artifact versions, digests, unresolved limitations, and compatibility range; `PLAT_MIX_001_PREREQUISITE_MISSING` is raised if that evidence is absent.
 - Domain input for `define_global_integer_simulation_timebase`: integer time quantum, partition capabilities, analog crossings, digital events, boundary adapters, thermal steps, seeds, and checkpoints; the fixture manifest enumerates the consumed fields and pins each value to the immutable project/task revision used by PLAT-MIX-001.
 - Evidence input: `TEST-PLAT-MIX-001-ACCEPTANCE` receives one minimal valid and one declared boundary fixture, while `TEST-PLAT-MIX-001-FAILURE` receives every named invalid/failure case in this card.
 
@@ -89,14 +89,14 @@ No application/source path is authorized while this card is `Planned`. Promotion
 - `PLAT_MIX_001_NOMINAL`: processing a minimal valid **global integer simulation timebase** fixture resolves every required field, default, invariant, version rule, and public input/output without ambiguity; rerunning the same revision, configuration, seed, and dependency versions produces the same declared outcome.
 - `PLAT_MIX_001_BOUNDARY`: the **global integer simulation timebase** fixture matrix covers same-timestamp events, threshold equality, hysteresis edge, Z/X drive, minimum quantum, maximum tick, and checkpoint safe point; it records each exact inclusive/exclusive limit and expected state or diagnostic, and marks a contract-declared unsupported case explicitly instead of skipping it.
 - `PLAT_MIX_001_SCHEMA_INVALID`: reject an overflowing timebase, contradictory threshold, missing domain adapter, unsupported partition capability, or stale checkpoint before authoritative state is published; the diagnostic identifies the field/entity, rejected value, and remediation.
-- `PLAT_MIX_001_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `Gate G4 realism`; no implicit migration or downgrade is allowed.
+- `PLAT_MIX_001_PREREQUISITE_MISMATCH`: reject a prerequisite artifact, schema, model, engine, or contract version outside the range declared by `Gate G4 Applied Physics and Real-World Fidelity`; no implicit migration or downgrade is allowed.
 - `PLAT_MIX_001_COMPATIBILITY_CONFLICT`: contain event-order divergence, threshold chatter, partition overrun, zero-time oscillation, incompatible checkpoint, or nondeterministic replay with bounded time/memory/output, deterministic cleanup or rollback, retained correlation/provenance, and no main-thread blocking or sandbox escape.
 
 ## Acceptance tests
 
 1. `TEST-PLAT-MIX-001-ACCEPTANCE` proves that **Define global integer simulation timebase** resolves every required field, default, invariant, version rule, and public input/output without ambiguity, produces globally ordered cross-domain state and reproducible co-simulation evidence, and satisfies every metadata requirement: REQ-001, REQ-002, REQ-019, REQ-020.
 2. `TEST-PLAT-MIX-001-FAILURE` executes `PLAT_MIX_001_SCHEMA_INVALID`, `PLAT_MIX_001_PREREQUISITE_MISMATCH`, and `PLAT_MIX_001_COMPATIBILITY_CONFLICT` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
-3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `Gate G4 realism`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
+3. The evidence names `docs/architecture/MULTI_FIDELITY_AND_CO_SIMULATION.md`, prerequisite `Gate G4 Applied Physics and Real-World Fidelity`, immutable fixture and dependency digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, and known limitations; an identical rerun meets the declared determinism or tolerance class.
 4. The PLAT-MIX-001 card, its epic, test registry entries `TEST-PLAT-MIX-001-ACCEPTANCE` and `TEST-PLAT-MIX-001-FAILURE`, requirement links REQ-001, REQ-002, REQ-019, REQ-020, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
 
 ## Definition of Done

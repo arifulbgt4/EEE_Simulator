@@ -2,6 +2,8 @@
 
 Thank you for helping build an open, rigorous electronics and computer simulation platform.
 
+All contributions follow Applied Physics First: preserve the traceable path from governing principle and dimensions through equations, algorithms, model dependencies, immutable library revisions, and validation evidence. A feature claim is incomplete when its physical validity, uncertainty, provenance, or limitation is unknown.
+
 ## Before contributing
 
 Read, in order:
@@ -36,6 +38,9 @@ Resolve documentation ambiguity before implementation. A changed architectural d
 - Keep requirements, task status, catalog coverage, validation evidence, and traceability synchronized.
 - Record numerical tolerances and the reference used to establish them.
 - Declare imported model provenance, version, license, supported analyses, and known limitations.
+- Use immutable revision IDs and content hashes for published model, device, package, binding, board, system, project, and evidence references.
+- Keep database content declarative; executable kernels require an allowlisted capability and the documented sandbox boundary.
+- Resolve library definitions through the Library Service contract rather than adding engine-to-storage dependencies.
 - Treat generated or vendor-supplied models as untrusted input.
 - Use English for repository documentation, source identifiers, and public interfaces.
 
@@ -50,6 +55,7 @@ Documentation-only contributions should:
 - distinguish normative requirements from explanation;
 - avoid claiming every manufacturer SKU is built in;
 - keep the 162-family and 502-variant baseline internally consistent;
+- report only actually enumerated model records; do not convert market aspirations into registry counts;
 - update the traceability matrix when requirements, tasks, tests, or gates change.
 
 ## Review checklist

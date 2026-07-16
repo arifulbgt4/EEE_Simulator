@@ -6,7 +6,7 @@ Deliver the complete **Security privacy and sandboxing** capability for release 
 
 ## Requirements and release
 
-- Requirements: REQ-032, REQ-035
+- Requirements: REQ-032, REQ-035, REQ-056, REQ-057, REQ-060, REQ-062, REQ-063
 - Release: R1
 - Entry: Gate G0 documentation baseline.
 
@@ -37,3 +37,4 @@ Deliver the complete **Security privacy and sandboxing** capability for release 
 - [ ] Nominal and failure behavior are documented and validated.
 - [ ] Security, performance, accessibility, compatibility, migration, and operational gates pass where applicable.
 - [ ] Known limitations and deferred work are explicit.
+- [ ] Arbitrary stored execution, unsafe imported models, untrusted executable capabilities, OIDC claim/session attacks, unauthorized publication, and unrestricted client/database CRUD have explicit denial evidence.

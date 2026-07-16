@@ -1,5 +1,9 @@
 # Project File Format
 
+Project portability includes exact scientific-model, generic/vendor-device, symbol, package, pin-profile, device-package binding, board/module, system, benchmark, and dependency revision IDs plus content hashes. Mutable aliases may be retained for display/search, but save and simulation manifests resolve them to immutable revisions. See [Hierarchical Model and Library Architecture](./HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md).
+
+Cloud ownership, guest migration, and sync metadata are not required to open a portable `.eesim` archive. Account migration creates a cloud-owned revision/reference record without rewriting the archive's scientific identity, and retains the local copy until acknowledgement. Credentials, OIDC tokens, database keys, and private object URLs are prohibited from the archive.
+
 Status: Normative  
 Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Storage, Versioning, and Collaboration](./STORAGE_VERSIONING_AND_COLLABORATION.md), [Component Model Contract](../catalog/COMPONENT_MODEL_CONTRACT.md)
 
@@ -20,7 +24,7 @@ flowchart TD
     Archive --> Project["project/project.json"]
     Archive --> Sheets["project/sheets/*.json"]
     Archive --> Blocks["project/blocks/*.json"]
-    Archive --> Libraries["libraries/components and packages"]
+    Archive --> Libraries["libraries/models, devices, symbols, packages, bindings, boards and systems"]
     Archive --> Models["models/imported assets"]
     Archive --> Stimuli["stimuli and testbenches"]
     Archive --> Docs["documentation and media"]
@@ -36,8 +40,15 @@ Normative members are:
 | project/sheets/*.json | schematic entities, geometry, annotations, and view state | at least one |
 | project/blocks/*.json | reusable hierarchical block definitions and port maps | when referenced |
 | libraries/components/*.json | embedded custom or frozen component definitions | when not available by immutable built-in digest |
+| libraries/scientific-models/*.json | declarative custom or frozen scientific-model revisions and dependency metadata | when not available by immutable built-in digest |
+| libraries/devices/*.json | frozen generic or vendor device revisions and bounded overrides | when referenced and not available by immutable built-in digest |
+| libraries/symbols/*.json | frozen schematic-symbol revisions | when not available by immutable built-in digest |
 | libraries/packages/*.json | embedded reusable physical and IC package definitions | when not available by immutable built-in digest |
-| libraries/pin-maps/*.json | component-symbol-model-to-package pin equivalence records | when a package is bound |
+| libraries/pin-profiles/*.json | exact logical topology revisions | when not available by immutable built-in digest |
+| libraries/device-package-bindings/*.json | exact device/pin-profile-to-package contact equivalence records | when a package is bound |
+| libraries/boards/*.json | exact board/module composition revisions | when referenced and not available by immutable built-in digest |
+| libraries/systems/*.json | exact complete-system composition revisions | when referenced and not available by immutable built-in digest |
+| libraries/benchmarks/*.json | benchmark/evidence manifest revisions; raw evidence remains content-addressed | when referenced or retained with results |
 | models/* | imported SPICE, HDL, IBIS, Touchstone, firmware, data, or other declared model assets | when referenced |
 | stimuli/*.json | named deterministic stimuli and environment profiles | optional |
 | testbenches/*.json | test topology, assertions, probes, and expected envelopes | optional |
@@ -56,7 +67,7 @@ The manifest MUST declare:
 - canonical project-member path;
 - ordered member list with media type, byte length, and SHA-256 digest;
 - required and optional feature identifiers;
-- catalog snapshot and package-registry snapshot digests;
+- scientific-model, component, semantic-profile, parameter-definition, symbol, package, pin-profile, device-binding, board/system, and benchmark snapshot digests;
 - minimum reader version and migration requirements;
 - archive normalization profile;
 - source/provenance notices and license summary;
@@ -67,12 +78,13 @@ Unknown required features MUST make the archive unsupported. Unknown optional fe
 
 ## 4. Stable identity and references
 
-- Project, sheet, block, component instance, pin, net, package, package pin, pin map, model, stimulus, testbench, probe, and result IDs are opaque stable identifiers.
+- Project, sheet, block, component instance, generic/vendor device, pin, net, scientific model, dependency edge, symbol, package, package contact, pin profile, device-package binding, board, system, benchmark, stimulus, testbench, probe, and result IDs are opaque stable identifiers.
 - Display names are never identity.
 - Every reference MUST include the expected object kind. Cross-kind ID reuse is invalid even if strings match.
 - Built-in definitions are addressed by stable ID, version, and immutable digest.
 - Embedded definitions use archive-scoped stable IDs and content digests. A later import MUST NOT silently replace them with a same-named built-in definition.
 - References MUST be acyclic except for permitted electrical feedback inside a sheet. Hierarchy definition cycles are invalid.
+- Mutable search/display aliases MUST resolve to an exact immutable revision ID and content hash before save, publication, or simulation; a later library revision cannot silently alter an archived project.
 
 ## 5. Schematic and physical representation
 
@@ -152,6 +164,7 @@ The project record MUST capture:
 - local/cloud placement preferences that do not override server policy;
 - named analyses, probes, retention policy, stimuli, and testbenches;
 - view bindings, package bindings, pin maps, and renderer-version locks needed for deterministic visual fixtures.
+- exact scientific-model/device/symbol/pin-profile/package/binding/board/system/benchmark revisions, content hashes, and complete dependency/lineage manifest.
 
 A retained result MUST reference the exact project-member digest set, execution-plan digest, engine/model versions, determinism class, seed, units, probe mapping, completeness, and chunk checksums. A result never serves as the authoritative project state.
 

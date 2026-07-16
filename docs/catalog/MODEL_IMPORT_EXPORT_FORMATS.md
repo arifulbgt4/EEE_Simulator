@@ -1,7 +1,7 @@
 # Model Import and Export Formats
 
 Status: **Normative interchange plan 1.0**  
-Related contracts: [COMPONENT_MODEL_CONTRACT.md](COMPONENT_MODEL_CONTRACT.md), [variant-pin-profiles.yaml](variant-pin-profiles.yaml), [package-registry.yaml](package-registry.yaml)
+Related contracts: [COMPONENT_MODEL_CONTRACT.md](COMPONENT_MODEL_CONTRACT.md), [model-registry.yaml](model-registry.yaml), [variant-pin-profiles.yaml](variant-pin-profiles.yaml), [variant-semantic-profiles.yaml](variant-semantic-profiles.yaml), [package-registry.yaml](package-registry.yaml)
 
 ## Supported targets
 
@@ -30,6 +30,10 @@ Unless an applicable release gate explicitly requires a format, import support i
 6. **Map:** select or create a reviewed variant `PinProfile`; require explicit logical pins, buses/endianness, parameterized group resolution, package contacts where present, parameters, domains, and supported analyses.
 7. **Validate:** run syntax, semantic, nominal, boundary, failure, and determinism checks against declared references.
 8. **Quarantine or publish:** unreviewed artifacts remain project-local and cannot enter the public catalog.
+
+Every import also records detected/declared format, source locator/version, content hash, license or unknown-license state, redistribution permission, trust level, validation status, parser diagnostics, dependency closure, executable-mode classification, sandbox policy, and immutable imported revision ID. Unknown trust or license blocks system-library publication. Import capability never grants redistribution rights.
+
+When an import represents a market ordering code, it SHOULD bind to an exact generic-device revision and contribute only schema-authorized dimensionally valid overrides, exact package/pin binding, metadata, and evidence. It MUST NOT duplicate a complete internal model merely to create a vendor SKU or widen the generic model's accuracy/validity claim.
 
 ## Pin and package mapping
 

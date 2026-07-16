@@ -15,15 +15,16 @@ The Apache-2.0 core must not assume that an external executable, generated model
 | gem5 | Microarchitecture/full-system timing research | Separate research worker | BSD-style with source-specific notices | Pin resources/workloads and preserve provenance |
 | QEMU | Functional machine/ISA execution | Separate worker | Per-component license matrix | Review each distributed build and device component |
 | Accel-Sim/GPGPU-Sim | GPU/accelerator research | Separate research worker | Verify exact repositories/components | User traces and vendor dependencies require separate review |
-| PostgreSQL | Cloud metadata | Infrastructure | Verify pinned distribution | No public contract may depend on vendor-only extensions |
+| PostgreSQL and JSONB | Identity/ownership, library/project metadata, immutable revisions, dependencies, publication/audit/search, validated evolving definitions | Infrastructure behind Library Service | PostgreSQL License; verify pinned distribution | No engine dependency or public contract on vendor-only extensions; separate document database requires ADR evidence |
 | S3-compatible storage | Assets, results, checkpoints | Infrastructure API | Provider-independent contract | Encryption, retention, and tenant isolation required |
 | Redis Streams | Job dispatch | Infrastructure | Verify pinned release | Jobs remain portable through the documented queue contract |
+| Google OpenID Connect | Initial optional personal identity provider | Standards-based provider adapter | Google service terms plus OpenID Connect/OAuth standards; no bundled proprietary SDK assumed | Guest/offline remains available; provider-neutral subject mapping; organizations/RBAC stay R10 |
 | IEC 60617 | Symbol naming/reference | Reference only | Subscription/copyrighted database | Create original artwork; do not copy database assets |
 | IEEE 315 | Symbol/reference guidance | Reference only | Standards access required | Record reference mapping; do not redistribute protected text/artwork |
 | Verilog-AMS 2023 | Analog/mixed-signal language target | Format specification | Accellera specification | Implement only documented supported subset until full conformance |
 | IBIS 8.0 | I/O buffer model target | Import format | IBIS Open Forum specification | Preserve model licenses and unsupported-key diagnostics |
 | Touchstone 2.1 | S-parameter import target | Import format | IBIS Open Forum specification | Preserve port/reference metadata and source license |
-| Manufacturer models | Device-specific behavior | User/project asset or approved library | Vendor-specific | Default to user-provided reference; redistribution opt-in only after review |
+| Manufacturer datasheets and models | Device-specific parameters, validation, bounded generic-device overrides | User/project asset, reference-only record, or approved library | Vendor-specific copyright/license/terms | Default to citation/user-provided reference; no redistribution without rights; ordering code does not imply validation |
 
 ## Verified primary references
 
@@ -42,4 +43,3 @@ The Apache-2.0 core must not assume that an external executable, generated model
 ## Adapter acceptance
 
 Before an adapter is released, its task must record exact version/hash, build source, license files, included models/resources, process boundary, network/filesystem policy, supported request capabilities, result mapping, cancellation behavior, reproducibility limits, and replacement/export path.
-

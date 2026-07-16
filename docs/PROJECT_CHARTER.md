@@ -2,7 +2,7 @@
 
 ## Mission
 
-Build an open, browser-based virtual electronics laboratory that lets learners, engineers, and researchers understand how behavior changes across component, transistor, gate, RTL, processor, memory, architecture, and complete-system abstractions. The product must expose the right fidelity for the question instead of treating all scales as one impossible SPICE problem. [Source PDF, pp. 1-3, 13-16, 41-44]
+Build an open, browser-based, Applied Physics-driven simulation platform that lets learners, engineers, and researchers follow validated physical principles through equations, algorithms, reusable models, devices, circuits, boards, and complete systems while understanding how behavior changes across component, transistor, gate, RTL, processor, memory, and architecture abstractions. The product must expose the right fidelity for the question instead of treating all scales as one impossible SPICE problem. [Source PDF, pp. 1-3, 13-16, 41-44]
 
 ## Problem statement
 
@@ -12,15 +12,17 @@ Users should be able to begin with a power source, resistor, LED, and ground; ob
 
 ## Product principles
 
-1. **Fidelity must be explicit.** Every model declares its fidelity, supported analyses, limits, validation reference, and provenance. [Source PDF, pp. 3-4, 13-16, 27, 40]
-2. **Scale determines abstraction.** Detailed electrical models serve small circuits and selected blocks; event, RTL, architecture, and ISA models serve larger systems. [Source PDF, pp. 12-21, 43-44]
-3. **Realistic electronics comes first.** Non-ideal components, temperature, leakage, tolerance, parasitics, and failure are required before CPU and GPU expansion. [Source PDF, pp. 5-11, 33, 37, 44]
-4. **The browser remains responsive.** Simulation work runs outside the main UI thread, and heavy jobs can move to cloud workers. [Source PDF, pp. 23-26]
-5. **Results must teach and explain.** Waveforms are complemented by voltage/current overlays, heat maps, logic state, timing, failure, memory, CPU, cache, and GPU views with honest educational labeling. [Source PDF, pp. 30-31]
-6. **Determinism and evidence beat appearance.** A realistic-looking result is not acceptable without deterministic scheduling, validated models, diagnostics, and reference comparisons. [Source PDF, pp. 27-29, 39-40]
-7. **Open core, explicit boundaries.** The core remains Apache-2.0; external engines and imported models retain their own licenses and run across documented isolation boundaries.
-8. **Physical appearance and electrical meaning stay linked but separate.** Basic components should be recognizable from real-world body shapes and markings, while schematic symbols remain electrically unambiguous and visual realism never substitutes for validated behavior. [Source basis: PDF, pp. 22-23, 30-31; representation separation is a repository decision.]
-9. **IC packages are reusable definitions.** Device function, symbol, electrical model, package appearance, and optional footprint metadata evolve independently through explicit pin mappings so each IC can have a distinct package design without duplicating its behavior. [Source basis: PDF, pp. 26-27, 31-32; package separation is a repository decision.]
+1. **Applied Physics First.** Work follows Physical Principles -> Mathematical Models -> Engineering Equations -> Numerical Algorithms -> Primitive Models -> Composite Models -> Library Devices -> Circuits and Boards -> Complete Systems -> Experimental Validation. Physics informs every tier; documented approximation enables scale.
+2. **Fidelity must be explicit.** Every model declares its fidelity, supported analyses, limits, validation reference, and provenance. [Source PDF, pp. 3-4, 13-16, 27, 40]
+3. **Scale determines abstraction.** Detailed electrical models serve small circuits and selected blocks; event, RTL, architecture, and ISA models serve larger systems. [Source PDF, pp. 12-21, 43-44]
+4. **Realistic electronics comes first.** Non-ideal components, temperature, environment, leakage, tolerance, parasitics, aging, uncertainty, and failure are required before CPU and GPU expansion. [Source PDF, pp. 5-11, 33, 37, 44]
+5. **The browser remains responsive.** Simulation work runs outside the main UI thread, and heavy jobs can move to cloud workers. [Source PDF, pp. 23-26]
+6. **Results must teach and explain.** Waveforms are complemented by voltage/current overlays, heat maps, logic state, timing, failure, memory, CPU, cache, and GPU views with honest educational labeling. [Source PDF, pp. 30-31]
+7. **Determinism and evidence beat appearance.** A realistic-looking result is not acceptable without deterministic scheduling, validated models, diagnostics, experimental correlation, and bounded accuracy claims. [Source PDF, pp. 27-31, 39-41]
+8. **Open core, explicit boundaries.** The core remains Apache-2.0; external engines and imported models retain their own licenses and run across documented isolation boundaries.
+9. **Physical appearance and electrical meaning stay linked but separate.** Basic components should be recognizable from real-world body shapes and markings, while schematic symbols remain electrically unambiguous and visual realism never substitutes for validated behavior. [Source basis: PDF, pp. 22-23, 30-31; representation separation is a repository decision.]
+10. **Library layers remain orthogonal.** Models, devices, symbols, packages, pins, boards, systems, and projects are independent immutable revisions joined by validated bindings and dependency graphs.
+11. **Storage is not the engine.** The Library Service resolves governed data into an engine-ready bundle; the numerical engine never queries PostgreSQL, object storage, or IndexedDB directly.
 
 ## Initial success outcome
 
@@ -42,7 +44,7 @@ Their responsibilities and workflows are defined in [User Roles and Use Cases](U
 ## Governance and authority
 
 - Accepted ADRs lock architectural and policy decisions.
-- `REQ-001` through `REQ-038` are the stable product requirement identifiers.
+- `REQ-001` through `REQ-063` are the stable product requirement identifiers.
 - The component registry is the canonical catalog inventory.
 - Release gates decide whether capability may advance to the next stage.
 - Atomic tasks are the only executable planning units.

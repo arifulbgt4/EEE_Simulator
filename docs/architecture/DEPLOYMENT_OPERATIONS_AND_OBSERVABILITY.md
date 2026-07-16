@@ -14,6 +14,7 @@ flowchart TB
     CDN["CDN/static web delivery"]
     Web["Next.js web application"]
     API["Project, collaboration, and job APIs"]
+    Lib["Versioned Library Service"]
     PG["PostgreSQL"]
     Obj["S3-compatible object storage"]
     Redis["Redis Streams"]
@@ -23,8 +24,9 @@ flowchart TB
 
     CDN --> Web
     Web --> API
-    API --> PG
-    API --> Obj
+    API --> Lib
+    Lib --> PG
+    Lib --> Obj
     API --> Redis
     Redis --> CPU
     Redis --> GPU
@@ -41,6 +43,7 @@ Deployment units are independently versioned:
 - authenticated project/job API;
 - collaboration gateway;
 - import/asset-validation service;
+- versioned Library Service and definition-resolution service;
 - queue reconciliation and scheduler service;
 - engine-specific CPU workers;
 - GPU/HPC workers;
@@ -79,7 +82,7 @@ Every deployable artifact records:
 - dependency lock/SBOM and license report;
 - container or asset digest;
 - schema/protocol compatibility ranges;
-- catalog, component, package, and pin-map registry digest;
+- scientific-model, component, semantic-profile, parameter, package, pin-profile, binding, board/system, and benchmark registry digests;
 - engine/toolchain version and adapter capability digest;
 - security scan and required test evidence;
 - release approver and rollout record.
@@ -120,6 +123,8 @@ Web, API, Worker, catalog/package registry, and protocol releases are independen
 - .eesim and custom-package migrations are deterministic application migrations and never run implicitly against published source bytes.
 - CRDT schema migration pauses publication for affected drafts, creates a verified snapshot, migrates, and resumes under a declared protocol version.
 - Engine checkpoint formats are not migrated unless the adapter declares an exact compatible transformation.
+- Published library revisions are never updated in place. Schema evolution creates a new validated revision and explicit compatibility/migration record; hard deletion of referenced revisions is prohibited.
+- Adding a document database is an architecture migration, not an implementation convenience, and requires the evidence and superseding ADR defined by ADR-0016.
 
 ## 8. Queue and worker operations
 

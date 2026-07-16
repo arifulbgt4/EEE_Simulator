@@ -25,7 +25,11 @@ The machine-readable `release_target` on each variant is authoritative. A family
 1. **Category** groups related engineering purpose and simulation domain.
 2. **Family** owns the stable pin-role vocabulary, parameters, symbol contract, supported analyses, fidelity envelope, and validation obligations; its compact pin list is a preview, not a variant topology.
 3. **Variant** is a meaningful built-in behavior/profile preset, not a cosmetic color or package, and selects exactly one normative `PinProfile`.
-4. **Vendor model** is imported data with provenance, license, pin map, supported analyses, and limitations.
+4. **Generic device** binds an exact reusable model/interface revision without claiming a manufacturer ordering code.
+5. **Vendor device or ordering-code variant** inherits one exact generic-device revision and adds only bounded evidence-backed parameter overrides, package/pin binding, metadata, provenance, license, trust, and validation state.
+6. **Vendor model** is imported data with provenance, license, pin map, supported analyses, executable-mode classification, trust, validation, and limitations.
+
+Scientific models are inventoried separately in [model-registry.yaml](model-registry.yaml) as `physics`, `primitive`, `composite`, `behavioral`, or `external_adapter`. Symbols, packages, pin profiles, device-package bindings, boards/modules, systems, projects, and validation artifacts are independent types; a package is never an IC, board, module, or system.
 5. **Package** describes physical appearance and contact geometry independently of electrical function.
 6. **Footprint** is optional manufacturing metadata; it is not inferred from a visual package.
 

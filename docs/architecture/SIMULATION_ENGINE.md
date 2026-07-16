@@ -7,6 +7,8 @@ Primary implementation target: Rust compiled to WebAssembly for eligible local j
 
 This document defines the analog, electrical, thermal, tolerance, and failure simulation engine. It establishes numerical behavior, engine-facing component contracts, deterministic execution, diagnostics, and result integrity. Digital and cross-engine scheduling are defined in [Multi-Fidelity and Co-Simulation](./MULTI_FIDELITY_AND_CO_SIMULATION.md).
 
+The engine implements numerical algorithms; it is not a component database. Model, device, package, board, system, and project definitions are resolved by the [Library Service architecture](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md) into an immutable `ComponentDefinitionPlan`. Scientific meaning and R4 behavior follow [Applied Physics and Real-World Fidelity](./APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md).
+
 The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear device equations, iterative solution, transient stepping, convergence checks, and waveform retention. [Source PDF, pp. 9-11]
 
 ## 2. Solver scope by release
@@ -18,9 +20,9 @@ The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear 
 | DC operating point and transient | F1 | linear MVP |
 | diode, BJT, MOSFET, op-amp nonlinear models | F3 | semiconductor stage |
 | AC small-signal analysis | F1/F3 | semiconductor stage |
-| parasitics, tolerance, leakage, and power ratings | F4 | non-ideal stage |
+| parasitics, tolerance, leakage, source/interconnect/instrument loading, and power ratings | F4 | Applied Physics and real-world fidelity |
 | noise, Monte Carlo, parameter sweep | F3/F4 | non-ideal stage |
-| electrothermal feedback and failure transitions | F4 | realistic electronics gate |
+| electrothermal/environment feedback, manufacturing variation, aging, uncertainty, and failure transitions | F4 | Applied Physics and real-world fidelity |
 | physical device/TCAD model | F5 | deferred research/HPC |
 
 The engine is not initially a complete SPICE replacement. The platform begins with a small educational solver, stabilizes UI/netlist/component architecture, and later adds compatible external backends. [Source PDF, pp. 32-33, 43]
@@ -35,6 +37,10 @@ The engine is not initially a complete SPICE replacement. The platform begins wi
 - Parameter expressions MUST be evaluated in a bounded, deterministic expression language; arbitrary host-language execution is forbidden.
 
 ## 4. Engine-facing model contracts
+
+### 4.0 Resolved execution-plan boundary
+
+Before any `SimulationModel` lifecycle operation, the engine validates the bundle schema/version/digest, exact scientific-model and dependency revisions, normalized SI parameters and dimensions, pins/domains, analysis/fidelity compatibility, environment/stimulus, executable capability allowlist, deterministic configuration, provenance/trust/license disposition, validity envelope, and limitations. Stable diagnostics reject unresolved aliases, missing hashes, dependency cycles, invalid dimensions/ranges, unsupported analyses, incomplete bindings, or prohibited executable content. The engine has no database client, object-store credentials, or identity-provider dependency.
 
 ### 4.1 `SimulationModel`
 
@@ -71,6 +77,8 @@ A model binding identifies:
 - deterministic fallback policy, if any.
 
 No binding may be selected by display name or file name alone.
+
+Stored declarative records may select approved equation/topology/table kernels. Native, WASM, SPICE, HDL, or external adapters require an allowlisted capability revision and the sandbox/process policy in ADR-0019; a database expression is never implicitly executable.
 
 ## 5. Netlist and topology preparation
 

@@ -1,5 +1,9 @@
 # Performance, Browser, Accessibility, and Internationalization
 
+Library scale is measured independently from simulation scale. Search and revision/dependency traversal use bounded pagination, indexed stable metadata, content-addressed cache entries, explicit cache budgets, and worker-based validation where appropriate. Loading a library page MUST NOT deserialize all model revisions, dependency graphs, vendor variants, or large assets. A new database technology is not a performance optimization until a reproducible PostgreSQL/JSONB benchmark demonstrates the unmet requirement.
+
+Accuracy and uncertainty summaries are accessible text, not color-only decoration. The UI exposes fidelity, validity status, provenance/trust, correlation state, uncertainty interval, and known limitations without presenting extra significant digits that the evidence does not support.
+
 Status: Normative  
 Related: [Schematic Editor and Visualization](./SCHEMATIC_EDITOR_AND_VISUALIZATION.md), [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHITECTURE.md), [Performance Benchmarks](../quality/PERFORMANCE_BENCHMARKS.md)
 
