@@ -5,12 +5,13 @@ This file is the mandatory workflow for human-directed AI agents working in this
 ## Start here
 
 1. Read [docs/START_HERE.md](docs/START_HERE.md).
-2. Read the relevant accepted decisions in [docs/decisions](docs/decisions).
-3. Read [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md), the applicable release gate, and the applicable architecture or model contract.
-4. Select exactly one task whose status is `Ready` in [docs/tasks/TASK_INDEX.md](docs/tasks/TASK_INDEX.md).
-5. Confirm that all dependencies listed by the task are complete before changing anything.
+2. Read the normative [Source and Evidence Policy](docs/SOURCE_AND_EVIDENCE_POLICY.md).
+3. Read the relevant accepted decisions in [docs/decisions](docs/decisions).
+4. Read [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md), the applicable release gate, and the applicable architecture or model contract.
+5. Select exactly one task whose status is `Ready` in [docs/tasks/TASK_INDEX.md](docs/tasks/TASK_INDEX.md).
+6. Confirm that all dependencies listed by the task are complete before changing anything.
 
-The source brief recommends staged delivery from components to circuits, logic, CPU blocks, small computers, and only then architecture-level systems. Do not skip those gates or silently widen the selected task. [Source PDF, pp. 32-41]
+The repository has adopted staged delivery from components to circuits, logic, CPU blocks, small computers, and only then architecture-level systems. The legacy citation records that this sequence appeared in the unverified source brief; it does not prove the technical assumptions or completion of any gate. Do not skip those gates or silently widen the selected task. [Source PDF, pp. 32-41]
 
 For model or library work, also read [Applied Physics and Real-World Fidelity](docs/architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md), [Hierarchical Model and Library Architecture](docs/architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md), and [Data-Driven Library and Storage Architecture](docs/architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md). Preserve the complete principle-to-result lineage.
 
@@ -48,13 +49,15 @@ A task is not complete until the same change is reflected in all applicable reco
 - the applicable [release acceptance checklist](docs/quality/RELEASE_ACCEPTANCE_CHECKLISTS.md);
 - architecture, API, file-format, or model documentation when a public contract changes.
 
-The source brief identifies model accuracy, numerical convergence, mixed-engine synchronization, browser memory, UI performance, and uncontrolled scope as primary risks. Every task must make its validation and failure behavior explicit. [Source PDF, pp. 39-41]
+The repository risk program includes model accuracy, numerical convergence, mixed-engine synchronization, browser memory, UI performance, and uncontrolled scope. The legacy citation is source-brief context only; current primary references, tests, benchmarks, and physical evidence must establish the applicable risk and its control. Every task must make its validation and failure behavior explicit. [Source PDF, pp. 39-41]
 
 ## Documentation rules
 
 - Repository documentation and public identifiers are English-only.
 - Use stable IDs; never renumber an existing requirement, ADR, component family, variant, task, test, or release gate.
-- Cite derived source requirements with an explicit PDF page reference.
+- Preserve explicit PDF page references for source-brief lineage, but classify every `[Source PDF]` citation as unverified context under [Source and Evidence Policy](docs/SOURCE_AND_EVIDENCE_POLICY.md).
+- Never use the Source PDF alone to support an equation, standard, accuracy target, license, security property, implementation fact, test result, or release decision.
+- Before a technical task becomes `Ready`, name and verify the applicable official/primary source or approved physical/reference artifact, its version and exact location, applicability, license status, and expected evidence. If this is not possible, keep the task `Planned` or record it as blocked.
 - Use SI base units internally in normative examples; presentation prefixes are display concerns.
 - State assumptions, limits, provenance, fidelity, and unsupported analyses directly.
 - Store normative quantities in unprefixed SI units with explicit dimensions; reject incompatible units rather than guessing.
@@ -96,7 +99,8 @@ Before marking a task complete:
 2. Add or update positive, boundary, and failure-path tests.
 3. Verify deterministic output with the same project, configuration, seed, and engine versions where applicable.
 4. Verify documentation links and identifier references.
-5. Record commands, results, known limitations, and remaining risks in the task card.
-6. Change task status only after the evidence exists.
+5. Verify that technical claims resolve to applicable official/primary sources or physical evidence and that no acceptance decision depends only on a legacy Source PDF citation.
+6. Record commands, results, source/evidence identities, known limitations, and remaining risks in the task card.
+7. Change task status only after the evidence exists.
 
 Do not claim that a build, simulation, benchmark, accessibility check, security check, or numerical comparison passed without current evidence.

@@ -60,6 +60,11 @@ Describe one component/model variant, one fidelity tier, and one concern. Do not
 - `TEST-<TASK-ID>-BOUNDARY`
 - `TEST-<TASK-ID>-FAILURE`
 
+## Known limitations
+
+- State unsupported analyses, fidelity limits, validity boundaries, unresolved primary/physical evidence, unavailable package/binding/import behavior, and all claims this card cannot establish.
+- A `Planned` card must state that no executable model, physical asset, passing validation, vendor equivalence, numerical accuracy, or release status is claimed.
+
 ## Acceptance
 
 - [ ] Registry and family specification agree.
@@ -67,4 +72,3 @@ Describe one component/model variant, one fidelity tier, and one concern. Do not
 - [ ] Unsupported behavior is explicit, not silently approximated.
 - [ ] Provenance, license, limitations, and accuracy envelope are visible.
 - [ ] Coverage and traceability state advances only to the evidence-supported state.
-

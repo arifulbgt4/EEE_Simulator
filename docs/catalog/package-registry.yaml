@@ -2,6 +2,8 @@ schema_version: "1.0.0"
 registry_id: "eesim-package-registry"
 title: "Reusable physical package and appearance registry"
 scope: "Physical/package metadata is independent of electrical component family and variant counts."
+source_evidence_policy: "../SOURCE_AND_EVIDENCE_POLICY.md"
+source_citation_rule: "Generic geometry is illustrative planning data; dimensional, manufacturer, standards, safety, license, and manufacturability claims require applicable reviewed primary and current project evidence."
 normative_units: "SI base units; all dimensions below are metres"
 package_count: 38
 requirements: ["REQ-037", "REQ-038"]

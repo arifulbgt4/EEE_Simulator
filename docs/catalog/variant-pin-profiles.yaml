@@ -4,6 +4,8 @@ registry_id: eesim-variant-pin-profile-registry
 title: EEE Simulation normative variant pin profiles
 status: Frozen documentation baseline
 component_registry: component-registry.yaml
+source_evidence_policy: ../SOURCE_AND_EVIDENCE_POLICY.md
+source_citation_rule: Profiles preserve adopted logical planning contracts; Source PDF lineage is unverified and does not prove electrical, package, implementation, validation, or release behavior.
 profile_count: 502
 family_role_vocabulary_count: 162
 invariants:

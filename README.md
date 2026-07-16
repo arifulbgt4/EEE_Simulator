@@ -1,8 +1,8 @@
 # Web-Based Electronics and Computer Simulation Platform
 
-EEE Simulator is a browser-based, **Applied Physics-driven, hierarchical, multi-fidelity electronics and computer simulation platform** that transforms validated physical principles into mathematical models, engineering equations, numerical algorithms, reusable component models, realistic circuit simulations, integrated devices, educational processors, and complete computer systems.
+EEE Simulator is a planned browser-based, **Applied Physics-driven, hierarchical, multi-fidelity electronics and computer simulation platform** designed to connect reviewed physical principles to mathematical models, engineering equations, numerical algorithms, reusable component models, realistic circuit simulations, integrated devices, educational processors, and complete computer systems. Each technical link remains unverified until it satisfies the repository's source and evidence gates.
 
-The platform is intentionally not a promise to simulate every transistor in a modern CPU, GPU, or RAM device at full electrical and thermal fidelity in one browser tab. It combines detailed circuit simulation where scale permits with switch-level, event-driven, RTL, architecture, and ISA-level models where higher abstraction is necessary. This is the core feasibility conclusion of the source study. [Source PDF, pp. 1-4, 12-16, 43-44]
+The platform is intentionally not a promise to simulate every transistor in a modern CPU, GPU, or RAM device at full electrical and thermal fidelity in one browser tab. It combines detailed circuit simulation where scale permits with switch-level, event-driven, RTL, architecture, and ISA-level models where higher abstraction is necessary. This is an adopted repository scope decision whose planning origin is recorded by the legacy source-brief citation; that citation is not technical proof. [Source PDF, pp. 1-4, 12-16, 43-44]
 
 ## Product direction
 
@@ -24,7 +24,7 @@ The long-term learning path is:
 Component -> Circuit -> Logic -> CPU block -> Small CPU -> Small computer -> Architecture platform
 ```
 
-This staged path is the source study's recommended response to numerical scale, browser memory, UI performance, synchronization, model accuracy, and scope risk. [Source PDF, pp. 39-41]
+This staged path is an adopted repository delivery decision originally suggested by the unverified source brief. Its technical assumptions and gate results require independent evidence. [Source PDF, pp. 39-41]
 
 ## Locked technical direction
 
@@ -42,6 +42,7 @@ These decisions are recorded in the complete [ADR-0001 through ADR-0020 decision
 Start with [docs/START_HERE.md](docs/START_HERE.md). The most important contracts are:
 
 - [Product requirements](docs/PRODUCT_REQUIREMENTS.md)
+- [Normative source and evidence policy](docs/SOURCE_AND_EVIDENCE_POLICY.md)
 - [Physical representation and IC package requirements](docs/PRODUCT_REQUIREMENTS.md#physical-representation-and-integrated-circuit-packages)
 - [Physical appearance and reusable package contract](docs/catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md)
 - [Device/package binding and pin-map contract](docs/catalog/DEVICE_PACKAGE_BINDING_CONTRACT.md)
@@ -70,15 +71,17 @@ The baseline catalog tracks 162 canonical component families, 502 built-in varia
 
 This repository currently contains the documentation foundation only. It does not yet contain application code, runtime configuration, migrations, or deployment assets.
 
+The frozen planning baseline enumerates 63 requirements, 20 accepted ADRs, 37 platform epics, 477 platform tasks, 2,636 component/package tasks, 66 golden validation tasks, and 129 stable requirement/golden tests. The resulting 3,179 atomic task cards are future work specifications, not implementation or passing evidence. `PLAT-QA-001` is the sole initial `Ready` task; every other card remains `Planned`, `Deferred`, or otherwise gate-controlled until its exact dependencies and evidence qualify it.
+
 ## Contributing and security
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before taking work. Future contributors and AI agents must select one `Ready` atomic task and keep its tests, catalog coverage, and requirements traceability synchronized. See [AGENTS.md](AGENTS.md) for the exact workflow.
 
 Please report vulnerabilities according to [SECURITY.md](SECURITY.md). Community participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-## Source basis
+## Source and evidence status
 
-The principal feasibility brief is *Web-based Electronics and Computer Simulation Platform*, 44 pages. Page references in this repository use the notation `[Source PDF, p. N]` or `[Source PDF, pp. N-M]` and refer to the numbered PDF pages, which match the document's printed page numbers.
+The principal planning brief is *Web-based Electronics and Computer Simulation Platform*, 44 pages. Page references use `[Source PDF, p. N]`, `[Source PDF, pp. N-M]`, or `[Source basis: PDF, ...]` only to preserve source-brief and scope lineage. The PDF is **not a confirmed technical source** and cannot by itself establish equations, standards, accuracy, licensing, security, implementation truth, or release evidence. See the normative [Source and Evidence Policy](docs/SOURCE_AND_EVIDENCE_POLICY.md). Applicable official/primary sources, physical evidence, and current project results are required before technical work becomes `Ready` or an artifact becomes `Validated` or `Released`.
 
 ## License
 

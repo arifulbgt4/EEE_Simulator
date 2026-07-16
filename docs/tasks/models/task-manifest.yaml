@@ -1,5 +1,7 @@
 ---
 schema_version: 1.0.0
+source_evidence_policy: ../../SOURCE_AND_EVIDENCE_POLICY.md
+source_citation_rule: Manifest enumeration and Source PDF lineage are planning records only; each technical card must satisfy the source/evidence readiness rule before implementation or release.
 component_task_count: 2484
 package_task_count: 152
 total_model_task_count: 2636

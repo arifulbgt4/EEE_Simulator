@@ -1,9 +1,11 @@
 schema_version: "1.0.0"
 registry_id: "eesim-model-registry"
 registry_revision: "1.0.0"
-title: "Confirmed seed registry for versioned simulation models"
+title: "Enumerated planning seed registry for versioned simulation models"
 status: "Normative planning seed; no entry is implemented or release-validated"
 normative_contract: "../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md"
+source_evidence_policy: "../SOURCE_AND_EVIDENCE_POLICY.md"
+source_citation_rule: "Repository decisions and Source PDF lineage do not confirm an equation, parameter, external fact, accuracy claim, implementation, or release; each model remains blocked until its applicable primary/reference and current project evidence are accepted."
 requirements:
   - "REQ-039"
   - "REQ-040"

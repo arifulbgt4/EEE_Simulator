@@ -4,6 +4,7 @@ Status: Normative planning contract 1.0
 Release scope: R2, R3, and **R4 — Applied Physics and Real-World Fidelity**  
 Related requirements: `REQ-002`, `REQ-009`, `REQ-010`, `REQ-014` through `REQ-024`, `REQ-036`, and `REQ-039` through `REQ-047`  
 Related decisions: [ADR-0001](../decisions/ADR-0001.md), [ADR-0002](../decisions/ADR-0002.md), [ADR-0005](../decisions/ADR-0005.md), [ADR-0006](../decisions/ADR-0006.md), [ADR-0008](../decisions/ADR-0008.md), [ADR-0011](../decisions/ADR-0011.md), [ADR-0012](../decisions/ADR-0012.md), and [ADR-0019](../decisions/ADR-0019.md)
+Evidence policy: [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md)
 
 ## 1. Purpose and decision boundary
 
@@ -213,6 +214,8 @@ The validator MUST reject incompatible dimensions, invalid or missing units, uns
 
 Each scientific source record supports source type, title, author or organization, manufacturer when applicable, document revision, publication date, location or stable identifier, license, redistribution restrictions, extracted parameters, trust level, validation status, and review evidence.
 
+The project Source PDF is classified as `source_brief_unverified`. Its page citations may preserve planning lineage but MUST NOT establish a physical principle, governing equation, constant, material property, standard, model validity, accuracy envelope, license, security property, implementation state, or R4 acceptance result. Before the affected technical task becomes `Ready`, the exact applicable official/primary source or approved physical/reference artifact MUST be identified and reviewed under the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md).
+
 Allowed source types include textbook, academic paper, industry standard, manufacturer datasheet, vendor SPICE, IBIS, Touchstone, HDL, laboratory measurement, trusted reference simulator, and repository-defined engineering approximation. Repository-created relations MUST be labeled `repository_decision` or `engineering_approximation`; they are not silently presented as standards or measured truth.
 
 Trust is orthogonal to accuracy. The baseline levels are `unreviewed`, `source_identified`, `reviewed`, `correlated`, and `release_approved`. Imported executable artifacts remain untrusted workloads even when their scientific source is reputable. Redistribution permission is reviewed independently of scientific validity.
@@ -283,12 +286,14 @@ R4 is complete only when all of the following are evidenced for its release prof
 14. immutable regression evidence is captured;
 15. all existing thermal, tolerance, non-ideal, and failure obligations remain satisfied;
 16. R5 and R6 do not bypass R4 where their realistic behavior depends on it.
+17. every applicable equation, parameter, standard, and mechanism resolves to a reviewed official/primary source or accepted physical evidence record, and no gate decision relies on the Source PDF alone.
 
-R4 acceptance also retains `GRC-021` through `GRC-026` as required legacy evidence and requires all 12 initial physical lineages, `PBC-001` through `PBC-012`, with mapped acceptance fixtures/tests `GRC-055` through `GRC-066`, to reach `Accepted` under [ADR-0012](../decisions/ADR-0012.md). An inapplicable assertion inside a fixture requires an explicit reviewed rationale rather than silent omission; removing a fixture from the gate requires release-scope change control. R4 is a mandatory predecessor of the Realistic Electronics MVP. A model, circuit, or later release may use F1-F3 behavior where appropriate, but it cannot claim R4 realism without this evidence.
+R4 acceptance requires current evidence for `GRC-021`, `GRC-022`, and `GRC-026`, plus all 12 initial physical lineages, `PBC-001` through `PBC-012`, with mapped acceptance fixtures/tests `GRC-055` through `GRC-066`, to reach `Accepted` under [ADR-0012](../decisions/ADR-0012.md). The catalog-bound `GRC-023` through `GRC-025` specifications and dependencies remain preserved, but their execution evidence stays at R7 and cannot form a circular prerequisite for G4. An inapplicable assertion inside a fixture requires an explicit reviewed rationale rather than silent omission; removing a fixture from its assigned gate requires release-scope change control. R4 is a mandatory predecessor of the Realistic Electronics MVP. A model, circuit, or later release may use F1-F3 behavior where appropriate, but it cannot claim R4 realism without the applicable G4 evidence.
 
 ## 19. Explicit limitations and unresolved inputs
 
 - This contract specifies planned behavior; it does not claim that any R4 model, physical fixture, engine, or measurement dataset is implemented.
+- Legacy Source PDF citations are unverified planning context and do not confirm the scientific or engineering content of this contract.
 - Material-property datasets, manufacturer-specific parameters, calibration records, exact physical BOMs, laboratory procedures, and release acceptance values remain evidence to be selected and reviewed.
 - Detailed fluid, structural, chemical, radiative, corrosion, deformation, EM, MEMS, and TCAD effects remain staged or F5 research unless separately validated.
 - The seed model registry intentionally contains a small planning set. Registry growth requires coverage analysis, dependency review, provenance, and benchmark evidence; component counts are not model counts.

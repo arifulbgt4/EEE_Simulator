@@ -66,6 +66,51 @@ Likelihood and impact use `Low`, `Medium`, `High`, and `Critical`. Owners are wo
 | RSK-058 | Incompatible model revisions compose successfully but incorrectly | Medium | Critical | Exact revision/hash locks, typed ports, compatibility ranges, DAG closure, migration tests, and fail-closed resolution |
 | RSK-059 | External engine results are nondeterministic or irreproducible | Medium | Critical | Version/image pinning, deterministic seed/time policy, adapter capability declaration, reproducibility manifest, tolerance class, and differential replay |
 | RSK-060 | Documentation, schemas, registries, tasks, and runtime drift apart | High | Critical | Stable IDs, schema/count/link validators, synchronized Definition of Done, release audits, and `PLAT-DATA-008` drift test |
+| RSK-061 | MPI collective deadlock or partial-rank failure leaves an ambiguous job | Medium | Critical | Versioned rank/collective state machine, bounded collective timeouts, rank-failure classification, coordinated cancellation, partial-result policy, and `PLAT-HPC-004`/`006`/`011` evidence |
+| RSK-062 | HPC pool starvation, stale lease, or split-brain duplicates expensive work | Medium | High | Fenced leases, idempotent shard identities, bounded retry, fair admission, drain/recovery procedures, and `PLAT-HPC-003`/`010`/`011` evidence |
+| RSK-063 | Parallel completion order changes Monte Carlo or reduction results | Medium | Critical | Global sample IDs, deterministic merge tree, compensated/statistically bounded reduction, pinned partition policy, replay, and `PLAT-HPC-005`/`007`/`008`/`011` evidence |
+| RSK-064 | Checkpoint resumes under incompatible engine, MPI, partition, model, or image state | Medium | Critical | Exact compatibility manifest, immutable hashes, fail-closed restore, migration only through reviewed tooling, and `PLAT-HPC-008`/`011` evidence |
+| RSK-065 | Large artifact is corrupted, unauthorized, expired, or irretrievable | Medium | Critical | Tenant authorization, content hashes, multipart integrity, retention/legal-hold policy, restore drills, export, and `PLAT-HPC-009`/`011` evidence |
+| RSK-066 | HPC demand exhausts capacity or creates uncontrolled cost | High | High | Admission estimates, reservation and quota, cost ceiling, usage reconciliation, cancellation, capacity alerts, and `PLAT-HPC-010`/`011` evidence |
+| RSK-067 | External analog adapter advertises or performs an unsupported lifecycle operation | Medium | Critical | Versioned capability negotiation, legal-state validation, fail-closed unsupported diagnostics, bounded cancel/dispose, canonical result mapping, and `PLAT-EXT-001` through `PLAT-EXT-018` plus `PLAT-EXT-021` evidence |
+
+## Architecture-brief risk traceability
+
+This crosswalk makes the new architecture risks bidirectional. Task and test names are planned obligations, not passing evidence. A Source PDF page is never a risk-control result under the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md).
+
+| Risk | Requirements | Owning tasks | Required test/evidence |
+|---|---|---|---|
+| RSK-037 | REQ-049, REQ-053, REQ-063 | `PLAT-LIB-004`, `PLAT-LIB-013`, `PLAT-LIB-014` | `TEST-REQ-049`, `TEST-REQ-053`, `TEST-REQ-063` |
+| RSK-038 | REQ-041, REQ-042, REQ-049 | `PLAT-PHY-003`, `PLAT-PHY-005`, `PLAT-LIB-004` | `TEST-REQ-041`, `TEST-REQ-042`, `TEST-REQ-049` |
+| RSK-039 | REQ-048, REQ-061 | `PLAT-LIB-002`, `PLAT-DATA-007` | `TEST-REQ-048`, `TEST-REQ-061` |
+| RSK-040 | REQ-050, REQ-051 | `PLAT-LIB-005` through `PLAT-LIB-008` | `TEST-REQ-050`, `TEST-REQ-051`, GRC-049..054 |
+| RSK-041 | REQ-054, REQ-062 | `PLAT-DATA-002`, `PLAT-DATA-008` | `TEST-REQ-054`, `TEST-REQ-062` |
+| RSK-042 | REQ-032, REQ-056 | `PLAT-PHY-010`, `PLAT-LIB-014`, applicable `PLAT-SEC-*` | `TEST-REQ-032`, `TEST-REQ-056` |
+| RSK-043 | REQ-032, REQ-063 | `PLAT-LIB-014`, `PLAT-IMP-*`, `PLAT-SEC-*` | `TEST-REQ-032`, `TEST-REQ-063` |
+| RSK-044 | REQ-035, REQ-063 | `PLAT-GOV-008`, `PLAT-LIB-014`, applicable `PLAT-SEC-*` | `TEST-REQ-035`, `TEST-REQ-063` |
+| RSK-045 | REQ-042, REQ-049, REQ-063 | `PLAT-PHY-004`, `PLAT-LIB-004`, `PLAT-LIB-014` | `TEST-REQ-042`, `TEST-REQ-049`, `TEST-REQ-063` |
+| RSK-046 | REQ-039, REQ-043, REQ-045 | `PLAT-PHY-001`, `PLAT-PHY-006`, `PLAT-PHY-009`, `PLAT-REAL-021` | `TEST-REQ-039`, `TEST-REQ-043`, `TEST-REQ-045` |
+| RSK-047 | REQ-042, REQ-043 | `PLAT-PHY-005`, `PLAT-PHY-009` | `TEST-REQ-042`, `TEST-REQ-043` |
+| RSK-048 | REQ-043, REQ-044 | `PLAT-PHY-006`, `PLAT-PHY-009`, `PLAT-PHY-008` | `TEST-REQ-043`, `TEST-REQ-044` |
+| RSK-049 | REQ-060, REQ-063 | `PLAT-DATA-005`, `PLAT-LIB-014` | `TEST-REQ-060`, `TEST-REQ-063` |
+| RSK-050 | REQ-030, REQ-044, REQ-055 | `PLAT-API-006`, `PLAT-HPC-007`, `PLAT-HPC-009` | `TEST-REQ-030`, `TEST-REQ-044`, `TEST-REQ-055` |
+| RSK-051 | REQ-055, REQ-058 | `PLAT-DATA-001`, `PLAT-IDP-002` through `PLAT-IDP-004` | `TEST-REQ-055`, `TEST-REQ-058` |
+| RSK-052 | REQ-052, REQ-059, REQ-061 | `PLAT-LIB-011`, `PLAT-LIB-012`, `PLAT-DATA-006`, `PLAT-DATA-007` | `TEST-REQ-052`, `TEST-REQ-059`, `TEST-REQ-061` |
+| RSK-053 | REQ-054, REQ-062 | `PLAT-LIB-013`, `PLAT-DATA-002`, `PLAT-DATA-008` | `TEST-REQ-054`, `TEST-REQ-062` |
+| RSK-054 | REQ-052, REQ-058, REQ-059 | `PLAT-PROJ-*`, `PLAT-LIB-011`, `PLAT-IDP-002` | `TEST-REQ-052`, `TEST-REQ-058`, `TEST-REQ-059` |
+| RSK-055 | REQ-044 | `PLAT-PHY-007`, `PLAT-PHY-008`, `VAL-GRC-055` through `VAL-GRC-066` | `TEST-REQ-044`, `TEST-GRC-055` through `TEST-GRC-066` |
+| RSK-056 | REQ-055 | `PLAT-DATA-001`, `PLAT-DATA-008` | `TEST-REQ-055` |
+| RSK-057 | REQ-042, REQ-053 | `PLAT-PHY-004`, `PLAT-LIB-010` | `TEST-REQ-042`, `TEST-REQ-053` |
+| RSK-058 | REQ-048, REQ-052, REQ-053 | `PLAT-LIB-002`, `PLAT-LIB-009` through `PLAT-LIB-011` | `TEST-REQ-048`, `TEST-REQ-052`, `TEST-REQ-053` |
+| RSK-059 | REQ-030, REQ-040, REQ-043, REQ-056, REQ-063 | `PLAT-EXT-001` through `PLAT-EXT-021`, `PLAT-HPC-002`, `PLAT-HPC-008` | `TEST-REQ-030`, `TEST-REQ-040`, `TEST-REQ-043`, `TEST-REQ-056`, `TEST-REQ-063` |
+| RSK-060 | REQ-039 through REQ-063 | `PLAT-DATA-008`, `PLAT-LIB-013`, `PLAT-PHY-011`, release audits | `TEST-REQ-039` through `TEST-REQ-063`, count/link/traceability audit |
+| RSK-061 | REQ-017, REQ-030, REQ-032 | `PLAT-HPC-004`, `PLAT-HPC-006`, `PLAT-HPC-011` | `TEST-REQ-017`, `TEST-REQ-030`, `TEST-REQ-032`, rank-failure suite |
+| RSK-062 | REQ-029, REQ-030, REQ-033 | `PLAT-HPC-003`, `PLAT-HPC-010`, `PLAT-HPC-011` | `TEST-REQ-029`, `TEST-REQ-030`, `TEST-REQ-033`, lease/fairness suite |
+| RSK-063 | REQ-013, REQ-030, REQ-043 | `PLAT-HPC-005`, `PLAT-HPC-007`, `PLAT-HPC-008`, `PLAT-HPC-011` | `TEST-REQ-013`, `TEST-REQ-030`, `TEST-REQ-043`, deterministic-reduction replay |
+| RSK-064 | REQ-030, REQ-053, REQ-059 | `PLAT-HPC-008`, `PLAT-HPC-011` | `TEST-REQ-030`, `TEST-REQ-053`, `TEST-REQ-059`, incompatible-restore suite |
+| RSK-065 | REQ-030, REQ-032, REQ-055 | `PLAT-HPC-009`, `PLAT-HPC-011` | `TEST-REQ-030`, `TEST-REQ-032`, `TEST-REQ-055`, integrity/retrieval suite |
+| RSK-066 | REQ-030, REQ-033 | `PLAT-HPC-010`, `PLAT-HPC-011` | `TEST-REQ-030`, `TEST-REQ-033`, quota/cost/capacity suite |
+| RSK-067 | REQ-017, REQ-030, REQ-032, REQ-056 | `PLAT-EXT-001` through `PLAT-EXT-018`, `PLAT-EXT-021` | `TEST-REQ-017`, `TEST-REQ-030`, `TEST-REQ-032`, `TEST-REQ-056`, lifecycle-state suite |
 
 ## Review cadence
 

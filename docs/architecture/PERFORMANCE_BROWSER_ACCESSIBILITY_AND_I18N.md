@@ -9,7 +9,7 @@ Related: [Schematic Editor and Visualization](./SCHEMATIC_EDITOR_AND_VISUALIZATI
 
 ## 1. Purpose
 
-This document defines measurable browser responsiveness, capacity, compatibility, accessible interaction, and localization requirements. The source PDF requires a browser schematic editor, separated Workers, Canvas/WebGL rendering, waveform/heat visualization, large-diagram optimization, and progressive user modes; it explicitly identifies browser memory and UI performance as risks. [Source PDF, pp. 22-25, 29-31, 38-40]
+This document defines measurable browser responsiveness, capacity, compatibility, accessible interaction, and localization requirements. The unverified source brief proposes a browser schematic editor, separated Workers, Canvas/WebGL rendering, waveform/heat visualization, large-diagram optimization, and progressive user modes, and it lists browser memory and UI performance as candidate risks. [Source PDF, pp. 22-25, 29-31, 38-40] The repository requirements and current benchmarks—not the citation—govern acceptance.
 
 ## 2. Reference workloads and evidence
 

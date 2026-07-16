@@ -9,7 +9,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [API and Worker Protoc
 
 ## 1. Security objectives
 
-The platform accepts schematics, archives, custom component/package definitions, SPICE models, HDL, firmware, media, and external-engine inputs. All are untrusted even when uploaded by an authenticated user. The source PDF requires browser and server execution across resource-intensive engines and identifies browser memory, numerical failure, UI performance, and excessive workloads as core risks. [Source PDF, pp. 25-26, 36, 39-40]
+The platform accepts schematics, archives, custom component/package definitions, SPICE models, HDL, firmware, media, and external-engine inputs. All are untrusted even when uploaded by an authenticated user. The unverified source brief proposes browser/server execution across resource-intensive engines and lists browser memory, numerical failure, UI performance, and excessive workloads as candidate risks. [Source PDF, pp. 25-26, 36, 39-40] The repository threat model independently adopts and validates the applicable controls; the citation is not security evidence.
 
 Security objectives are:
 

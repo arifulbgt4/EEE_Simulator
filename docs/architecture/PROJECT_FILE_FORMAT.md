@@ -9,7 +9,7 @@ Related: [System Architecture](./SYSTEM_ARCHITECTURE.md), [Storage, Versioning, 
 
 ## 1. Purpose
 
-The portable project format is a versioned, self-describing archive with the extension **.eesim**. It preserves the electrical design, hierarchy, selected component and package definitions, simulation configuration, stimuli, tests, measurements, documentation, and referenced assets needed to reopen or reproduce a supported project. The source PDF requires schematic, hierarchy, models, configurations, waveforms, measurements, testbenches, version history, comments, and documentation to be preserved across local and cloud workflows. [Source PDF, pp. 31-32]
+The portable project format is a versioned, self-describing archive with the extension **.eesim**. It preserves the electrical design, hierarchy, selected component and package definitions, simulation configuration, stimuli, tests, measurements, documentation, and referenced assets needed to reopen or reproduce a supported project. The unverified source brief proposes preserving schematic, hierarchy, models, configurations, waveforms, measurements, testbenches, version history, comments, and documentation across local and cloud workflows. [Source PDF, pp. 31-32] The repository format contract independently makes the adopted behavior normative and requires current conformance evidence.
 
 An archive is a transport artifact, not a live database and not an executable program. Opening an archive MUST NOT execute an imported model, firmware image, HDL source, custom equation, or script.
 

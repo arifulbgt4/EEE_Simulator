@@ -6,6 +6,8 @@ status: Frozen documentation baseline
 record_contract: VARIANT_SEMANTIC_PROFILE_CONTRACT.md
 component_registry: component-registry.yaml
 pin_profile_registry: variant-pin-profiles.yaml
+source_evidence_policy: ../SOURCE_AND_EVIDENCE_POLICY.md
+source_citation_rule: Semantic projection preserves adopted planning identity only; Source PDF lineage cannot resolve a model plan or establish implementation, accuracy, license, validation, or release.
 profile_count: 502
 generated_provenance:
   generator_revision: 1.0.0

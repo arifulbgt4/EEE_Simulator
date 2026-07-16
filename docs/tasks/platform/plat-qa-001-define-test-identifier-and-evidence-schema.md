@@ -18,9 +18,10 @@ Define test identifier and evidence schema. Deliver one reviewable outcome that 
 
 ## Context to read
 
-- [docs/quality/TEST_AND_VALIDATION_STRATEGY.md](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
-- [Product requirements](../../PRODUCT_REQUIREMENTS.md)
 - [Test and validation strategy](../../quality/TEST_AND_VALIDATION_STRATEGY.md)
+- [Source and Evidence Policy](../../SOURCE_AND_EVIDENCE_POLICY.md)
+- [Product requirements](../../PRODUCT_REQUIREMENTS.md)
+- [Atomic Task Contract](../ATOMIC_TASK_CONTRACT.md)
 - [Relevant accepted ADRs](../../decisions/)
 
 ## Exact prerequisites
@@ -63,6 +64,12 @@ This documentation-only R0 root is `Ready` under the explicit exception in the A
 - `TEST-PLAT-QA-001-ACCEPTANCE`
 - `TEST-PLAT-QA-001-FAILURE`
 
+## Technical source qualification
+
+- External technical source requirement: `not_applicable` for this documentation-governance concern.
+- Rationale: this task defines only the repository's internal stable-ID and evidence-record schema from already accepted repository documents. It asserts no governing equation, material/device property, external standard content, engine/browser behavior, numerical accuracy, license right, security guarantee, or physical result.
+- Technical examples are opaque schema fixtures and cannot be used as evidence that their subject matter is true. Any future change that introduces an external technical assertion must return this card to `Planned` until the exact applicable official/primary or approved reference evidence is recorded. Source PDF citations never satisfy that requirement.
+
 ## Deliverables
 
 - A versioned normative contract named `define_test_identifier_and_evidence_schema` for **test identifier and evidence schema**, with explicit inputs, outputs, state ownership, units, defaults, limits, version/compatibility rules, and stable diagnostics.
@@ -98,6 +105,11 @@ This documentation-only R0 root is `Ready` under the explicit exception in the A
 2. `TEST-PLAT-QA-001-FAILURE` executes `PLAT_QA_001_SCHEMA_INVALID`, `PLAT_QA_001_BASELINE_INCOMPLETE`, and `PLAT_QA_001_COMPATIBILITY_CONFLICT` and observes the exact rejection, rollback/cleanup, diagnostic target, and provenance behavior specified above.
 3. The evidence names `docs/quality/TEST_AND_VALIDATION_STRATEGY.md` and root declaration `None - R0 root task; G0 is this epic's exit gate`; it records immutable R0 document and registry digests, configuration plus seed or an explicit no-seed declaration, expected/actual output, known limitations, and the fact that no predecessor artifact exists. An identical rerun meets the declared determinism or tolerance class.
 4. The PLAT-QA-001 card, its epic, test registry entries `TEST-PLAT-QA-001-ACCEPTANCE` and `TEST-PLAT-QA-001-FAILURE`, requirement links REQ-017, REQ-022, REQ-023, REQ-034, REQ-035, REQ-036, REQ-037, REQ-038, risk record, and release checklist resolve bidirectionally with no unrelated scope or lifecycle metadata change.
+
+## Known limitations
+
+- `Ready` authorizes only the documentation/evidence-schema work in the allowlist. It does not prove that any stable test has executed or passed, that any technical source has been verified, that any implementation exists, or that G0 or a later release has passed.
+- The schema can classify and retain evidence but cannot by itself establish numerical correctness, physical accuracy, security, accessibility, performance, license rights, or reproducibility.
 
 ## Definition of Done
 

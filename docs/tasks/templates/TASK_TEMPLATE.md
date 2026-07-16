@@ -42,6 +42,11 @@ One sentence describing the observable outcome. The task must not contain more t
 
 - Exact reference IDs and `TEST-<TASK-ID>-*` identifiers.
 
+## Technical source qualification
+
+- Name exact applicable official/primary sources or approved independent/physical artifacts, versions, locations, extracted facts, applicability, license status, conflicts, and reviewer class.
+- If no external technical claim applies, write `not_applicable` with a concrete rationale. A Source PDF citation cannot satisfy this field.
+
 ## Deliverables
 
 - Exact files/interfaces/behaviors to add or change.
@@ -70,6 +75,11 @@ One sentence describing the observable outcome. The task must not contain more t
 2. Failure/edge assertion.
 3. Required documentation and traceability update.
 
+## Known limitations
+
+- State every unsupported capability, unresolved source/evidence item, unverified assumption, deferred behavior, and release limitation owned or exposed by this task.
+- A `Planned` documentation card must state that it proves no implementation, passing test, security control, performance result, or release status.
+
 ## Definition of Done
 
 - [ ] Deliverables exist and match the normative contract.
@@ -77,4 +87,3 @@ One sentence describing the observable outcome. The task must not contain more t
 - [ ] No unrelated scope changed.
 - [ ] Requirement, task, test, coverage, and release records are updated.
 - [ ] Limitations and follow-up tasks are explicit.
-

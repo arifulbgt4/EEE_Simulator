@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This document defines the evidence required before any component, solver, interface, or release can be called correct. It turns the feasibility brief into a repeatable validation program rather than relying on visually plausible waveforms. The source brief explicitly identifies model accuracy, nonlinear convergence, browser memory, UI performance, and mixed-simulator synchronization as primary risks. [Source PDF, pp. 39-40]
+This document defines the evidence required before any component, solver, interface, or release can be called correct. It turns repository requirements into a repeatable validation program rather than relying on visually plausible waveforms. The unverified source brief helped identify candidate risks including model accuracy, nonlinear convergence, browser memory, UI performance, and mixed-simulator synchronization, but it does not prove that these risks are controlled or that any result is correct. [Source PDF, pp. 39-40]
 
-Stable identifiers and the requirement/fixture test inventory are defined by the [Test Catalog](TEST_CATALOG.md) and [machine-readable test registry](test-registry.yaml). Atomic task test IDs follow the [Atomic Task Contract](../tasks/ATOMIC_TASK_CONTRACT.md).
+Stable identifiers and the requirement/fixture test inventory are defined by the [Test Catalog](TEST_CATALOG.md) and [machine-readable test registry](test-registry.yaml). Atomic task test IDs follow the [Atomic Task Contract](../tasks/ATOMIC_TASK_CONTRACT.md). All reference selection and evidence classification follow the normative [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md).
 
 ## Quality principles
 
@@ -17,12 +17,14 @@ Stable identifiers and the requirement/fixture test inventory are defined by the
 7. Randomized analyses must be reproducible from a stored seed.
 8. Accuracy claims apply only inside a documented operating envelope and cannot show false precision.
 9. Differential simulator agreement is not a substitute for physical correlation when a physical claim is made.
+10. A legacy `[Source PDF]` citation is unverified planning lineage, not technical or release evidence; applicable official/primary references, physical evidence, and current project results are required.
 
 ## Evidence layers
 
 | Layer | Purpose | Required evidence |
 |---|---|---|
 | Documentation conformance | Ensure the specification is complete | Links, schema examples, requirement/task/test traceability, registry counts |
+| Source qualification | Prevent planning citations from being mistaken for technical truth | Verified identity/version/location, applicability, extraction record, license status, conflicts, and reviewer state for every applicable official/primary source or physical reference |
 | Unit and property testing | Verify equations and invariants | Analytical values, dimensional consistency, conservation checks, truth tables |
 | Golden-circuit testing | Verify models in known topologies | Expected voltages, currents, timing, power, and temperature |
 | Differential testing | Compare independent engines | Rust/WASM versus ngspice or another declared reference |
@@ -90,6 +92,7 @@ Each test case records:
 - Analysis settings, probes, tolerances, initial conditions, environment, and seed.
 - Expected scalar values, waveform features, event ordering, thermal/failure outcomes, and permitted error.
 - Human-readable reason for the tolerance and the source of reference data.
+- Exact reference identity, edition/version, location, applicability, license/redistribution status, digest when retained, evidence class, and reviewer state; a Source PDF page may be retained only as separate origin metadata.
 - Result status, execution date, environment fingerprint, and regression owner.
 - For physical correlation: specimen count/identity, manufacturer ordering codes and packages, equipment/calibration, ambient/enclosure/airflow, immutable raw-data references, processing revision, error calculation, uncertainty components, correlation status, and evidence reviewer.
 
@@ -99,12 +102,17 @@ Each test case records:
 - Public contract changes require schema compatibility review and migration documentation.
 - Physical appearance or package changes require golden visual review at fixed scales and pin-map equivalence tests against the [Device Package Binding Contract](../catalog/DEVICE_PACKAGE_BINDING_CONTRACT.md); appearance alone may never change electrical identity. `package_refs` and compatibility metadata are candidate inputs, not binding evidence.
 - Third-party model updates require provenance and license review.
+- Source-brief citations never satisfy numerical, standards, license, security, or release review. A task or release with a missing applicable official/primary source or physical reference remains blocked.
 - Security-boundary changes require threat-model and sandbox review.
 - Release candidates require the checklist in [Release Acceptance Checklists](./RELEASE_ACCEPTANCE_CHECKLISTS.md).
 
-## Source basis
+## Legacy source-brief page map
 
-- Circuit equation and non-ideal model discussion: PDF pp. 3-11.
-- Hybrid fidelity and abstraction switching: PDF pp. 13-28.
-- Performance and validation risks: PDF pp. 29-30 and 39-40.
-- Staged demonstrations and roadmap: PDF pp. 32-37.
+The following page ranges preserve the planning history of the original source brief. They are classified as `source_brief_unverified` and MUST NOT be used as equation references, validation standards, accuracy evidence, implementation evidence, or release evidence:
+
+- Circuit equation and non-ideal planning discussion: Source PDF pp. 3-11.
+- Hybrid fidelity and abstraction-switching planning discussion: Source PDF pp. 13-28.
+- Candidate performance and validation risks: Source PDF pp. 29-30 and 39-40.
+- Staged demonstrations and roadmap suggestions: Source PDF pp. 32-37.
+
+Each test that exercises a technical claim must instead name the applicable official/primary source, approved independent reference, or physical evidence record required by the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md).

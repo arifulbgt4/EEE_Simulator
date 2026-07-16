@@ -4,7 +4,9 @@ This is the canonical navigation page for contributors, reviewers, maintainers, 
 
 ## What this project is
 
-The product is a browser-based, **Applied Physics-driven, hierarchical, multi-fidelity electronics and computer simulation platform**. It combines validated physical principles, mathematical models, engineering equations, numerical algorithms, reusable models, devices, circuits, boards, and systems with switch, event, RTL, architecture, and ISA abstractions. Users can move from a component to a complete educational computer without pretending that a modern processor can be simulated transistor-by-transistor in a browser. [Source PDF, pp. 1-4, 12-16, 42-44]
+The product is a browser-based, **Applied Physics-driven, hierarchical, multi-fidelity electronics and computer simulation platform**. It is planned to combine validated physical principles, mathematical models, engineering equations, numerical algorithms, reusable models, devices, circuits, boards, and systems with switch, event, RTL, architecture, and ISA abstractions. Users can move from a component to a complete educational computer without pretending that a modern processor can be simulated transistor-by-transistor in a browser. The legacy citation records planning origin only; it is not confirmation that the technical claims are correct or implemented. [Source PDF, pp. 1-4, 12-16, 42-44]
+
+The [Source and Evidence Policy](SOURCE_AND_EVIDENCE_POLICY.md) is normative for classifying every citation and release claim. In particular, all `[Source PDF]` references are unverified source-brief context, never confirmed technical evidence.
 
 The documentation foundation is normative. When documents disagree, use this precedence order:
 
@@ -23,18 +25,19 @@ Read these documents before selecting implementation work:
 
 1. [Project Charter](PROJECT_CHARTER.md)
 2. [Scope, Success, and Non-Goals](SCOPE_SUCCESS_AND_NON_GOALS.md)
-3. [Product Requirements](PRODUCT_REQUIREMENTS.md)
-4. [System Architecture](architecture/SYSTEM_ARCHITECTURE.md)
-5. [Applied Physics and Real-World Fidelity](architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md)
-6. [Hierarchical Model and Library Architecture](architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md)
-7. [Data-Driven Library and Storage Architecture](architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md)
-8. [Component Taxonomy](catalog/COMPONENT_TAXONOMY.md)
-9. [Master Roadmap](planning/MASTER_ROADMAP.md)
-10. [Release Gates](planning/RELEASE_GATES.md)
-11. [Test and Validation Strategy](quality/TEST_AND_VALIDATION_STRATEGY.md)
-12. [Atomic Task Index](tasks/TASK_INDEX.md)
+3. [Source and Evidence Policy](SOURCE_AND_EVIDENCE_POLICY.md)
+4. [Product Requirements](PRODUCT_REQUIREMENTS.md)
+5. [System Architecture](architecture/SYSTEM_ARCHITECTURE.md)
+6. [Applied Physics and Real-World Fidelity](architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md)
+7. [Hierarchical Model and Library Architecture](architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md)
+8. [Data-Driven Library and Storage Architecture](architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md)
+9. [Component Taxonomy](catalog/COMPONENT_TAXONOMY.md)
+10. [Master Roadmap](planning/MASTER_ROADMAP.md)
+11. [Release Gates](planning/RELEASE_GATES.md)
+12. [Test and Validation Strategy](quality/TEST_AND_VALIDATION_STRATEGY.md)
+13. [Atomic Task Index](tasks/TASK_INDEX.md)
 
-The delivery order follows the source study: establish the editor and basic solver, add semiconductor and non-ideal behavior, add event-driven digital and mixed-signal simulation, pass the realistic-electronics MVP, then progress to educational CPUs, RTL, full computers, architecture, GPU, and cloud/HPC capability. [Source PDF, pp. 32-37, 43-44]
+The repository-adopted delivery order is to establish the editor and basic solver, add semiconductor and non-ideal behavior, add event-driven digital and mixed-signal simulation, pass the realistic-electronics MVP, then progress to educational CPUs, RTL, full computers, architecture, GPU, and cloud/HPC capability. The cited source-brief pages record its planning origin but do not validate the sequence's technical assumptions or any release result. [Source PDF, pp. 32-37, 43-44]
 
 ## Decision index
 
@@ -69,7 +72,7 @@ The delivery order follows the source study: establish the editor and basic solv
 - Components and models: [component registry](catalog/component-registry.yaml), [scientific model registry](catalog/model-registry.yaml), [pin-profile guide](catalog/PIN_PROFILE_CATALOG.md), [normative variant pin profiles](catalog/variant-pin-profiles.yaml), [variant semantic contract](catalog/VARIANT_SEMANTIC_PROFILE_CONTRACT.md), [normative variant semantic profiles](catalog/variant-semantic-profiles.yaml), [parameter-definition guide](catalog/PARAMETER_DEFINITION_CATALOG.md), [normalized parameters](catalog/parameter-definitions.yaml), [coverage matrix](catalog/COMPONENT_COVERAGE_MATRIX.md), [model contract](catalog/COMPONENT_MODEL_CONTRACT.md), [import/export](catalog/MODEL_IMPORT_EXPORT_FORMATS.md), [physical appearance and package contract](catalog/PACKAGE_AND_PHYSICAL_APPEARANCE.md), [device/package binding contract](catalog/DEVICE_PACKAGE_BINDING_CONTRACT.md), [package registry](catalog/package-registry.yaml), and [product requirements](PRODUCT_REQUIREMENTS.md#physical-representation-and-integrated-circuit-packages)
 - Quality: [validation](quality/TEST_AND_VALIDATION_STRATEGY.md), [physical benchmark/correlation contract](quality/PHYSICAL_BENCHMARK_AND_CORRELATION_CONTRACT.md), [test catalog](quality/TEST_CATALOG.md), [golden circuits](quality/GOLDEN_REFERENCE_CIRCUITS.md), [accuracy](quality/NUMERICAL_ACCURACY_TARGETS.md), [performance](quality/PERFORMANCE_BENCHMARKS.md), [traceability](quality/REQUIREMENTS_TRACEABILITY_MATRIX.md)
 - Work planning: [atomic task contract](tasks/ATOMIC_TASK_CONTRACT.md), [task index](tasks/TASK_INDEX.md), and [release gates](planning/RELEASE_GATES.md)
-- Governance: [contributing](../CONTRIBUTING.md), [agent contract](../AGENTS.md), [security](../SECURITY.md), [license policy](architecture/OPEN_SOURCE_AND_THIRD_PARTY_LICENSES.md)
+- Governance: [source and evidence policy](SOURCE_AND_EVIDENCE_POLICY.md), [contributing](../CONTRIBUTING.md), [agent contract](../AGENTS.md), [security](../SECURITY.md), [license policy](architecture/OPEN_SOURCE_AND_THIRD_PARTY_LICENSES.md)
 
 ## Selecting work
 
@@ -77,4 +80,4 @@ Open [tasks/TASK_INDEX.md](tasks/TASK_INDEX.md) and select one `Ready` task. Con
 
 ## Source citation convention
 
-The principal brief is *Web-based Electronics and Computer Simulation Platform*, 44 pages. `[Source PDF, p. N]` and `[Source PDF, pp. N-M]` refer to its numbered PDF pages. Requirements derived from that brief include page references. Product decisions added during documentation planning are labeled as repository decisions rather than attributed to the brief.
+The principal planning brief is *Web-based Electronics and Computer Simulation Platform*, 44 pages. `[Source PDF, p. N]`, `[Source PDF, pp. N-M]`, and `[Source basis: PDF, ...]` refer to its numbered pages only as legacy origin/scope metadata. These citations are classified as `source_brief_unverified` by the [Source and Evidence Policy](SOURCE_AND_EVIDENCE_POLICY.md). They are never sufficient support for equations, standards, accuracy, licenses, security, implementation truth, test results, or release decisions. Requirements become normative through repository adoption, not through the PDF. Applicable official/primary technical sources or physical evidence and current project results are required before technical tasks become `Ready` and artifacts become `Validated` or `Released`.

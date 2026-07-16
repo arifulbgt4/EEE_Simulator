@@ -72,6 +72,12 @@ This validation-only card cannot modify implementation, model, calibration, or m
 4. Visual realism, a vendor typical curve, or agreement with another simulator is not substituted for calibrated physical evidence.
 5. Requirement, model, component/package, task, test, risk, and R4 release evidence resolve bidirectionally.
 
+## Known limitations
+
+- This is a specified but unexecuted validation card; its existence is not passing evidence and cannot advance a component, model, platform feature, or release state.
+- Evidence proves only the named fixture, assertions, reference identity, operating envelope, configuration, and uncertainty recorded by this card. It cannot establish broader device-population, vendor, physical-accuracy, security, performance, or compatibility claims.
+- Exact primary/independent/physical reference records, license status, fixture/result paths, and current execution evidence must exist before acceptance. Source PDF context alone is never a valid reference, and this validation-only task cannot modify the model or implementation under test.
+
 ## Definition of Done
 
 - [ ] Exact specimen, BOM, source, environment, equipment, calibration, procedure, raw data, models, and analysis inputs are immutable and complete.

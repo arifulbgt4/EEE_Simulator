@@ -4,6 +4,8 @@
 
 - [ ] Scope and non-goals match the approved release gate.
 - [ ] Every included requirement has an owner, task, test, and evidence link.
+- [ ] Every applicable technical claim resolves to a reviewed official/primary source or approved physical/reference artifact under the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md), with exact version/location, applicability, license status, and conflicts recorded.
+- [ ] Legacy `[Source PDF]` citations are treated only as unverified planning lineage; no equation, standard, accuracy, license, security, implementation, test, or release decision depends on them alone.
 - [ ] No `Ready` or `In Progress` task is silently included as completed scope.
 - [ ] Registry counts and coverage states are internally consistent.
 - [ ] All released components have model, validation, provenance, limitations, and user documentation.
@@ -22,8 +24,10 @@
 - [ ] `PLAT-GOV-001` remains `Planned` until the complete R0 evidence bundle is accepted at G0.
 - [ ] Root governance and contributor documents exist.
 - [ ] The project description and contributor path identify Applied Physics First and its principle-to-validation chain.
+- [ ] The normative Source and Evidence Policy is linked from contributor, requirements, task, validation, and release entry points.
 - [ ] Product, architecture, catalog, quality, planning, ADR, and task documents are cross-linked.
 - [ ] The baseline contains exactly 162 families and 502 variants.
+- [ ] The task baseline contains exactly 37 platform epics, 477 platform atomic tasks, 2,636 component/package atomic tasks, 66 validation tasks, and 3,179 atomic tasks in total.
 - [ ] The scientific model registry validates and reports only the model records it actually enumerates; physics, primitive, composite, behavioral, and external-adapter kinds are distinguishable.
 - [ ] All 502 variant pin profiles and all 502 variant semantic profiles resolve exactly once; unresolved model-plan references remain release-blocking.
 - [ ] Parameter definitions declare dimensions/canonical SI or explicit unresolved diagnostics; no normalization invents physical values.
@@ -35,7 +39,7 @@
 - [ ] Library Service, storage-independent engine bundle, mixed storage, immutable publication, safe CRUD, declarative/executable boundary, optional Google OIDC, guest migration, and personal persistence contracts are explicit.
 - [ ] Package candidates are distinguished from concrete `DevicePackageBinding` records; no `package_refs` list is accepted as a pin map or release artifact.
 - [ ] Requirement traceability has no orphan row.
-- [ ] All source-brief-derived requirements cite PDF pages.
+- [ ] All source-brief-derived requirements preserve PDF page markers as unverified origin metadata, without representing them as confirmed technical sources.
 - [ ] No executable application code or runtime configuration is introduced by the documentation-only milestone.
 
 ## Scheduled golden evidence
@@ -72,9 +76,19 @@
 - [ ] Vendor models retain provenance and redistribution restrictions.
 - [ ] Vendor/order-code records inherit exact generic-device revisions through bounded dimensionally valid overrides and exact package/pin bindings; no duplicated internal model or unevidenced market-coverage claim is accepted.
 
+## External analog adapter gates (R3/G3 and R7/G7)
+
+- [ ] `PLAT-EXT-001` through `PLAT-EXT-018` are `Done` before G3 acceptance; capability discovery, validate, prepare, run, ordered stream, pause, checkpoint, resume, cancel, and dispose have explicit legal, unsupported, timeout, idempotency, safe-point, cleanup, and diagnostic behavior.
+- [ ] The ngspice release/build and adapter are pinned by immutable digest; the shared-library/control claims resolve to reviewed official upstream evidence; no Source PDF citation is treated as capability, conformance, or license proof.
+- [ ] The adapter uses a separate, no-network, resource-bounded, read-only-root execution boundary and records engine, build, adapter, model, input, configuration, seed, isolation, license, and result provenance.
+- [ ] Analytical and core-versus-ngspice fixtures pass their declared envelopes; divergence, non-convergence, cancellation races, unsupported operations, cleanup failure, and resource exhaustion remain visible failures.
+- [ ] `PLAT-EXT-019` through `PLAT-EXT-021` are `Done` before G7 acceptance; every imported SPICE closure has reviewed include resolution, pin mapping, trust, license/redistribution, executable classification, immutable digest, supported subset, operating envelope, limitations, quarantine disposition, and differential evidence.
+- [ ] Passing execution never implies redistribution approval; the release/distribution disposition is retained separately.
+
 ## Applied Physics and Real-World Fidelity gate (R4/G4)
 
 - [ ] Every included model documents physical principles, governing/engineering equations or approved algorithm, assumptions, approximation, numerical method, dependencies, fidelity, state, inputs/outputs, convergence expectations, and failure conditions.
+- [ ] Every included governing equation, parameter, material property, standard, and claimed mechanism has an applicable reviewed official/primary source or accepted physical evidence record; Source PDF pages are not counted as this evidence.
 - [ ] Canonical SI units, dimensions, ranges, temperature/frequency/operating validity, and invalid-input diagnostics pass.
 - [ ] Provenance, license/redistribution, trust, validation state, accuracy/uncertainty envelope, limitations, deprecation, and replacement metadata are complete.
 - [ ] Existing tolerance, Monte Carlo, leakage, ESR/ESL, parasitic R/C/L, noise, power-limit, electrothermal, derating, aging, failure, visualization, injection, and deterministic-seed obligations remain present.
@@ -108,10 +122,24 @@
 - [ ] Worker containers have no outbound network by default, read-only base filesystems, and enforced CPU/memory/time limits.
 - [ ] Tenant-isolation and object-authorization tests pass.
 
+## Large analog and HPC gate (R11/G11)
+
+- [ ] `PLAT-HPC-001` proves the accepted immutable G10 manifest and every named cross-epic dependency before any R11 execution task begins.
+- [ ] `PLAT-HPC-002` pins the Xyce-class engine/build/image and official license/capability evidence, keeps GPL execution outside the Apache-2.0 core, and records a current distribution decision.
+- [ ] `PLAT-HPC-003` and `PLAT-HPC-004` pass lease fencing, duplicate delivery, retry, cancellation, drain, rank/collective failure, scheduler-loss, and bounded resource tests without split-brain ownership or orphan descendants.
+- [ ] `PLAT-HPC-005` proves Monte Carlo global sample identity and declared aggregates are invariant under pool size, batch size, retry, reassignment, and completion order for the same seed and immutable inputs.
+- [ ] `PLAT-HPC-006` proves declared thermal partition convergence, boundary continuity, conservation, accuracy, and partial-failure behavior against approved references.
+- [ ] `PLAT-HPC-007` proves deterministic merge order, bounded raw/derived retention, backpressure, approximation/error disclosure, and no unbounded browser, worker, or storage growth.
+- [ ] `PLAT-HPC-008` accepts only compatible checkpoints and proves restart lineage across engine, model, input, numerical, partition, MPI/runtime, image, and environment revisions.
+- [ ] `PLAT-HPC-009` passes tenant authorization, encryption/integrity, lifecycle, retention/legal-hold, export, deletion, regional, corruption, and retrieval evidence for large artifacts.
+- [ ] `PLAT-HPC-010` reconciles admission, reservation, quota, cost estimate, usage ledger, telemetry, privacy, alerts, cancellation, capacity, and recovery evidence.
+- [ ] `PLAT-HPC-011` independently audits all R11 evidence and publishes an immutable accepted `G11AcceptanceManifest` and `G11ReleaseDecision`; any mandatory open finding fails G11 closed.
+- [ ] Every R11 technical claim resolves to a pinned official/primary source or approved independent/physical evidence plus current project test evidence; Source PDF context cannot satisfy this gate.
+
 ## Architecture, GPU, and research gates
 
 - [ ] Engine adapters pin versions and reproduce reference workloads.
 - [ ] Functional, timing, and architecture results are visibly distinguished.
 - [ ] Full-transistor claims are not made for modern CPUs, GPUs, or full memory systems.
 - [ ] Research model accuracy is bounded by a declared validation dataset and operating envelope.
-- [ ] HPC results retain configuration, workload, model, engine, checkpoint, and environment provenance.
+- [ ] Downstream research results retain configuration, workload, model, engine, partition, MPI/runtime, checkpoint, artifact, and environment provenance and consume only an accepted G11 decision where G11 is a predecessor.

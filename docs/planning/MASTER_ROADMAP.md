@@ -2,7 +2,7 @@
 
 ## Roadmap policy
 
-The platform advances from component to circuit to logic to computer, matching the feasibility sequence in the source brief (PDF pp. 32-36 and 40-44). A later phase may begin discovery work early, but no release may bypass its prerequisite gate.
+The platform advances from component to circuit to logic to computer. The unverified source brief suggests this feasibility sequence (PDF pp. 32-36 and 40-44); accepted repository decisions adopt it as product planning, not as confirmed technical evidence. A later phase may begin discovery work early, but no release may bypass its prerequisite gate. See the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md).
 
 Each phase has four parallel tracks:
 
@@ -47,6 +47,7 @@ Each phase has four parallel tracks:
 - Implement nonlinear stamping, Newton iteration, adaptive timestep, damping, source stepping, conductance stepping, and convergence reporting.
 - Release diode families required by MVP, LED, NPN/PNP BJT, NMOS/PMOS, and op-amp tiers.
 - Add AC analysis, compact-model import foundation, and reference-engine differential tests.
+- Complete the versioned `EngineAdapter` lifecycle and the isolated ngspice reference path through `PLAT-EXT-001`..`PLAT-EXT-018`, including capability discovery, validation, preparation, run/stream, pause/checkpoint/resume negotiation, cancellation, disposal, sandboxing, provenance, and analytical/differential evidence. Unsupported operations must fail closed; documentation does not imply that ngspice is installed or distributable.
 - Validate GRC-011 through GRC-020.
 
 ## R4 - Applied Physics and Real-World Fidelity
@@ -83,6 +84,7 @@ Each phase has four parallel tracks:
 
 - Complete passives/magnetics, protection/isolation, power electronics, sensors, actuators, connectors/cables, instruments, digital logic, memory, MCU/FPGA peripherals, and RF/communications, including their required physical/package representations.
 - Complete SPICE, Verilog/SystemVerilog, Verilog-A/AMS, IBIS, Touchstone, CSV/PWL, VCD/FST, and HEX/ELF format work scheduled for this phase.
+- Complete `PLAT-EXT-019`..`PLAT-EXT-021` so only reviewed, immutable SPICE bundles reach the R3 adapter path and imported F3 macro-models retain pin, trust, license, sandbox, provenance, limitation, and differential evidence.
 - Validate GRC-023 through GRC-025, GRC-036 through GRC-040, plus every family-specific fixture.
 - Ingest market devices through generic-model inheritance, dimensionally valid bounded overrides, exact package/pin bindings, provenance, license, trust, and validation evidence; do not duplicate an internal circuit per ordering code or claim complete SKU coverage.
 
@@ -108,14 +110,15 @@ Each phase has four parallel tracks:
 
 - Add OIDC-compatible identity, organizations, projects, RBAC, invitations, comments, CRDT collaboration, snapshots, branches, public library, and moderation.
 - Add REST job API, Redis Streams queue, container workers, SSE progress/results, cancellation, retry, checkpoint/resume, quotas, usage accounting, and S3-compatible result storage.
-- Add initial ngspice, Verilator, and approved heavy-analysis workers.
+- Operationalize accepted external adapters such as ngspice and Verilator in isolated workers without redefining their lifecycle contracts. The ngspice worker requires the accepted R3 `PLAT-EXT-018` evidence; imported SPICE execution also requires the accepted R7 `PLAT-EXT-021` evidence. Hosted dispatch, leases, tenancy, quotas, and recovery remain R10 responsibilities.
 
 ## R11 - Large analog and HPC
 
 **Outcome:** Large SPICE-compatible and parameter-sweep workloads use isolated scalable workers.
 
-- Add Xyce-class worker integration, worker pools, MPI/HPC profiles, large Monte Carlo, thermal grid, result reduction, archival, and reproducibility bundles.
-- Keep GPL components outside the Apache-licensed core process and distribution unless legal review approves a different arrangement.
+- Execute `PLAT-HPC-001`..`PLAT-HPC-011`: freeze G11 entry evidence; define the Xyce-class isolated adapter and license boundary; define scalable worker pools and MPI/HPC profiles; preserve deterministic Monte Carlo identities; distribute thermal-grid workloads with explicit convergence/conservation rules; perform deterministic streaming reduction; provide compatible checkpoint/restart; archive and retrieve large artifacts; enforce quotas, cost controls, and observability; and independently audit the complete evidence bundle.
+- Keep GPL components outside the Apache-licensed core process and distribution unless a current legal review explicitly approves a different arrangement. Engine capability, MPI/runtime, scheduler, container image, model set, and environment revisions must be pinned; Source PDF citations cannot establish any of those facts.
+- Exit only when `PLAT-HPC-011` publishes an accepted immutable `G11AcceptanceManifest` and `G11ReleaseDecision`; missing isolation, reproducibility, license, security, performance, artifact, quota, or traceability evidence fails the gate closed.
 
 ## R12 - Architecture and full-system research
 

@@ -2,6 +2,8 @@
 schema_version: 1.0.0
 registry_id: eesim-test-registry
 status: Specified documentation baseline
+source_evidence_policy: ../SOURCE_AND_EVIDENCE_POLICY.md
+source_citation_rule: Test identifiers and Source PDF lineage are specifications only; only current retained evidence against an applicable approved reference can pass a test or gate.
 counts:
   requirement_tests: 63
   golden_tests: 66
@@ -44,15 +46,16 @@ requirement_tests:
   requirement: REQ-006
   title: Portable, versioned project persistence
   status: Specified
-  expected_evidence: "`.eesim` conformance, migration, corruption and offline-recovery
-    suites"
-  gate: G1
+  expected_evidence: "`.eesim` conformance, migration, corruption, offline-recovery,
+    and HPC manifest/checkpoint portability suites"
+  gate: G1/G11
 - id: TEST-REQ-007
   requirement: REQ-007
   title: Measurement and visualization
   status: Specified
-  expected_evidence: Probe/instrument GRC assertions and accessible waveform review
-  gate: G2/G6
+  expected_evidence: Probe/instrument GRC assertions, ordered external-adapter streams,
+    bounded HPC reduction and accessible waveform review
+  gate: G2/G3/G6/G11
 - id: TEST-REQ-008
   requirement: REQ-008
   title: Netlist and numerical circuit foundation
@@ -69,8 +72,9 @@ requirement_tests:
   requirement: REQ-010
   title: Transient analysis
   status: Specified
-  expected_evidence: GRC-006..010 and transient semiconductor fixtures
-  gate: G2/G3
+  expected_evidence: GRC-006..010, transient semiconductor fixtures, external-adapter
+    differential evidence and declared large-analog/HPC transient evidence
+  gate: G2/G3/G11
 - id: TEST-REQ-011
   requirement: REQ-011
   title: AC analysis
@@ -87,21 +91,23 @@ requirement_tests:
   requirement: REQ-013
   title: Statistical and parameter analyses
   status: Specified
-  expected_evidence: GRC-026 and deterministic-seed suite
-  gate: G4
+  expected_evidence: GRC-026, deterministic-seed suite, and pool/batch/retry/order-invariant
+    HPC Monte Carlo evidence
+  gate: G4/G11
 - id: TEST-REQ-014
   requirement: REQ-014
   title: Non-ideal component behavior
   status: Specified
-  expected_evidence: Family golden fixtures and ngspice/reference comparisons
-  gate: G4/G7
+  expected_evidence: Family golden fixtures, pinned ngspice adapter lifecycle,
+    and declared-envelope reference comparisons
+  gate: G3/G4/G7
 - id: TEST-REQ-015
   requirement: REQ-015
   title: Electrothermal coupling
   status: Specified
-  expected_evidence: GRC-021..022 at G4, GRC-023..024 at G7, thermal balance and
-    runaway suite
-  gate: G4/G7
+  expected_evidence: GRC-021..022 at G4, GRC-023..024 at G7, thermal balance,
+    runaway, and distributed thermal convergence/conservation suites
+  gate: G4/G7/G11
 - id: TEST-REQ-016
   requirement: REQ-016
   title: Failure modeling and injection
@@ -113,9 +119,9 @@ requirement_tests:
   requirement: REQ-017
   title: Numerical robustness and diagnostics
   status: Specified
-  expected_evidence: Singular, non-convergent, timestep-underflow, NaN and resource
-    suites
-  gate: G3/G6
+  expected_evidence: Singular, non-convergent, timestep-underflow, NaN, adapter-lifecycle,
+    MPI rank/collective-failure and bounded-resource suites
+  gate: G3/G6/G11
 - id: TEST-REQ-018
   requirement: REQ-018
   title: Event-driven digital semantics
@@ -126,9 +132,9 @@ requirement_tests:
   requirement: REQ-019
   title: Global deterministic scheduler
   status: Specified
-  expected_evidence: Same-timestamp ordering, checkpoint and deterministic replay
-    suite
-  gate: G5
+  expected_evidence: Same-timestamp ordering, checkpoint, deterministic replay,
+    and partition/retry-independent HPC scheduling evidence
+  gate: G5/G11
 - id: TEST-REQ-020
   requirement: REQ-020
   title: Analog/digital boundary adapters
@@ -158,9 +164,9 @@ requirement_tests:
   requirement: REQ-024
   title: Model and result interchange
   status: Specified
-  expected_evidence: Format conformance, malformed input, security and round-trip
-    suites
-  gate: G7/G9
+  expected_evidence: Format conformance, malformed input, security, round-trip,
+    reviewed SPICE-to-adapter handoff and Xyce-class interchange suites
+  gate: G3/G7/G9/G11
 - id: TEST-REQ-025
   requirement: REQ-025
   title: Educational CPU and memory progression
@@ -189,15 +195,16 @@ requirement_tests:
   requirement: REQ-029
   title: Local-first execution routing
   status: Specified
-  expected_evidence: Browser capability, offline, routing and worker-fallback suites
-  gate: G2/G10
+  expected_evidence: Browser capability, offline, external-adapter placement, heavy-job
+    routing, HPC admission and worker-fallback suites
+  gate: G2/G3/G10/G11
 - id: TEST-REQ-030
   requirement: REQ-030
   title: Heavy-job lifecycle
   status: Specified
-  expected_evidence: Queue, stream, cancel, retry, checkpoint, worker-loss and quota
-    suites
-  gate: G10/G11
+  expected_evidence: Queue, stream, cancel, retry, checkpoint, worker-loss, fenced-pool,
+    MPI, deterministic-reduction, artifact, quota and cost-accounting suites
+  gate: G3/G10/G11
 - id: TEST-REQ-031
   requirement: REQ-031
   title: Versioning and real-time collaboration
@@ -209,14 +216,16 @@ requirement_tests:
   requirement: REQ-032
   title: Untrusted workload isolation
   status: Specified
-  expected_evidence: Malicious archive/model/HDL, quota and tenant-isolation suites
-  gate: G1/G10
+  expected_evidence: Malicious archive/model/HDL, external-adapter sandbox, MPI/HPC,
+    quota and tenant-isolation suites
+  gate: G1/G3/G10/G11
 - id: TEST-REQ-033
   requirement: REQ-033
   title: Responsive and scalable browser execution
   status: Specified
-  expected_evidence: Published benchmark matrix and threaded/single-thread fallback
-  gate: G2/G6
+  expected_evidence: Published browser, external-adapter and HPC benchmark matrix,
+    threaded/single-thread fallback and bounded-retention evidence
+  gate: G2/G3/G6/G11
 - id: TEST-REQ-034
   requirement: REQ-034
   title: Browser compatibility, accessibility, and localization
@@ -227,7 +236,8 @@ requirement_tests:
   requirement: REQ-035
   title: Open-source and third-party license boundary
   status: Specified
-  expected_evidence: License/notice inventory, boundary review and release audit
+  expected_evidence: License/notice inventory, ngspice/Xyce process and distribution
+    boundary review, and release audit
   gate: G0/every release
 - id: TEST-REQ-036
   requirement: REQ-036
@@ -265,20 +275,21 @@ requirement_tests:
   requirement: REQ-041
   title: Units and dimensional validation
   status: Specified
-  expected_evidence: Canonical-SI and invalid/missing/incompatible-dimension rejection suite
-  gate: G0/G4
+  expected_evidence: Canonical-SI, external-adapter unit mapping, and invalid/missing/incompatible-dimension
+    rejection suite
+  gate: G0/G3/G4
 - id: TEST-REQ-042
   requirement: REQ-042
   title: Validity, provenance, trust, and limitations
   status: Specified
-  expected_evidence: Publication rejection for incomplete provenance, trust, validity or limitations
-  gate: G0/G4
+  expected_evidence: Publication rejection for incomplete provenance, trust, validity, limitations, or Source-PDF-only technical basis
+  gate: G0/G3/G4/G11
 - id: TEST-REQ-043
   requirement: REQ-043
   title: Model accuracy and uncertainty
   status: Specified
-  expected_evidence: Category envelope, uncertainty budget and false-precision review
-  gate: G4
+  expected_evidence: Category envelope, uncertainty budget, false-precision review, and applicable official/primary or physical-reference evidence
+  gate: G3/G4/G11
 - id: TEST-REQ-044
   requirement: REQ-044
   title: Experimental correlation and physical benchmarks
@@ -289,14 +300,17 @@ requirement_tests:
   requirement: REQ-045
   title: Real-world electrical, thermal, and environmental behavior
   status: Specified
-  expected_evidence: GRC-021, GRC-022, and GRC-026 at G4; preserved GRC-023..025 specifications remain scheduled for R7; plus environmental/electrothermal physical fixtures
-  gate: G4
+  expected_evidence: GRC-021, GRC-022, and GRC-026 at G4; preserved GRC-023..025
+    specifications at G7; environmental/electrothermal physical fixtures; and
+    distributed thermal partition/convergence/conservation evidence at G11
+  gate: G4/G7/G11
 - id: TEST-REQ-046
   requirement: REQ-046
   title: Manufacturing variation, statistics, and aging
   status: Specified
-  expected_evidence: Seeded variation, correlation, stress-history and aging-state suite
-  gate: G4
+  expected_evidence: Seeded variation, correlation, stress-history, aging-state,
+    and pool/batch/retry/order-invariant HPC sampling suite
+  gate: G4/G11
 - id: TEST-REQ-047
   requirement: REQ-047
   title: Failure, interconnection, source, and instrument physics
@@ -337,7 +351,8 @@ requirement_tests:
   requirement: REQ-053
   title: End-to-end model lineage
   status: Specified
-  expected_evidence: Bidirectional principle-to-result lineage and missing-lineage rejection
+  expected_evidence: Bidirectional principle-to-result lineage across local, external-adapter,
+    checkpoint and HPC artifacts, plus missing-lineage rejection
   gate: G1/every release
 - id: TEST-REQ-054
   requirement: REQ-054
@@ -349,14 +364,16 @@ requirement_tests:
   requirement: REQ-055
   title: Mixed storage responsibility
   status: Specified
-  expected_evidence: PostgreSQL/JSONB/object/IndexedDB responsibility and repository-boundary audit
-  gate: G1/G10
+  expected_evidence: PostgreSQL/JSONB/object/IndexedDB responsibility, repository-boundary,
+    and large immutable artifact lifecycle/retrieval audit
+  gate: G1/G10/G11
 - id: TEST-REQ-056
   requirement: REQ-056
   title: Declarative models and executable-kernel boundary
   status: Specified
-  expected_evidence: Arbitrary stored execution rejection and allowlisted sandbox capability suite
-  gate: G1/G7
+  expected_evidence: Arbitrary stored execution rejection plus allowlisted external-adapter
+    and HPC sandbox capability suites
+  gate: G1/G3/G7/G11
 - id: TEST-REQ-057
   requirement: REQ-057
   title: Minimal Google OIDC with guest preservation
@@ -374,7 +391,7 @@ requirement_tests:
   title: Immutable revisions and publication lifecycle
   status: Specified
   expected_evidence: Published mutation rejection, content identity and supersession suite
-  gate: G1
+  gate: G1/G11
 - id: TEST-REQ-060
   requirement: REQ-060
   title: System- and user-library permissions
@@ -386,7 +403,7 @@ requirement_tests:
   title: Safe CRUD and dependency-aware retirement
   status: Specified
   expected_evidence: Hard-delete rejection, soft-delete history and reverse-dependency suite
-  gate: G1
+  gate: G1/G11
 - id: TEST-REQ-062
   requirement: REQ-062
   title: Versioned Library Service API
@@ -397,8 +414,9 @@ requirement_tests:
   requirement: REQ-063
   title: Imported-model trust and licensing
   status: Specified
-  expected_evidence: Source/hash/license/trust/parser/sandbox/publication quarantine suite
-  gate: G1/G7
+  expected_evidence: Source/hash/license/trust/parser/sandbox/publication quarantine
+    suite plus ngspice/Xyce execution and distribution-boundary evidence
+  gate: G1/G3/G7/G11
 golden_tests:
 - id: TEST-GRC-001
   fixture: GRC-001

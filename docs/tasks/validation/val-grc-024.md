@@ -82,6 +82,12 @@ This validation-only card cannot modify the implementation under test. Exact fix
 4. Boundary/failure vectors return the specified result or structured diagnostic, never a silent approximation.
 5. Requirement, task, component/package coverage, and release evidence are updated together.
 
+## Known limitations
+
+- This is a specified but unexecuted validation card; its existence is not passing evidence and cannot advance a component, model, platform feature, or release state.
+- Evidence proves only the named fixture, assertions, reference identity, operating envelope, configuration, and uncertainty recorded by this card. It cannot establish broader device-population, vendor, physical-accuracy, security, performance, or compatibility claims.
+- Exact primary/independent/physical reference records, license status, fixture/result paths, and current execution evidence must exist before acceptance. Source PDF context alone is never a valid reference, and this validation-only task cannot modify the model or implementation under test.
+
 ## Definition of Done
 
 - [ ] Reference, inputs, expected values/features, and tolerances are complete.

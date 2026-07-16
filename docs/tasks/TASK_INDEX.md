@@ -23,11 +23,11 @@ Every card and promotion decision MUST conform to the [Atomic Task Contract](ATO
 | Variant semantic profiles | 502 | `docs/catalog/variant-semantic-profiles.yaml`; unresolved model plans remain release-blocking |
 | Normalized parameter definitions | 801 | `docs/catalog/parameter-definitions.yaml`; 23 release-blocking unresolved/placeholder records remain explicit |
 | Reusable package templates | 38 | `docs/catalog/package-registry.yaml` |
-| Platform epics | 35 | `docs/tasks/epics/` |
-| Platform atomic tasks | 445 | [Platform index](platform/INDEX.md) |
+| Platform epics | 37 | `docs/tasks/epics/` |
+| Platform atomic tasks | 477 | [Platform index](platform/INDEX.md) |
 | Component/package atomic tasks | 2636 | [Component/package index](models/INDEX.md) |
 | Golden validation tasks | 66 | [Validation index](validation/INDEX.md) |
-| Total atomic tasks | 3147 | Sum of the three task collections |
+| Total atomic tasks | 3179 | Sum of the three task collections |
 
 The baseline count distinguishes reusable physical packages from electrical component families. Package templates do not alter the 162-family/502-variant component baseline.
 
@@ -47,9 +47,11 @@ The baseline count distinguishes reusable physical packages from electrical comp
 | [EPIC-DATA-001](epics/epic-data-001.md) | Data-driven Library Service and lifecycle | R1 | REQ-054, REQ-055, REQ-056, REQ-059, REQ-060, REQ-061, REQ-062, REQ-063 | 8 |
 | [EPIC-DIG-001](epics/epic-dig-001.md) | Event-driven digital simulation | R5 | REQ-018, REQ-021 | 15 |
 | [EPIC-EDT-001](epics/epic-edt-001.md) | Schematic editor | R1 | REQ-004, REQ-005, REQ-037, REQ-038 | 20 |
+| [EPIC-EXT-001](epics/epic-ext-001.md) | External analog engine adapters | R3/R7 | REQ-007..011, REQ-014, REQ-017, REQ-024, REQ-029, REQ-030, REQ-032, REQ-033, REQ-035, REQ-041..043, REQ-049, REQ-053, REQ-056, REQ-063 | 21 |
 | [EPIC-GOV-001](epics/epic-gov-001.md) | Open-source repository and governance | R1 | REQ-034, REQ-035 | 8 |
 | [EPIC-GPU-001](epics/epic-gpu-001.md) | GPU and accelerator simulation | R13 | REQ-028 | 12 |
 | [EPIC-HDL-001](epics/epic-hdl-001.md) | RTL FPGA and Verilator integration | R9 | REQ-026 | 14 |
+| [EPIC-HPC-001](epics/epic-hpc-001.md) | Large analog and HPC execution | R11 | REQ-006, REQ-007, REQ-010, REQ-013, REQ-015, REQ-017, REQ-019, REQ-024, REQ-029, REQ-030, REQ-032, REQ-033, REQ-035, REQ-042, REQ-043, REQ-045, REQ-046, REQ-053, REQ-055, REQ-056, REQ-059, REQ-061, REQ-063 | 11 |
 | [EPIC-IDP-001](epics/epic-idp-001.md) | Minimal personal identity and project persistence | R1 | REQ-006, REQ-029, REQ-057, REQ-058 | 4 |
 | [EPIC-IMP-001](epics/epic-imp-001.md) | Model data and firmware interchange | R7 | REQ-024, REQ-032, REQ-042, REQ-049, REQ-056, REQ-063 | 12 |
 | [EPIC-LIB-001](epics/epic-lib-001.md) | Hierarchical reusable model and device library | R1 | REQ-040, REQ-042, REQ-048, REQ-049, REQ-050, REQ-051, REQ-052, REQ-053, REQ-059, REQ-063 | 14 |

@@ -19,7 +19,7 @@ Primary use cases:
 - Inject an open, short, leakage, or thermal failure and compare the result. [Source PDF, pp. 8-9]
 - Use animated overlays without confusing current direction with literal electron motion. [Source PDF, pp. 30-31]
 
-Success means the learner can reproduce the ten realistic-electronics MVP demonstrations before entering the CPU track. [Source PDF, p. 37]
+Success means the learner can reproduce the eleven realistic-electronics MVP demonstrations before entering the CPU track. [Source PDF, p. 37]
 
 ## Educator or laboratory author
 

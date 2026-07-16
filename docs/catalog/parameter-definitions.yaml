@@ -5,6 +5,8 @@ title: EEE Simulator family-scoped parameter definitions
 status: Normative documentation baseline; no implementation or validation claim
 source_registry: component-registry.yaml
 source_registry_schema_version: 1.1.0
+source_evidence_policy: ../SOURCE_AND_EVIDENCE_POLICY.md
+source_citation_rule: Source-registry and Source PDF values preserve planning identity only; normalization does not technically confirm a value, equation, limit, or accuracy claim.
 normative_contracts:
   parameter_definition: COMPONENT_MODEL_CONTRACT.md#parameterdefinition
   canonical_units: "../architecture/SIMULATION_ENGINE.md#3-canonical-quantities-and-units"

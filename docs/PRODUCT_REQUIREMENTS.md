@@ -5,9 +5,11 @@
 This document defines the stable product requirements for the documentation baseline. The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
 - Requirement IDs `REQ-001` through `REQ-063` are permanent and must not be renumbered or reused.
-- Each requirement includes its source basis. `[Source PDF, p. N]` refers to *Web-based Electronics and Computer Simulation Platform*, 44 pages.
+- Each requirement preserves its planning-origin annotation. `[Source PDF, p. N]` refers to *Web-based Electronics and Computer Simulation Platform*, 44 pages, and is classified as unverified source-brief context rather than technical evidence.
 - Architecture details are delegated to linked contracts and accepted ADRs.
 - Verification links are maintained in [Requirements Traceability Matrix](quality/REQUIREMENTS_TRACEABILITY_MATRIX.md).
+
+The normative [Source and Evidence Policy](SOURCE_AND_EVIDENCE_POLICY.md) applies to every requirement. Repository approval makes these statements product requirements, but neither `[Source PDF]` nor a user/repository architecture brief confirms an equation, standard, accuracy claim, license, security property, implementation state, test result, or release status. Before applicable technical work becomes `Ready`, its task must name verified official/primary sources or approved physical/reference artifacts. Before `Validated` or `Released`, current evidence must demonstrate the requirement inside its declared envelope.
 
 ## Vision and fidelity
 

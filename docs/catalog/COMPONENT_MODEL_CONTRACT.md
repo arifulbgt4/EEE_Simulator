@@ -5,9 +5,9 @@ Requirements: **REQ-009, REQ-010, REQ-014, REQ-015, REQ-016, REQ-018, REQ-020, R
 
 ## Purpose
 
-This contract separates physical/scientific models, electrical meaning, simulation behavior, schematic appearance, physical appearance, package geometry, boards/systems, and optional manufacturing metadata. All engines, editors, importers, Library Service operations, project files, and catalog tools must preserve these boundaries. [Source PDF, pp. 6-35]
+This contract separates physical/scientific models, electrical meaning, simulation behavior, schematic appearance, physical appearance, package geometry, boards/systems, and optional manufacturing metadata. All engines, editors, importers, Library Service operations, project files, and catalog tools must preserve these boundaries. The legacy citation preserves source-brief planning lineage only and does not technically validate these boundaries. [Source PDF, pp. 6-35]
 
-It is read with the [Applied Physics contract](../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md), [hierarchical library architecture](../architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md), [data-driven library architecture](../architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md), [scientific model registry](model-registry.yaml), [variant semantic profiles](variant-semantic-profiles.yaml), and [parameter-definition catalog](PARAMETER_DEFINITION_CATALOG.md). Registry presence is planning evidence only; unresolved executable bindings remain release-blocking.
+It is read with the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md), [Applied Physics contract](../architecture/APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md), [hierarchical library architecture](../architecture/HIERARCHICAL_MODEL_AND_LIBRARY_ARCHITECTURE.md), [data-driven library architecture](../architecture/DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md), [scientific model registry](model-registry.yaml), [variant semantic profiles](variant-semantic-profiles.yaml), and [parameter-definition catalog](PARAMETER_DEFINITION_CATALOG.md). Registry presence is planning evidence only; unresolved executable bindings remain release-blocking.
 
 ## Normative entities
 
@@ -79,6 +79,8 @@ Required fields: `id`, `trigger`, `threshold`, `duration`, `transition`, `result
 
 Required fields: `sourceType`, `sourceIdentity`, `sourceVersion`, `retrievedAt`, `contentDigest`, `authorsOrOrganization`, `licenseExpression`, `redistributionAllowed`, `modifications`, `reviewStatus`, and `reviewEvidence`. Personal paths and credentials are prohibited.
 
+`sourceIdentity` MUST resolve to the exact applicable official/primary technical source, approved independent reference, or physical evidence artifact needed for the claim, with its extraction location and applicability retained. A legacy Source PDF page may be stored separately as planning-origin metadata but cannot establish an equation, standard, parameter, accuracy envelope, license, security property, implementation truth, or release evidence. A model whose applicable technical basis is Source PDF-only remains below `Model Ready`.
+
 ### PhysicalRepresentation
 
 Required fields: `id`, `variantId`, `artworkRevision`, `geometryType`, `body`, `leadsOrContacts`, `polarityOrPinOne`, `markings`, `materials`, `lodLevels`, `accessibilityCues`, `defaultPackageRef`, `availablePackageRefs`, `accuracyClaim`, `provenance`, and `license`. Applicable value, rating, and safety markings require text equivalents; protected marks require documented permission. Geometry must be original scalable vector or procedural metadata.
@@ -138,6 +140,7 @@ Time is an integer multiple of the declared project time quantum. Logic uses `0`
 12. Published revisions are immutable; referenced revisions cannot be hard-deleted.
 13. Stored model content is declarative unless it selects an allowlisted, versioned, sandboxed executable capability.
 14. Physical/scientific claims remain inside their validity and accuracy/uncertainty envelope and identify their evidence state.
+15. Every applicable technical claim resolves to a reviewed official/primary source or accepted physical/reference evidence record under the Source and Evidence Policy; Source PDF-only provenance is release-blocking.
 
 ## Lifecycle and compatibility
 
@@ -149,4 +152,4 @@ Schema and profile revisions use semantic versioning. Additive optional fields m
 
 ## Canonical limitations
 
-A family model cannot claim manufacturer accuracy without a validated vendor artifact. A vendor ordering code cannot widen the generic model's claim through metadata alone. A physical package cannot claim manufacturability without sourced footprint evidence. A behavioral CPU/GPU block cannot claim transistor-level fidelity. Differential agreement cannot claim physical correlation. Deferred or unresolved model-plan records cannot satisfy production gates. No database, imported record, visual representation, or model name is itself a simulation engine or evidence of physical accuracy.
+A family model cannot claim manufacturer accuracy without a validated vendor artifact. A vendor ordering code cannot widen the generic model's claim through metadata alone. A physical package cannot claim manufacturability without sourced footprint evidence. A behavioral CPU/GPU block cannot claim transistor-level fidelity. Differential agreement cannot claim physical correlation. A Source PDF citation cannot claim technical confirmation. Deferred or unresolved model-plan records cannot satisfy production gates. No database, imported record, visual representation, model name, repository decision, or unverified source brief is itself a simulation engine or evidence of physical accuracy.

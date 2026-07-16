@@ -9,12 +9,13 @@ All contributions follow Applied Physics First: preserve the traceable path from
 Read, in order:
 
 1. [docs/START_HERE.md](docs/START_HERE.md)
-2. [AGENTS.md](AGENTS.md)
-3. [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md)
-4. The relevant [accepted ADRs](docs/decisions)
-5. The selected task, its dependencies, and its release gate
+2. [docs/SOURCE_AND_EVIDENCE_POLICY.md](docs/SOURCE_AND_EVIDENCE_POLICY.md)
+3. [AGENTS.md](AGENTS.md)
+4. [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md)
+5. The relevant [accepted ADRs](docs/decisions)
+6. The selected task, its dependencies, and its release gate
 
-The project deliberately moves from realistic electronics to digital logic, educational CPUs, small computers, and finally architecture-level systems. This ordering follows the feasibility evidence and must not be bypassed by a contribution. [Source PDF, pp. 32-44]
+The project deliberately moves from realistic electronics to digital logic, educational CPUs, small computers, and finally architecture-level systems. This ordering is a repository decision whose planning origin is traced to the unverified source brief; the PDF is not feasibility evidence and must not be used to claim that any stage works. The adopted gates must not be bypassed by a contribution. [Source PDF, pp. 32-44]
 
 ## Choose an atomic task
 
@@ -37,6 +38,7 @@ Resolve documentation ambiguity before implementation. A changed architectural d
 - Add tests for expected behavior, limits, and failure modes.
 - Keep requirements, task status, catalog coverage, validation evidence, and traceability synchronized.
 - Record numerical tolerances and the reference used to establish them.
+- Use the applicable official/primary technical source or physical evidence for equations, standards, accuracy, licensing, security, implementation, and release claims; a Source PDF citation alone is never sufficient.
 - Declare imported model provenance, version, license, supported analyses, and known limitations.
 - Use immutable revision IDs and content hashes for published model, device, package, binding, board, system, project, and evidence references.
 - Keep database content declarative; executable kernels require an allowlisted capability and the documented sandbox boundary.
@@ -44,14 +46,14 @@ Resolve documentation ambiguity before implementation. A changed architectural d
 - Treat generated or vendor-supplied models as untrusted input.
 - Use English for repository documentation, source identifiers, and public interfaces.
 
-The source brief explicitly calls for validated models, reference-circuit comparisons, convergence diagnostics, selective probing, streaming results, and deterministic cross-engine synchronization. Contributions in those areas must preserve those safeguards. [Source PDF, pp. 29-31, 39-40]
+The source brief records proposals for validated models, reference-circuit comparisons, convergence diagnostics, selective probing, streaming results, and deterministic cross-engine synchronization. These are adopted planning inputs, not confirmed technical facts. Contributions in those areas must establish the safeguards with official/primary references and current project evidence. [Source PDF, pp. 29-31, 39-40]
 
 ## Documentation changes
 
 Documentation-only contributions should:
 
 - use relative links;
-- cite source-derived requirements by PDF page;
+- preserve source-derived page citations as unverified origin metadata and follow the [Source and Evidence Policy](docs/SOURCE_AND_EVIDENCE_POLICY.md);
 - distinguish normative requirements from explanation;
 - avoid claiming every manufacturer SKU is built in;
 - keep the 162-family and 502-variant baseline internally consistent;
@@ -68,6 +70,7 @@ A reviewer should be able to answer yes to all applicable questions:
 - Are normal, boundary, invalid-input, resource-limit, and cancellation paths covered?
 - Are deterministic seeds and engine versions recorded where relevant?
 - Are accuracy claims backed by a declared reference?
+- Is every technical reference authoritative for the claim, with Source PDF citations treated only as unverified planning lineage?
 - Are security and license boundaries preserved?
 - Are docs, task status, coverage, tests, and traceability consistent?
 

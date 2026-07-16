@@ -104,6 +104,12 @@ Only the paths above are authorized; this documentation task does not authorize 
 3. The evidence names `docs/architecture/OPEN_SOURCE_AND_THIRD_PARTY_LICENSES.md`, prerequisite `Gate G0 documentation baseline`, the immutable repository revision, ADR-0002/0003/0008/0010, and every audited path; it introduces no application code, package configuration, migration, or deployment artifact.
 4. Requirement -> epic -> task -> test -> release traceability and the R0/R1 handoff records agree with no unrelated scope change.
 
+## Known limitations
+
+- This `Planned` documentation card proves no repository source layout, ownership enforcement, implementation, test execution, package setup, security control, license approval, or R1 release status.
+- The resulting path/ownership contract cannot validate third-party license rights or external-engine behavior; those require their own pinned authoritative evidence and reviews.
+- Source PDF material is not a technical input for this concern and cannot satisfy G0, readiness, or acceptance evidence.
+
 ## Definition of Done
 
 - [ ] Deliverable and failure behavior match the normative documents.

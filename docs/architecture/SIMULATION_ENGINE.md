@@ -9,7 +9,7 @@ This document defines the analog, electrical, thermal, tolerance, and failure si
 
 The engine implements numerical algorithms; it is not a component database. Model, device, package, board, system, and project definitions are resolved by the [Library Service architecture](./DATA_DRIVEN_LIBRARY_AND_STORAGE_ARCHITECTURE.md) into an immutable `ComponentDefinitionPlan`. Scientific meaning and R4 behavior follow [Applied Physics and Real-World Fidelity](./APPLIED_PHYSICS_AND_REAL_WORLD_FIDELITY.md).
 
-The brief requires netlist generation, Modified Nodal Analysis (MNA), nonlinear device equations, iterative solution, transient stepping, convergence checks, and waveform retention. [Source PDF, pp. 9-11]
+The unverified source brief proposes netlist generation, Modified Nodal Analysis (MNA), nonlinear device equations, iterative solution, transient stepping, convergence checks, and waveform retention. [Source PDF, pp. 9-11] Repository requirements adopt this planning scope, while governing equations, algorithms, numerical behavior, and acceptance require independent primary/reference and current project evidence.
 
 ## 2. Solver scope by release
 

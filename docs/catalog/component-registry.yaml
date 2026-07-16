@@ -3,6 +3,8 @@ registry_id: "eesim-component-registry"
 pin_profile_registry: "variant-pin-profiles.yaml"
 title: "EEE Simulation canonical component registry"
 status: "Frozen documentation baseline"
+source_evidence_policy: "../SOURCE_AND_EVIDENCE_POLICY.md"
+source_citation_rule: "Every Source PDF field is source_brief_unverified planning lineage only; it cannot establish equations, parameters, standards, accuracy, license rights, implementation, validation, or release."
 baseline:
   production_families: 157
   production_variants: 494

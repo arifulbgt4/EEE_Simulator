@@ -5,7 +5,7 @@ Related: [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHIT
 
 ## 1. Purpose
 
-This document defines deployment units, environments, release/rollback, migrations, capacity, backups, observability, alerting, and incident operations. The source PDF requires a hybrid browser/server architecture, CPU and GPU/HPC Workers, distributed jobs, progress streaming, result storage, checkpoint/resume, and a multidisciplinary operational boundary. [Source PDF, pp. 25-26, 36, 38-40]
+This document defines deployment units, environments, release/rollback, migrations, capacity, backups, observability, alerting, and incident operations. The unverified source brief proposes a hybrid browser/server architecture, CPU and GPU/HPC Workers, distributed jobs, progress streaming, result storage, checkpoint/resume, and a multidisciplinary operational boundary. [Source PDF, pp. 25-26, 36, 38-40] Repository decisions adopt the planned scope, while current operational evidence must establish every deployment claim.
 
 ## 2. Deployment topology
 

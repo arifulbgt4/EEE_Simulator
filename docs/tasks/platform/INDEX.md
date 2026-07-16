@@ -16,9 +16,11 @@ Every platform task is atomic and decision-bounded. Follow the linked epic and t
 | [EPIC-DATA-001 - Data-driven Library Service and lifecycle](../epics/epic-data-001.md) | R1 | REQ-054..056, REQ-059..063 | 8 |
 | [EPIC-DIG-001 - Event-driven digital simulation](../epics/epic-dig-001.md) | R5 | REQ-018, REQ-021 | 15 |
 | [EPIC-EDT-001 - Schematic editor](../epics/epic-edt-001.md) | R1 | REQ-004, REQ-005, REQ-037, REQ-038 | 20 |
+| [EPIC-EXT-001 - External analog engine adapters](../epics/epic-ext-001.md) | R3/R7 | REQ-007..011, REQ-014, REQ-017, REQ-024, REQ-029, REQ-030, REQ-032, REQ-033, REQ-035, REQ-041..043, REQ-049, REQ-053, REQ-056, REQ-063 | 21 |
 | [EPIC-GOV-001 - Open-source repository and governance](../epics/epic-gov-001.md) | R1 | REQ-034, REQ-035 | 8 |
 | [EPIC-GPU-001 - GPU and accelerator simulation](../epics/epic-gpu-001.md) | R13 | REQ-028 | 12 |
 | [EPIC-HDL-001 - RTL FPGA and Verilator integration](../epics/epic-hdl-001.md) | R9 | REQ-026 | 14 |
+| [EPIC-HPC-001 - Large analog and HPC execution](../epics/epic-hpc-001.md) | R11 | REQ-006, REQ-007, REQ-010, REQ-013, REQ-015, REQ-017, REQ-019, REQ-024, REQ-029, REQ-030, REQ-032, REQ-033, REQ-035, REQ-042, REQ-043, REQ-045, REQ-046, REQ-053, REQ-055, REQ-056, REQ-059, REQ-061, REQ-063 | 11 |
 | [EPIC-IDP-001 - Minimal personal identity and project persistence](../epics/epic-idp-001.md) | R1 | REQ-006, REQ-029, REQ-057, REQ-058 | 4 |
 | [EPIC-IMP-001 - Model data and firmware interchange](../epics/epic-imp-001.md) | R7 | REQ-024, REQ-032, REQ-042, REQ-049, REQ-056, REQ-063 | 12 |
 | [EPIC-LIB-001 - Hierarchical reusable model and device library](../epics/epic-lib-001.md) | R1 | REQ-040, REQ-042, REQ-048..053, REQ-059, REQ-063 | 14 |
@@ -40,4 +42,4 @@ Every platform task is atomic and decision-bounded. Follow the linked epic and t
 | [EPIC-VIZ-001 - Visualization and virtual instruments](../epics/epic-viz-001.md) | R2 | REQ-007, REQ-021, REQ-034, REQ-037 | 16 |
 | [EPIC-WASM-001 - Rust WASM and worker runtime](../epics/epic-wasm-001.md) | R2 | REQ-029, REQ-033 | 10 |
 
-**Total platform tasks: 445.**
+**Total platform tasks: 477.**

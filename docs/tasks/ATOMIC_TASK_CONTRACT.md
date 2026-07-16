@@ -2,7 +2,7 @@
 
 Status: **Normative planning contract 1.1**
 
-This contract makes every future task safe for a small implementation model. It complements [AGENTS.md](../../AGENTS.md), the [task index](TASK_INDEX.md), and the card templates. A card cannot become `Ready` unless every field below is concrete and mechanically verifiable.
+This contract makes every future task safe for a small implementation model. It complements [AGENTS.md](../../AGENTS.md), the [Source and Evidence Policy](../SOURCE_AND_EVIDENCE_POLICY.md), the [task index](TASK_INDEX.md), and the card templates. A card cannot become `Ready` unless every field below is concrete and mechanically verifiable.
 
 ## One outcome and stable identity
 
@@ -25,13 +25,15 @@ Every card MUST state:
 4. expected outputs and named public contracts;
 5. an exact documentation allowlist and, when `Ready`, exact implementation/test paths unless the task is one of the documentation-only readiness exceptions defined below;
 6. forbidden scope;
-7. equations, event rules, external references, or an explicit statement that the concern has no numerical equation;
+7. equations, event rules, and exact verified official/primary references or approved physical/reference artifacts, or an explicit rationale that the concern has no applicable external technical claim;
 8. nominal, boundary, invalid, failure, cancellation, compatibility, security, performance, and accessibility behavior where applicable;
 9. stable acceptance-test IDs and expected evidence;
 10. exact documentation, coverage, traceability, risk, and release records to update;
 11. known limitations and Definition of Done.
 
 For scientific/model/library work, the exact inputs and outputs also include stable logical ID, immutable revision ID, content hash, kind, dependency/reverse-dependency edges, dimensions/canonical SI, validity, provenance/license/trust, accuracy/uncertainty, evidence state, lifecycle, and executable capability classification where applicable. A missing value is an explicit blocking diagnostic, not implementer discretion.
+
+For every applicable technical claim, the card also names the source type, owner/title, edition or version, exact section/page/table/parameter location, stable locator, applicability, extracted facts, dimensions, assumptions, license/redistribution status, conflicts, reviewer class, and evidence the task will produce. A legacy `[Source PDF]` citation is `source_brief_unverified` origin metadata only. It cannot satisfy an equation/reference field, acceptance criterion, task-readiness check, implementation claim, or release condition.
 
 “Applicable dependencies,” “relevant files,” or similar implementer-selected scope is not valid readiness evidence.
 
@@ -42,6 +44,7 @@ The documentation baseline can authorize exact documentation records, but applic
 - every `Planned` model, package, validation, or platform card lists its current exact documentation allowlist;
 - no application/source path is authorized while that restriction is present;
 - every documentation-only R0 card is an explicit exception: it may be `Ready` with a complete documentation/evidence allowlist and no application source or runtime-test path, and it grants no permission to create application code;
+- a documentation-only readiness exception does not waive source qualification for a technical claim; it may mark the requirement `not_applicable` only with a concrete rationale that the card makes no external technical assertion;
 - `PLAT-QA-001` is the only initial `Ready` card; later R0 quality cards are promoted sequentially only after their exact predecessor is `Done`;
 - `PLAT-GOV-001` remains `Planned` until G0 is accepted, may then be promoted using its exact documentation/output allowlist, and establishes the source/test layout required by later implementation tasks;
 - outside the documentation-only exceptions above, promotion to `Ready` MUST append exact implementation and test paths defined by completed `PLAT-GOV-001` without changing the task's component, tier, concern, contracts, or documentation allowlist;
@@ -73,6 +76,8 @@ The first task of an epic depends on the predecessor release gate; later tasks n
 
 Physical-correlation cards additionally depend on the benchmark contract, exact physical lineage `PBC-*`, exact GRC/validation ID, fixture/BOM/specimen/equipment/calibration/procedure/raw-data/model/environment artifacts, and the applicable R4 model tasks. They cannot become `Ready` while these evidence identities are unresolved, and they cannot modify the model under test or raw observations.
 
+Any technical card whose equation, standard, accuracy target, dependency behavior, license, security property, implementation fact, or release criterion is supported only by the Source PDF remains `Planned` or explicitly blocked. A source-discovery card may become `Ready` with an exact search/review outcome, but it produces no implementation or release permission.
+
 Library lifecycle tasks MUST reject dependency cycles, mutable published references, unknown dimensions, unsafe inheritance, arbitrary stored execution, and hard deletion of referenced/published revisions. Engine tasks consume the resolved bundle and cannot add a direct database/storage dependency.
 
 ## Stable test IDs
@@ -94,6 +99,7 @@ Before changing a card to `Ready`, automation MUST reject:
 - a noncanonical release value;
 - missing exact implementation/test paths, unless the task satisfies a documentation-only readiness exception above;
 - missing public contracts or reference/equation basis;
+- a Source PDF-only technical basis, an unverified citation, or a missing applicable official/primary source or physical/reference artifact;
 - missing stable test IDs;
 - a dependency cycle;
 - requirement, coverage, registry, golden-test, risk, or release links that disagree;

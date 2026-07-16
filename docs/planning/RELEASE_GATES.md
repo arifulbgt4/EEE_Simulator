@@ -19,15 +19,15 @@ No phase is considered released because its feature list appears complete. Relea
 | G0 Documentation | None | Complete documents, component/package/model registries, Applied Physics contracts, tasks, tests, and traceability | Implementation may begin |
 | G1 Editor foundation | G0 | Accessible editing, dual schematic/physical views, reusable package pin mapping, and `.eesim` round trip | Internal alpha |
 | G2 Linear analog | G1 | GRC-001..010 applicable subset and performance | Engineering preview |
-| G3 Nonlinear analog | G2 | GRC-011..020 and convergence diagnostics | Closed alpha |
-| G4 Applied Physics and Real-World Fidelity | G3 | Preserved GRC-021..026 scope; GRC-055..066 physical fixtures; model/units/validity/provenance/accuracy/uncertainty conformance; electrothermal/environment/manufacturing/aging/failure/interconnect/source/instrument evidence | Closed beta |
+| G3 Nonlinear analog | G2 | GRC-011..020, convergence diagnostics, and accepted `PLAT-EXT-001`..`PLAT-EXT-018` lifecycle/isolation/provenance/differential evidence | Closed alpha |
+| G4 Applied Physics and Real-World Fidelity | G3 | Current GRC-021, GRC-022, GRC-026, and GRC-055..066 evidence; preserved GRC-023..025 specifications scheduled for G7; model/units/validity/provenance/accuracy/uncertainty conformance; electrothermal/environment/manufacturing/aging/failure/interconnect/source/instrument evidence | Closed beta |
 | G5 Digital/mixed | G4 | GRC-027..034 and deterministic scheduler; no bypass of applicable R4 loading, threshold, source, interconnect, or uncertainty behavior | Public beta candidate |
 | G6 Electronics MVP | G5 | Full MVP checklist plus production-hardened optional personal persistence; guest/offline remains supported | First production release |
-| G7 Complete catalog | G6 | GRC-023..025, GRC-036..040, family fixtures, and 157/494 production coverage | Electronics 1.0 |
+| G7 Complete catalog | G6 | GRC-023..025, GRC-036..040, family fixtures, 157/494 production coverage, and accepted `PLAT-EXT-019`..`PLAT-EXT-021` imported-SPICE adapter evidence | Electronics 1.0 |
 | G8 Educational CPU | G7 | GRC-035, GRC-041..043, and ISA suite | Computer education preview |
 | G9 RTL/full computer | G8 | GRC-044..045 and sandbox evidence | Computer education 1.0 |
 | G10 Cloud/collaboration | G6 | Security, tenancy, operations and recovery | Hosted service GA |
-| G11 HPC | G10 | Isolation, reproducibility, license review | Research compute GA |
+| G11 HPC | G10 | Accepted `PLAT-HPC-001`..`PLAT-HPC-011` evidence covering entry dependencies, Xyce-class isolation/license, fenced worker pools, MPI failure behavior, deterministic Monte Carlo/reduction, thermal convergence/conservation, checkpoint compatibility, artifact integrity/retrieval, quotas/cost/observability, security, performance, and immutable lineage | Research compute GA |
 | G12 Architecture | G9, G10 | GRC-046..047 | Architecture research preview |
 | G13 GPU/research | G11, G12 | GRC-048 and research datasets | Research extension release |
 

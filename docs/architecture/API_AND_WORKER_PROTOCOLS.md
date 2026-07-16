@@ -9,7 +9,7 @@ Related: [Local, Cloud, and Worker Architecture](./LOCAL_CLOUD_AND_WORKER_ARCHIT
 
 ## 1. Purpose and protocol split
 
-This document defines the public cloud API, browser-Worker messages, simulation events, waveform transfer, and external-engine adapter lifecycle. The source PDF requires separated browser Workers, a client-server simulation API, server job queues, progress streaming, result storage, and checkpoint/resume. [Source PDF, pp. 23-28, 36]
+This document defines the public cloud API, browser-Worker messages, simulation events, waveform transfer, and external-engine adapter lifecycle. The unverified source brief proposes separated browser Workers, a client-server simulation API, server job queues, progress streaming, result storage, and checkpoint/resume. [Source PDF, pp. 23-28, 36] Accepted repository contracts define the actual interfaces; implementation and integration evidence must verify them.
 
 The transport split is fixed:
 

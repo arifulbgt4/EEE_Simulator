@@ -49,10 +49,14 @@ State exact expected values/features and `atol`/`rtol` or exact digital/event ru
 - Human-readable comparison and diagnostics.
 - Environment, engine/model versions, seed, and timestamp.
 
+## Known limitations
+
+- State the exact operating envelope, populations/configurations not tested, uncertainty and reference limitations, unresolved source or license restrictions, and every broader claim the fixture cannot prove.
+- A specified but unexecuted validation card is not passing evidence and cannot promote a model or release state.
+
 ## Definition of Done
 
 - [ ] Reference is independent and reproducible.
 - [ ] Nominal and edge vectors pass.
 - [ ] Failure results are structured and actionable.
 - [ ] Coverage, task, and release evidence links are updated.
-
